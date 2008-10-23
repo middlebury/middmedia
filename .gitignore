@@ -1,6 +1,11 @@
 # Ignore external libraries
+javascript/scriptaculous-js*
 
 # Ignore custom configs (ignore all, then don't ignore defaults)
 config/*.conf.php
 !config/*_default.conf.php
 
+# Ignore local Template and Theme directories.
+templates-local/*/
+themes-local/*/
+plugins-local/*/
