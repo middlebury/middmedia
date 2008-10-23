@@ -26,7 +26,7 @@
 	// and what type those are (FlatFile-Actions, ClassMethod-Actions, or
 	// Class-Actions.
 	$harmoni->ActionHandler->addActionSource(	
-				new FlatFileActionSource(realpath(MYDIR."/main/modules"), 
+				new ClassesActionSource(realpath(MYDIR."/main/modules"), 
 										 ".act.php", "Action"));
 	// Our Authentication and Language-switching actions are already written
 	// and reside in the Polyphony package:

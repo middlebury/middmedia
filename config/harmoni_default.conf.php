@@ -14,10 +14,10 @@
  */
 
 // :: set up the $harmoni object :: 
-	$harmoni->config->set("defaultModule","example");
-	$harmoni->config->set("defaultAction","home");
-	$harmoni->config->set("programTitle","Example");
-	$harmoni->config->set("sessionName","EXAMPLE_SESSID");
+	$harmoni->config->set("defaultModule","home");
+	$harmoni->config->set("defaultAction","welcome");
+	$harmoni->config->set("programTitle","MiddTube");
+	$harmoni->config->set("sessionName","MIDDTUBE_SESSID");
 	$harmoni->config->set("sessionUseCookies",true);
 	// In order to prevent User's from including their SESSION IDs in urls that they
 	// copy/paste for others, we will force the usage of cookies. This will prevent
