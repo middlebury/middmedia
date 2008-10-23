@@ -1,0 +1,17 @@
+
+MiddTube Change Log
+
+
+v. 0.1 (The Future)
+----------------------------------------------------
+
+		
+		
+	* New feature: 
+		Everything is new.
+		(2008-10-23 - Adam Franco)
+	
+
+
+
+

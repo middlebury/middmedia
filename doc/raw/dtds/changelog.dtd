@@ -1,0 +1,58 @@
+<!-- 
+ @package concerto.docs
+ 
+ @copyright Copyright &copy; 2005, Middlebury College
+ @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ 
+ @version $Id: changelog.dtd,v 1.1 2007/05/04 20:47:24 adamfranco Exp $
+ -->
+ 
+<!ELEMENT changelog (version*, authors?, groupid?, reftypes?)>
+<!ATTLIST changelog name CDATA #REQUIRED>
+
+<!ELEMENT version (new|change|fix|important)*>
+<!ATTLIST version
+	number	CDATA	#REQUIRED
+	date	CDATA	#IMPLIED>
+
+<!ELEMENT authors (name)*>
+<!ELEMENT name (#PCDATA)>
+<!ATTLIST name short ID #REQUIRED>
+
+<!ELEMENT groupid (#PCDATA)>
+
+<!ELEMENT reftypes (reftype+)>
+<!ELEMENT reftype (#PCDATA)>
+<!ATTLIST reftype name ID #REQUIRED>
+
+<!-- the changelog content types -->
+<!ELEMENT new (#PCDATA)>
+<!ELEMENT change (#PCDATA)>
+<!ELEMENT fix (#PCDATA)>
+<!ELEMENT important (#PCDATA)>
+
+<!ATTLIST new
+	author	IDREF	#IMPLIED
+	ref	NMTOKEN	#IMPLIED
+	reftype IDREF	#IMPLIED
+>
+
+<!ATTLIST change
+	author	IDREF	#IMPLIED
+	ref	CDATA	#IMPLIED
+	reftype IDREF	#IMPLIED
+>
+
+<!ATTLIST fix
+	author	IDREF	#IMPLIED
+	ref	CDATA	#IMPLIED
+	reftype IDREF	#IMPLIED
+>
+
+<!ATTLIST important
+	author	IDREF	#IMPLIED
+	ref	CDATA	#IMPLIED
+	reftype IDREF	#IMPLIED
+>
+
+

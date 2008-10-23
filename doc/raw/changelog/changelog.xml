@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+ @package segue.docs
+ 
+ @copyright Copyright &copy; 2005, Middlebury College
+ @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
+ 
+ @version $Id: changelog.xml,v 1.282 2008/04/21 19:53:33 achapin Exp $
+ -->
+<!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
+
+<changelog name="MiddTube">
+	<version number="0.1" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<new author='adam' date='2008-10-23' ref='' reftype='fr'  reporter=''>
+			Everything is new.
+		</new>
+	</version>
+	
+	<about>
+		MiddTube is a audio/video upload and management tool that works in parallel
+		with a Flash Media Server (FMS) to deliver user-created videos.
+	</about>
+	
+	<info>
+		<title>Downloads</title>
+		<description>For the latest and archived versions, please download from ______.</description>
+		<url>http://downloads.example.com</url>
+	</info>
+	<info>
+		<title>Documentation</title>
+		<description>
+			MiddTube includes contextual help for users. Additional documentation can
+			be found online at:
+		</description>
+		<url>http://help.example.com</url>
+	</info>
+	<info>
+		<title>Installation</title>
+		<description>
+			See the INSTALL.txt file in the root directory for installation instructions
+			or read on the web at:
+		</description>
+		<url>http://www.example.com</url>
+	</info>
+	<info>
+		<title>Bug Tracker</title>
+		<url>http://bugs.example.com/12345/</url>
+	</info>
+	
+	<authors>
+		<name short="adam">Adam Franco</name>
+		<name short="ian">Ian McBride</name>
+		<name short="alex">Alex Chapin</name>
+	</authors>
+	<reporters>
+		<reporter short="alex">
+			<name>Alex Chapin</name>
+			<institution>Middlebury College</institution>
+		</reporter>
+		<reporter short="alex_chapin">
+			<name>Alex Chapin</name>
+			<institution>Middlebury College</institution>
+		</reporter>
+		<reporter short="adam">
+			<name>Adam Franco</name>
+			<institution>Middlebury College</institution>
+		</reporter>
+		<reporter short="adam_franco">
+			<name>Adam Franco</name>
+			<institution>Middlebury College</institution>
+		</reporter>
+		<reporter short="ian">
+			<name>Ian McBride</name>
+			<institution>Middlebury College</institution>
+		</reporter>
+		<reporter short="ian_mcbride">
+			<name>Ian McBride</name>
+			<institution>Middlebury College</institution>
+		</reporter>
+	</reporters>
+	<reftypes>
+		<reftype name="bug" group="82171" tracker='565234'/>
+		<reftype name="fr" group="82171" tracker='565237'/>
+		<reftype name="patch" group="82171" tracker='565236'/>
+		<reftype name="security" group="82171" tracker='1098812'/>	
+		
+		<reftype name="segue_bug" group="82171" tracker='565234'/>
+		<reftype name="segue_fr" group="82171" tracker='565237'/>
+		<reftype name="segue_patch" group="82171" tracker='565236'/>
+		
+		<reftype name="harmoni_bug" group="82873" tracker='567473'/>
+		<reftype name="harmoni_fr" group="82873" tracker='567476'/>
+		<reftype name="harmoni_patch" group="82873" tracker='567475'/>
+		
+		<reftype name="concerto_bug" group="88266" tracker='586054'/>
+		<reftype name="concerto_fr" group="88266" tracker='586057'/>
+		<reftype name="concerto_patch" group="88266" tracker='586056'/>
+	</reftypes>
+</changelog>
