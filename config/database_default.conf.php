@@ -21,7 +21,7 @@
  * database services, you can remove this and all later sections.
  ******************************************************************************/
  	$configuration = new ConfigurationProperties;
-	$connectionInfoString = _("Please create a database for the Example application to use. If you need to change configuration properties, please copy <br/>&nbsp;&nbsp;&nbsp;config/database_default.conf.php <br/>to<br/>&nbsp;&nbsp;&nbsp;config/database.conf.php<br/>and edit the new file's values.");
+	$connectionInfoString = _("Please create a database for the MiddTube application to use. If you need to change configuration properties, please copy <br/>&nbsp;&nbsp;&nbsp;config/database_default.conf.php <br/>to<br/>&nbsp;&nbsp;&nbsp;config/database.conf.php<br/>and edit the new file's values.");
 	$configuration->addProperty('connectionInfo', $connectionInfoString);
 	Services::startManagerAsService("DatabaseManager", $context, $configuration);
 	
@@ -29,7 +29,7 @@
 	$databaseManager = Services::getService("DatabaseManager");
 	
 	// Add our database
-	$harmoni_db_name = "example_application";
+	$harmoni_db_name = "middtube";
 	$harmoni_db_index = $databaseManager->addDatabase(
 		new MySQLDatabase(			// The database type MySQLDatabase or PostgreSQLDatabase
 				"localhost", 		// The database hostname
