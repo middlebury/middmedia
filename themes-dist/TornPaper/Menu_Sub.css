@@ -1,0 +1,37 @@
+/*********************************************************
+ * Menu - Sub
+ *********************************************************/
+ 
+*.Menu_Sub {
+    font-size: 90%;
+    margin-left: 10px;
+    margin-right: 0px;
+    margin-top: 2px;
+    margin-bottom: 3px;    
+}
+
+*.Menu_Sub .MenuItem_Link_Selected {
+    text-align: left;
+    border-top: 1px solid [[MENU_BORDER_TOP]];
+    border-bottom: 1px solid [[MENU_BORDER_BOTTOM]];
+    border-left: 0px solid [[MENU_BORDER_LEFT]];
+    border-right: 0px solid [[MENU_BORDER_RIGHT]];    
+}
+
+*.Menu_Sub .MenuItem_Link_Selected .box01 {
+    border-top: 1px solid [[MENU_BORDER_TOP01]];
+    border-bottom: 1px none [[MENU_BORDER_BOTTOM01]];
+    border-left: 1px none [[MENU_BORDER_LEFT01]];
+    border-right: 1px none [[MENU_BORDER_RIGHT01]];
+}
+
+*.Menu_Sub .MenuItem_Link_Selected .box02 {
+    border-top: 1px solid [[MENU_BORDER_TOP02]];
+    border-bottom: 1px solid [[MENU_BORDER_BOTTOM02]];    
+    border-left: 1px solid [[MENU_BORDER_LEFT02]];
+    border-right: 1px solid [[MENU_BORDER_RIGHT02]];   
+}
+
+*.Menu_Sub .MenuItem_Link_Unselected a {
+
+}

@@ -1,0 +1,132 @@
+/*********************************************************
+ * general styles
+ *********************************************************/
+
+body {
+    background: url('./images/background/[[BG_IMAGE]]') repeat-x;
+    background-color: [[BG_COLOR]];    
+    color: [[TEXT_COLOR]];
+    font-family: [[FONT_FAMILY]];
+    font-size:12px;
+    padding: 0px;
+    margin: 10px;
+}
+
+a {
+    text-decoration: [[LINK_DECORATION]];
+    color: [[LINK_COLOR]];
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.thumbnail_image {
+    border: 1px solid #000;
+}
+
+.thumbnail_icon {
+    border: 0px solid #000;
+}
+
+.plugin_content {
+    
+}
+
+.plugin_content a {
+    text-decoration: [[LINK_DECORATION]];
+}
+
+.plugin_content a:hover {
+    text-decoration: underline;
+}
+
+/*********************************************************
+ * Styles for Segue links, log in, and editing controls
+ * [[BG_TEXT_COLOR]] should contrast with [[BG_COLOR]]
+ *********************************************************/
+.seguelinks a {
+    color: [[BG_LINK_COLOR]];
+}
+
+.seguelinks {
+    color: [[BG_TEXT_COLOR]];
+}
+
+.commands {
+    color: [[BG_TEXT_COLOR]];
+
+}
+
+.commands a {
+    color: [[BG_LINK_COLOR]];
+}
+
+.login {
+    color: [[BG_TEXT_COLOR]];
+}
+
+.login a {
+    color: [[BG_LINK_COLOR]];
+}
+
+.seguefooter_right {
+    color: [[BG_LINK_COLOR]];
+}
+
+.seguefooter_right a {
+    color: [[BG_TEXT_COLOR]];
+}
+
+seguefooter_left {
+    color: [[BG_LINK_COLOR]];
+}
+
+.seguefooter_left a {
+    color: [[BG_TEXT_COLOR]];
+}
+
+.pagination_links {
+    color: [[BG_TEXT_COLOR]];
+}
+
+.pagination_links a {
+    color: [[BORDER_COLOR]];
+    text-decoration: none;
+    border: 1px solid [[BORDER_COLOR]];
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.pagination_links a:hover {
+    color: [[MENU_LINK_COLOR]];
+    border: 1px solid [[MENU_LINK_COLOR]];
+    cursor: pointer;
+}
+
+.attribution_line {
+    color: [[ATRIBUTION_TEXT_COLOR]];
+}    
+
+.comment {
+    border-top: 1px [[BORDER_STYLE]] [[BORDER_COLOR]];
+}
+
+.comment_byline {
+    color: [[ATRIBUTION_TEXT_COLOR]];
+}
+
+.history {
+
+}
+
+.Spacer {
+    margin: 0px; padding: 0px; border: 0px;
+    clear: both;
+    font-size: 1px; line-height: 1px;
+}
+
+.zeroheight {
+    height: 0px;
+}

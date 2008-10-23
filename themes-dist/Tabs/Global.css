@@ -1,0 +1,211 @@
+/*********************************************************
+ * general styles
+ *********************************************************/
+
+body {
+    background-color: [[BG_COLOR]];
+    color: [[TEXT_COLOR]];
+    font-family: [[FONT_FAMILY]];
+    font-size:12px;
+    padding: 0px;
+
+}
+
+a {
+    text-decoration: [[LINK_DECORATION]];
+    color: [[LINK_COLOR]];
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.thumbnail_image {
+    border: 1px solid #000;
+}
+
+.thumbnail_icon {
+    border: 0px solid #000;
+}
+
+.plugin_content a {
+    text-decoration: [[LINK_DECORATION]];
+}
+
+.plugin_content a:hover {
+    text-decoration: underline;
+}
+
+
+/*********************************************************
+ * IE hack to fix disappearing text
+ *********************************************************/
+
+
+/*********************************************************
+ * Styles for Segue links, log in, and editing controls
+ * [[BG_TEXT_COLOR]] should contrast with [[BG_COLOR]]
+ *********************************************************/
+.seguelinks a {
+    color: [[BG_LINK_COLOR]];
+}
+
+.seguelinks {
+    color: [[BG_TEXT_COLOR]];
+}
+
+.commands {
+    color: [[BG_TEXT_COLOR]];
+
+}
+
+.commands a {
+    color: [[BG_LINK_COLOR]];
+}
+
+.login {
+    color: [[BG_TEXT_COLOR]];
+}
+
+.login a {
+    color: [[BG_LINK_COLOR]];
+}
+
+.seguefooter_right {
+    color: [[BG_LINK_COLOR]];
+}
+
+.seguefooter_right a {
+    color: [[BG_TEXT_COLOR]];
+}
+
+seguefooter_left {
+    color: [[BG_LINK_COLOR]];
+}
+
+.seguefooter_left a {
+    color: [[BG_TEXT_COLOR]];
+}
+
+/*********************************************************
+ * Styles attribution, tags, history, pagination
+ *********************************************************/
+
+.pagination_links {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.pagination_links a {
+    color: [[TEXT_COLOR]];
+    text-decoration: none;
+    border: 1px solid;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.pagination_links a:hover {
+    display: block
+    border: 1px solid [[LINK_COLOR]];
+    color: [[LINK_COLOR]];
+}
+
+.tagging_tags_display {
+
+}
+
+.attribution_line {
+    color: [[ATRIBUTION_TEXT_COLOR]];
+}    
+
+
+.comment {
+    border-top: 1px [[BORDER_STYLE]] [[BORDER_COLOR]];
+    padding-top: 3px;
+}
+
+.comment_byline {
+    color: [[ATRIBUTION_TEXT_COLOR]];
+}
+
+.history {
+
+}
+
+
+
+/*********************************************************
+ * Corners
+ * In the CSS below, the numbers used are the following:
+ * 1px: the width of the border
+ *  3px: a fudge factor needed for IE5/win (see below)
+ *  4px: the width of the border (1px) plus the 3px IE5/win fudge factor
+ * 14px: the width or height of the border image
+ *********************************************************/
+.TopCorners, .BottomCorners {
+    margin: 0px;
+    padding: 0px;
+}
+.Spacer {
+    margin: 0px; padding: 0px; border: 0px;
+    clear: both;
+    font-size: 1px; line-height: 1px;
+}
+
+
+.BorderTL, .BorderTR, .BorderBL, .BorderBR {
+    width: 14px;
+    height: 14px;
+    padding: 0px;
+    border: 0px;
+    z-index: 99;
+}
+.BorderTL, .BorderBL {
+    float: left;
+    clear: both;
+}
+.BorderTR, .BorderBR {
+    float: right;
+    clear: right;
+}
+.BorderTL {
+    margin: 0px 0px 0px 0px;
+}
+.BorderTR {
+    margin: -0px -0px 0px 0px;
+}
+.BorderBL {
+    margin: -14px 0px 0px 0px;
+}
+.BorderBR {
+    margin: -14px 0px 0px 0px;
+}
+.BorderTL {
+     margin-left: -4px;
+     margin-left: -1px;
+}
+html>body .BorderTL {
+     margin-left: 0px;
+}
+.BorderTR {
+     margin-right: -4px;
+     margin-right: -1px;
+}
+html>body .BorderTR {
+     margin-right: 0px;
+}
+.BorderBL {
+     margin-left: -3px;
+     margin-left: 0px;
+}
+html>body .BorderBL {
+     margin-left: -0px;
+}
+.BorderBR {
+     margin-left: -3px;
+     margin-left: 0px;
+}
+html>body .BorderBR {
+     margin-left: 0px;
+}

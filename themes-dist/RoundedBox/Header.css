@@ -1,0 +1,15 @@
+/*********************************************************
+ * Header 1
+ *********************************************************/
+
+*.Header {
+    background-color: [[FG_COLOR]];
+    color: [[TEXT_COLOR]];
+    padding: 1px;
+    border: 0px;
+    padding: 5px;
+    text-align: left;
+    margin: 0px;
+    font-size: large;
+}
+

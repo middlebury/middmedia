@@ -1,0 +1,23 @@
+/*********************************************************
+ * Header 1
+ *********************************************************/
+
+*.Header {
+    background-color: [[HEADER_COLOR]];
+	border-left: 1px none [[BORDER_COLOR]];
+	border-right: 1px none [[BORDER_COLOR]];
+}
+
+*.Header .Content {
+    background-color: [[HEADER_COLOR]];
+    color: [[HEADER_TEXT_COLOR]];
+    height: 1%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: 1px [[BORDER_STYLE]] [[BORDER_COLOR]];
+	border-left: 1px none [[BORDER_COLOR]];
+	border-right: 1px none [[BORDER_COLOR]];	
+	font-size: large;
+}

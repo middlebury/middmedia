@@ -1,0 +1,71 @@
+/*********************************************************
+ * Block - Standard
+ *********************************************************/
+
+.Block_Standard {
+    border: 1px none [[BACKGROUND_BORDER]];
+    margin: 0px;
+}
+
+*.Block_Standard .box01 {
+    border: 1px none [[BACKGROUND_BORDER01]];
+    margin: 0px;   
+}
+
+*.Block_Standard .box02 {
+    border: 1px none [[BACKGROUND_BORDER02]];
+    margin: 0px;
+}
+
+*.Block_Standard .box03 {
+    border: 1px none [[BACKGROUND_BORDER03]];
+    margin: 0px;
+}
+
+*.Block_Standard .box04 {
+    border: 1px none [[BACKGROUND_BORDER04]];
+    margin: 0px;
+}
+
+.Block_Standard .Content {
+    height: 1%;
+    text-align: left;
+    font-size: 100%;    
+    margin-bottom: 0px;
+    padding-bottom: 5px;
+}
+
+/*********************************************************
+ * Block - Standard - No Borders
+ *********************************************************/
+
+.Block_Standard_No_Borders {
+    border: 1px none [[BACKGROUND_BORDER]];
+    margin: 0px;
+}
+
+*.Block_Standard_No_Borders .box04 {
+    border: 1px none [[BACKGROUND_BORDER04]];
+    margin: 0px;
+}
+
+*.Block_Standard_No_Borders .box3 {
+    border: 1px none [[BACKGROUND_BORDER]];
+}
+
+*.Block_Standard_No_Borders .box2 {
+    border: 1px none [[BACKGROUND_BORDER]];
+}
+
+
+*.Block_Standard_No_Borders .box01 {
+    border: 1px none [[BACKGROUND_BORDER01]];
+}
+
+
+*.Block_Standard_No_Borders .Content {
+    height: 1%;
+    text-align: left;
+    font-size: 100%; 
+    margin-bottom: 10px;
+}

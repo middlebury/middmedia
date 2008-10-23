@@ -1,0 +1,29 @@
+/*********************************************************
+ * Block 4 - Alert
+ *********************************************************/
+
+*.block4 {    
+    border-top: 1px solid [[STANDARD_BORDER_TOP]];
+    border-bottom: 1px solid [[STANDARD_BORDER_BOTTOM]];
+    border-left: 0px none [[STANDARD_BORDER_LEFT]];
+    border-right: 0px none [[STANDARD_BORDER_RIGHT]];
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+
+*.block4 .Content {
+    height: 1%;
+    background-color: [[ALERT_BG_COLOR]];    
+    text-align: left;
+    font-size: 100%; 
+}
+
+*.block4 .Content a {
+
+}
+

@@ -1,0 +1,15 @@
+/*********************************************************
+ * MenuHeading 1
+ *********************************************************/
+
+.MenuItem_Heading {
+    padding: 1px;
+    border: 0px;
+}
+.MenuItem_Heading .Content {
+    background-color: [[FG_COLOR]];
+    color: #000;
+    padding: 1px;
+    text-align: left;
+    margin: 0px;
+}

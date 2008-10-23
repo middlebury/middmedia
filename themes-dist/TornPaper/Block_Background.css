@@ -1,0 +1,67 @@
+/*********************************************************
+ * Block background
+ *********************************************************/
+
+.Block_Background {    
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.Block_Background .Content {
+    background-color: [[FG_COLOR]];
+    padding: 5px;
+    text-align: left;
+    margin: 0px;
+}
+
+
+.topright {
+    background: white url('./images/[[IMAGE_DIR]]/topright.gif') no-repeat;
+    width: 25px;
+    height: 11px;
+}
+
+.top {
+    background: white url('./images/[[IMAGE_DIR]]/top.gif') repeat-x;
+    height: 11px;
+}
+
+.topleft {
+    background: white url('./images/[[IMAGE_DIR]]/topleft.gif') no-repeat;
+    width: 25px;
+    height: 11px;
+}
+
+.right {
+    background: white url('./images/[[IMAGE_DIR]]/right.gif') repeat-y;
+    width: 25px;
+    vertical-align: top;
+}
+
+.left {
+    background: white url('./images/[[IMAGE_DIR]]/left.gif') repeat-y;
+    width: 25px;
+    vertical-align: top;
+}
+
+.bottomleft {
+    background: white url('./images/[[IMAGE_DIR]]/bottomleft.gif') no-repeat;
+    width: 25px;
+    height: 16px;
+}
+
+.bottom {
+    background: white url('./images/[[IMAGE_DIR]]/bottom.gif') repeat-x;
+    height: 16px;
+}
+
+.bottomright {
+    background: white url('./images/[[IMAGE_DIR]]/bottomright.gif') no-repeat;
+    width: 25px;
+    height: 16px;
+}
+
+.righttop, .lefttop {
+    width: 25px;
+    height: 22px;
+    border: 0px solid gray;
+}

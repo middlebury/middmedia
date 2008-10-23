@@ -1,0 +1,66 @@
+/*********************************************************
+ * Block 4 - Alert
+ *********************************************************/
+
+*.block4 {
+    padding: 1px;
+    border: 0px;
+}
+
+.block4 .Content {    
+    background-color: [[ALERT_COLOR]];
+    padding: 10px;
+    text-align: left;
+    margin: 0px;
+}
+
+.block4 .BorderTL {
+    background: url('./images/[[IMAGE_DIR]]/corner_TL.gif') no-repeat;
+    background-color: [[ALERT_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+.block4 .Top {
+    border-top: 1px solid [[BORDER_COLOR]];
+    background-color: [[ALERT_COLOR]];
+}
+
+.block4 .BorderTR {
+    background: url('./images/[[IMAGE_DIR]]/corner_TR.gif') no-repeat;
+    background-color: [[ALERT_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+
+.block4 .Right {
+    background-color: [[ALERT_COLOR]];
+    border-right: 1px solid [[BORDER_COLOR]];
+
+}
+
+.block4 .Left {
+    background-color: [[ALERT_COLOR]];
+    border-left: 1px solid [[BORDER_COLOR]];
+}
+
+
+.block4 .BorderBL {
+    background: url('./images/[[IMAGE_DIR]]/corner_BL.gif') no-repeat;
+    background-color: [[ALERT_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+.block4 .Bottom {
+    border-bottom: 1px solid [[BORDER_COLOR]];
+    background-color: [[ALERT_COLOR]];
+}
+
+.block4 .BorderBR {
+    background: url('./images/[[IMAGE_DIR]]/corner_BR.gif') no-repeat;
+    background-color: [[ALERT_COLOR]];
+    width: 5px;
+    height: 5px;
+}

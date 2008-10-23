@@ -1,0 +1,14 @@
+/*********************************************************
+ * Footer 1
+ *********************************************************/
+
+*.Footer {
+    border-top: 1px [[BORDER_STYLE]] [[BORDER_COLOR]];
+    margin-top: 2px;
+}
+
+*.Footer .Content {
+    height: 1%;
+    padding: 0px;
+    margin: 0px;
+}

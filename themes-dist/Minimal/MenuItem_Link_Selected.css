@@ -1,0 +1,31 @@
+/*********************************************************
+ * Menu 1 Selected
+ *********************************************************/
+
+*.MenuItem_Link_Selected  {
+	border-top: 1px solid [[STANDARD_BORDER_TOP]];
+	border-bottom: 1px solid [[STANDARD_BORDER_BOTTOM]];
+    padding-left: 0px;
+    margin-left: 15px;
+    margin-top: 3px;
+    margin-bottom: 0px;
+    color: [[TEXT_COLOR]];
+}
+
+*.MenuItem_Link_Selected .Content {
+    padding: 0px;
+    text-align: left;
+    font-size: 100%;
+    color: [[TEXT_COLOR]];
+    text-decoration: none;
+
+}
+
+*.MenuItem_Link_Selected a {
+	color: [[TEXT_COLOR]];
+	font-weight: bold;
+}
+
+*.MenuItem_Link_Selected a:hover {
+    text-decoration: none;
+}

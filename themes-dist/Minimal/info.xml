@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ThemeInfo>
+    <DisplayName lang='en_US'>Minimal</DisplayName>
+    <Description lang='en_US'>
+        This theme uses minimal design.
+    </Description>
+    <DisplayName lang='es_ES'>Mínimo</DisplayName>
+    <Description lang='es_ES'>
+        Este tema utiliza diseño mínimo.
+    </Description>
+    <History>
+        <Entry date='2007-08-23'>
+            <Comment>Theme created</Comment>
+            <Name>Alex Chapin</Name>
+            <EMail>achapin@middlebury.edu</EMail>
+        </Entry>
+    </History>
+</ThemeInfo>

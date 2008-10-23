@@ -1,0 +1,19 @@
+/*********************************************************
+ * Menu 1 selected content
+ *********************************************************/
+
+*.MenuItem_Link_Selected  {
+    background-color: [[BG_COLOR]];
+    padding-bottom: 4px;
+}
+
+*.MenuItem_Link_Selected .Content {
+    background-color: [[FG_COLOR]];
+    border-bottom: 1px solid [[BORDER_COLOR_BOTTOM]];
+    border-top: 1px solid [[BORDER_COLOR_TOP]];
+    padding: 3px;
+    text-align: left;
+    color: #000000;
+    font-size: 100%;
+    margin: 0px;
+}

@@ -1,0 +1,19 @@
+/*********************************************************
+ * Heading - Normal
+ *********************************************************/
+
+.Heading_3 {    
+    padding-left: 10px;
+    margin-right: 5px;
+}
+
+.Heading_3 .Content {
+    padding: 3px;
+    margin-left: 5px;
+    text-align: left;
+    font-weight: bold;    
+}
+
+*.Heading_3 a {
+    text-decoration: none;    
+}

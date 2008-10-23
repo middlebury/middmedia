@@ -1,0 +1,427 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2004-07-09 15:23-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: /www/afranco/concerto/main/modules/home/welcome.act.php:17
+msgid "Welcome to Concerto"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/home/welcome.act.php:24
+msgid ""
+"<strong>Concerto</strong> is a digital assets management tool developed at "
+"Middlebury College."
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/home/welcome.act.php:26
+msgid ""
+"The two main parts of <strong>Concerto</strong> are the <em>Collections</em> "
+"of digital <em>Assets</em> and the <em>Exhibitions</em> of <em>Slide-Shows</"
+"em>. Click on the links to the left to start exploring <strong>Concerto</"
+"strong>."
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/home/welcome.act.php:28
+#: /www/afranco/concerto/main/modules/collections/main.act.php:33
+#: /www/afranco/concerto/main/modules/collections/namebrowse.act.php:23
+#: /www/afranco/concerto/main/modules/collections/typebrowse.act.php:23
+msgid ""
+"Some <em>Collections</em>, <em>Exhibitions</em>, <em>Assets</em>, and "
+"<em>Slide-Shows</em> may be restricted to certain users or groups of users. "
+"Log in above to ensure your greatest access to all parts of the system."
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/window/screen.act.php:53
+#: main/modules/window/screen.act.php:53
+msgid "Current User: "
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/window/screen.act.php:58
+#: main/modules/window/screen.act.php:58
+msgid "Log Out"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/window/screen.act.php:60
+#: main/modules/window/screen.act.php:60
+msgid "anonymous"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/window/screen.act.php:63
+#: main/modules/window/screen.act.php:63
+msgid "Log In"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/window/screen.act.php:80
+#: main/modules/window/screen.act.php:80
+msgid "credits"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collections/main.act.php:17
+#: /www/afranco/concerto/main/modules/collection/create.act.php:47
+#: /www/afranco/concerto/main/library/ConcertoMenuGenerator.class.php:38
+msgid "Collections"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collections/main.act.php:24
+msgid ""
+"<em>Collections</em> are containers for <em>Assets</em>. <em>Assets</em> can "
+"in turn contain other Assets. Each collection can have its own cataloging "
+"schema."
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collections/main.act.php:27
+msgid "Browse <em>Collections</em> by Name"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collections/main.act.php:30
+msgid "Browse <em>Collections</em> by Type"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collections/main.act.php:39
+msgid "Create a new <em>Collection</em>"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collections/namebrowse.act.php:16
+#: /www/afranco/concerto/main/modules/collections/typebrowse.act.php:16
+msgid "Browse Collections By Name"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collections/namebrowse.act.php:21
+msgid "Below are listed the availible <em>Collections</em>, organized by name."
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collections/namebrowse.act.php:53
+#: /www/afranco/concerto/main/modules/collections/typebrowse.act.php:71
+msgid "ID#"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collections/namebrowse.act.php:64
+#: /www/afranco/concerto/main/modules/collections/typebrowse.act.php:82
+msgid "browse"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collections/namebrowse.act.php:67
+#: /www/afranco/concerto/main/modules/collections/typebrowse.act.php:85
+msgid "search"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collections/namebrowse.act.php:70
+#: /www/afranco/concerto/main/modules/collections/typebrowse.act.php:88
+msgid "edit"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collections/namebrowse.act.php:77
+#: /www/afranco/concerto/main/modules/collections/typebrowse.act.php:101
+msgid "No <em>Collections</em> are availible."
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collections/typebrowse.act.php:21
+msgid ""
+"Below are listed the availible <em>Collections</em>, organized by type, then "
+"name."
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collections/typebrowse.act.php:95
+msgid "No <em>Collections</em> are availible for this type."
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:17
+msgid "Create a Collection"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:21
+#: /www/afranco/concerto/main/modules/collection/edit.act.php:25
+#: /www/afranco/concerto/main/modules/schema/create.act.php:25
+msgid "Name & Description"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:26
+msgid "Default Collection Name"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:30
+msgid "Default Collection description."
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:33
+#: /www/afranco/concerto/main/modules/collection/edit.act.php:37
+#: /www/afranco/concerto/main/modules/schema/create.act.php:37
+msgid "Name"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:34
+#: /www/afranco/concerto/main/modules/collection/edit.act.php:38
+msgid "The Name for this <em>Collection</em>: "
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:36
+#: /www/afranco/concerto/main/modules/collection/create.act.php:84
+#: /www/afranco/concerto/main/modules/collection/edit.act.php:40
+#: /www/afranco/concerto/main/modules/schema/create.act.php:40
+msgid "Description"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:37
+#: /www/afranco/concerto/main/modules/collection/edit.act.php:41
+msgid "The Description for this <em>Collection</em>: "
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:43
+#: /www/afranco/concerto/main/modules/collection/create.act.php:62
+msgid "Type"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:51
+msgid "Concerto"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:55
+msgid "Generic Collection"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:59
+msgid "This is a <em>Collection</em> of unspecified type."
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:63
+msgid ""
+"All <em>Collections</em> have an immutable type. This type can be used to "
+"catagorize <em>Collections</em>, but is not necessary."
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:66
+msgid "Domain"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:72
+msgid "Authority"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/create.act.php:78
+msgid "Keyword"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/edit.act.php:21
+msgid "Edit a Collection"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/edit.act.php:48
+msgid "Schema Selection"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/edit.act.php:53
+msgid "Select Cataloging Schemata"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/edit.act.php:54
+msgid ""
+"Select which cataloging schemata you wish to appear during <em>Asset</em> "
+"creation and editing. <em>Assets</em> can hold data in any of the schemata, "
+"but only the ones selected here will be availible when adding new data."
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/edit.act.php:55
+#: /www/afranco/concerto/main/modules/schema/create.act.php:55
+msgid ""
+"If none of the schemata listed below fit your needs, please click the button "
+"below to save your changes and create a new schema."
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/collection/edit.act.php:56
+#: /www/afranco/concerto/main/modules/schema/create.act.php:56
+msgid "Save Changes and Create a new Schema"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/schema/create.act.php:21
+msgid "Create a Schema"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/schema/create.act.php:38
+msgid "The Name for this Schema: "
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/schema/create.act.php:41
+msgid "The Description for this Schema: "
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/schema/create.act.php:48
+msgid "Add Elements"
+msgstr ""
+
+#: /www/afranco/concerto/main/modules/schema/create.act.php:53
+msgid "Add a new Element"
+msgstr ""
+
+#: /www/afranco/concerto/main/library/ConcertoMenuGenerator.class.php:29
+#: main/library/MenuGenerator.class.php:28
+msgid "Home"
+msgstr ""
+
+#: /www/afranco/concerto/main/library/ConcertoMenuGenerator.class.php:49
+msgid "By Name"
+msgstr ""
+
+#: /www/afranco/concerto/main/library/ConcertoMenuGenerator.class.php:56
+msgid "By Type"
+msgstr ""
+
+#: /www/afranco/concerto/main/library/ConcertoMenuGenerator.class.php:65
+msgid "Exhibitions"
+msgstr ""
+
+#: main/library/MenuGenerator.class.php:37 main/modules/docs/index.act.php:17
+msgid "Documentation"
+msgstr ""
+
+#: main/library/MenuGenerator.class.php:47
+msgid "Harmoni Manual"
+msgstr ""
+
+#: main/library/MenuGenerator.class.php:55
+msgid "Harmoni PHPDoc"
+msgstr ""
+
+#: main/library/MenuGenerator.class.php:63
+msgid "No Theme"
+msgstr ""
+
+#: main/modules/docs/index.act.php:23
+msgid ""
+"The links to the left take you to the Harmoni Manual and the Harmoni PHPDoc,"
+msgstr ""
+
+#: main/modules/docs/index.act.php:29
+msgid ""
+"Authentication and Authorization systems are already written and in place, "
+"just configure for your server."
+msgstr ""
+
+#: main/modules/docs/index.act.php:32
+msgid ""
+"A module/action control architecture -- tied in to Authentication -- is "
+"availible for rapid interface development."
+msgstr ""
+
+#: main/modules/docs/index.act.php:35
+msgid ""
+"Advanced database wrapper abstracts queries to run on multiple database "
+"platforms."
+msgstr ""
+
+#: main/modules/docs/index.act.php:38
+msgid "Theme/Layout GUI engine is provided."
+msgstr ""
+
+#: main/modules/docs/index.act.php:41
+msgid ""
+"Implementations of OKI high-level services for managing Hierarchies, Digital "
+"Repositories, Users, and Classes."
+msgstr ""
+
+#: main/modules/docs/index.act.php:44
+msgid ""
+"Abstracted file-storage system that provides virtual-filesystem access to "
+"files stored in any combination of filesystems or databases on local or "
+"remote servers."
+msgstr ""
+
+#: main/modules/docs/index.act.php:47
+msgid "Much more, see the manual."
+msgstr ""
+
+#: main/modules/docs/index.act.php:55
+msgid "Using this Skeleton"
+msgstr ""
+
+#: main/modules/docs/index.act.php:61
+msgid "The easiest way to get started is to:"
+msgstr ""
+
+#: main/modules/docs/index.act.php:64
+msgid ""
+"Edit the <em>config/harmoni_config.inc.php</em> file to fit your database."
+msgstr ""
+
+#: main/modules/docs/index.act.php:67
+msgid ""
+"Create modules/actions for your application in the <em>main/modules/</em> "
+"directory."
+msgstr ""
+
+#: main/modules/docs/index.act.php:70
+msgid ""
+"Edit the <em>config/harmoni_config.inc.php</em> file to point to your new "
+"default action."
+msgstr ""
+
+#: main/modules/docs/index.act.php:73
+msgid ""
+"Modify/re-create/get-rid-of the MenuGenerator class in <em>main/library/</"
+"em> so as to fit your application."
+msgstr ""
+
+#: main/modules/docs/index.act.php:76
+msgid ""
+"Comment out the table-creation script include in the <em>config/"
+"harmoni_config.inc.php</em> after it has run."
+msgstr ""
+
+#: main/modules/docs/index.act.php:79
+msgid "Other considerations:"
+msgstr ""
+
+#: main/modules/docs/index.act.php:82
+msgid ""
+"Start and use high-level services such as Hierarchy or DigitalRepository."
+msgstr ""
+
+#: main/modules/docs/index.act.php:85
+msgid "Changing the settings of the Theme/creating new themes."
+msgstr ""
+
+#: main/modules/docs/index.act.php:88
+msgid "Internationalization."
+msgstr ""
+
+#: main/modules/docs/index.act.php:91
+msgid "Configuration of external Authentication systems such as LDAP."
+msgstr ""
+
+#: main/modules/window/screen.act.php:7 main/modules/window/screen.act.php:79
+msgid "Example Application"
+msgstr ""
+
+#: main/modules/example/home.act.php:17
+msgid "Welcome to Example Application"
+msgstr ""
+
+#: main/modules/example/home.act.php:24
+msgid ""
+"This <strong>Example Application</strong> is a template application that "
+msgstr ""
+
+#: main/modules/example/home.act.php:25
+msgid ");"
+msgstr ""
+
+#: main/modules/example/home.act.php:26
+msgid ""
+"</p>\n"
+"<p>"
+msgstr ""
+
+#: main/modules/example/home.act.php:27
+msgid "You can either get this example skeleton as a package or from CVS."
+msgstr ""

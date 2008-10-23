@@ -1,0 +1,62 @@
+/******************************************************************************
+ * Module/Action structure
+ * 
+ * This file describes the strucure of Modules/Actions.
+ ******************************************************************************/
+
+modules
+   |
+   |-- window -	This module contains actions that generate the main layout,
+   |			menus, and other components that are shared accross many actions.
+   |			These actions can be included by other actions via the
+   |				$harmoni->forward("window", "xxxxxx");
+   |			methods.
+   |
+   |-- auth - 	This module contains actions for logging in/out and failed login.
+   |			The auth module is located in the Polyphony package.
+   |			
+   |-- home - 	Location of "top level" actions that provide a starting point for
+   |			the user.
+   |			
+   |-- collections - This module contains actions for browsing/searching collections.
+   |			
+   |			
+   |			
+   
+   
+/******************************************************************************
+ * Layout definitions. 
+ ******************************************************************************/
+The following are the set of common layout elements, and their types, that 
+are used. Actions should add their layout elements to these elements.
+
+$mainScreen 
+	- RowLayout
+	- TEXT_BLOCK_WIDGET
+	- The background layout. Generally all other layouts will be placed in the
+	  rows of this layout.
+
+$statusBar
+	- SingleContentLayout
+	- BLANK_WIDGET
+	- A place where information on the current user's status is located.
+
+$mainMenu
+	- VerticalMenuLayout
+	- MENU_WIDGET
+	- The main menu. This is where the top-level navigation is placed.
+
+$centerPane 
+	- ColumnLayout
+	- BLANK_WIDGET
+	- If included, the $mainMenu will be the first column of this layout. Most other
+	  action content will be added to the $centerPane.
+	  
+To set up the above-mentioned elements, an action should call
+
+	$harmoni->ActionHandler->execute("window", "screen");
+	$mainScreen =$harmoni->getAttachedData('mainScreen');
+	$statusBar =$harmoni->getAttachedData('statusBar');
+	$centerPane =$harmoni->getAttachedData('centerPane');
+
+to gain access to the elements.

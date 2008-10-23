@@ -1,0 +1,32 @@
+/*********************************************************
+ * Heading - Biggest
+ *********************************************************/
+
+.Heading_1 {
+    border: 1px none [[BACKGROUND_BORDER]];
+    margin: 0px;
+    margin-top: 11px;
+}
+
+*.Heading_1 .box01 {
+    border: 1px solid [[BACKGROUND_BORDER01]];
+    margin: 0px;   
+}
+
+
+*.Heading_1 .box02 {
+    border: 1px [[BORDER_STYLE]] [[BORDER_COLOR]];
+    margin: 0px;
+}
+
+.Heading_1 .Content {
+    padding: 3px;
+    margin-left: 5px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 125%;
+}
+
+*.Heading_1 a {
+    text-decoration: none;    
+}

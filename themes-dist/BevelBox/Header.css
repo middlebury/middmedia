@@ -1,0 +1,13 @@
+/*********************************************************
+ * Header 1
+ *********************************************************/
+
+*.Header {
+    border-bottom: 1px none [[BORDER_COLOR]];
+    margin-bottom: 2px;
+    text-align: left;
+}
+
+*.Header .Content {
+    height: 1%;
+}

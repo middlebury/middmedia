@@ -1,0 +1,22 @@
+/*********************************************************
+ * Block - Alert
+ *********************************************************/
+
+*.block4 {
+    border: 0px;
+    margin-bottom: 10px;
+}
+*.block4Content {
+    background-color: [[ALERT_COLOR]];
+    border-left: 1px solid [[BORDER_COLOR_LEFT]];
+    border-right: 1px solid [[BORDER_COLOR_RIGHT]];
+    border-bottom: 1px solid [[BORDER_COLOR_BOTTOM]];
+    color: #000;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    text-align: left;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 1%;
+}

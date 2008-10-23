@@ -1,0 +1,70 @@
+/*********************************************************
+ * Menu 1 selected content
+ *********************************************************/
+
+*.MenuItem_Link_Selected  {
+    padding: 1px;
+    border: 0px;
+}
+
+*.MenuItem_Link_Selected .Content {
+    background-color: [[HEADER_BG_COLOR]];
+    text-align: left;
+    color: #000000;
+    font-size: 100%;
+    margin-top: -2px;
+    margin-bottom: -2px;
+}
+
+*.MenuItem_Link_Selected a {
+    color: [[MENU_LINK_COLOR]];
+}
+
+.MenuItem_Link_Selected .BorderTL {
+    background: url('./images/[[IMAGE_DIR]]/corner_TL.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+.MenuItem_Link_Selected .Top {
+    border-top: 1px solid [[BORDER_COLOR]];
+    background-color: [[HEADER_BG_COLOR]];
+}
+
+.MenuItem_Link_Selected .BorderTR {
+    background: url('./images/[[IMAGE_DIR]]/corner_TR.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+.MenuItem_Link_Selected .Right {
+    background-color: [[HEADER_BG_COLOR]];
+    border-right: 1px solid [[BORDER_COLOR]];
+
+}
+
+.MenuItem_Link_Selected .Left {
+    background-color: [[HEADER_BG_COLOR]];
+    border-left: 1px solid [[BORDER_COLOR]];
+}
+
+.MenuItem_Link_Selected .BorderBL {
+    background: url('./images/[[IMAGE_DIR]]/corner_BL.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+.MenuItem_Link_Selected .Bottom {
+    border-bottom: 1px solid [[BORDER_COLOR]];
+    background-color: [[HEADER_BG_COLOR]];
+}
+
+.MenuItem_Link_Selected .BorderBR {
+    background: url('./images/[[IMAGE_DIR]]/corner_BR.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 5px;
+    height: 5px;
+}

@@ -1,0 +1,21 @@
+/*********************************************************
+ * Heading - Big
+ *********************************************************/
+
+.Heading_2 {    
+
+}
+
+.Heading_2 .Content {
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-left: 5px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 110%;
+}
+
+*.Heading_2 a {
+    text-decoration: none;    
+}

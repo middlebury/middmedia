@@ -1,0 +1,16 @@
+/*********************************************************
+ * Block background
+ *********************************************************/
+
+.Block_Background { 
+	background-color: [[FG_COLOR]];
+	border: 1px solid [[BORDER_COLOR]];
+    padding: 0px;
+    margin: 0px; 
+}
+.Block_Background .Content {
+    background-color: [[FG_COLOR]];
+    text-align: left;
+    padding: 0px;
+    margin: 0px; 
+}

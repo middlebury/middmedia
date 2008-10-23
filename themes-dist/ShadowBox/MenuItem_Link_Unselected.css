@@ -1,0 +1,49 @@
+/*********************************************************
+ * Menu 1 Unselected
+ *********************************************************/
+
+*.MenuItem_Link_Unselected {    
+    border-bottom: 1px solid [[MENU_BORDER_BOTTOM01]];
+    border-left: 0px none [[MENU_BORDER_LEFT]];
+    border-right: 0px none [[MENU_BORDER_RIGHT]];
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: -2px;    
+}
+
+*.MenuItem_Link_Unselected .box01 {
+    background-color: [[MENU_BG_COLOR]];
+    border-top: 1px solid [[MENU_BORDER_TOP01]];
+    border-bottom: 1px none [[MENU_BORDER_BOTTOM01]];
+    border-left: 1px solid [[MENU_BORDER_LEFT]];
+    border-right: 1px solid [[MENU_BORDER_RIGHT]];
+}
+
+*.MenuItem_Link_Unselected .box02 {
+    border-top: 1px none [[MENU_BORDER_TOP01]];
+    border-bottom: 1px none [[MENU_BORDER_BOTTOM01]];
+    border-left: 1px solid [[MENU_BORDER_LEFT01]];
+    border-right: 1px solid [[MENU_BORDER_RIGHT01]];
+    padding-left: 5px;
+}
+
+*.MenuItem_Link_Unselected .Content {
+    background-color: [[MENU_BG_COLOR]];
+    padding: 0px;
+    text-align: left;    
+    font-size: [[MENU_FONT_SIZE]];
+}
+
+
+*.MenuItem_Link_Unselected a {
+    display: block;
+    color: [[MENU_UNSELECTED_COLOR]];
+    text-decoration: none;
+}
+
+*.MenuItem_Link_Unselected a:hover {
+    display: block;
+    background-color: [[FG_COLOR]];   
+    color: [[LINK_COLOR]];
+}
+    

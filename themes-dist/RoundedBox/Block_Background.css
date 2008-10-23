@@ -1,0 +1,74 @@
+/*********************************************************
+ * Block background
+ *********************************************************/
+
+.Block_Background {  
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.Block_Background .Block_Background_Content {
+    background-color: [[FG_COLOR]];
+    padding: 10px;
+    text-align: left;
+    margin-top: -2px;
+    margin-bottom: -2px;
+    height: 1%;
+}
+
+.Block_Background .BorderTL {
+    background: url('./images/[[IMAGE_DIR]]/corner_TL.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 14px;
+    height: 14px;
+}
+
+.Block_Background .Top {
+    border-top: 1px solid [[BORDER_COLOR]];
+    background-color: [[FG_COLOR]];
+}
+
+.Block_Background .BorderTR {
+    background: url('./images/[[IMAGE_DIR]]/corner_TR.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 14px;
+    height: 14px;
+}
+
+
+.Block_Background .Right {
+    background-color: [[FG_COLOR]];
+    border-right: 1px solid [[BORDER_COLOR]];
+    width: 13px;
+}
+
+.Block_Background .Left {
+    background-color: [[FG_COLOR]];
+    border-left: 1px solid [[BORDER_COLOR]];
+    width: 13px;
+}
+
+
+.Block_Background .BorderBL {
+    background: url('./images/[[IMAGE_DIR]]/corner_BL.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 14px;
+    height: 14px;
+}
+
+.Block_Background .Bottom {
+    border-bottom: 1px solid [[BORDER_COLOR]];
+    background-color: [[FG_COLOR]];
+}
+
+.Block_Background .BorderBR {
+    background: url('./images/[[IMAGE_DIR]]/corner_BR.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 14px;
+    height: 14px;
+}
+
+.Block_Background .corner {
+    width: 14px;
+    height: 14px;
+    border: 0px solid gray;
+}

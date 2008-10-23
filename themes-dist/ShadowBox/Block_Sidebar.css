@@ -1,0 +1,15 @@
+/*********************************************************
+ * Block - Sidebar
+ *********************************************************/
+
+*.block3 {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 10px;
+    text-align: left;
+}
+
+*.block3 .Content {
+    height: 1%;
+    
+}

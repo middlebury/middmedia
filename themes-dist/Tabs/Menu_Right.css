@@ -1,0 +1,42 @@
+/*********************************************************
+ * Menu - Right
+ *********************************************************/
+ 
+.Menu_Right  {
+    background-color: [[BG_COLOR]];
+    margin-right: -1px;
+    margin-top: -3px;
+    border-top: 3px solid [[BG_COLOR]];
+}
+
+.Menu_Right .MenuItem_Heading {
+    border-right: 1px solid [[BORDER_COLOR_RIGHT]];
+}
+
+.Menu_Right .MenuItem_Link_Selected  {    
+    border-left: 1px solid [[BORDER_COLOR_LEFT]];
+}
+
+.Menu_Right .MenuItem_Link_Selected .Content {    
+    text-align: left;
+    border-left: 0px solid [[BORDER_COLOR_LEFT]];
+    border-right: 1px solid [[BORDER_COLOR_RIGHT]];
+    margin-left: -1px;
+    font-size: [[RIGHT_TAB_FONT]];
+}
+
+.Menu_Right .MenuItem_Link_Unselected  {
+    border-left: 1px solid [[BORDER_COLOR_LEFT]];
+    background-color: [[BG_COLOR]];    
+}
+
+.Menu_Right .MenuItem_Link_Unselected .Content {
+    border-right: 1px solid [[BORDER_COLOR_RIGHT]];
+    text-align: left;
+    font-size: [[RIGHT_TAB_FONT]];
+}
+
+.Menu_Right .Menu_Sub  {
+    margin-right: 10px;
+    margin-left: 0px;
+}

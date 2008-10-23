@@ -1,0 +1,470 @@
+<options>
+    <option id='bg_color'>
+        <displayName lang='en_US'>Background Color</displayName>
+        <description lang='en_US'>The color of the site background.</description>
+        <choice isDefault='true'>
+            <key>white</key>
+            <label lang='en_US'>White</label>
+            <setting marker='[[IMAGE_DIR]]'>white</setting>
+            <setting marker='[[BG_COLOR]]'>#FFFFFF</setting>
+            <setting marker='[[BG_TEXT_COLOR]]'>#999999</setting>
+            <setting marker='[[BG_LINK_COLOR]]'>#666666</setting>
+        </choice>
+        <choice>
+            <key>yellow</key>
+            <label lang='en_US'>Yellow</label>
+            <setting marker='[[IMAGE_DIR]]'>yellow</setting>
+            <setting marker='[[BG_COLOR]]'>#FFF8C6</setting>
+            <setting marker='[[BG_TEXT_COLOR]]'>#999999</setting>
+            <setting marker='[[BG_LINK_COLOR]]'>#666666</setting>        
+        </choice>
+        <choice>
+            <key>gray</key>
+            <label lang='en_US'>Gray</label>
+            <setting marker='[[IMAGE_DIR]]'>gray</setting>
+            <setting marker='[[BG_COLOR]]'>#CCCCCC</setting>
+            <setting marker='[[BG_TEXT_COLOR]]'>#999999</setting>
+            <setting marker='[[BG_LINK_COLOR]]'>#666666</setting>        
+        </choice>
+        <choice>
+            <key>black</key>
+            <label lang='en_US'>Black</label>
+            <setting marker='[[IMAGE_DIR]]'>black</setting>
+            <setting marker='[[BG_COLOR]]'>#000000</setting>
+            <setting marker='[[BG_TEXT_COLOR]]'>#999999</setting>
+            <setting marker='[[BG_LINK_COLOR]]'>#666666</setting>        
+        </choice>
+        <choice>
+            <key>blue</key>
+            <label lang='en_US'>Blue</label>
+            <setting marker='[[IMAGE_DIR]]'>blue</setting>
+            <setting marker='[[BG_COLOR]]'>#003366</setting>
+            <setting marker='[[BG_TEXT_COLOR]]'>#CCCCCC</setting>
+            <setting marker='[[BG_LINK_COLOR]]'>#FFFFFF</setting>        
+        </choice>
+        <choice>
+            <key>green</key>
+            <label lang='en_US'>Green</label>
+            <setting marker='[[IMAGE_DIR]]'>green</setting>
+            <setting marker='[[BG_COLOR]]'>#CCFF99</setting>
+            <setting marker='[[BG_TEXT_COLOR]]'>#666666</setting>
+            <setting marker='[[BG_LINK_COLOR]]'>#333333</setting>    
+        </choice>
+        <choice>
+            <key>pink</key>
+            <label lang='en_US'>Pink</label>
+            <setting marker='[[IMAGE_DIR]]'>pink</setting>
+            <setting marker='[[BG_COLOR]]'>#FFCCCC</setting>
+            <setting marker='[[BG_TEXT_COLOR]]'>#999999</setting>
+            <setting marker='[[BG_LINK_COLOR]]'>#707070</setting>        
+        </choice>
+    </option>
+    <option id='fg_color'>
+        <displayName lang='en_US'>Foreground Color</displayName>
+        <description lang='en_US'>The color of the site foreground.</description>
+        <choice isDefault='true'>
+            <key>white</key>
+            <label lang='en_US'>White</label>
+            <setting marker='[[FG_COLOR]]'>#FFFFFF</setting>
+            <setting marker='[[STANDARD_BG_COLOR]]'>#FFFFFF</setting>
+            <setting marker='[[SIDEBAR_BG_COLOR]]'>#FFFFFF</setting>
+            <setting marker='[[ALERT_BG_COLOR]]'>#FFCC33</setting>
+            <setting marker='[[MENU_BG_COLOR]]'>#FAFAFA</setting>
+            <setting marker='[[MENU_UNSELECTED_COLOR]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_TOP]]'>#E6E6E6</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM]]'>#E6E6E6</setting>
+            <setting marker='[[MENU_BORDER_LEFT]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_RIGHT]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_TOP01]]'>#CCCCCC</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM01]]'>#CCCCCC</setting>
+            <setting marker='[[MENU_BORDER_LEFT01]]'>#E6E6E6</setting>
+            <setting marker='[[MENU_BORDER_RIGHT01]]'>#E6E6E6</setting>            
+            <setting marker='[[MENU_BORDER_TOP02]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM02]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_LEFT02]]'>#FFFFFF</setting>
+            <setting marker='[[MENU_BORDER_RIGHT02]]'>#FFFFFF</setting>   
+            <setting marker='[[STANDARD_BORDER_TOP]]'>#666666</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM]]'>#666666</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT]]'>#FFFFFF</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT]]'>#FFFFFF</setting>
+            <setting marker='[[STANDARD_BORDER_TOP01]]'>#CCCCCC</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM01]]'>#CCCCCC</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT01]]'>#FFFFFF</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT01]]'>#FFFFFF</setting>            
+            <setting marker='[[STANDARD_BORDER_TOP02]]'>#E6E6E6</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM02]]'>#E6E6E6</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT02]]'>#E6E6E6</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT02]]'>#E6E6E6</setting>                        
+        </choice>
+        <choice>
+            <key>yellow</key>
+            <label lang='en_US'>Yellow</label>
+            <setting marker='[[FG_COLOR]]'>#FFFFCC</setting>
+            <setting marker='[[STANDARD_BG_COLOR]]'>#FFFFCC</setting>
+            <setting marker='[[SIDEBAR_BG_COLOR]]'>#FFFFCC</setting>
+            <setting marker='[[ALERT_BG_COLOR]]'>#FFCC33</setting>
+            <setting marker='[[MENU_BG_COLOR]]'>#F4F4C3</setting>
+            <setting marker='[[MENU_UNSELECTED_COLOR]]'>#666666</setting>
+            <setting marker='[[MENU_BORDER_TOP]]'>#E6E6E6</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM]]'>#E6E6E6</setting>
+            <setting marker='[[MENU_BORDER_LEFT]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_RIGHT]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_TOP01]]'>#CCCCCC</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM01]]'>#CCCCCC</setting>
+            <setting marker='[[MENU_BORDER_LEFT01]]'>#E6E6E6</setting>
+            <setting marker='[[MENU_BORDER_RIGHT01]]'>#E6E6E6</setting>            
+            <setting marker='[[MENU_BORDER_TOP02]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM02]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_LEFT02]]'>#FFFFCC</setting>
+            <setting marker='[[MENU_BORDER_RIGHT02]]'>#FFFFCC</setting>   
+            <setting marker='[[STANDARD_BORDER_TOP]]'>#990000</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM]]'>#990000</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT]]'>#FFFFCC</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT]]'>#FFFFCC</setting>
+            <setting marker='[[STANDARD_BORDER_TOP01]]'>#999999</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM01]]'>#999999</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT01]]'>#FFFFCC</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT01]]'>#FFFFCC</setting>            
+            <setting marker='[[STANDARD_BORDER_TOP02]]'>#E6E6E6</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM02]]'>#E6E6E6</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT02]]'>#E6E6E6</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT02]]'>#E6E6E6</setting>                        
+        </choice>
+        <choice>
+            <key>black</key>
+            <label lang='en_US'>Black</label>
+            <setting marker='[[FG_COLOR]]'>#0B0B0B</setting>
+            <setting marker='[[STANDARD_BG_COLOR]]'>#131313</setting>
+            <setting marker='[[SIDEBAR_BG_COLOR]]'>#0B0B0B</setting>
+            <setting marker='[[ALERT_BG_COLOR]]'>#333333</setting>
+            <setting marker='[[MENU_BG_COLOR]]'>#000000</setting>
+            <setting marker='[[MENU_UNSELECTED_COLOR]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_TOP]]'>#CCCCCC</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM]]'>#CCCCCC</setting>
+            <setting marker='[[MENU_BORDER_LEFT]]'>#161616</setting>
+            <setting marker='[[MENU_BORDER_RIGHT]]'>#161616</setting>
+            <setting marker='[[MENU_BORDER_TOP01]]'>#333333</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM01]]'>#333333</setting>
+            <setting marker='[[MENU_BORDER_LEFT01]]'>#CCCCCC</setting>
+            <setting marker='[[MENU_BORDER_RIGHT01]]'>#CCCCCC</setting>            
+            <setting marker='[[MENU_BORDER_TOP02]]'>#161616</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM02]]'>#161616</setting>
+            <setting marker='[[MENU_BORDER_LEFT02]]'>#0B0B0B</setting>
+            <setting marker='[[MENU_BORDER_RIGHT02]]'>#0B0B0B</setting>   
+            <setting marker='[[STANDARD_BORDER_TOP]]'>#CCCCCC</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM]]'>#CCCCCC</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT]]'>#161616</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT]]'>#161616</setting>
+            <setting marker='[[STANDARD_BORDER_TOP01]]'>#666666</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM01]]'>#666666</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT01]]'>#0B0B0B</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT01]]'>#0B0B0B</setting>            
+            <setting marker='[[STANDARD_BORDER_TOP02]]'>#161616</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM02]]'>#161616</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT02]]'>#161616</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT02]]'>#161616</setting>                        
+        </choice>
+        <choice>
+            <key>lightblue</key>
+            <label lang='en_US'>Light Blue</label>
+            <setting marker='[[FG_COLOR]]'>#ebeFf5</setting>
+            <setting marker='[[STANDARD_BG_COLOR]]'>#ebeFf5</setting>
+            <setting marker='[[SIDEBAR_BG_COLOR]]'>#ebeFf5</setting>
+            <setting marker='[[ALERT_BG_COLOR]]'>#ffffcc</setting>
+            <setting marker='[[MENU_BG_COLOR]]'>#FAFAFA</setting>
+            <setting marker='[[MENU_UNSELECTED_COLOR]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_TOP]]'>#E6E6E6</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM]]'>#E6E6E6</setting>
+            <setting marker='[[MENU_BORDER_LEFT]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_RIGHT]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_TOP01]]'>#CCCCCC</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM01]]'>#CCCCCC</setting>
+            <setting marker='[[MENU_BORDER_LEFT01]]'>#E6E6E6</setting>
+            <setting marker='[[MENU_BORDER_RIGHT01]]'>#E6E6E6</setting>            
+            <setting marker='[[MENU_BORDER_TOP02]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM02]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_LEFT02]]'>#FFFFFF</setting>
+            <setting marker='[[MENU_BORDER_RIGHT02]]'>#FFFFFF</setting>   
+            <setting marker='[[STANDARD_BORDER_TOP]]'>#666666</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM]]'>#666666</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT]]'>#FFFFFF</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT]]'>#FFFFFF</setting>
+            <setting marker='[[STANDARD_BORDER_TOP01]]'>#CCCCCC</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM01]]'>#CCCCCC</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT01]]'>#FFFFFF</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT01]]'>#FFFFFF</setting>            
+            <setting marker='[[STANDARD_BORDER_TOP02]]'>#E6E6E6</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM02]]'>#E6E6E6</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT02]]'>#E6E6E6</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT02]]'>#E6E6E6</setting>                        
+        </choice>
+        <choice>
+            <key>olive</key>
+            <label lang='en_US'>Olive</label>
+            <setting marker='[[FG_COLOR]]'>#bcb</setting>
+            <setting marker='[[STANDARD_BG_COLOR]]'>#bcb</setting>
+            <setting marker='[[SIDEBAR_BG_COLOR]]'>#bcb</setting>
+            <setting marker='[[ALERT_BG_COLOR]]'>#ffffcc</setting>
+            <setting marker='[[MENU_BG_COLOR]]'>#CDDECB</setting>
+            <setting marker='[[MENU_UNSELECTED_COLOR]]'>#666666</setting>
+            <setting marker='[[MENU_BORDER_TOP]]'>#CCCCCC</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM]]'>#CCCCCC</setting>
+            <setting marker='[[MENU_BORDER_LEFT]]'>#666666</setting>
+            <setting marker='[[MENU_BORDER_RIGHT]]'>#666666</setting>
+            <setting marker='[[MENU_BORDER_TOP01]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM01]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_LEFT01]]'>#E6E6E6</setting>
+            <setting marker='[[MENU_BORDER_RIGHT01]]'>#E6E6E6</setting>            
+            <setting marker='[[MENU_BORDER_TOP02]]'>#666666</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM02]]'>#666666</setting>
+            <setting marker='[[MENU_BORDER_LEFT02]]'>#bcb</setting>
+            <setting marker='[[MENU_BORDER_RIGHT02]]'>#bcb</setting>   
+            <setting marker='[[STANDARD_BORDER_TOP]]'>#666666</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM]]'>#666666</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT]]'>#bcb</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT]]'>#bcb</setting>
+            <setting marker='[[STANDARD_BORDER_TOP01]]'>#999999</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM01]]'>#999999</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT01]]'>#bcb</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT01]]'>#bcb</setting>            
+            <setting marker='[[STANDARD_BORDER_TOP02]]'>#CCCCCC</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM02]]'>#CCCCCC</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT02]]'>#999999</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT02]]'>#999999</setting>                        
+        </choice>
+        <choice>
+            <key>red</key>
+            <label lang='en_US'>Red</label>
+            <setting marker='[[FG_COLOR]]'>#edd</setting>
+            <setting marker='[[STANDARD_BG_COLOR]]'>#edd</setting>
+            <setting marker='[[SIDEBAR_BG_COLOR]]'>#edd</setting>
+            <setting marker='[[ALERT_BG_COLOR]]'>#ffffcc</setting>
+            <setting marker='[[MENU_BG_COLOR]]'>#E9D8D8</setting>
+            <setting marker='[[MENU_UNSELECTED_COLOR]]'>#666666</setting>
+            <setting marker='[[MENU_BORDER_TOP]]'>#CCCCCC</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM]]'>#CCCCCC</setting>
+            <setting marker='[[MENU_BORDER_LEFT]]'>#666666</setting>
+            <setting marker='[[MENU_BORDER_RIGHT]]'>#666666</setting>
+            <setting marker='[[MENU_BORDER_TOP01]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM01]]'>#999999</setting>
+            <setting marker='[[MENU_BORDER_LEFT01]]'>#CCCCCC</setting>
+            <setting marker='[[MENU_BORDER_RIGHT01]]'>#CCCCCC</setting>            
+            <setting marker='[[MENU_BORDER_TOP02]]'>#666666</setting>
+            <setting marker='[[MENU_BORDER_BOTTOM02]]'>#666666</setting>
+            <setting marker='[[MENU_BORDER_LEFT02]]'>#edd</setting>
+            <setting marker='[[MENU_BORDER_RIGHT02]]'>#edd</setting>   
+            <setting marker='[[STANDARD_BORDER_TOP]]'>#990000</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM]]'>#990000</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT]]'>#edd</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT]]'>#edd</setting>
+            <setting marker='[[STANDARD_BORDER_TOP01]]'>#999999</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM01]]'>#999999</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT01]]'>#edd</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT01]]'>#edd</setting>            
+            <setting marker='[[STANDARD_BORDER_TOP02]]'>#CCCCCC</setting>
+            <setting marker='[[STANDARD_BORDER_BOTTOM02]]'>#CCCCCC</setting>
+            <setting marker='[[STANDARD_BORDER_LEFT02]]'>#CCCCCC</setting>
+            <setting marker='[[STANDARD_BORDER_RIGHT02]]'>#CCCCCC</setting>                        
+        </choice>
+    </option>
+    <option id='menu_size'>
+        <displayName lang='en_US'>Menu Size</displayName>
+        <description lang='en_US'>The size of page links.</description>
+        <choice isDefault='true'>
+            <key>normal</key>
+            <label lang='en_US'>Normal</label>
+            <setting marker='[[MENU_FONT_SIZE]]'>100%</setting>
+            <setting marker='[[SUBMENU_FONT_SIZE]]'>90%</setting>
+        </choice>
+        <choice>
+            <key>small</key>
+            <label lang='en_US'>Small</label>
+            <setting marker='[[MENU_FONT_SIZE]]'>90%</setting>
+            <setting marker='[[SUBMENU_FONT_SIZE]]'>90%</setting>
+        </choice>
+        <choice>
+            <key>larger</key>
+            <label lang='en_US'>Large</label>
+            <setting marker='[[MENU_FONT_SIZE]]'>110%</setting>
+            <setting marker='[[SUBMENU_FONT_SIZE]]'>100%</setting>
+        </choice>
+    </option>
+    <option id='block_class'>
+        <displayName lang='en_US'>Content Borders</displayName>
+        <description lang='en_US'>Different kinds of borders around blocks.</description>
+        <choice isDefault='true'>
+            <key>drop_shadow_borders</key>
+            <label lang='en_US'>Drop-Shadow Borders</label>
+            <setting marker='[[STANDARD_BLOCK_CLASS]]'>Block_Standard</setting>
+        </choice>
+        <choice>
+            <key>no_borders</key>
+            <label lang='en_US'>No Borders</label>
+            <setting marker='[[STANDARD_BLOCK_CLASS]]'>Block_Standard_No_Borders</setting>
+        </choice>
+    </option>
+    <option id='border_color'>
+        <displayName lang='en_US'>Border Color</displayName>
+        <description lang='en_US'>The color of the borders.</description>
+        <choice isDefault='true'>
+            <key>gray</key>
+            <label lang='en_US'>Gray</label>
+            <setting marker='[[BORDER_COLOR]]'>#666666</setting>
+        </choice>
+        <choice isDefault='true'>
+            <key>black</key>
+            <label lang='en_US'>Black</label>
+            <setting marker='[[BORDER_COLOR]]'>#000000</setting>
+        </choice>
+        <choice>
+            <key>red</key>
+            <label lang='en_US'>Red</label>
+            <setting marker='[[BORDER_COLOR]]'>#990000</setting>
+        </choice>
+        <choice>
+            <key>blue</key>
+            <label lang='en_US'>Blue</label>
+            <setting marker='[[BORDER_COLOR]]'>#003366</setting>
+        </choice>
+        <choice>
+            <key>white</key>
+            <label lang='en_US'>White</label>
+            <setting marker='[[BORDER_COLOR]]'>#FFFFFF</setting>
+        </choice>
+        <choice>
+            <key>yellow</key>
+            <label lang='en_US'>Yellow</label>
+            <setting marker='[[BORDER_COLOR]]'>#FFCC00</setting>
+        </choice>
+    </option>
+    <option id='border_style'>
+        <displayName lang='en_US'>Border Style</displayName>
+        <description lang='en_US'>The style of the borders.</description>
+        <choice>
+            <key>solid</key>
+            <label lang='en_US'>Solid</label>
+            <setting marker='[[BORDER_STYLE]]'>solid</setting>
+        </choice>
+        <choice isDefault='true'>
+            <key>dotted</key>
+            <label lang='en_US'>Dotted</label>
+            <setting marker='[[BORDER_STYLE]]'>dotted</setting>
+        </choice>
+        <choice>
+            <key>dashed</key>
+            <label lang='en_US'>Dashed</label>
+            <setting marker='[[BORDER_STYLE]]'>dashed</setting>
+        </choice>
+    </option>        
+    <option id='text_color'>
+        <displayName lang='en_US'>Text Color</displayName>
+        <description lang='en_US'>The color or normal text.</description>
+        <choice isDefault='true'>
+            <key>black</key>
+            <label lang='en_US'>Black</label>
+            <setting marker='[[TEXT_COLOR]]'>#000000</setting>
+            <setting marker='[[ATRIBUTION_TEXT_COLOR]]'>#777777</setting>
+        </choice>
+        <choice>
+            <key>gray</key>
+            <label lang='en_US'>Gray</label>
+            <setting marker='[[TEXT_COLOR]]'>#555555</setting>
+            <setting marker='[[ATRIBUTION_TEXT_COLOR]]'>#777777</setting>
+        </choice>
+        <choice>
+            <key>red</key>
+            <label lang='en_US'>Red</label>
+            <setting marker='[[TEXT_COLOR]]'>#990000</setting>
+            <setting marker='[[ATRIBUTION_TEXT_COLOR]]'>#777777</setting>
+        </choice>
+        <choice>
+            <key>blue</key>
+            <label lang='en_US'>Blue</label>
+            <setting marker='[[TEXT_COLOR]]'>#003366</setting>
+            <setting marker='[[ATRIBUTION_TEXT_COLOR]]'>#777777</setting>
+        </choice>
+        <choice>
+            <key>yellow</key>
+            <label lang='en_US'>Yellow</label>
+            <setting marker='[[TEXT_COLOR]]'>#E3B52C</setting>
+            <setting marker='[[ATRIBUTION_TEXT_COLOR]]'>#777777</setting>
+        </choice>
+        <choice>
+            <key>white</key>
+            <label lang='en_US'>White</label>
+            <setting marker='[[TEXT_COLOR]]'>#CCCCCC</setting>
+            <setting marker='[[ATRIBUTION_TEXT_COLOR]]'>#777777</setting>
+        </choice>
+        <choice>
+            <key>green</key>
+            <label lang='en_US'>Green</label>
+            <setting marker='[[TEXT_COLOR]]'>#009900</setting>
+            <setting marker='[[ATRIBUTION_TEXT_COLOR]]'>#777777</setting>
+        </choice>
+    </option>
+    <option id='link_color'>
+        <displayName lang='en_US'>Link Color</displayName>
+        <description lang='en_US'>The color of link-text.</description>
+        <choice isDefault='true'>
+            <key>blue</key>
+            <label lang='en_US'>Blue</label>
+            <setting marker='[[LINK_COLOR]]'>#003366</setting>
+        </choice>
+        <choice>
+            <key>red</key>
+            <label lang='en_US'>Red</label>
+            <setting marker='[[LINK_COLOR]]'>#990000</setting>
+        </choice>
+        <choice>
+            <key>green</key>
+            <label lang='en_US'>Green</label>
+            <setting marker='[[LINK_COLOR]]'>#009900</setting>
+        </choice>        <choice isDefault='true'>
+            <key>yellow</key>
+            <label lang='en_US'>Yellow</label>
+            <setting marker='[[LINK_COLOR]]'>#E3B52C</setting>
+        </choice>
+        <choice>
+            <key>white</key>
+            <label lang='en_US'>White</label>
+            <setting marker='[[LINK_COLOR]]'>#CCCCCC</setting>
+        </choice>
+    </option>
+    <option id='link_decoration'>
+        <displayName lang='en_US'>Link Style</displayName>
+        <description lang='en_US'>The style of link-text.</description>
+        <choice isDefault='true'>
+            <key>none</key>
+            <label lang='en_US'>Don't Underline Links</label>
+            <setting marker='[[LINK_DECORATION]]'>none</setting>
+        </choice>
+        <choice>
+            <key>underline</key>
+            <label lang='en_US'>Underline Links</label>
+            <setting marker='[[LINK_DECORATION]]'>underline</setting>
+        </choice>
+    </option>
+    <option id='font'>
+        <displayName lang='en_US'>Font</displayName>
+        <description lang='en_US'>The fonts used in this site.</description>
+        <choice isDefault='true'>
+            <key>vedana</key>
+            <label lang='en_US'>Vedana, Arial, Helvetica, sans-serif</label>
+            <setting marker='[[FONT_FAMILY]]'>Vedana, Arial, Helvetica, sans-serif</setting>
+        </choice>
+        <choice>
+            <key>arial</key>
+            <label lang='en_US'>Arial, Helvetica, sans-serif</label>
+            <setting marker='[[FONT_FAMILY]]'>Arial, Helvetica, sans-serif</setting>
+        </choice>
+        <choice>
+            <key>times</key>
+            <label lang='en_US'>Times New Roman, Times, serif</label>
+            <setting marker='[[FONT_FAMILY]]'>"Times New Roman", Times, serif</setting>
+        </choice>        <choice isDefault='true'>
+            <key>georgia</key>
+            <label lang='en_US'>Georgia, Times New Roman, Times, serif</label>
+            <setting marker='[[FONT_FAMILY]]'>Georgia, "Times New Roman", Times, serif</setting>
+        </choice>
+    </option>
+</options>

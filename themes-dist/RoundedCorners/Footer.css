@@ -1,0 +1,64 @@
+/*********************************************************
+ * Footer 1
+ *********************************************************/
+
+*.Footer {
+    padding: 1px;
+    border: 0px;
+}
+
+*.Footer .Content {
+    background-color: [[FG_COLOR]];
+    padding: 10px;
+    text-align: left;
+    margin: 0px;
+    font-size: 75%;
+}
+
+.Footer .BorderTL {
+    background: url('./images/[[IMAGE_DIR]]/corner_TL.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+.Footer .Top {
+    border-top: 1px solid [[BORDER_COLOR]];
+    background-color: [[FG_COLOR]];
+}
+
+.Footer .BorderTR {
+    background: url('./images/[[IMAGE_DIR]]/corner_TR.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+.Footer .Right {
+    background-color: [[FG_COLOR]];
+    border-right: 1px solid [[BORDER_COLOR]];
+}
+
+.Footer .Left {
+    background-color: [[FG_COLOR]];
+    border-left: 1px solid [[BORDER_COLOR]];
+}
+
+.Footer .BorderBL {
+    background: url('./images/[[IMAGE_DIR]]/corner_BL.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+.Footer .Bottom {
+    border-bottom: 1px solid [[BORDER_COLOR]];
+    background-color: [[FG_COLOR]];
+}
+
+.Footer .BorderBR {
+    background: url('./images/[[IMAGE_DIR]]/corner_BR.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 5px;
+    height: 5px;
+}

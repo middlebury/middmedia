@@ -1,0 +1,23 @@
+/*********************************************************
+ * Heading 1
+ *********************************************************/
+
+.Heading_1 {
+    margin-right: 10px;
+    margin-left: 10px;
+    border: 0px;
+}
+.Heading_1 .Content {
+    background-image: url('./images/[[IMAGE_DIR]]/heading_gradient.jpg');
+    background-x-position: center;
+    background-y-position: top;
+    background-repeat: repeat-x;
+    border-bottom: 1px solid [[BORDER_COLOR_BOTTOM]];
+    border-left: 1px solid [[BORDER_COLOR_LEFT]];
+    border-right: 1px solid [[BORDER_COLOR_RIGHT]];    
+    padding: 5px;
+    text-align: left;
+    font-size: 150%;
+    padding-left: 10px;
+    margin: 0px;
+}

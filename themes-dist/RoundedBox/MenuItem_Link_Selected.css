@@ -1,0 +1,76 @@
+/*********************************************************
+ * Menu 1 selected content
+ *********************************************************/
+
+*.MenuItem_Link_Selected  {
+    padding: 1px;
+    border: 0px;
+    margin: 0px;
+}
+
+*.MenuItem_Link_Selected .Content {
+    background-color: [[HEADER_BG_COLOR]];
+    text-align: left;
+    color: #000000;
+    padding: 1px;
+    margin-top: -5px;
+    margin-bottom: -5px;
+}
+
+*.MenuItem_Link_Selected a {
+    color: [[MENU_LINK_COLOR]];
+    font-size: [[MENU_FONT_SIZE]];
+}
+
+.MenuItem_Link_Selected .BorderTL {
+    background: url('./images/[[IMAGE_DIR]]/header_TL.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 6px;
+    height: 6px;
+}
+
+.MenuItem_Link_Selected .Top {
+    border-top: 1px solid [[BORDER_COLOR]];
+    background-color: [[HEADER_BG_COLOR]];
+}
+
+.MenuItem_Link_Selected .BorderTR {
+    background: url('./images/[[IMAGE_DIR]]/header_TR.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 6px;
+    height: 6px;
+}
+
+
+.MenuItem_Link_Selected .Right {
+    background-color: [[HEADER_BG_COLOR]];
+    border-right: 1px solid [[BORDER_COLOR]];
+    width: 5px;
+
+}
+
+.MenuItem_Link_Selected .Left {
+    background-color: [[HEADER_BG_COLOR]];
+    border-left: 1px solid [[BORDER_COLOR]];
+    width: 5px;
+}
+
+
+.MenuItem_Link_Selected .BorderBL {
+    background: url('./images/[[IMAGE_DIR]]/header_BL.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 6px;
+    height: 6px;
+}
+
+.MenuItem_Link_Selected .Bottom {
+    border-bottom: 1px solid [[BORDER_COLOR]];
+    background-color: [[HEADER_BG_COLOR]];
+}
+
+.MenuItem_Link_Selected .BorderBR {
+    background: url('./images/[[IMAGE_DIR]]/header_BR.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 6px;
+    height: 6px;
+}

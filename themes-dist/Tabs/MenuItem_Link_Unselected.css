@@ -1,0 +1,38 @@
+/*********************************************************
+ * Menu 1 unselected content
+ *********************************************************/
+
+*.MenuItem_Link_Unselected {
+    background-color: [[TAB_HOVER_COLOR]];
+    padding-bottom: 4px;
+    
+}
+
+*.MenuItem_Link_Unselected .Content {
+    background-color: [[TAB_HOVER_COLOR]];
+    background-image: url('./images/[[IMAGE_DIR]]/tab_gradient.jpg');
+    background-x-position: center;
+    background-y-position: bottom;
+    background-repeat: repeat-x;
+    border-top: 1px solid [[BORDER_COLOR_TOP]];
+    border-bottom: 1px solid [[BORDER_COLOR_BOTTOM]];    
+    padding: 3px;
+    text-align: left;
+    color: #000000;
+    font-size: 100%;
+    margin: 0px;
+}
+    
+*.MenuItem_Link a {
+    display: block;
+    text-decoration: none;
+}
+
+*.MenuItem_Link a:hover {
+    text-decoration: underline;
+}
+
+*.MenuItem_Link_Unselected .Content:hover {
+    background-color: [[TAB_HOVER_COLOR]];    
+    background-image: url('./images/[[IMAGE_DIR]]/spacer.gif');
+}

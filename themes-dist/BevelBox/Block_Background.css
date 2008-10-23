@@ -1,0 +1,41 @@
+/*********************************************************
+ * Block background
+ *********************************************************/
+.Block_Background {
+    border: 1px none [[BACKGROUND_BORDER]];
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding: 0px
+}
+
+*.Block_Background .box01 {
+    border: 1px solid [[BACKGROUND_BORDER01]];
+    margin: 0px;   
+}
+
+
+*.Block_Background .box02 {
+    border: 1px solid [[BACKGROUND_BORDER02]];
+    margin: 0px;
+}
+
+*.Block_Background .box03 {
+    border: 1px solid [[BACKGROUND_BORDER03]];
+    margin: 0px;
+}
+
+*.Block_Background .box04 {
+    border: 1px solid [[BACKGROUND_BORDER04]];
+    margin: 0px;
+}
+
+
+.Block_Background .Content {
+    background-color: [[FG_COLOR]];
+    height: 1%;
+    padding: 10px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}

@@ -1,0 +1,51 @@
+/*********************************************************
+ * Menu - Bottom
+ *********************************************************/
+ 
+.Menu_Bottom  {
+    background-color: [[FG_COLOR]];
+    margin-right: 0px;
+    border-right: 0px solid [[FG_COLOR]];
+}
+
+.Menu_Bottom .MenuItem_Heading {
+    border-right: 1px solid [[BORDER_COLOR_RIGHT]];
+}
+
+.Menu_Bottom .MenuItem_Link_Selected  {    
+    margin-top: -6px;
+
+    margin-left: 0px;
+    margin-bottom: -6px;
+    margin-right: 2px;
+    margin-left: 2px;    
+}
+
+.Menu_Bottom .MenuItem_Link_Selected .Content {    
+    text-align: left;   
+
+
+    border-right: 1px solid [[BORDER_COLOR_RIGHT]];
+    border-left: 1px solid [[BORDER_COLOR_LEFT]];
+    font-size: [[RIGHT_TAB_FONT]];
+}
+
+.Menu_Bottom .MenuItem_Link_Unselected  {
+    border-bottom: 1px solid [[BORDER_COLOR_TOP]];
+    border-top: 1px solid [[BORDER_COLOR_BOTTOM]];
+    background-color: [[FG_COLOR]];
+
+    margin-right: 3px;
+}
+
+.Menu_Bottom .MenuItem_Link_Unselected .Content {
+    border-right: 1px solid [[BORDER_COLOR_RIGHT]];
+    border-left: 1px solid [[BORDER_COLOR_LEFT]];
+    text-align: left;
+    font-size: [[RIGHT_TAB_FONT]];
+}
+
+.Menu_Bottom .Menu_Sub  {
+    margin-right: 10px;
+    margin-left: 0px;
+}

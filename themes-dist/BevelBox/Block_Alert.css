@@ -1,0 +1,42 @@
+/*********************************************************
+ * Block 4 - Alert
+ *********************************************************/
+
+.block4 {
+    border: 1px none [[BACKGROUND_BORDER]];
+    margin: 0px;
+}
+
+.block4 .box01 {
+    border: 1px none [[BACKGROUND_BORDER01]];
+    margin: 0px;   
+}
+
+
+.block4 .box02 {
+    border: 1px none [[BACKGROUND_BORDER02]];
+    margin: 0px;
+}
+
+.block4 .box03 {
+    border: 1px none [[BACKGROUND_BORDER03]];
+    margin: 0px;
+}
+
+.block4 .box04 {
+    border: 1px none [[BACKGROUND_BORDER04]];
+    margin: 0px;
+}
+
+.block4 .Content {
+    height: 1%;
+    background-color: [[ALERT_BG_COLOR]];    
+    text-align: left;
+    font-size: 100%; 
+    margin-bottom: 5px;
+}
+
+.block4 .Content a {
+
+}
+

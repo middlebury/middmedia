@@ -1,0 +1,82 @@
+ /*********************************************************
+ * Block 2 - Standard
+ *********************************************************/
+
+.Block_Standard {
+    padding: 0px;
+    border: 0px;
+    text-align: left;
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
+.Block_Standard .Content {
+    background-color: [[FG_COLOR]];
+    background: url('./images/[[IMAGE_DIR]]/blockgrad_center.jpg') repeat-x;
+    padding: 7px;
+    text-align: left;
+    margin-bottom: 20px;
+    margin-top: 0px;
+    height: 1%;
+}
+
+.Block_Standard .BorderTL {
+    background: url('./images/[[IMAGE_DIR]]/blockgrad_left.jpg') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 6px;
+
+}
+
+.Block_Standard .Top {
+    border: 0px;
+    background: url('./images/[[IMAGE_DIR]]/blockgrad_center.jpg') repeat-x;
+    background-color: [[FG_COLOR]];
+
+ }
+
+.Block_Standard .BorderTR {
+    background: url('./images/[[IMAGE_DIR]]/blockgrad_right.jpg') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 6px;
+
+}
+
+
+.Block_Standard .Right {
+    background-color: [[FG_COLOR]];
+    border-right: 1px solid [[BORDER_COLOR]];
+    width: 5px;
+
+}
+
+.Block_Standard .Left {
+    background-color: [[FG_COLOR]];
+    border-left: 1px solid [[BORDER_COLOR]];
+    width: 5px;
+}
+
+
+.Block_Standard .BorderBL {
+    background: url('./images/[[IMAGE_DIR]]/header_BL.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 6px;
+    height: 6px;
+}
+
+.Block_Standard .Bottom {
+    border-bottom: 1px solid [[BORDER_COLOR]];
+    background-color: [[FG_COLOR]];
+}
+
+.Block_Standard .BorderBR {
+    background: url('./images/[[IMAGE_DIR]]/header_BR.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 6px;
+    height: 6px;
+}
+
+.corner {
+    width: 6px;
+    height: 6px;
+    border: 0px solid gray;
+}

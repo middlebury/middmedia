@@ -1,0 +1,228 @@
+/*********************************************************
+ * Help
+ *********************************************************/
+	.help_text {
+		border: 1px solid #111;
+		margin: 5px;
+		padding: 5px;
+		padding-left: 10px;
+		padding-right: 10px;
+		font-size: smaller;
+	}
+
+/*********************************************************
+ * Status | Commands | Comments | Dates | Attribution | Footer
+ *********************************************************/
+	.seguelinks {
+		text-align: left;
+		font-size: 10px;
+		margin-left: 10px;
+	}
+
+	.commands {
+		text-align: right;
+		font-size: 10px;
+		margin-right: 10px;
+		padding-bottom: 3px;
+	}
+	
+	.login {
+		text-align: right; 
+		margin-right: 25px; 
+		margin-bottom: 3px;
+		font-size: 10px;
+	}
+	
+	.login .visitor_reg_link {
+		
+	}
+	
+	.seguefooter_left {
+		text-align: left;
+		font-size: 10px;
+		margin-left: 10px;
+		margin-top: 10px;
+	}
+	
+	.seguefooter_right {
+		text-align: right;
+		font-size: 10px;
+		margin-right: 10px;
+		margin-top: 10px;
+	}
+
+	.breadcrumbs {
+		text-align: left;
+		font-size: 10px;
+		margin-right: 10px;
+		height: 16px;
+		
+	}
+	
+	.breadcrumbs a {
+		text-decoration: none;
+	}
+
+	.breadcrumbs a:hover {
+		text-decoration: underline;
+	}
+	
+	.comments {
+		float: right; 
+		clear: both;
+		margin-left: 10px;
+		font-size: 12px;
+	}
+
+	.comment_byline {
+		padding-bottom: 5px;
+	}
+
+	.history {
+		float: right; 
+		clear: both;
+		margin-left: 10px;
+		font-size: 12px;
+	}
+	
+	.pagination_links {
+		font-size: 10px;
+	}
+	
+	.pagination_links td {
+		text-align: left;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	
+	.pagination_links select {
+		border: 1px solid #666666;
+		font-size: 10px;
+	}
+	
+	.attribution_line {
+		float: right; 
+		clear: both;
+		margin-left: 10px;
+		font-size: 10px;
+	}	
+
+	.no_float_spacer {
+		clear: both;
+		height: 0px;
+	}
+
+	.next_previous_links {
+		font-weight: bold;
+	}
+
+
+	
+/*********************************************************
+ * Tagging Styles
+ *********************************************************/
+	.tagging_header {
+		font-size: 10px;
+		margin-bottom: 5px;
+		padding-bottom: 3px;
+		border-bottom: 1px solid #000000;
+	}
+
+	.tag_cloud a {
+		text-decoration: none;
+		text-align: justify;
+	}
+	
+
+	.tagging_tags_display {
+		clear: both;
+		font-size: 10px;
+		text-align: left;
+		margin-bottom: 5px;
+		margin-top: 10px;
+		padding-top: 3px;
+		border-top: 1px dotted #aaa;
+
+	}
+	
+	.tagging_options  {
+		font-size: 9px;
+		border-bottom: 1px dotted #aaa;
+		padding-top: 2px;
+		padding-bottom: 2px;
+	}
+	
+	.tagging_options_sel  {
+		font-size: 9px;
+		font-weight: bold;
+		border: 1px solid #aaa;
+		background-color: #FFF8C6;
+		padding-right: 3px;
+		padding-left: 3px;
+		padding-bottom: 2px;
+		margin: 1px;
+	}
+	
+	.rename_options  {
+		text-align: center;
+		font-size: 10px;
+		border: 1px solid #aaa;
+		margin-top: 10px;
+		padding-top: 2px;
+		padding-bottom: 2px;
+	}
+
+
+/*********************************************************
+ * Wizard Styles
+ *********************************************************/
+	table.radio_matrix th {
+		background-color: #aaa;
+	}
+	
+	table.radio_matrix th.spacer {
+		background-color: #f0f0f0;
+	}
+	
+	table.radio_matrix .parent {
+		background-color: #ccc;
+	}
+	
+	table.radio_matrix .leaf {
+		background-color: #f5f5f5;
+	}
+	
+	table.radio_matrix th.option a:hover {
+		cursor: help;
+	}
+	
+	table.radio_matrix td {
+		text-align: center;
+	}
+	
+	table.search_results {
+		border: 0px;
+		width: 100%;
+		margin-top: 10px;
+	}
+	table.search_results tr.search_result_item td.color0 {
+		background-color: #ddd;
+	}
+	table.search_results tr.search_result_item td.action_button {
+		text-align: right;
+	}
+
+/*********************************************************
+ * Other
+ *********************************************************/
+	.config_error {
+		margin: 5px;
+		padding: 5px;
+		border: 2px solid #F00;
+		font-weight: bold;
+		text-align: center;
+	}
+	
+	.controls_bar img.az_icon {
+		vertical-align: middle;
+	}

@@ -1,0 +1,46 @@
+/*********************************************************
+ * Menu 1 Selected
+ *********************************************************/
+
+*.MenuItem_Link_Selected  {
+    border-top: 1px solid [[MENU_BORDER_TOP]];
+    border-bottom: 1px solid [[MENU_BORDER_BOTTOM]];
+    border-left: 0px none [[MENU_BORDER_LEFT]];
+    border-right: 0px none [[MENU_BORDER_RIGHT]];
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 1px;
+    margin-bottom: -2px;
+}
+
+*.MenuItem_Link_Selected .box01 {
+    border-top: 1px solid [[MENU_BORDER_TOP01]];
+    border-bottom: 1px solid [[MENU_BORDER_BOTTOM01]];
+    border-left: 0px none [[MENU_BORDER_LEFT01]];
+    border-right: 0px none [[MENU_BORDER_RIGHT01]];
+    padding-left: 1px;
+    padding-right: 1px;    
+
+}
+
+*.MenuItem_Link_Selected .box02 {
+    border-top: 1px solid [[MENU_BORDER_TOP02]];
+    border-bottom: 1px solid [[MENU_BORDER_BOTTOM02]];
+    border-left: 0px none [[MENU_BORDER_LEFT02]];
+    border-right: 0px none [[MENU_BORDER_RIGHT02]];
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+
+*.MenuItem_Link_Selected .Content {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+    font-size: [[MENU_FONT_SIZE]];
+    padding: 0px;
+}
+
+*.MenuItem_Link_Selected a {
+  text-decoration: none;   
+}

@@ -1,0 +1,13 @@
+<ThemeInfo>
+    <DisplayName lang='en_US'>Rounded Box</DisplayName>
+    <Description lang='en_US'>
+        This theme encloses sites in a box with rounded corners available in different colors and has a number of background gradiants to chose from.
+    </Description>
+    <History>
+        <Entry date='2007-08-23'>
+            <Comment>Theme created</Comment>
+            <Name>Alex Chapin</Name>
+            <EMail>achapin@middlebury.edu</EMail>
+        </Entry>
+    </History>
+</ThemeInfo>

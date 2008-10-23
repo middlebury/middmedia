@@ -1,0 +1,81 @@
+/*********************************************************
+ * Block 3 - Sidebar
+ *********************************************************/
+
+*.block3 {
+    padding: 1px;
+    border: 0px;
+}
+
+*.block3 .Content {
+    background-color: [[FG_COLOR]];
+    color: #000;
+    padding: 10px;
+    text-align: left;
+    margin: 0px;
+}
+
+.block3 .BorderTL {
+    background: url('./images/[[IMAGE_DIR]]/corner_TL.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+.block3 .Top {
+    border-top: 1px solid #979797;
+    background-color: [[FG_COLOR]];
+}
+
+
+.block3  .BorderTL {
+    background: url('./images/[[IMAGE_DIR]]/corner_TL.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+.block3  .Top {
+    border-top: 1px solid [[BORDER_COLOR]];
+    background-color: [[FG_COLOR]];
+}
+
+
+.block3  .BorderTR {
+    background: url('./images/[[IMAGE_DIR]]/corner_TR.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+
+.block3  .Right {
+    background-color: [[FG_COLOR]];
+    border-right: 1px solid [[BORDER_COLOR]];
+
+}
+
+.block3  .Left {
+    background-color: [[FG_COLOR]];
+    border-left: 1px solid [[BORDER_COLOR]];
+}
+
+
+.block3  .BorderBL {
+    background: url('./images/[[IMAGE_DIR]]/corner_BL.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+.block3  .Bottom {
+    border-bottom: 1px solid [[BORDER_COLOR]];
+    background-color: [[FG_COLOR]];
+}
+
+.block3  .BorderBR {
+    background: url('./images/[[IMAGE_DIR]]/corner_BR.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 5px;
+    height: 5px;
+}

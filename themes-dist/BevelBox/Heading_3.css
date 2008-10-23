@@ -1,0 +1,34 @@
+/*********************************************************
+ * Heading - Normal
+ *********************************************************/
+
+.Heading_3 {
+    border: 1px none [[BACKGROUND_BORDER]];
+    margin: 0px;
+    margin-top: 11px;
+
+}
+
+*.Heading_3 .box01 {
+    border: 1px solid [[BACKGROUND_BORDER01]];
+    margin: 0px;   
+}
+
+
+*.Heading_3 .box02 {
+    border: 1px [[BORDER_STYLE]] [[BORDER_COLOR]];
+    margin: 0px;
+}
+
+
+.Heading_3 .Content {
+    padding: 3px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: left;
+    font-weight: bold;    
+}
+
+*.Heading_3 a {
+    text-decoration: none;    
+}

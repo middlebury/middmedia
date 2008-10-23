@@ -1,0 +1,214 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2004-07-09 15:46-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: /www/afranco/concerto/main/modules/window/screen.act.php:53
+#: main/modules/window/screen.act.php:53
+msgid "Current User: "
+msgstr "Usario Actual: "
+
+#: /www/afranco/concerto/main/modules/window/screen.act.php:58
+#: main/modules/window/screen.act.php:58
+msgid "Log Out"
+msgstr "Salir"
+
+#: /www/afranco/concerto/main/modules/window/screen.act.php:60
+#: main/modules/window/screen.act.php:60
+msgid "anonymous"
+msgstr "anónimo"
+
+#: /www/afranco/concerto/main/modules/window/screen.act.php:63
+#: main/modules/window/screen.act.php:63
+msgid "Log In"
+msgstr "Entré en sessión"
+
+#: /www/afranco/concerto/main/modules/window/screen.act.php:80
+#: main/modules/window/screen.act.php:80
+msgid "credits"
+msgstr "méritos"
+
+#: /www/afranco/concerto/main/library/ConcertoMenuGenerator.class.php:29
+#: main/library/MenuGenerator.class.php:28
+msgid "Home"
+msgstr "La Casa"
+
+#: main/library/MenuGenerator.class.php:37 main/modules/docs/index.act.php:17
+msgid "Documentation"
+msgstr "Documentación"
+
+#: main/library/MenuGenerator.class.php:47
+msgid "Harmoni Manual"
+msgstr "Manual de Harmoni"
+
+#: main/library/MenuGenerator.class.php:55
+msgid "Harmoni PHPDoc"
+msgstr "PHPDoc de Harmoni"
+
+#: main/library/MenuGenerator.class.php:63
+msgid "No Theme"
+msgstr "Sin Tema"
+
+#: main/modules/docs/index.act.php:23
+msgid ""
+"The links to the left take you to the Harmoni Manual and the Harmoni PHPDoc,"
+msgstr "Los enlaces a la izquierda van al Manual y PHPDoc de Harmoni."
+
+#: main/modules/docs/index.act.php:29
+msgid ""
+"Authentication and Authorization systems are already written and in place, "
+"just configure for your server."
+msgstr ""
+
+#: main/modules/docs/index.act.php:32
+msgid ""
+"A module/action control architecture -- tied in to Authentication -- is "
+"availible for rapid interface development."
+msgstr ""
+
+#: main/modules/docs/index.act.php:35
+msgid ""
+"Advanced database wrapper abstracts queries to run on multiple database "
+"platforms."
+msgstr ""
+
+#: main/modules/docs/index.act.php:38
+msgid "Theme/Layout GUI engine is provided."
+msgstr ""
+
+#: main/modules/docs/index.act.php:41
+msgid ""
+"Implementations of OKI high-level services for managing Hierarchies, Digital "
+"Repositories, Users, and Classes."
+msgstr ""
+
+#: main/modules/docs/index.act.php:44
+msgid ""
+"Abstracted file-storage system that provides virtual-filesystem access to "
+"files stored in any combination of filesystems or databases on local or "
+"remote servers."
+msgstr ""
+
+#: main/modules/docs/index.act.php:47
+msgid "Much more, see the manual."
+msgstr "Mucho mucho mas, leé el manual."
+
+#: main/modules/docs/index.act.php:55
+msgid "Using this Skeleton"
+msgstr "Usando este Esqueleto"
+
+#: main/modules/docs/index.act.php:61
+msgid "The easiest way to get started is to:"
+msgstr "La empieza mas fácil es:"
+
+#: main/modules/docs/index.act.php:64
+msgid ""
+"Edit the <em>config/harmoni_config.inc.php</em> file to fit your database."
+msgstr ""
+
+#: main/modules/docs/index.act.php:67
+msgid ""
+"Create modules/actions for your application in the <em>main/modules/</em> "
+"directory."
+msgstr ""
+
+#: main/modules/docs/index.act.php:70
+msgid ""
+"Edit the <em>config/harmoni_config.inc.php</em> file to point to your new "
+"default action."
+msgstr ""
+
+#: main/modules/docs/index.act.php:73
+msgid ""
+"Modify/re-create/get-rid-of the MenuGenerator class in <em>main/library/</"
+"em> so as to fit your application."
+msgstr ""
+
+#: main/modules/docs/index.act.php:76
+msgid ""
+"Comment out the table-creation script include in the <em>config/"
+"harmoni_config.inc.php</em> after it has run."
+msgstr ""
+
+#: main/modules/docs/index.act.php:79
+msgid "Other considerations:"
+msgstr ""
+
+#: main/modules/docs/index.act.php:82
+msgid ""
+"Start and use high-level services such as Hierarchy or DigitalRepository."
+msgstr ""
+
+#: main/modules/docs/index.act.php:85
+msgid "Changing the settings of the Theme/creating new themes."
+msgstr ""
+
+#: main/modules/docs/index.act.php:88
+msgid "Internationalization."
+msgstr ""
+
+#: main/modules/docs/index.act.php:91
+msgid "Configuration of external Authentication systems such as LDAP."
+msgstr ""
+
+#: main/modules/window/screen.act.php:7 main/modules/window/screen.act.php:79
+msgid "Example Application"
+msgstr "Programa de Ejemplo"
+
+#: main/modules/example/home.act.php:17
+msgid "Welcome to Example Application"
+msgstr "Bienvenido a la Programa de Ejemplo."
+
+#: main/modules/example/home.act.php:24
+msgid ""
+"This <strong>Example Application</strong> is a template application that "
+msgstr ""
+
+#: main/modules/example/home.act.php:25
+msgid ");"
+msgstr ""
+
+#: main/modules/example/home.act.php:26
+msgid ""
+"</p>\n"
+"<p>"
+msgstr ""
+
+#: main/modules/example/home.act.php:27
+msgid "You can either get this example skeleton as a package or from CVS."
+msgstr ""
+
+#: main/modules/example/home.act.php:24
+msgid ""
+"This <strong>Example Application</strong> is a template application that is "
+"designed to serve as a starting point for Harmoni-based applications."
+msgstr ""
+
+#: main/modules/example/home.act.php:26
+msgid ""
+"You can either get this example skeleton as a package or from CVS. Packaged "
+"releases will include versions of Harmoni, Polyphony, and the Harmoni Manual/"
+"PHPDoc that are current as of the package release. If you check out this "
+"applicate from CVS you will also need to check out the Harmoni and Polyphony "
+"packages as well and set your config to point to their locations."
+msgstr ""
+
+#: main/modules/example/no_theme.act.php:5
+msgid "This action isn't using themes."
+msgstr "Este acción no usa temas."
+
+#: main/modules/example/no_theme.act.php:7
+msgid "Click here to go Home."
+msgstr "Hacé clic aquí para volver a Casa."

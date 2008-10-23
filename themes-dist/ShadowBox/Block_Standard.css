@@ -1,0 +1,53 @@
+/*********************************************************
+ * Block - Standard
+ *********************************************************/
+
+.Block_Standard {
+    border-top: 1px solid [[STANDARD_BORDER_TOP]];
+    border-bottom: 1px solid [[STANDARD_BORDER_BOTTOM]];
+    border-left: 0px none [[STANDARD_BORDER_LEFT]];
+    border-right: 0px none [[STANDARD_BORDER_RIGHT]];
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+*.Block_Standard .box01 {
+    border-top: 1px solid [[STANDARD_BORDER_TOP01]];
+    border-bottom: 1px solid [[STANDARD_BORDER_BOTTOM01]];
+    border-left: 1px solid [[STANDARD_BORDER_LEFT01]];
+    border-right: 1px solid [[STANDARD_BORDER_RIGHT01]];
+    padding-left: 1px;
+    padding-right: 1px;    
+}
+
+
+*.Block_Standard .box02 {
+    border-top: 1px solid [[STANDARD_BORDER_TOP02]];
+    border-bottom: 1px solid [[STANDARD_BORDER_BOTTOM02]];
+    border-left: 1px solid [[STANDARD_BORDER_LEFT02]];
+    border-right: 1px solid [[STANDARD_BORDER_RIGHT02]];
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.Block_Standard .Content {
+    padding: 10px;
+    height: 1%;
+    text-align: left;
+    font-size: 100%;    
+}
+
+/*********************************************************
+ * Block - Standard - No Borders
+ *********************************************************/
+
+.Block_Standard_No_Borders .Content {
+    height: 1%;
+    text-align: left;
+    font-size: 100%; 
+    margin-bottom: 10px;
+}

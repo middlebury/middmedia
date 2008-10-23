@@ -1,0 +1,64 @@
+/*********************************************************
+ * MenuHeading 1
+ *********************************************************/
+
+.MenuItem_Heading {
+    padding: 1px;
+    border: 0px;
+}
+.MenuItem_Heading .Content {
+    background-color: [[FG_COLOR]];
+    color: #000;
+    padding: 1px;
+    text-align: left;
+    margin: 0px;
+}
+
+.MenuItem_Heading .BorderTL {
+    background: url('./images/[[IMAGE_DIR]]/corner_TL.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+.MenuItem_Heading .Top {
+    border-top: 1px solid [[BORDER_COLOR]];
+    background-color: [[FG_COLOR]];
+}
+
+.MenuItem_Heading .BorderTR {
+    background: url('./images/[[IMAGE_DIR]]/corner_TR.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+.MenuItem_Heading .Right {
+    background-color: [[FG_COLOR]];
+    border-right: 1px solid [[BORDER_COLOR]];
+
+}
+
+.MenuItem_Heading .Left {
+    background-color: [[FG_COLOR]];
+    border-left: 1px solid [[BORDER_COLOR]];
+}
+
+.MenuItem_Heading .BorderBL {
+    background: url('./images/[[IMAGE_DIR]]/corner_BL.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 5px;
+    height: 5px;
+}
+
+.MenuItem_Heading .Bottom {
+    border-bottom: 1px solid [[BORDER_COLOR]];
+    background-color: [[FG_COLOR]];
+}
+
+.MenuItem_Heading .BorderBR {
+    background: url('./images/[[IMAGE_DIR]]/corner_BR.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 5px;
+    height: 5px;
+}

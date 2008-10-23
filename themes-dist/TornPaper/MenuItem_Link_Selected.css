@@ -1,0 +1,55 @@
+/*********************************************************
+ * Menu 1 Selected
+ *********************************************************/
+
+*.MenuItem_Link_Selected  {
+    background-color: [[MENU_BG_COLOR]];
+    border-top: 1px solid [[MENU_BORDER_TOP]];
+    border-bottom: 1px solid [[MENU_BORDER_BOTTOM]];
+    border-left: 1px solid [[MENU_BORDER_LEFT]];
+    border-right: 1px solid [[MENU_BORDER_RIGHT]];
+    padding-left:  0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 1px;
+    margin-bottom: 4px;
+
+}
+
+*.MenuItem_Link_Selected .box01 {
+    background-color: [[MENU_BG_COLOR]];
+    border-top: 1px solid [[MENU_BORDER_TOP01]];
+    border-bottom: 1px none [[MENU_BORDER_BOTTOM01]];
+    border-left: 1px none [[MENU_BORDER_LEFT01]];
+    border-right: 1px none [[MENU_BORDER_RIGHT01]];
+    padding-left: 0px;
+    padding-right: 0px;    
+
+}
+
+*.MenuItem_Link_Selected .box02 {        
+    border-top: 1px solid [[MENU_BORDER_TOP02]];
+    border-bottom: 1px solid [[MENU_BORDER_BOTTOM02]];
+    border-left: 1px solid [[MENU_BORDER_LEFT02]];
+    border-right: 1px solid [[MENU_BORDER_RIGHT02]];
+    padding-left: 0px;
+}
+
+*.MenuItem_Link_Selected .box03 {
+    border-top: 1px none [[MENU_BORDER_TOP]];
+    border-bottom: 1px none [[MENU_BORDER_BOTTOM]];
+    border-left: 1px none [[MENU_BORDER_LEFT]];
+    border-right: 1px none [[MENU_BORDER_RIGHT]];
+}
+
+*.MenuItem_Link_Selected .Content {
+    background-color: [[MENU_BG_COLOR]];
+    text-align: left;
+    font-size: 100%;
+    padding: 0px;
+}
+
+*.MenuItem_Link_Selected a {
+  text-decoration: none;   
+}

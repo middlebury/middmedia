@@ -1,0 +1,49 @@
+/*********************************************************
+ * Menu 1 Unselected
+ *********************************************************/
+
+.MenuItem_Link_Unselected {
+    border: 1px none [[BACKGROUND_BORDER]];
+    margin: 2px;
+}
+
+*.MenuItem_Link_Unselected .box01 {
+    border: 1px solid [[BACKGROUND_BORDER01]];
+    margin: 0px;   
+}
+
+
+*.MenuItem_Link_Unselected .box02 {
+    border: 1px none [[BACKGROUND_BORDER02]];
+    margin: 0px;
+}
+
+*.MenuItem_Link_Unselected .Content {
+    border: 1px solid [[FG_COLOR]];
+    background-color: [[MENU_BG_COLOR]];
+    padding: 0px;
+    text-align: left;    
+    font-size: 100%;
+}
+
+
+*.MenuItem_Link_Unselected a {
+    display: block;
+    color: [[MENU_UNSELECTED_COLOR]];
+    text-decoration: none;
+}
+
+*.MenuItem_Link_Unselected a:hover {
+    display: block;
+    color: [[LINK_COLOR]];
+    text-decoration: none;
+}
+
+
+*.MenuItem_Link_Unselected .Content:hover {
+    display: block;
+    border: 1px solid [[LINK_COLOR]];
+    background-color: [[FG_COLOR]];   
+    color: [[LINK_COLOR]];
+}
+    

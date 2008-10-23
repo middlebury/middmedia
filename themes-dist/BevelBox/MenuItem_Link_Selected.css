@@ -1,0 +1,29 @@
+/*********************************************************
+ * Menu 1 Selected
+ *********************************************************/
+
+.MenuItem_Link_Selected {
+    border: 1px solid [[BACKGROUND_BORDER]];
+    margin: 0px;
+}
+
+*.MenuItem_Link_Selected .box01 {
+    border: 1px solid [[BACKGROUND_BORDER01]];
+    margin: 0px;   
+}
+
+
+*.MenuItem_Link_Selected .box02 {
+    border: 1px none [[BACKGROUND_BORDER02]];
+    margin: 0px;
+}
+
+*.MenuItem_Link_Selected .Content {
+    text-align: left;
+    font-size: 100%;
+    padding: 0px;
+}
+
+*.MenuItem_Link_Selected a {
+  text-decoration: none;   
+}

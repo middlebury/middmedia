@@ -1,0 +1,15 @@
+/*********************************************************
+ * Heading - Biggest
+ *********************************************************/
+
+.Heading_1 {       
+    padding-left: 10px;
+    margin: 5px;    
+    text-align: left;
+    font-weight: bold; 
+    font-size: 125%;
+}
+
+*.Heading_1 a {
+    text-decoration: none;    
+}

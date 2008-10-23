@@ -1,0 +1,83 @@
+/*********************************************************
+ * Heading 2 - Big
+ *********************************************************/
+
+.Heading_2 {
+    padding: 1px;
+    border: 0px;
+    margin-right: 2px;
+    margin-left: 2px;
+}
+.Heading_2 .Content {
+    background-color: [[HEADER_BG_COLOR]];
+    padding: 2px;
+    padding-left: 5px;
+    text-align: left;
+    font-size: 125%;
+    margin: 0px;
+    margin-top: -3px;
+    margin-bottom: -3px;
+}
+
+.Heading_2 a {
+    color: [[MENU_LINK_COLOR]];
+}
+
+.Heading_2 .BorderTL {
+    background: url('./images/[[IMAGE_DIR]]/header_TL.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 6px;
+    height: 6px;
+}
+
+.Heading_2 .Top {
+    border-top: 1px solid [[BORDER_COLOR]];
+    background-color: [[HEADER_BG_COLOR]];
+}
+
+.Heading_2 .BorderTR {
+    background: url('./images/[[IMAGE_DIR]]/header_TR.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 6px;
+    height: 6px;
+}
+
+
+.Heading_2 .Right {
+    background-color: [[HEADER_BG_COLOR]];
+    border-right: 1px solid [[BORDER_COLOR]];
+    width: 5px;
+
+}
+
+.Heading_2 .Left {
+    background-color: [[HEADER_BG_COLOR]];
+    border-left: 1px solid [[BORDER_COLOR]];
+    width: 5px;
+}
+
+
+.Heading_2 .BorderBL {
+    background: url('./images/[[IMAGE_DIR]]/header_BL.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 6px;
+    height: 6px;
+}
+
+.Heading_2 .Bottom {
+    border-bottom: 1px solid [[BORDER_COLOR]];
+    background-color: [[HEADER_BG_COLOR]];
+}
+
+.Heading_2 .BorderBR {
+    background: url('./images/[[IMAGE_DIR]]/header_BR.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 6px;
+    height: 6px;
+}
+
+.corner {
+    width: 6px;
+    height: 6px;
+    border: 0px solid gray;
+}

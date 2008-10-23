@@ -1,0 +1,12 @@
+/*********************************************************
+ * Header 1
+ *********************************************************/
+
+*.Header {
+    border-bottom: 1px [[BORDER_STYLE]] [[BORDER_COLOR]];
+    margin-bottom: 2px;
+    padding: 5px;
+    text-align: left;
+    height: 1%;
+
+}

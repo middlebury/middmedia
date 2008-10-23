@@ -1,0 +1,20 @@
+/*********************************************************
+ * Heading - For Sidebar
+ *********************************************************/
+
+*.Heading_Sidebar {
+    padding-left: 10px;
+    padding-top: 4px;
+}
+
+*.Heading_Sidebar .Content {
+    background-color: [[SIDEBAR_BG_COLOR]];
+    padding: 0px;
+    margin-bottom: 5px;
+    text-align: left;
+    font-weight: bold;
+}
+
+*.Heading_Sidebar a {
+    text-decoration: none;    
+}

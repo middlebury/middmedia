@@ -1,0 +1,74 @@
+/*********************************************************
+ * Menu 1 Unselected
+ *********************************************************/
+
+*.MenuItem_Link_Unselected {    
+    border-top: 1px none [[MENU_BORDER_TOP]];
+    border-bottom: 1px none [[MENU_BORDER_BOTTOM]];
+    border-left: 1px none [[MENU_BORDER_LEFT]];
+    border-right: 1px none [[MENU_BORDER_RIGHT]];
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-bottom: 4px;    
+}
+
+*.MenuItem_Link_Unselected .box01 {
+    background-color: [[MENU_UNSELECTED_BG_COLOR]];
+    border-top: 1px none [[MENU_BORDER_TOP01]];
+    border-bottom: 1px none [[MENU_BORDER_BOTTOM01]];
+    border-left: 1px none [[MENU_BORDER_LEFT]];
+    border-right: 1px none [[MENU_BORDER_RIGHT]];
+    padding-left: 0px;
+}
+
+*.MenuItem_Link_Unselected .box02 {
+    border-top: 1px none [[MENU_BORDER_TOP02]];
+    border-bottom: 1px none [[MENU_BORDER_BOTTOM02]];
+    border-left: 1px none [[MENU_BORDER_LEFT02]];
+    border-right: 1px none [[MENU_BORDER_RIGHT02]];
+    padding-left: 0px;
+}
+
+*.MenuItem_Link_Unselected .box03 {
+    border-top: 1px none [[MENU_BORDER_TOP]];
+    border-bottom: 1px none [[MENU_BORDER_BOTTOM]];
+    border-left: 1px none [[MENU_BORDER_LEFT]];
+    border-right: 1px none [[MENU_BORDER_RIGHT]];
+}
+
+*.MenuItem_Link_Unselected .Content {
+    background-color: [[MENU_UNSELECTED_BG_COLOR]];
+    border-top: 1px dotted [[MENU_BORDER_TOP02]];
+    border-bottom: 1px dotted [[MENU_BORDER_BOTTOM02]];
+    border-left: 1px none [[MENU_BORDER_LEFT02]];
+    border-right: 1px none [[MENU_BORDER_RIGHT02]];
+    padding: 0px;
+    color: [[MENU_UNSELECTED_COLOR]];
+    text-align: left;    
+    font-size: 100%;
+}
+
+
+*.MenuItem_Link_Unselected a {
+    display: block;
+    color: [[MENU_UNSELECTED_COLOR]];
+    text-decoration: none;
+}
+
+*.MenuItem_Link_Unselected a:hover {
+    display: block;
+    color: [[LINK_COLOR]];
+    text-decoration: none;
+}
+
+*.MenuItem_Link_Unselected .Content:hover {
+    display: block;
+    border-top: 1px solid [[MENU_BORDER_TOP01]];
+    border-bottom: 1px solid [[MENU_BORDER_BOTTOM01]];
+    background-color: [[MENU_BG_COLOR]];
+    
+
+}
+    
