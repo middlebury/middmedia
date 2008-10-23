@@ -20,7 +20,7 @@ require_once(POLYPHONY."/main/library/AbstractActions/MainWindowAction.class.php
  *
  * @version $Id: welcome.act.php,v 1.7 2008/02/19 17:25:28 adamfranco Exp $
  */
-class welcomeAction 
+class browseAction 
 	extends MainWindowAction
 {
 	/**
@@ -31,7 +31,10 @@ class welcomeAction
 	 * @since 4/26/05
 	 */
 	function isAuthorizedToExecute () {
-		return TRUE;
+		// Ensure that the user is logged in.
+		// Authorization checks will be done on a per-directory basis when printing.
+		$authN = Services::getService("AuthN");
+		return $authN->isUserAuthenticatedWithAnyType();
 	}
 	
 	/**
@@ -42,7 +45,7 @@ class welcomeAction
 	 * @since 4/26/05
 	 */
 	function getHeadingText () {
-		return _("Welcome to MiddTube");
+		return _("Browse Your Videos");
 	}
 	
 	/**
@@ -53,21 +56,12 @@ class welcomeAction
 	 * @since 4/26/05
 	 */
 	function buildContent () {
-		$authN = Services::getService("AuthN");
-		if ($authN->isUserAuthenticatedWithAnyType()) {	
-			$harmoni = Harmoni::instance();
-			RequestContext::sendTo($harmoni->request->quickURL('middtube', 'browse'));
-		}
 		
 		$actionRows = $this->getActionRows();
 		ob_start();
 		
 		print "\n<p>";
-		print _("Welcome to the <strong>MiddTube</strong> video management system.");
-		print "</p>";
-		
-		print "\n<p>";
-		print _("Please log in above to manage your videos.");
+		print _("to do.....");
 		print "</p>";
 		
 		$actionRows->add(
