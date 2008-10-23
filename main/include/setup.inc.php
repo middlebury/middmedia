@@ -23,6 +23,11 @@ if (file_exists(MYDIR.'/config/harmoni.conf.php'))
 else
 	require_once (MYDIR.'/config/harmoni_default.conf.php');
 
+if (file_exists(MYDIR.'/config/action.conf.php'))
+	require_once (MYDIR.'/config/action.conf.php');
+else
+	require_once (MYDIR.'/config/action_default.conf.php');
+ 
 $harmoni->startSession();
 
 
@@ -69,7 +74,8 @@ $configs = array(
 					'database',
 					'id',
 					'logging',
-					'authentication',
+// 					'recaptcha',
+					'authentication_setup',
 					'gui',
 					'language',
 					'help',
@@ -92,3 +98,14 @@ foreach ($configs as $config) {
 	else
 		require_once (MYDIR.'/config/'.$config.'_default.conf.php');
 }
+
+/*********************************************************
+ * Set a list of actions that require request tokens to prevent 
+ * Cross-Site Request Forgery attacks. All actions that 
+ * could potentially change data should require this.
+ *
+ * Actions in this list will not be able to be loaded directly.
+ *********************************************************/
+$harmoni->ActionHandler->addRequestTokenRequiredActions(array(
+		"updates.*"
+	));
