@@ -62,6 +62,11 @@ try {
 					mime_type=\"".$file->getMimeType()."\"
 					size=\"".$file->getSize()."\"
 					modification_date=\"".$file->getModificationDate()->asString()."\"";
+		try {
+			print "\n\t\t\tcreator_name=\"".$file->getCreator()->getDisplayName()."\"";
+		} catch (OperationFailedException $e) {
+		} catch (UnimplementedException $e) {
+		}
 		
 		// As an example, lets include the content of text-files.
 		if ($file->getMimeType() == 'text/plain') {
@@ -92,6 +97,12 @@ try {
 					mime_type=\"".$file->getMimeType()."\"
 					size=\"".$file->getSize()."\"
 					modification_date=\"".$file->getModificationDate()->asString()."\"";
+			
+			try {
+				print "\n\t\t\tcreator_name=\"".$file->getCreator()->getDisplayName()."\"";
+			} catch (OperationFailedException $e) {
+			} catch (UnimplementedException $e) {
+			}
 			
 			// As an example, lets include the content of text-files.
 			if ($file->getMimeType() == 'text/plain') {

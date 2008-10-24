@@ -73,6 +73,20 @@ class MiddTube_File
 		return $this->directory->getRtmpUrl().'/'.$this->getBaseName();
 	}
 	
+	/**
+	 * Answer the Agent that created this file.
+	 *
+	 * This method throws the following exceptions:
+	 *		OperationFailedException 	- If no creator is listed or can be returned.
+	 *		UnimplementedException 		- If this method is not available yet.
+	 * 
+	 * @return object Agent
+	 * @access public
+	 * @since 10/24/08
+	 */
+	public function getCreator () {
+		throw new UnimplementedException();
+	}
 }
 
 ?>
