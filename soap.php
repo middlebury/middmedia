@@ -61,8 +61,16 @@ try {
 					rtmp_url=\"".$file->getRtmpUrl()."\"
 					mime_type=\"".$file->getMimeType()."\"
 					size=\"".$file->getSize()."\"
-					modification_date=\"".$file->getModificationDate()->asString()."\"
-					/>";
+					modification_date=\"".$file->getModificationDate()->asString()."\"";
+		
+		// As an example, lets include the content of text-files.
+		if ($file->getMimeType() == 'text/plain') {
+			print "><![CDATA[";
+			print $file->getContents();
+			print "]]></file>";
+		} else {
+			print "/>";
+		}
 	}
 	
 	print "\n\t</directory>";
@@ -83,8 +91,16 @@ try {
 					rtmp_url=\"".$file->getRtmpUrl()."\"
 					mime_type=\"".$file->getMimeType()."\"
 					size=\"".$file->getSize()."\"
-					modification_date=\"".$file->getModificationDate()->asString()."\"
-					/>";
+					modification_date=\"".$file->getModificationDate()->asString()."\"";
+			
+			// As an example, lets include the content of text-files.
+			if ($file->getMimeType() == 'text/plain') {
+				print "><![CDATA[";
+				print $file->getContents();
+				print "]]></file>";
+			} else {
+				print "/>";
+			}
 		}
 		
 		print "\n\t</directory>";
