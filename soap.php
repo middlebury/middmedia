@@ -49,8 +49,7 @@ try {
 	$dir = $manager->getPersonalDirectory();
 	print "\n\t<directory 
 				name=\"".$dir->getBaseName()."\"
-				http_path=\"".$dir->getHTTPPath()."\"
-				rtmp_path=\"".$dir->getRTMPPath()."\"
+				rtmp_url=\"".$dir->getRtmpUrl()."\"
 				bytes_used=\"".$dir->getBytesUsed()."\"
 				bytes_available=\"".$dir->getBytesAvailable()."\"
 				type=\"personal\">";
@@ -58,8 +57,8 @@ try {
 	foreach ($dir->getFiles() as $file) {
 		 print "\n\t\t<file
 					name=\"".$file->getBaseName()."\"
-					http_path=\"".$file->getHTTPPath()."\"
-					rtmp_path=\"".$file->getRTMPPath()."\"
+					http_url=\"".$file->getHttpUrl()."\"
+					rtmp_url=\"".$file->getRtmpUrl()."\"
 					mime_type=\"".$file->getMimeType()."\"
 					size=\"".$file->getSize()."\"
 					modification_date=\"".$file->getModificationDate()->asString()."\"
@@ -72,8 +71,7 @@ try {
 	foreach ($manager->getSharedDirectories() as $dir) {
 		print "\n\t<directory 
 				name=\"".$dir->getBaseName()."\"
-				http_path=\"".$dir->getHTTPPath()."\"
-				rtmp_path=\"".$dir->getRTMPPath()."\"
+				rtmp_url=\"".$dir->getRtmpUrl()."\"
 				bytes_used=\"".$dir->getBytesUsed()."\"
 				bytes_available=\"".$dir->getBytesAvailable()."\"
 				type=\"shared\">";
@@ -81,8 +79,8 @@ try {
 		foreach ($dir->getFiles() as $file) {
 			 print "\n\t\t<file
 					name=\"".$file->getBaseName()."\"
-					http_path=\"".$file->getHTTPPath()."\"
-					rtmp_path=\"".$file->getRTMPPath()."\"
+					http_url=\"".$file->getHttpUrl()."\"
+					rtmp_url=\"".$file->getRtmpUrl()."\"
 					mime_type=\"".$file->getMimeType()."\"
 					size=\"".$file->getSize()."\"
 					modification_date=\"".$file->getModificationDate()->asString()."\"

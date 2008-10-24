@@ -73,7 +73,7 @@ class MiddTube_Directory {
 	 * @access public
 	 * @since 10/24/08
 	 */
-	public function getFSPath () {
+	public function getFsPath () {
 		return MIDDTUBE_FS_BASE_DIR.'/'.$this->name;
 	}
 	
@@ -84,8 +84,8 @@ class MiddTube_Directory {
 	 * @access public
 	 * @since 10/24/08
 	 */
-	public function getHTTPPath () {
-		return MIDDTUBE_HTTP_BASE_PATH.'/'.$this->name;
+	public function getHttpUrl () {
+		return MIDDTUBE_HTTP_BASE_URL.'/'.$this->name;
 	}
 	
 	/**
@@ -95,8 +95,8 @@ class MiddTube_Directory {
 	 * @access public
 	 * @since 10/24/08
 	 */
-	public function getRTMPPath () {
-		return MIDDTUBE_RTMP_BASE_PATH.'/'.$this->name;
+	public function getRtmpUrl () {
+		return MIDDTUBE_RTMP_BASE_URL.'/'.$this->name;
 	}
 	
 	/**
@@ -108,7 +108,7 @@ class MiddTube_Directory {
 	 */
 	public function getFiles () {
 		$files = array();
-		foreach (scandir($this->getFSPath()) as $fname) {
+		foreach (scandir($this->getFsPath()) as $fname) {
 			if ($fname != '.' && $fname != '..')
 				$files[] = new MiddTube_File($this, $fname);
 		}
@@ -166,7 +166,7 @@ class MiddTube_Directory {
 	 * @since 10/24/08
 	 */
 	public function addFile (Harmoni_Filing_FileInterface $file) {
-		if (file_exists($this->getFSPATH().'/'.$file->getBaseName()))
+		if (file_exists($this->getFsPath().'/'.$file->getBaseName()))
 			throw new OperationFailedException("File already exists.");
 		
 		$newFile = new MiddTube_File($this, $file->getBaseName());

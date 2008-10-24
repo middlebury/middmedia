@@ -47,7 +47,7 @@ class MiddTube_File
 	 * @access public
 	 * @since 10/24/08
 	 */
-	public function getFSPath () {
+	public function getFsPath () {
 		return $this->getPath();
 	}
 	
@@ -58,8 +58,8 @@ class MiddTube_File
 	 * @access public
 	 * @since 10/24/08
 	 */
-	public function getHTTPPath () {
-		return $this->directory->getHTTPPath().'/'.$this->getBaseName();
+	public function getHttpUrl () {
+		return $this->directory->getHttpUrl().'/'.$this->getBaseName();
 	}
 	
 	/**
@@ -69,8 +69,8 @@ class MiddTube_File
 	 * @access public
 	 * @since 10/24/08
 	 */
-	public function getRTMPPath () {
-		return $this->directory->getRTMPPath().'/'.$this->getBaseName();
+	public function getRtmpUrl () {
+		return $this->directory->getRtmpUrl().'/'.$this->getBaseName();
 	}
 	
 }
