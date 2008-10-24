@@ -89,7 +89,8 @@ $configs = array(
 					'datamanager',
 					'repository',
 					'post_config_setup',
-					'viewer'
+					'viewer',
+					'middtube'
 				);
 
 foreach ($configs as $config) {
