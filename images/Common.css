@@ -1,4 +1,51 @@
 /*********************************************************
+ * MiddTube Styles
+ *********************************************************/
+table.file_listing_table {
+	width: 100%;
+	border: 1px solid #777;
+}
+
+table.file_listing_table th {
+	border: 1px solid #777;
+	white-space: nowrap;
+}
+
+table.file_listing_table td {
+	border: 1px solid #777;
+	white-space: nowrap;
+}
+
+.quota_bar {
+	position: relative;
+	width: 100%;
+	border: 1px solid #777;
+	height: 15px;
+	margin-bottom: 10px;
+}
+.quota_bar .used {
+	float: left;
+	background-color: #F99;
+	height: 15px;
+}
+.quota_bar .free {
+	float: right;
+	text-align: right;
+	background-color: #9F9;
+	height: 15px;
+}
+.quota_bar .used_label {
+	position: absolute;
+	left: 2px;
+	top: 2px;
+}
+.quota_bar .free_label {
+	position: absolute;
+	right: 2px;
+	top: 2px;
+}
+
+/*********************************************************
  * Help
  *********************************************************/
 	.help_text {

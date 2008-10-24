@@ -106,6 +106,27 @@ class MiddTubeManager {
 		throw new OperationFailedException("Could not authenticate with the credentials given.");
 	}
 	
+	/**
+	 * Create a new manager for the currently authenticated user.
+	 *
+	 * This method throws the following exceptions:
+	 *		OperationFailedException 	- If there is no user authenticated.
+	 *		PermissionDeniedException 	- If the user is unauthorized to manage media.
+	 * 
+	 * @return object MiddTubeManager
+	 * @access public
+	 * @since 10/24/08
+	 */
+	public static function forCurrentUser () {
+		$authN = Services::getService('AuthN');
+		$agentMgr = Services::getService('Agent');
+		
+		if (!$authN->isUserAuthenticatedWithAnyType())
+			throw new OperationFailedException("No user authenticated");
+		
+		return new MiddTubeManager($agentMgr->getAgent($authN->getFirstUserId()));
+	}
+	
 	/*********************************************************
 	 * Management methods
 	 *********************************************************/
