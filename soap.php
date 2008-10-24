@@ -51,6 +51,8 @@ try {
 				name=\"".$dir->getBaseName()."\"
 				http_path=\"".$dir->getHTTPPath()."\"
 				rtmp_path=\"".$dir->getRTMPPath()."\"
+				bytes_used=\"".$dir->getBytesUsed()."\"
+				bytes_available=\"".$dir->getBytesAvailable()."\"
 				type=\"personal\">";
 	
 	foreach ($dir->getFiles() as $file) {
@@ -72,6 +74,8 @@ try {
 				name=\"".$dir->getBaseName()."\"
 				http_path=\"".$dir->getHTTPPath()."\"
 				rtmp_path=\"".$dir->getRTMPPath()."\"
+				bytes_used=\"".$dir->getBytesUsed()."\"
+				bytes_available=\"".$dir->getBytesAvailable()."\"
 				type=\"shared\">";
 		
 		foreach ($dir->getFiles() as $file) {

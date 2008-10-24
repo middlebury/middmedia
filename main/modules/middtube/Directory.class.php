@@ -116,6 +116,43 @@ class MiddTube_Directory {
 	}
 	
 	/**
+	 * Answer the number of bytes used.
+	 * 
+	 * @return int
+	 * @access public
+	 * @since 10/24/08
+	 */
+	public function getBytesUsed () {
+		$used = 0;
+		foreach ($this->getFiles() as $file)
+			$used = $used + $file->getSize();
+		return $used;
+	}
+	
+	/**
+	 * Answer the number of bytes availible before a quota is reached.
+	 * 
+	 * @return int
+	 * @access public
+	 * @since 10/24/08
+	 */
+	public function getBytesAvailable () {
+		return $this->getQuota() - $this->getBytesUsed();
+	}
+	
+	/**
+	 * Answer the quota size in bytes
+	 * 
+	 * @return int
+	 * @access public
+	 * @since 10/24/08
+	 */
+	public function getQuota () {
+		// @todo Implement per-directory quotas.
+		return 500 * 1024 * 1024;
+	}
+	
+	/**
 	 * Add a file to this directory
 	 * 
 	 * This method throws the following exceptions:
