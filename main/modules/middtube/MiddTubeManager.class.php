@@ -128,6 +128,31 @@ class MiddTubeManager {
 	}
 	
 	/*********************************************************
+	 * Configuration Methods
+	 *********************************************************/
+	/**
+	 * Add a new group id string that is authorized to have personal directories.
+	 *
+	 * ex: MiddTubeManager::addPersonalDirectoryGroup('CN=All Faculty,OU=General,OU=Groups,DC=middlebury,DC=edu');
+	 * 
+	 * @param string $groupIdString
+	 * @return void
+	 * @access public
+	 * @since 11/13/08
+	 * @static
+	 */
+	public function addPersonalDirectoryGroup ($groupIdString) {
+		self::$personalDirectoryGroups[] = new HarmoniId($groupIdString);
+	}
+	
+	/**
+	 * @var array $personalDirectoryGroups;  
+	 * @access private
+	 * @since 11/13/08
+	 */
+	private static $personalDirectoryGroups = array();
+	
+	/*********************************************************
 	 * Management methods
 	 *********************************************************/
 	
@@ -142,10 +167,10 @@ class MiddTubeManager {
 	 * @since 10/24/08
 	 */
 	public function getPersonalDirectory () {
-		// @todo look at the test user, check authorizations, and return (creating if needed)
-		// a directory based on their email address
-		// For starters, we'll just use a static directory
-		return new MiddTube_Directory('testuser');
+		if (!$this->hasPersonal())
+			throw new PermissionDeniedException("You are not authorized to have a personal directory.");
+		
+		return MiddTube_Directory::getAlways($this->getPersonalShortname());
 	}
 	
 	/**
@@ -156,12 +181,39 @@ class MiddTubeManager {
 	 * @since 10/24/08
 	 */
 	public function getSharedDirectories () {
-		// @todo look at the test user, check authorizations, and return the shared directories
-		// the user is authorized to upload to.
-		// For starters, we'll just use some static directories for testing
-		return array (
-			new MiddTube_Directory('testgroup-a'),
-			new MiddTube_Directory('testgroup-b'));
+		// Go through all groups the agent is a member of and add those for whom
+		// directories exist.
+		$sharedDirs = array();
+		$agentManager = Services::getService("Agent");
+		$ancestorSearchType = new HarmoniType("Agent & Group Search",
+													"edu.middlebury.harmoni","AncestorGroups");
+		$containingGroups = $agentManager->getGroupsBySearch(
+								$this->_agent->getId(), $ancestorSearchType);
+		
+		while ($containingGroups->hasNext()) {
+			$group = $containingGroups->next();
+			try {
+				$propertiesIterator = $group->getProperties();
+				$dirname = null;
+				while (!$dirname && $propertiesIterator->hasNext()) {
+					$properties = $propertiesIterator->next();
+					try {
+						$dirname = $properties->getProperty(MIDDTUBE_GROUP_DIRNAME_PROPERTY);
+					} catch(UnknownIdException $e) {
+					}
+				}
+				if ($dirname) {
+					try {
+						$sharedDirs[] = MiddTube_Directory::getIfExists($dirname);
+					} catch(UnknownIdException $e) {
+					}
+				}
+			} catch (OperationFailedException $e) {
+// 				printpre($e->getMessage());
+			}
+		}
+		
+		return $sharedDirs;
 	}
 	
 	/*********************************************************
@@ -187,6 +239,62 @@ class MiddTubeManager {
 	 * @since 10/24/08
 	 */
 	private $agent;
+	
+	/**
+	 * Answer true if the user has access to a personal directory
+	 * 
+	 * @return boolean
+	 * @access private
+	 * @since 8/23/07
+	 */
+	private function hasPersonal () {
+		$authN = Services::getService("AuthN");
+		$idManager = Services::getService("Id");
+		$agentManager = Services::getService("Agent");
+		
+		$userId = $authN->getFirstUserId();
+		
+		if (!$userId->isEqual($idManager->getId("edu.middlebury.agents.anonymous"))) {
+			// Match the groups the user is in against our configuration of
+			// groups whose members should have personal sites.
+			$ancestorSearchType = new HarmoniType("Agent & Group Search",
+													"edu.middlebury.harmoni","AncestorGroups");
+			$containingGroups = $agentManager->getGroupsBySearch(
+							$userId, $ancestorSearchType);
+			
+			while ($containingGroups->hasNext()) {
+				$group = $containingGroups->next();
+				foreach (self::$personalDirectoryGroups as $validGroupId) {
+					if ($validGroupId->isEqual($group->getId())) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Answer the user-shortname for an agentId
+	 * 
+	 * @param object Id $agentId
+	 * @return string
+	 * @access private
+	 * @since 8/22/07
+	 */
+	private function getPersonalShortname () {
+		$properties = $this->_agent->getProperties();		
+		$email = null;
+		while ($properties->hasNext() && !$email) {
+			$email = $properties->next()->getProperty("email");
+		}
+		
+		if (!$email)
+			throw new OperationFailedException("No email found for agentId, '$agentId'.");
+		
+		return substr($email, 0, strpos($email, '@'));
+	}
 	
 }
 

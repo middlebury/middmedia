@@ -23,6 +23,46 @@ require_once(dirname(__FILE__).'/File.class.php');
  * @version $Id$
  */
 class MiddTube_Directory {
+
+	/**
+	 * Answer the directory if it exists. Throw an UnknownIdException if it doesn't.
+	 * 
+	 * @param string $name
+	 * @return ovject MiddTube_Directory
+	 * @access public
+	 * @since 11/13/08
+	 * @static
+	 */
+	public static function getIfExists ($name) {
+		$dir = new MiddTube_Directory($name);
+		
+		if (!file_exists($dir->getFSPath())) {
+			throw new UnknownIdException("Directory does not exist");
+		}
+		
+		return $dir;
+	}
+
+	/**
+	 * Answer the directory, creating if needed.
+	 * 
+	 * @param string $name
+	 * @return ovject MiddTube_Directory
+	 * @access public
+	 * @since 11/13/08
+	 * @static
+	 */
+	public static function getAlways ($name) {
+		$dir = new MiddTube_Directory($name);
+		
+		if (!file_exists($dir->getFSPath())) {
+			if (!is_writable(MIDDTUBE_FS_BASE_DIR))
+				throw new ConfigurationErrorException("MIDDTUBE_FS_BASE_DIR is not writable.");
+			mkdir($dir->getFSPath());
+		}
+		
+		return $dir;
+	}
 		
 	/**
 	 * Constructor
@@ -32,8 +72,8 @@ class MiddTube_Directory {
 	 * @access public
 	 * @since 10/24/08
 	 */
-	public function __construct ($name) {
-		ArgumentValidator::validate($name, RegexValidatorRule::getRule('^[a-zA-Z0-9_-]+$'));
+	private function __construct ($name) {
+		ArgumentValidator::validate($name, RegexValidatorRule::getRule('^[a-zA-Z0-9_&-]+$'));
 		
 		if (!file_exists(MIDDTUBE_FS_BASE_DIR))
 			throw new ConfigurationErrorException("MIDDTUBE_FS_BASE_DIR does not exist.");
@@ -45,14 +85,6 @@ class MiddTube_Directory {
 			throw new ConfigurationErrorException("MIDDTUBE_FS_BASE_DIR is not listable.");
 		
 		$this->name = $name;
-		
-		// @todo check Authorization
-		
-		if (!file_exists($this->getFSPath())) {
-			if (!is_writable(MIDDTUBE_FS_BASE_DIR))
-				throw new ConfigurationErrorException("MIDDTUBE_FS_BASE_DIR is not writable.");
-			mkdir($this->getFSPath());
-		}
 	}
 	
 	/**
