@@ -59,7 +59,7 @@ class MiddTube_File
 	 * @since 10/24/08
 	 */
 	public function getHttpUrl () {
-		return $this->directory->getHttpUrl().'/'.$this->getBaseName();
+		return $this->directory->getHttpUrl().'/'.rawurlencode($this->getBaseName());
 	}
 	
 	/**
@@ -70,7 +70,7 @@ class MiddTube_File
 	 * @since 10/24/08
 	 */
 	public function getRtmpUrl () {
-		return $this->directory->getRtmpUrl().'/'.$this->getBaseName();
+		return $this->directory->getRtmpUrl().'/'.rawurlencode($this->getBaseName());
 	}
 	
 	/**
