@@ -216,6 +216,35 @@ class MiddTubeManager {
 		return $sharedDirs;
 	}
 	
+	/**
+	 * Answer a particular directory by name. 
+	 *
+	 * This method throws the following exceptions:
+	 *		PermissionDeniedException 	- If the user is unauthorized to access the directory.
+	 * 
+	 * @param string $name
+	 * @return object MiddTube_Directory
+	 * @access public
+	 * @since 11/13/08
+	 */
+	public function getDirectory ($name) {
+		// see if this is our personal directory
+		try {
+			$dir = $this->getPersonalDirectory();
+			if ($dir->getBaseName() == $name)
+				return $dir;
+		} catch (PermissionDeniedException $e) {
+		}
+		
+		// See if this is one of our group directories
+		foreach ($this->getSharedDirectories() as $dir) {
+			if ($dir->getBaseName() == $name)
+				return $dir;
+		}
+		
+		throw new PermissionDeniedException("You are not authorized to access '$name'.");
+	}
+	
 	/*********************************************************
 	 * Private Methods
 	 *********************************************************/

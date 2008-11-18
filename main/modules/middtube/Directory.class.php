@@ -148,6 +148,32 @@ class MiddTube_Directory {
 	}
 	
 	/**
+	 * Answer a single file by name
+	 * 
+	 * @param string $name
+	 * @return object Middtube_File
+	 * @access public
+	 * @since 11/13/08
+	 */
+	public function getFile ($name) {
+		if (!$this->fileExists($name))
+			throw new UnknownIdException("File '$name' does not exist.");
+		return new MiddTube_File($this, $name);
+	}
+	
+	/**
+	 * Answer true if the filename passed exists in this directory
+	 * 
+	 * @param string $name
+	 * @return boolean
+	 * @access public
+	 * @since 11/13/08
+	 */
+	public function fileExists ($name) {
+		return file_exists($this->getFsPath().'/'.$name);
+	}
+	
+	/**
 	 * Answer the number of bytes used.
 	 * 
 	 * @return int
