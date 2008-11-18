@@ -62,6 +62,7 @@ class browseAction
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload_Samples/handlers.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload_Samples/fileprogress.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload_Samples/swfupload.queue.js'></script> ");
+		$this->addToHead("\n\t\t<link rel='stylesheet' type='text/css' href='".MYPATH."/javascript/SWFUpload_Samples/progress.css'/> ");
 		
 		$manager = MiddTubeManager::forCurrentUser();
 		
