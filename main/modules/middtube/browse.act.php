@@ -58,6 +58,11 @@ class browseAction
 	function buildContent () {
 		$actionRows = $this->getActionRows();
 		
+		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload/swfupload.js'></script> ");
+		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload_Samples/handlers.js'></script> ");
+		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload_Samples/fileprogress.js'></script> ");
+		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload_Samples/swfupload.queue.js'></script> ");
+		
 		$manager = MiddTubeManager::forCurrentUser();
 		
 		// Get the personal directory
@@ -93,6 +98,20 @@ class browseAction
 	}
 	
 	/**
+	 * Add to the document head
+	 * 
+	 * @param string $string
+	 * @return void
+	 * @access protected
+	 * @since 11/13/08
+	 */
+	protected function addToHead ($string) {
+		$harmoni = Harmoni::instance();
+		$outputHandler = $harmoni->getOutputHandler();
+		$outputHandler->setHead($outputHandler->getHead().$string);
+	}
+	
+	/**
 	 * Answer a block of HTML to represent the directory
 	 * 
 	 * @param object MiddTube_Directory $dir
@@ -124,9 +143,56 @@ class browseAction
 		/*********************************************************
 		 * Upload Form
 		 *********************************************************/
-		print "\n<div class='middtube_upload'>";
-		print "\n\t<button onclick=\"alert('Unimplemented');\">Upload New File</button>";
-		print "\n</div>";
+		$harmoni = Harmoni::instance();
+		$this->addToHead(
+			"
+		<script type='text/javascript'>
+		// <![CDATA[
+		
+		window.addOnLoad(function() {
+			var swfu = new SWFUpload({
+					upload_url : '".str_replace('&amp;', '&', $harmoni->request->quickURL('middtube', 'upload', array('directory' => $dir->getBaseName())))."', 
+					flash_url : '".MYPATH."/javascript/SWFUpload/Flash9/swfupload_f9.swf', 
+					post_params: {'".session_name()."' : '".session_id()."'},
+					file_size_limit : '".ByteSize::withValue($this->getFileSizeLimit())->asString()."',
+					file_types : '*.flv;*.mp4;*.mp3',
+					file_types_description : 'Flash Video, H264 Video, and MP3 Audio',
+					file_upload_limit : 100,
+					file_queue_limit : 0,
+					debug: true,
+					custom_settings : {
+						progressTarget : 'uploadProgress-".$dir->getBaseName()."',
+						cancelButtonId : 'cancel-".$dir->getBaseName()."'
+					},
+					
+					// The event handler functions are defined in handlers.js
+					file_queued_handler : fileQueued,
+					file_queue_error_handler : fileQueueError,
+					file_dialog_complete_handler : fileDialogComplete,
+					upload_start_handler : uploadStart,
+					upload_progress_handler : uploadProgress,
+					upload_error_handler : uploadError,
+					upload_success_handler : uploadSuccess,
+					upload_complete_handler : uploadComplete,
+					queue_complete_handler : queueComplete	// Queue plugin event
+					
+				}); 
+			document.get_element_by_id('upload-".$dir->getBaseName()."').onclick = function () {
+				swfu.selectFiles();
+			};
+		});
+		
+		// ]]>
+		</script>"
+		);
+		print "\n<form class='middtube_upload' action='".$harmoni->request->quickURL('middtube', 'upload', array('directory' => $dir->getBaseName()))."' method='post' enctype='multipart/form-data'>";
+		print "\n\t<input type='button' id='upload-".$dir->getBaseName()."' value='Upload Files'/>";
+		print "\n\t<input type='button' id='cancel-".$dir->getBaseName()."' value='Cancel All Uploads' disabled='disabled' />";
+		print "\n</form>";
+		print "\n<fieldset class='progress' id='uploadProgress-".$dir->getBaseName()."'>";
+		print "\n\t<legend>"._("Upload Queue")."</legend>";
+		print "\n</fieldset>";
+		print "\n<div class='status' id='status-".$dir->getBaseName()."'>"._("0 Files Uploaded")."</div>";
 		
 		/*********************************************************
 		 * File Listing
@@ -184,6 +250,21 @@ class browseAction
 		print "\n\t</tbody>";
 		print "\n\t</table>";
 		return ob_get_clean();
+	}
+	
+	/**
+	 * Answer the file size limit
+	 * 
+	 * @return int
+	 * @access protected
+	 * @since 11/13/08
+	 */
+	protected function getFileSizeLimit () {
+		return min(
+					ByteSize::fromString(ini_get('post_max_size'))->value(),
+					ByteSize::fromString(ini_get('upload_max_filesize'))->value(),
+					ByteSize::fromString(ini_get('memory_limit'))->value()
+				);
 	}
 }
 

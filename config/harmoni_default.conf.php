@@ -26,6 +26,10 @@
 	$harmoni->config->set("sessionCookiePath","/");
 	$harmoni->config->set("sessionCookieDomain","");
 	
+	// An array of actions for which the SESSION ID *can* be passed in the url
+	$harmoni->config->set("sessionInUrlActions", array(
+		'middtube.upload'));
+	
 	// tell harmoni to post-process all actions with this specified action.
 	// the action takes the result from previous actions and builds a display
 	// screen from it.
@@ -36,6 +40,7 @@
 									"language.*",
 									"repository.*",
 									"help.*",
+									"middtube.upload",
 									
 									// and our special no-theme action
 									"example.no_theme"

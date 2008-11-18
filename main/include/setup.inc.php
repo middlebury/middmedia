@@ -108,5 +108,7 @@ foreach ($configs as $config) {
  * Actions in this list will not be able to be loaded directly.
  *********************************************************/
 $harmoni->ActionHandler->addRequestTokenRequiredActions(array(
-		"updates.*"
+		"updates.*",
+		"middtube.upload",
+		"middtube.delete"
 	));
