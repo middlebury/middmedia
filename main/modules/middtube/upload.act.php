@@ -38,7 +38,14 @@ class uploadAction
 		// Ensure that the user is logged in.
 		// Authorization checks will be done on a per-directory basis when printing.
 		$authN = Services::getService("AuthN");
-		return $authN->isUserAuthenticatedWithAnyType();
+		if (!$authN->isUserAuthenticatedWithAnyType())
+			return false;
+		try {
+			$dir = $this->getDirectory();
+		} catch (PermissionDeniedException $e) {
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -66,9 +73,7 @@ class uploadAction
 		$MAX_FILENAME_LENGTH = 260;
 		
 		
-		
-		$manager = MiddTubeManager::forCurrentUser();
-		$dir = $manager->getDirectory(RequestContext::value('directory'));
+		$dir = $this->getDirectory();
 		
 		
 		if (!isset($_FILES[$upload_name]))
@@ -130,6 +135,29 @@ class uploadAction
 		}
 		exit;
 	}
+	
+	/**
+	 * Answer the target directory object
+	 * 
+	 * @return object MiddTube_Directory
+	 * @access protected
+	 * @since 11/19/08
+	 */
+	protected function getDirectory () {
+		if (!isset($this->directory)) {
+			$manager = MiddTubeManager::forCurrentUser();
+			$this->directory = $manager->getDirectory(RequestContext::value('directory'));
+		}
+		
+		return $this->directory;
+	}
+	
+	/**
+	 * @var object MiddTube_Directory $directory;  
+	 * @access private
+	 * @since 11/19/08
+	 */
+	private $directory;
 	
 	/**
 	 * Send an error header and string.

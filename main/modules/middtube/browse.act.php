@@ -242,8 +242,12 @@ class browseAction
 			print "</td>";
 			
 			print "\n\t\t\t<td>";
+			print "\n\t\t\t\t<a href='".$harmoni->request->quickURL('middtube', 'delete', 
+				array(	'directory' => $dir->getBaseName(),
+						'file' => $file->getBaseName()))."'>";
 			print _("Delete");
-			print "</td>";
+			print "</a>";
+			print "\n\t\t\t</td>";
 			
 			print "\n\t\t</tr>";
 		}
