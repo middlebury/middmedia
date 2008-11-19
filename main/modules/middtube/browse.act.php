@@ -64,6 +64,8 @@ class browseAction
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload_Samples/swfupload.queue.js'></script> ");
 		$this->addToHead("\n\t\t<link rel='stylesheet' type='text/css' href='".MYPATH."/javascript/SWFUpload_Samples/progress.css'/> ");
 		
+		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/sorttable.js'></script> ");
+		
 		$this->addToHead("
 		<script type='text/javascript'>
 		// <![CDATA[
@@ -96,6 +98,104 @@ class browseAction
 			
 			req.open('GET', url, true);
 			req.send(null);
+		}
+		
+		
+		function middtubeUploadSuccess (file, serverData) {
+			// run the default handler to close up the progress bar
+			uploadSuccess.apply(this, [file, serverData]);
+			
+			// Add a row to the listing.
+			console.log(file);
+			console.log(serverData);
+			
+			var fileDoc = createDocumentFromString(serverData);
+			if (!fileDoc) {
+				alert('Could not load new data. Please refresh the page after files have finished uploading.');
+				return;
+			}
+			
+			var file = fileDoc.getElementsByTagName('file').item(0);
+			
+			var tbody = document.get_element_by_id(this.customSettings.fileListingId);
+			var row = tbody.insertBefore(document.createElement('tr'), tbody.firstChild);
+			
+			var td = row.appendChild(document.createElement('td'));
+			td.innerHTML = file.getAttribute('name');
+			
+			var td = row.appendChild(document.createElement('td'));
+			td.innerHTML = file.getAttribute('mime_type');
+			
+			var td = row.appendChild(document.createElement('td'));
+			var size = new Number(file.getAttribute('size'));
+			td.setAttribute('sorttable_customkey', size);
+			td.innerHTML = size.asByteSizeString();
+			
+			var td = row.appendChild(document.createElement('td'));
+			td.innerHTML = file.getAttribute('modification_date');
+			
+			var td = row.appendChild(document.createElement('td'));
+// 			td.innerHTML = file.getAttribute('creator');
+
+			var td = row.appendChild(document.createElement('td'));
+			
+			var link = td.appendChild(document.createElement('a'));
+			link.innerHTML = 'HTTP (Download)';
+			link.href = file.getAttribute('http_url');
+			td.appendChild(document.createElement('br'));
+			
+			var link = td.appendChild(document.createElement('a'));
+			link.innerHTML = 'RTMP (Streaming)';
+			link.href = file.getAttribute('rtmp_url');
+			td.appendChild(document.createElement('br'));
+			
+			var link = td.appendChild(document.createElement('a'));
+			link.innerHTML = 'Embed Code';
+			link.href = '#';
+			link.onclick = function() {
+				alert('unimplemented');
+			}
+			
+			var td = row.appendChild(document.createElement('td'));
+			
+			var link = td.appendChild(document.createElement('a'));
+			link.innerHTML = 'Delete';
+			link.href = '#';
+			var dirName = file.getAttribute('directory');
+			var fileName = file.getAttribute('name');
+			link.onclick = function () {
+				deleteFile(dirName, fileName, row); 
+				return false;
+			}
+		}
+		
+		/**
+		 * Create a new XML document in a cross-browser way.
+		 * 
+		 * @param string xmlString
+		 * @return Document
+		 * @access public
+		 * @since 11/19/08
+		 */
+		function createDocumentFromString (xmlString) {
+			try { 	//Internet Explorer
+				xmlDoc=new ActiveXObject('Microsoft.XMLDOM');
+			} catch(e) {
+				try {	//Firefox, Mozilla, Opera, etc.
+					parser = new DOMParser();
+					return parser.parseFromString(xmlString,'text/xml');
+				} catch(e) {
+					alert(e.message);
+					return;
+				}
+			}
+			try {
+				xmlDoc.async=false;
+				xmlDoc.loadXML(xmlString);
+				return doc;
+			} catch(e) {
+				alert(e.message);
+			}
 		}
 		
 		// ]]>
@@ -200,7 +300,8 @@ class browseAction
 					debug: true,
 					custom_settings : {
 						progressTarget : 'uploadProgress-".$dir->getBaseName()."',
-						cancelButtonId : 'cancel-".$dir->getBaseName()."'
+						cancelButtonId : 'cancel-".$dir->getBaseName()."',
+						fileListingId : 'listing-".$dir->getBaseName()."'
 					},
 					
 					// The event handler functions are defined in handlers.js
@@ -210,9 +311,9 @@ class browseAction
 					upload_start_handler : uploadStart,
 					upload_progress_handler : uploadProgress,
 					upload_error_handler : uploadError,
-					upload_success_handler : uploadSuccess,
+					upload_success_handler : middtubeUploadSuccess,
 					upload_complete_handler : uploadComplete,
-					queue_complete_handler : queueComplete	// Queue plugin event
+// 					queue_complete_handler : queueComplete	// Queue plugin event
 					
 				}); 
 			document.get_element_by_id('upload-".$dir->getBaseName()."').onclick = function () {
@@ -230,12 +331,12 @@ class browseAction
 		print "\n<fieldset class='progress' id='uploadProgress-".$dir->getBaseName()."'>";
 		print "\n\t<legend>"._("Upload Queue")."</legend>";
 		print "\n</fieldset>";
-		print "\n<div class='status' id='status-".$dir->getBaseName()."'>"._("0 Files Uploaded")."</div>";
+// 		print "\n<div class='status' id='status-".$dir->getBaseName()."'>"._("0 Files Uploaded")."</div>";
 		
 		/*********************************************************
 		 * File Listing
 		 *********************************************************/
-		print "\n<table class='file_listing_table'>";
+		print "\n<table class='file_listing_table sortable'>";
 		print "\n\t<thead>";
 		print "\n\t\t<tr>";
 		print "\n\t\t\t<th>"._("Name")."</th>";
@@ -243,11 +344,11 @@ class browseAction
 		print "\n\t\t\t<th>"._("Size")."</th>";
 		print "\n\t\t\t<th>"._("Date")."</th>";
 		print "\n\t\t\t<th>"._("Creator")."</th>";
-		print "\n\t\t\t<th>"._("Access")."</th>";
-		print "\n\t\t\t<th>"._("Operations")."</th>";
+		print "\n\t\t\t<th class='sorttable_nosort'>"._("Access")."</th>";
+		print "\n\t\t\t<th class='sorttable_nosort'>"._("Operations")."</th>";
 		print "\n\t\t</tr>";
 		print "\n\t</thead>";
-		print "\n\t<tbody>";
+		print "\n\t<tbody id='listing-".$dir->getBaseName()."'>";
 		
 		foreach ($dir->getFiles() as $file) {
 			print "\n\t\t<tr>";
@@ -256,10 +357,10 @@ class browseAction
 			
 			print "\n\t\t\t<td>".$file->getMimeType()."</td>";
 			
-			print "\n\t\t\t<td>";
+			print "\n\t\t\t<td sorttable_customkey='".$file->getSize()."'>";
 			$size = ByteSize::withValue($file->getSize());
-			print $file->getSize();
-			print " (".$size->asString().")";
+// 			print $file->getSize();
+			print $size->asString();
 			print "</td>";
 			
 			print "\n\t\t\t<td>".$file->getModificationDate()->asLocal()->asString()."</td>";

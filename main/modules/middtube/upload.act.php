@@ -94,6 +94,10 @@ class uploadAction
 			$this->error("Invalid file name");
 		}
 		
+		if (!MiddTube_File::nameValid($file_name)) {
+			$this->error("Invalid file name");
+		}
+		
 		// Validate file extension
 		$path_info = pathinfo($_FILES[$upload_name]['name']);
 		$file_extension = $path_info["extension"];
@@ -116,9 +120,34 @@ class uploadAction
 			$this->error("File could not be saved to '".$dir->getBaseName().'/'.$file_name."'.");
 		}
 		
+		$file = $dir->getFile($file_name);
+		
 		// Return output to the browser (only supported by SWFUpload for Flash Player 9)
 		header("HTTP/1.1 200 OK");
-		echo "File Received";
+		print '<'.'?xml version="1.0" encoding="utf-8"?'.'>';
+		print "\n\t\t<file
+				name=\"".$file->getBaseName()."\"
+				directory=\"".$dir->getBaseName()."\"
+				http_url=\"".$file->getHttpUrl()."\"
+				rtmp_url=\"".$file->getRtmpUrl()."\"
+				mime_type=\"".$file->getMimeType()."\"
+				size=\"".$file->getSize()."\"
+				modification_date=\"".$file->getModificationDate()->asLocal()->asString()."\"";
+		
+		try {
+			print "\n\t\t\tcreator_name=\"".$file->getCreator()->getDisplayName()."\"";
+		} catch (OperationFailedException $e) {
+		} catch (UnimplementedException $e) {
+		}
+		
+		// As an example, lets include the content of text-files.
+// 		if ($file->getMimeType() == 'text/plain') {
+// 			print "><![CDATA[";
+// 			print $file->getContents();
+// 			print "]]></file>";
+// 		} else {
+			print "/>";
+// 		}
 		
 		// Log the success
 		if (Services::serviceRunning("Logging")) {
