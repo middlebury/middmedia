@@ -170,6 +170,8 @@ class MiddTube_Directory {
 	 * @since 11/13/08
 	 */
 	public function fileExists ($name) {
+		if (!MiddTube_File::nameValid($name))
+			throw new InvalidArgumentException('Invalid file name '.$name);
 		return file_exists($this->getFsPath().'/'.$name);
 	}
 	
@@ -231,6 +233,39 @@ class MiddTube_Directory {
 		$newFile->putContents($file->getContents());
 		
 		return $newFile;
+	}
+	
+	/**
+	 * Answer true if the file is readable
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 11/19/08
+	 */
+	public function isReadable () {
+		return is_readable($this->getFsPath());
+	}
+	
+	/**
+	 * Answer true if the file is writable
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 11/19/08
+	 */
+	public function isWritable () {
+		return is_writeable($this->getFsPath());
+	}
+	
+	/**
+	 * Answer true if the file is executable
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 11/19/08
+	 */
+	public function isExecutable () {
+		return is_executable($this->getFsPath());
 	}
 }
 

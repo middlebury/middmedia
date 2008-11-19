@@ -27,6 +27,19 @@ class MiddTube_File
 {
 	
 	/**
+	 * Answer true if the file name is valid, false otherwise
+	 * 
+	 * @param string $name
+	 * @return boolean
+	 * @access public
+	 * @since 11/19/08
+	 * @static
+	 */
+	public static function nameValid ($name) {
+		return preg_match('/^[a-z0-9_+=,.?#@%^!~\'"&\[\]{}()<> -]+$/i', $name);
+	}
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @param object MiddTube_Directory $directory
@@ -37,6 +50,9 @@ class MiddTube_File
 	 */
 	public function __construct (MiddTube_Directory $directory, $basename) {
 		$this->directory = $directory;
+		if (!self::nameValid($basename))
+			throw new InvalidArgumentException('Invalid file name '.$basename);
+
 		parent::__construct($directory->getFSPath().'/'.$basename);
 	}
 	
