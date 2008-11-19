@@ -64,6 +64,43 @@ class browseAction
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload_Samples/swfupload.queue.js'></script> ");
 		$this->addToHead("\n\t\t<link rel='stylesheet' type='text/css' href='".MYPATH."/javascript/SWFUpload_Samples/progress.css'/> ");
 		
+		$this->addToHead("
+		<script type='text/javascript'>
+		// <![CDATA[
+		
+		function deleteFile (directory, file, row) {
+			if (!confirm(\"Are you sure you want to delete this file?\\n\\n\" + file))
+				return;
+			var url = Harmoni.quickUrl('middtube', 'delete', {
+				'directory': directory,
+				'file': file
+			});
+			
+			var req = Harmoni.createRequest();
+			if (!req) {
+				alert('Your browser does not support AJAX, please upgrade.');
+				return;
+			}
+			
+			req.onreadystatechange = function () {
+				// only if req shows 'loaded'
+				if (req.readyState == 4) {
+					// only if we get a good load should we continue.
+					if (req.status == 200) {
+						row.style.display = 'none';
+					} else {
+						alert(req.responseText);
+					}
+				}
+			}
+			
+			req.open('GET', url, true);
+			req.send(null);
+		}
+		
+		// ]]>
+		</script> ");
+		
 		$manager = MiddTubeManager::forCurrentUser();
 		
 		// Get the personal directory
@@ -242,9 +279,9 @@ class browseAction
 			print "</td>";
 			
 			print "\n\t\t\t<td>";
-			print "\n\t\t\t\t<a href='".$harmoni->request->quickURL('middtube', 'delete', 
-				array(	'directory' => $dir->getBaseName(),
-						'file' => $file->getBaseName()))."'>";
+			print "\n\t\t\t\t<a href='#' onclick=\"";
+			print "deleteFile('".$dir->getBaseName()."', '".addslashes($file->getBaseName())."', this.parentNode.parentNode); return false;";
+			print "\">";
 			print _("Delete");
 			print "</a>";
 			print "\n\t\t\t</td>";
