@@ -65,6 +65,7 @@ class browseAction
 		$this->addToHead("\n\t\t<link rel='stylesheet' type='text/css' href='".MYPATH."/javascript/SWFUpload_Samples/progress.css'/> ");
 		
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/sorttable.js'></script> ");
+		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/md5.js'></script> ");
 		
 		$this->addToHead("
 		<script type='text/javascript'>
@@ -119,7 +120,7 @@ class browseAction
 			
 			var tbody = document.get_element_by_id(this.customSettings.fileListingId);
 			var row = tbody.insertBefore(document.createElement('tr'), tbody.firstChild);
-			row.id = 'row-' + file.getAttribute('directory') + '/' + file.getAttribute('name');
+			row.id = 'row-' + hex_md5(file.getAttribute('directory') + '/' + file.getAttribute('name'));
 			
 			var td = row.appendChild(document.createElement('td'));
 			var box = td.appendChild(document.createElement('input'));
@@ -202,7 +203,7 @@ class browseAction
 		 * @since 11/20/08
 		 */
 		function deleteChecked (dirName) {
-			var fileList = document.get_element_by_id('listing-' + dirName);
+			var fileList = document.get_element_by_id('listing-' + hex_md5(dirName));
 			
 			var toDelete = [];
 			var inputs = fileList.getElementsByTagName('input');
@@ -219,7 +220,7 @@ class browseAction
 			
 			if (confirm(\"Are you sure you wish to delete the following files?\\n\\n\\t\" + toDelete.join(\"\\n\\t\") + \"\\n\")) {
 				for (var i = 0; i < toDelete.length; i++) {
-					deleteFile(dirName, toDelete[i], document.get_element_by_id('row-' + dirName + '/' + toDelete[i]));
+					deleteFile(dirName, toDelete[i], document.get_element_by_id('row-' + hex_md5(dirName + '/' + toDelete[i])));
 				}
 			}
 		}
@@ -234,7 +235,7 @@ class browseAction
 		 * @since 11/20/08
 		 */
 		function setChecked (dirName, checkAllBox) {
-			var fileList = document.get_element_by_id('listing-' + dirName);
+			var fileList = document.get_element_by_id('listing-' + hex_md5(dirName));
 			var inputs = fileList.getElementsByTagName('input');
 			for (var i = 0; i < inputs.length; i++) {
 				if (inputs[i].name == 'media_files') {
@@ -328,6 +329,7 @@ class browseAction
 		 * Upload Form
 		 *********************************************************/
 		$harmoni = Harmoni::instance();
+		$dirId = md5($dir->getBaseName());
 		$this->addToHead(
 			"
 		<script type='text/javascript'>
@@ -345,9 +347,9 @@ class browseAction
 					file_queue_limit : 0,
 					debug: false,
 					custom_settings : {
-						progressTarget : 'uploadProgress-".$dir->getBaseName()."',
-						cancelButtonId : 'cancel-".$dir->getBaseName()."',
-						fileListingId : 'listing-".$dir->getBaseName()."'
+						progressTarget : 'uploadProgress-".$dirId."',
+						cancelButtonId : 'cancel-".$dirId."',
+						fileListingId : 'listing-".$dirId."'
 					},
 					
 					// The event handler functions are defined in handlers.js
@@ -362,7 +364,7 @@ class browseAction
 // 					queue_complete_handler : queueComplete	// Queue plugin event
 					
 				}); 
-			document.get_element_by_id('upload-".$dir->getBaseName()."').onclick = function () {
+			document.get_element_by_id('upload-".$dirId."').onclick = function () {
 				swfu.selectFiles();
 			};
 		});
@@ -375,13 +377,13 @@ class browseAction
 		print "\n\t<input type='button' onclick=\"deleteChecked('".$dir->getBaseName()."');\" value='Delete Checked Files'/>";
 		print "\n</div>";
 		print "\n<div class='middtube_upload'>";
-		print "\n\t<input type='button' id='upload-".$dir->getBaseName()."' value='Upload Files'/>";
-		print "\n\t<input type='button' id='cancel-".$dir->getBaseName()."' value='Cancel All Uploads' disabled='disabled' />";
+		print "\n\t<input type='button' id='upload-".$dirId."' value='Upload Files'/>";
+		print "\n\t<input type='button' id='cancel-".$dirId."' value='Cancel All Uploads' disabled='disabled' />";
 		print "\n</div>";
-		print "\n<fieldset class='progress' id='uploadProgress-".$dir->getBaseName()."'>";
+		print "\n<fieldset class='progress' id='uploadProgress-".$dirId."'>";
 		print "\n\t<legend>"._("Upload Queue")."</legend>";
 		print "\n</fieldset>";
-// 		print "\n<div class='status' id='status-".$dir->getBaseName()."'>"._("0 Files Uploaded")."</div>";
+// 		print "\n<div class='status' id='status-".$dirId."'>"._("0 Files Uploaded")."</div>";
 		
 		/*********************************************************
 		 * File Listing
@@ -401,10 +403,12 @@ class browseAction
 // 		print "\n\t\t\t<th class='sorttable_nosort'>"._("Operations")."</th>";
 		print "\n\t\t</tr>";
 		print "\n\t</thead>";
-		print "\n\t<tbody id='listing-".$dir->getBaseName()."'>";
+		print "\n\t<tbody id='listing-".$dirId."'>";
 		
 		foreach ($dir->getFiles() as $file) {
-			print "\n\t\t<tr id=\"row-".$dir->getBaseName().'/'.$file->getBaseName()."\">";
+			$fileId = md5($dir->getBaseName().'/'.$file->getBaseName());
+			
+			print "\n\t\t<tr id=\"row-".$fileId."\">";
 			
 			print "\n\t\t\t<td>";
 			print "\n\t\t\t\t<input type='checkbox' name='media_files' value=\"".$file->getBaseName()."\"/>";
@@ -435,14 +439,6 @@ class browseAction
 			print "<br/><a href='".$file->getRtmpUrl()."'>RTMP (Streaming)</a>";
 			print "<br/><a href='#' onclick=\"alert('Unimplemented'); return false;\">Embed Code</a>";
 			print "</td>";
-			
-// 			print "\n\t\t\t<td>";
-// 			print "\n\t\t\t\t<a href='#' onclick=\"";
-// 			print "deleteFile('".$dir->getBaseName()."', '".addslashes($file->getBaseName())."', this.parentNode.parentNode); return false;";
-// 			print "\">";
-// 			print _("Delete");
-// 			print "</a>";
-// 			print "\n\t\t\t</td>";
 			
 			print "\n\t\t</tr>";
 		}
