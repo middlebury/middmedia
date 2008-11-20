@@ -85,12 +85,22 @@ class browseAction
 				return;
 			}
 			
+			var size = 0;
+			for (var i = 0; i < row.childNodes.length; i++) {
+				if (row.childNodes[i].className == 'size') {
+					size = new Number(row.childNodes[i].getAttribute('sorttable_customkey'));
+					size = 0 - size;
+					break;
+				}
+			}
+						
 			req.onreadystatechange = function () {
 				// only if req shows 'loaded'
 				if (req.readyState == 4) {
 					// only if we get a good load should we continue.
 					if (req.status == 200) {
 						row.parentNode.removeChild(row);
+						addToQuota(directory, size);
 					} else {
 						alert(req.responseText);
 					}
@@ -135,9 +145,12 @@ class browseAction
 			td.innerHTML = file.getAttribute('mime_type');
 			
 			var td = row.appendChild(document.createElement('td'));
+			td.className = 'size';
 			var size = new Number(file.getAttribute('size'));
 			td.setAttribute('sorttable_customkey', size);
 			td.innerHTML = size.asByteSizeString();
+			
+			addToQuota(file.getAttribute('directory'), size);
 			
 			var td = row.appendChild(document.createElement('td'));
 			td.innerHTML = file.getAttribute('modification_date');
@@ -244,6 +257,46 @@ class browseAction
 			}
 		}
 		
+		/**
+		 * Add an amount (positive or negative) from the quota display
+		 * 
+		 * @param string dirName
+		 * @param int bytes
+		 * @return void
+		 * @access public
+		 * @since 11/20/08
+		 */
+		function addToQuota (dirName, bytes) {
+			var dirId = hex_md5(dirName);
+			var quotaBar = document.get_element_by_id('quota-' + dirId);
+			var quotaAmmountElem = document.get_element_by_id('quota_ammount-' + dirId);
+			var quotaUsedElem = document.get_element_by_id('quota_ammount_used-' + dirId);
+			
+			var quota = new Number(quotaAmmountElem.innerHTML);
+			var used = new Number(quotaUsedElem.innerHTML);
+			
+			used = Math.max(0, used + bytes);
+			
+			quotaUsedElem.innerHTML = used;
+			
+			
+			var pcUsed = Math.ceil(100 * (used / quota));
+			var pcFree = Math.floor(100 * ((quota - used) / quota));
+			
+			// used bar and label
+			var elem = document.get_element_by_id('quota_used-' + dirId);
+			elem.style.width = pcUsed + '%';
+			var elem = document.get_element_by_id('quota_used_label-' + dirId);
+			elem.innerHTML = used.asByteSizeString();
+			
+			// free bar and label
+			var elem = document.get_element_by_id('quota_free-' + dirId);
+			elem.style.width = pcFree + '%';
+			var elem = document.get_element_by_id('quota_free_label-' + dirId);
+			elem.innerHTML = (quota - used).asByteSizeString();
+			
+		}
+		
 		
 		// ]]>
 		</script> ");
@@ -307,21 +360,25 @@ class browseAction
 	public function getDirectoryMarkup (MiddTube_Directory $dir) {
 		ob_start();
 		
+		$dirId = md5($dir->getBaseName());
+		
 		/*********************************************************
 		 * Quota bar
 		 *********************************************************/
 		
-		print "\n<div class='quota_bar'>";
+		print "\n<div class='quota_bar' id='quota_bar-".$dirId."'>";
+		print "\n\t<div class='quota_ammount' id='quota_ammount-".$dirId."'>".$dir->getQuota()."</div>";
+		print "\n\t<div class='quota_ammount_used' id='quota_ammount_used-".$dirId."'>".$dir->getBytesUsed()."</div>";
 		
 		$percent = ceil(100 * ($dir->getBytesUsed() / $dir->getQuota()));
-		print "\n\t<div class='used' style='width: ".$percent."%;'>&nbsp;</div>";
+		print "\n\t<div class='used' style='width: ".$percent."%;' id='quota_used-".$dirId."'>&nbsp;</div>";
 		$size = ByteSize::withValue($dir->getBytesUsed());
-		print "\n\t<div class='used_label'>"._("Used: ").$size->asString()."</div>";
+		print "\n\t<div class='used_label' id='quota_used_label-".$dirId."'>"._("Used: ").$size->asString()."</div>";
 		
 		$percent = floor(100 * ($dir->getBytesAvailable() / $dir->getQuota()));
-		print "\n\t<div class='free' style='width: ".$percent."%;'>&nbsp;</div>";
+		print "\n\t<div class='free' style='width: ".$percent."%;' id='quota_free-".$dirId."'>&nbsp;</div>";
 		$size = ByteSize::withValue($dir->getBytesAvailable());
-		print "\n\t<div class='free_label'>"._("Free: ").$size->asString()."</div>";
+		print "\n\t<div class='free_label' id='quota_free_label-".$dirId."'>"._("Free: ").$size->asString()."</div>";
 		
 		print "\n</div>";
 		
@@ -329,7 +386,7 @@ class browseAction
 		 * Upload Form
 		 *********************************************************/
 		$harmoni = Harmoni::instance();
-		$dirId = md5($dir->getBaseName());
+		
 		$this->addToHead(
 			"
 		<script type='text/javascript'>
@@ -418,7 +475,7 @@ class browseAction
 			
 			print "\n\t\t\t<td>".$file->getMimeType()."</td>";
 			
-			print "\n\t\t\t<td sorttable_customkey='".$file->getSize()."'>";
+			print "\n\t\t\t<td class='size' sorttable_customkey='".$file->getSize()."'>";
 			$size = ByteSize::withValue($file->getSize());
 // 			print $file->getSize();
 			print $size->asString();

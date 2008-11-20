@@ -45,6 +45,14 @@ table.file_listing_table td {
 	top: 2px;
 }
 
+.quota_bar .quota_ammount {
+	display: none;
+}
+.quota_bar .quota_ammount_used {
+	display: none;
+}
+
+
 /*********************************************************
  * Help
  *********************************************************/
