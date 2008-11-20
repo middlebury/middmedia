@@ -1,3 +1,11 @@
+.middtube_delete {
+	float: right;
+}
+
+.progress {
+	margin-bottom: 10px;
+}
+
 .progressWrapper {
 	width: 357px;
 	overflow: hidden;

@@ -71,8 +71,8 @@ class browseAction
 		// <![CDATA[
 		
 		function deleteFile (directory, file, row) {
-			if (!confirm(\"Are you sure you want to delete this file?\\n\\n\" + file))
-				return;
+// 			if (!confirm(\"Are you sure you want to delete this file?\\n\\n\" + file))
+// 				return;
 			var url = Harmoni.quickUrl('middtube', 'delete', {
 				'directory': directory,
 				'file': file
@@ -89,7 +89,7 @@ class browseAction
 				if (req.readyState == 4) {
 					// only if we get a good load should we continue.
 					if (req.status == 200) {
-						row.style.display = 'none';
+						row.parentNode.removeChild(row);
 					} else {
 						alert(req.responseText);
 					}
@@ -106,8 +106,8 @@ class browseAction
 			uploadSuccess.apply(this, [file, serverData]);
 			
 			// Add a row to the listing.
-			console.log(file);
-			console.log(serverData);
+// 			console.log(file);
+// 			console.log(serverData);
 			
 			var fileDoc = createDocumentFromString(serverData);
 			if (!fileDoc) {
@@ -119,6 +119,13 @@ class browseAction
 			
 			var tbody = document.get_element_by_id(this.customSettings.fileListingId);
 			var row = tbody.insertBefore(document.createElement('tr'), tbody.firstChild);
+			row.id = 'row-' + file.getAttribute('name');
+			
+			var td = row.appendChild(document.createElement('td'));
+			var box = td.appendChild(document.createElement('input'));
+			box.type = 'checkbox';
+			box.name = 'media_files';
+			box.value = file.getAttribute('name');
 			
 			var td = row.appendChild(document.createElement('td'));
 			td.innerHTML = file.getAttribute('name');
@@ -155,18 +162,6 @@ class browseAction
 			link.onclick = function() {
 				alert('unimplemented');
 			}
-			
-			var td = row.appendChild(document.createElement('td'));
-			
-			var link = td.appendChild(document.createElement('a'));
-			link.innerHTML = 'Delete';
-			link.href = '#';
-			var dirName = file.getAttribute('directory');
-			var fileName = file.getAttribute('name');
-			link.onclick = function () {
-				deleteFile(dirName, fileName, row); 
-				return false;
-			}
 		}
 		
 		/**
@@ -197,6 +192,57 @@ class browseAction
 				alert(e.message);
 			}
 		}
+		
+		/**
+		 * Delete all check files in the directory specified
+		 * 
+		 * @param string dirName		The directory which contains the files.
+		 * @return void
+		 * @access public
+		 * @since 11/20/08
+		 */
+		function deleteChecked (dirName) {
+			var fileList = document.get_element_by_id('listing-' + dirName);
+			
+			var toDelete = [];
+			var inputs = fileList.getElementsByTagName('input');
+			for (var i = 0; i < inputs.length; i++) {
+				if (inputs[i].name == 'media_files' && inputs[i].checked) {
+					toDelete.push(inputs[i].value);
+				}
+			}
+			
+			if (!toDelete.length) {
+				alert('No files selected in this directory.');
+				return;
+			}
+			
+			if (confirm(\"Are you sure you wish to delete the following files?\\n\\n\\t\" + toDelete.join(\"\\n\\t\") + \"\\n\")) {
+				for (var i = 0; i < toDelete.length; i++) {
+					deleteFile(dirName, toDelete[i], document.get_element_by_id('row-' + toDelete[i]));
+				}
+			}
+		}
+		
+		/**
+		 * Set all files in a directory checked or unchecked
+		 * 
+		 * @param string dirName
+		 * @param DOMElement checkAllBox
+		 * @return void
+		 * @access public
+		 * @since 11/20/08
+		 */
+		function setChecked (dirName, checkAllBox) {
+			var fileList = document.get_element_by_id('listing-' + dirName);
+			var inputs = fileList.getElementsByTagName('input');
+			for (var i = 0; i < inputs.length; i++) {
+				if (inputs[i].name == 'media_files') {
+					 inputs[i].checked = checkAllBox.checked;
+				}
+			}
+		}
+		
 		
 		// ]]>
 		</script> ");
@@ -324,10 +370,14 @@ class browseAction
 		// ]]>
 		</script>"
 		);
-		print "\n<form class='middtube_upload' action='".$harmoni->request->quickURL('middtube', 'upload', array('directory' => $dir->getBaseName()))."' method='post' enctype='multipart/form-data'>";
+		
+		print "\n<div class='middtube_delete'>";
+		print "\n\t<input type='button' onclick=\"deleteChecked('".$dir->getBaseName()."');\" value='Delete Checked Files'/>";
+		print "\n</div>";
+		print "\n<div class='middtube_upload'>";
 		print "\n\t<input type='button' id='upload-".$dir->getBaseName()."' value='Upload Files'/>";
 		print "\n\t<input type='button' id='cancel-".$dir->getBaseName()."' value='Cancel All Uploads' disabled='disabled' />";
-		print "\n</form>";
+		print "\n</div>";
 		print "\n<fieldset class='progress' id='uploadProgress-".$dir->getBaseName()."'>";
 		print "\n\t<legend>"._("Upload Queue")."</legend>";
 		print "\n</fieldset>";
@@ -339,19 +389,26 @@ class browseAction
 		print "\n<table class='file_listing_table sortable'>";
 		print "\n\t<thead>";
 		print "\n\t\t<tr>";
+		print "\n\t\t\t<th class='sorttable_nosort'>";
+		print "\n\t\t\t\t<input type='checkbox' onchange='setChecked(\"".$dir->getBaseName()."\", this);'/>";
+		print "</th>";
 		print "\n\t\t\t<th>"._("Name")."</th>";
 		print "\n\t\t\t<th>"._("Type")."</th>";
 		print "\n\t\t\t<th>"._("Size")."</th>";
 		print "\n\t\t\t<th>"._("Date")."</th>";
 		print "\n\t\t\t<th>"._("Creator")."</th>";
 		print "\n\t\t\t<th class='sorttable_nosort'>"._("Access")."</th>";
-		print "\n\t\t\t<th class='sorttable_nosort'>"._("Operations")."</th>";
+// 		print "\n\t\t\t<th class='sorttable_nosort'>"._("Operations")."</th>";
 		print "\n\t\t</tr>";
 		print "\n\t</thead>";
 		print "\n\t<tbody id='listing-".$dir->getBaseName()."'>";
 		
 		foreach ($dir->getFiles() as $file) {
-			print "\n\t\t<tr>";
+			print "\n\t\t<tr id=\"row-".$file->getBaseName()."\">";
+			
+			print "\n\t\t\t<td>";
+			print "\n\t\t\t\t<input type='checkbox' name='media_files' value=\"".$file->getBaseName()."\"/>";
+			print "</td>";
 			
 			print "\n\t\t\t<td>".$file->getBaseName()."</td>";
 			
@@ -379,13 +436,13 @@ class browseAction
 			print "<br/><a href='#' onclick=\"alert('Unimplemented'); return false;\">Embed Code</a>";
 			print "</td>";
 			
-			print "\n\t\t\t<td>";
-			print "\n\t\t\t\t<a href='#' onclick=\"";
-			print "deleteFile('".$dir->getBaseName()."', '".addslashes($file->getBaseName())."', this.parentNode.parentNode); return false;";
-			print "\">";
-			print _("Delete");
-			print "</a>";
-			print "\n\t\t\t</td>";
+// 			print "\n\t\t\t<td>";
+// 			print "\n\t\t\t\t<a href='#' onclick=\"";
+// 			print "deleteFile('".$dir->getBaseName()."', '".addslashes($file->getBaseName())."', this.parentNode.parentNode); return false;";
+// 			print "\">";
+// 			print _("Delete");
+// 			print "</a>";
+// 			print "\n\t\t\t</td>";
 			
 			print "\n\t\t</tr>";
 		}
