@@ -119,7 +119,7 @@ class browseAction
 			
 			var tbody = document.get_element_by_id(this.customSettings.fileListingId);
 			var row = tbody.insertBefore(document.createElement('tr'), tbody.firstChild);
-			row.id = 'row-' + file.getAttribute('name');
+			row.id = 'row-' + file.getAttribute('directory') + '/' + file.getAttribute('name');
 			
 			var td = row.appendChild(document.createElement('td'));
 			var box = td.appendChild(document.createElement('input'));
@@ -219,7 +219,7 @@ class browseAction
 			
 			if (confirm(\"Are you sure you wish to delete the following files?\\n\\n\\t\" + toDelete.join(\"\\n\\t\") + \"\\n\")) {
 				for (var i = 0; i < toDelete.length; i++) {
-					deleteFile(dirName, toDelete[i], document.get_element_by_id('row-' + toDelete[i]));
+					deleteFile(dirName, toDelete[i], document.get_element_by_id('row-' + dirName + '/' + toDelete[i]));
 				}
 			}
 		}
@@ -343,7 +343,7 @@ class browseAction
 					file_types_description : 'Flash Video, H264 Video, and MP3 Audio',
 					file_upload_limit : 100,
 					file_queue_limit : 0,
-					debug: true,
+					debug: false,
 					custom_settings : {
 						progressTarget : 'uploadProgress-".$dir->getBaseName()."',
 						cancelButtonId : 'cancel-".$dir->getBaseName()."',
@@ -404,7 +404,7 @@ class browseAction
 		print "\n\t<tbody id='listing-".$dir->getBaseName()."'>";
 		
 		foreach ($dir->getFiles() as $file) {
-			print "\n\t\t<tr id=\"row-".$file->getBaseName()."\">";
+			print "\n\t\t<tr id=\"row-".$dir->getBaseName().'/'.$file->getBaseName()."\">";
 			
 			print "\n\t\t\t<td>";
 			print "\n\t\t\t\t<input type='checkbox' name='media_files' value=\"".$file->getBaseName()."\"/>";
