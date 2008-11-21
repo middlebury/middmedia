@@ -1,8 +1,12 @@
+body {
+	width: 920px;
+}
+
 /*********************************************************
  * MiddTube Styles
  *********************************************************/
 table.file_listing_table {
-	width: 100%;
+	width: 600px;
 	border: 1px solid #777;
 }
 
@@ -13,6 +17,15 @@ table.file_listing_table th {
 
 table.file_listing_table td {
 	border: 1px solid #777;
+}
+
+table.file_listing_table td.size {
+	white-space: nowrap;
+}
+table.file_listing_table td.date {
+	white-space: nowrap;
+}
+table.file_listing_table td.access {
 	white-space: nowrap;
 }
 
@@ -52,6 +65,15 @@ table.file_listing_table td {
 	display: none;
 }
 
+
+.middtube_delete {
+/*	float: right;*/
+}
+
+.middtube_upload {
+	float: right;
+	width: 280px;
+}
 
 /*********************************************************
  * Help

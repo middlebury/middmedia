@@ -1,13 +1,10 @@
-.middtube_delete {
-	float: right;
-}
 
 .progress {
 	margin-bottom: 10px;
 }
 
 .progressWrapper {
-	width: 357px;
+	width: 257px;
 	overflow: hidden;
 }
 
@@ -48,7 +45,7 @@
 	font-size: 8pt;
 	font-weight: 700;
 	color: #555;
-	width: 323px;
+	width: 223px;
 	height: 14px;
 	text-align: left;
 	white-space: nowrap;
@@ -79,7 +76,7 @@
 
 .progressBarStatus {
 	margin-top: 2px;
-	width: 337px;
+	width: 237px;
 	font-size: 7pt;
 	font-family: Arial;
 	text-align: left;

@@ -127,6 +127,10 @@ class browseAction
 			}
 			
 			var file = fileDoc.getElementsByTagName('file').item(0);
+			if (!file) {
+				alert('Could not load file data. Please refresh the page after files have finished uploading.');
+				return;
+			}
 			
 			var tbody = document.get_element_by_id(this.customSettings.fileListingId);
 			var row = tbody.insertBefore(document.createElement('tr'), tbody.firstChild);
@@ -139,9 +143,11 @@ class browseAction
 			box.value = file.getAttribute('name');
 			
 			var td = row.appendChild(document.createElement('td'));
+			td.className = 'name';
 			td.innerHTML = file.getAttribute('name');
 			
 			var td = row.appendChild(document.createElement('td'));
+			td.className = 'type';
 			td.innerHTML = file.getAttribute('mime_type');
 			
 			var td = row.appendChild(document.createElement('td'));
@@ -153,12 +159,16 @@ class browseAction
 			addToQuota(file.getAttribute('directory'), size);
 			
 			var td = row.appendChild(document.createElement('td'));
-			td.innerHTML = file.getAttribute('modification_date');
+			td.className = 'date';
+			var mod = Date.fromISO8601(file.getAttribute('modification_date'));
+			td.innerHTML = mod.toFormatedString('NNN d, yyyy') + '<br/>' + mod.toFormatedString('h:m a');
 			
 			var td = row.appendChild(document.createElement('td'));
+			td.className = 'creator';
 // 			td.innerHTML = file.getAttribute('creator');
 
 			var td = row.appendChild(document.createElement('td'));
+			td.className = 'access';
 			
 			var link = td.appendChild(document.createElement('a'));
 			link.innerHTML = 'HTTP (Download)';
@@ -359,6 +369,7 @@ class browseAction
 	 */
 	public function getDirectoryMarkup (MiddTube_Directory $dir) {
 		ob_start();
+		$harmoni = Harmoni::instance();
 		
 		$dirId = md5($dir->getBaseName());
 		
@@ -385,7 +396,6 @@ class browseAction
 		/*********************************************************
 		 * Upload Form
 		 *********************************************************/
-		$harmoni = Harmoni::instance();
 		
 		$this->addToHead(
 			"
@@ -430,17 +440,22 @@ class browseAction
 		</script>"
 		);
 		
-		print "\n<div class='middtube_delete'>";
-		print "\n\t<input type='button' onclick=\"deleteChecked('".$dir->getBaseName()."');\" value='Delete Checked Files'/>";
-		print "\n</div>";
 		print "\n<div class='middtube_upload'>";
 		print "\n\t<input type='button' id='upload-".$dirId."' value='Upload Files'/>";
 		print "\n\t<input type='button' id='cancel-".$dirId."' value='Cancel All Uploads' disabled='disabled' />";
-		print "\n</div>";
+		
 		print "\n<fieldset class='progress' id='uploadProgress-".$dirId."'>";
 		print "\n\t<legend>"._("Upload Queue")."</legend>";
 		print "\n</fieldset>";
 // 		print "\n<div class='status' id='status-".$dirId."'>"._("0 Files Uploaded")."</div>";
+		print "\n</div>";
+		
+		/*********************************************************
+		 * Delete Controls
+		 *********************************************************/
+		print "\n<div class='middtube_delete'>";
+		print "\n\t<input type='button' onclick=\"deleteChecked('".$dir->getBaseName()."');\" value='Delete Checked Files'/>";
+		print "\n</div>";
 		
 		/*********************************************************
 		 * File Listing
@@ -471,9 +486,9 @@ class browseAction
 			print "\n\t\t\t\t<input type='checkbox' name='media_files' value=\"".$file->getBaseName()."\"/>";
 			print "</td>";
 			
-			print "\n\t\t\t<td>".$file->getBaseName()."</td>";
+			print "\n\t\t\t<td class='name'>".$file->getBaseName()."</td>";
 			
-			print "\n\t\t\t<td>".$file->getMimeType()."</td>";
+			print "\n\t\t\t<td class='type'>".$file->getMimeType()."</td>";
 			
 			print "\n\t\t\t<td class='size' sorttable_customkey='".$file->getSize()."'>";
 			$size = ByteSize::withValue($file->getSize());
@@ -481,9 +496,14 @@ class browseAction
 			print $size->asString();
 			print "</td>";
 			
-			print "\n\t\t\t<td>".$file->getModificationDate()->asLocal()->asString()."</td>";
+			$mod = $file->getModificationDate()->asLocal();
+			print "\n\t\t\t<td class='date' sorttable_customkey='".$mod->asUTC()->asString()."'>";
+			print $mod->format('M d, Y');
+			print "<br/>";
+			print $mod->format('g:i a');
+			print "</td>";
 			
-			print "\n\t\t\t<td>";
+			print "\n\t\t\t<td class='creator'>";
 			try {
 				print $file->getCreator()->getDisplayName();
 			} catch (OperationFailedException $e) {
@@ -491,7 +511,7 @@ class browseAction
 			}
 			print "</td>";
 			
-			print "\n\t\t\t<td>";
+			print "\n\t\t\t<td class='access'>";
 			print "<a href='".$file->getHttpUrl()."'>HTTP (Download)</a>";
 			print "<br/><a href='".$file->getRtmpUrl()."'>RTMP (Streaming)</a>";
 			print "<br/><a href='#' onclick=\"alert('Unimplemented'); return false;\">Embed Code</a>";
