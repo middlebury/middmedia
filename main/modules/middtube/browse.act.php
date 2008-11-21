@@ -165,7 +165,7 @@ class browseAction
 			
 			var td = row.appendChild(document.createElement('td'));
 			td.className = 'creator';
-// 			td.innerHTML = file.getAttribute('creator');
+			td.innerHTML = file.getAttribute('creator_name');
 
 			var td = row.appendChild(document.createElement('td'));
 			td.className = 'access';
@@ -507,6 +507,7 @@ class browseAction
 			try {
 				print $file->getCreator()->getDisplayName();
 			} catch (OperationFailedException $e) {
+				print _("Unknown");
 			} catch (UnimplementedException $e) {
 			}
 			print "</td>";

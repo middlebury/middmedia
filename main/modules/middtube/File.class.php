@@ -90,6 +90,25 @@ class MiddTube_File
 	}
 	
 	/**
+	 * Delete the file.
+	 * 
+	 * @return null
+	 * @access public
+	 * @since 5/6/08
+	 */
+	public function delete () {
+		parent::delete();
+		
+		$query = new DeleteQuery;
+		$query->setTable('middtube_metadata');
+		$query->addWhereEqual('directory', $this->directory->getBaseName());
+		$query->addWhereEqual('file', $this->getBaseName());
+		
+		$dbMgr = Services::getService("DatabaseManager");
+		$dbMgr->query($query, HARMONI_DB_INDEX);
+	}
+	
+	/**
 	 * Answer the Agent that created this file.
 	 *
 	 * This method throws the following exceptions:
@@ -101,7 +120,43 @@ class MiddTube_File
 	 * @since 10/24/08
 	 */
 	public function getCreator () {
-		throw new UnimplementedException();
+		if (!isset($this->creator)) {
+			$query = new SelectQuery;
+			$query->addTable('middtube_metadata');
+			$query->addColumn('creator');
+			$query->addWhereEqual('directory', $this->directory->getBaseName());
+			$query->addWhereEqual('file', $this->getBaseName());
+			
+			$dbMgr = Services::getService("DatabaseManager");
+			$result = $dbMgr->query($query, HARMONI_DB_INDEX);
+			
+			if (!$result->getNumberOfRows())
+				throw new OperationFailedException("No creator listed.");
+			
+			$agentMgr = Services::getService('Agent');
+			$this->creator = $agentMgr->getAgent(new HarmoniId($result->field('creator')));
+			$result->free();
+		}
+		return $this->creator;
+	}
+	
+	/**
+	 * Set the creator of the file.
+	 * 
+	 * @param object Agent $creator
+	 * @return void
+	 * @access public
+	 * @since 11/21/08
+	 */
+	public function setCreator (Agent $creator) {
+		$query = new InsertQuery;
+		$query->setTable('middtube_metadata');
+		$query->addValue('directory', $this->directory->getBaseName());
+		$query->addValue('file', $this->getBaseName());
+		$query->addValue('creator', $creator->getId()->getIdString());
+		
+		$dbMgr = Services::getService("DatabaseManager");
+		$dbMgr->query($query, HARMONI_DB_INDEX);
 	}
 }
 

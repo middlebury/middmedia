@@ -121,6 +121,7 @@ class uploadAction
 		}
 		
 		$file = $dir->getFile($file_name);
+		$file->setCreator(MiddTubeManager::forCurrentUser()->getAgent());
 		
 		// Return output to the browser (only supported by SWFUpload for Flash Player 9)
 		header("HTTP/1.1 200 OK");

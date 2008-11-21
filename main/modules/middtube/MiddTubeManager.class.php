@@ -245,6 +245,17 @@ class MiddTubeManager {
 		throw new PermissionDeniedException("You are not authorized to access '$name'.");
 	}
 	
+	/**
+	 * Answer the Agent associated with this manager
+	 * 
+	 * @return object Agent
+	 * @access public
+	 * @since 11/21/08
+	 */
+	public function getAgent () {
+		return $this->_agent;
+	}
+	
 	/*********************************************************
 	 * Private Methods
 	 *********************************************************/
