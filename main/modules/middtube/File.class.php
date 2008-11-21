@@ -90,6 +90,18 @@ class MiddTube_File
 	}
 	
 	/**
+	 * Move an uploaded file into this file.
+	 * 
+	 * @param string $tempName
+	 * @return void
+	 * @access public
+	 * @since 11/21/08
+	 */
+	public function moveInUploadedFile ($tempName) {
+		move_uploaded_file($tempName, $this->getFsPath());
+	}
+	
+	/**
 	 * Delete the file.
 	 * 
 	 * @return null

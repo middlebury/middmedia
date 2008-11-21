@@ -116,13 +116,14 @@ class uploadAction
 		if ($dir->fileExists($file_name))
 			$this->error("File '$file_name' already exists.");
 		
-		if (!@move_uploaded_file($_FILES[$upload_name]["tmp_name"], $dir->getFsPath().'/'.$file_name)) {
-			$this->error("File could not be saved to '".$dir->getBaseName().'/'.$file_name."'.");
+		try {
+			$file = $dir->createFile($file_name);
+// 			$file->putContents(file_get_contents($_FILES[$upload_name]["tmp_name"]));
+			$file->moveInUploadedFile($_FILES[$upload_name]["tmp_name"]);
+		} catch (Exception $e) {
+			$this->error("File could not be saved to '".$dir->getBaseName().'/'.$file_name."'. ".$e->getMessage());
 		}
-		
-		$file = $dir->getFile($file_name);
-		$file->setCreator(MiddTubeManager::forCurrentUser()->getAgent());
-		
+				
 		// Return output to the browser (only supported by SWFUpload for Flash Player 9)
 		header("HTTP/1.1 200 OK");
 		print '<'.'?xml version="1.0" encoding="utf-8"?'.'>';

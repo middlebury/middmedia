@@ -170,7 +170,7 @@ class MiddTubeManager {
 		if (!$this->hasPersonal())
 			throw new PermissionDeniedException("You are not authorized to have a personal directory.");
 		
-		return MiddTube_Directory::getAlways($this->getPersonalShortname());
+		return MiddTube_Directory::getAlways($this, $this->getPersonalShortname());
 	}
 	
 	/**
@@ -204,7 +204,7 @@ class MiddTubeManager {
 				}
 				if ($dirname) {
 					try {
-						$sharedDirs[] = MiddTube_Directory::getIfExists($dirname);
+						$sharedDirs[] = MiddTube_Directory::getIfExists($this, $dirname);
 					} catch(UnknownIdException $e) {
 					}
 				}
