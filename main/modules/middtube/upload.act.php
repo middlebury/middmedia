@@ -126,7 +126,7 @@ class uploadAction
 		header("HTTP/1.1 200 OK");
 		print '<'.'?xml version="1.0" encoding="utf-8"?'.'>';
 		print "\n\t\t<file
-				name=\"".$file->getBaseName()."\"
+				name=\"".str_replace('&', '&amp;', $file->getBaseName())."\"
 				directory=\"".$dir->getBaseName()."\"
 				http_url=\"".$file->getHttpUrl()."\"
 				rtmp_url=\"".$file->getRtmpUrl()."\"
