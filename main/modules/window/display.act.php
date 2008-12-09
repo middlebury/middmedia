@@ -69,12 +69,23 @@ class displayAction
 		$this->headRow = $mainScreen->add(
 			new Container($xLayout, BLANK, 1), 
 			"100%", null, CENTER, TOP);
-			
+		
+		$authZ = Services::getService('AuthZ');
+		$idMgr = Services::getService('Id');
+		if ($authZ->isUserAuthorized($idMgr->getId('edu.middlebury.authorization.modify'), $idMgr->getId('edu.middlebury.authorization.root'))) {
+			ob_start();
+			print "<a href='".$harmoni->request->quickURL('admin', 'main')."'>";
+			print _("Admin Tools");
+			print "</a>";
+			$this->headRow->add(new UnstyledBlock(ob_get_clean(), 1), 
+				null, null, LEFT, TOP);
+		}
 		
 		$rightHeadColumn = $this->headRow->add(
 			new Container($yLayout, BLANK, 1), 
 			null, null, CENTER, TOP);
 
+		
 		$rightHeadColumn->add($this->getLoginComponent(), 
 				null, null, RIGHT, TOP);
 		
@@ -87,7 +98,7 @@ class displayAction
 		
 		// The logo
 		$logo = new Component("\n<a href='".MYPATH."/'> <img src='".LOGO_URL."' 
-							style='border: 0px;' alt='"._("MiddTube Logo'"). "/> </a>", BLANK, 1);
+							style='border: 0px;' class='program_logo' alt='"._("MiddTube Logo'"). "/> </a>", BLANK, 1);
 		$headRow->add($logo, null, null, LEFT, TOP);
 		
 		// Language Bar

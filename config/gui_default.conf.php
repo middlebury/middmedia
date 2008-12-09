@@ -17,7 +17,7 @@
  
  
  // :: GUIManager setup ::
-	define("LOGO_URL", MYPATH."/images/logo.gif");
+	define("LOGO_URL", MYPATH."/images/MiddMedia-Logo.png");
  	
  	$configuration = new ConfigurationProperties;
  	$configuration->addProperty('database_index', HARMONI_DB_INDEX);
