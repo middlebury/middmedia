@@ -176,11 +176,22 @@ class uploadAction
 	 */
 	protected function getDirectory () {
 		if (!isset($this->directory)) {
-			$manager = MiddTubeManager::forCurrentUser();
+			$manager = $this->getManager();
 			$this->directory = $manager->getDirectory(RequestContext::value('directory'));
 		}
 		
 		return $this->directory;
+	}
+	
+	/**
+	 * Answer the manager to use
+	 * 
+	 * @return MiddTubeManager
+	 * @access protected
+	 * @since 12/10/08
+	 */
+	protected function getManager () {
+		return MiddTubeManager::forCurrentUser();
 	}
 	
 	/**
@@ -208,7 +219,7 @@ class uploadAction
 			$priorityType = new Type("logging", "edu.middlebury", "Error",
 							"Error events.");
 			
-			$item = new AgentNodeEntryItem("Upload Failed", "File upload failed with message: ".$errorString);
+			$item = new AgentNodeEntryItem($this->getErrorName(), $this->getErrorPrefix().$errorString);
 			
 			$log->appendLogWithTypes($item,	$formatType, $priorityType);
 		}
@@ -216,6 +227,28 @@ class uploadAction
 		header("HTTP/1.1 500 Internal Server Error");
 		echo $errorString;
 		exit;
+	}
+	
+	/**
+	 * Answer and error name
+	 * 
+	 * @return string
+	 * @access protected
+	 * @since 12/10/08
+	 */
+	protected function getErrorName () {
+		return "Upload Failed";
+	}
+	
+	/**
+	 * Answer and error prefix
+	 * 
+	 * @return string
+	 * @access protected
+	 * @since 12/10/08
+	 */
+	protected function getErrorPrefix () {
+		return "File upload failed with message: ";
 	}
 	
 	/**

@@ -215,7 +215,7 @@ class MiddTube_Directory {
 	 * @since 10/24/08
 	 */
 	public function getBytesAvailable () {
-		return $this->getQuota() - $this->getBytesUsed();
+		return max(0, $this->getQuota() - $this->getBytesUsed());
 	}
 	
 	/**
@@ -245,9 +245,21 @@ class MiddTube_Directory {
 			}	
 		}
 		if (is_null($this->quota))
-			return $this->manager->getDefaultQuota();
+			return $this->getDefaultQuota();
 		else
 			return $this->quota;
+	}
+	
+	/**
+	 * Answer true if this directory has a custom quota
+	 * 
+	 * @return boolean
+	 * @access public
+	 * @since 12/10/08
+	 */
+	public function hasCustomQuota () {
+		$this->getQuota();
+		return !is_null($this->quota);
 	}
 	
 	/**
@@ -270,13 +282,13 @@ class MiddTube_Directory {
 			$query = new InsertQuery;
 			$query->setTable('middtube_quotas');
 			$query->addValue('directory', $this->getBaseName());
-			$query->addValue('quota', $quota);
+			$query->addValue('quota', strval($quota));
 			$dbMgr->query($query, HARMONI_DB_INDEX);
 		} catch (DuplicateKeyDatabaseException $e) {
 			$query = new UpdateQuery;
 			$query->setTable('middtube_quotas');
-			$query->addValue('directory', $this->getBaseName());
-			$query->addValue('quota', $quota);
+			$query->addWhereEqual('directory', $this->getBaseName());
+			$query->addValue('quota', strval($quota));
 			$dbMgr->query($query, HARMONI_DB_INDEX);
 		}
 	}
@@ -297,6 +309,17 @@ class MiddTube_Directory {
 		$query->setTable('middtube_quotas');
 		$query->addWhereEqual('directory', $this->getBaseName());
 		$dbMgr->query($query, HARMONI_DB_INDEX);
+	}
+	
+	/**
+	 * Answer the default quota for this directory
+	 * 
+	 * @return int
+	 * @access public
+	 * @since 12/10/08
+	 */
+	public function getDefaultQuota () {
+		return $this->manager->getDefaultQuota();
 	}
 	
 	/**

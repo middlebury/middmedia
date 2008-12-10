@@ -160,11 +160,16 @@ class mainAction
 		print "\n<ul>";
 		
 		if ($authZ->isUserAuthorized(
-			$idManager->getId("edu.middlebury.authorization.add_children"),
+			$idManager->getId("edu.middlebury.authorization.modify"),
 			$idManager->getId("edu.middlebury.authorization.root"))) {
-			print "\n\t<li><a href='".$harmoni->request->quickURL("slots", 
-				"browse")."'>";
-			print _("Browse Placeholders");
+			print "\n\t<li><a href='".$harmoni->request->quickURL("middtube", 
+				"admin")."'>";
+			print _("List Directories and Set Quotas");
+			print "</a></li>";
+			
+			print "\n\t<li><a href='".$harmoni->request->quickURL("middtube", 
+				"admin_browse")."'>";
+			print _("Browse all Directories");
 			print "</a></li>";
 		}
 		

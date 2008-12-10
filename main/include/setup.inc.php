@@ -110,5 +110,6 @@ foreach ($configs as $config) {
 $harmoni->ActionHandler->addRequestTokenRequiredActions(array(
 		"updates.*",
 		"middtube.upload",
-		"middtube.delete"
+		"middtube.delete",
+		"middtube.update_quota",
 	));

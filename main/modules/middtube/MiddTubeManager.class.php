@@ -361,10 +361,10 @@ class MiddTubeManager {
 	 * 
 	 * @param object Agent $agent
 	 * @return void
-	 * @access private
+	 * @access protected
 	 * @since 10/24/08
 	 */
-	private function __construct (Agent $agent) {
+	protected function __construct (Agent $agent) {
 		$this->_agent = $agent;
 	}
 	

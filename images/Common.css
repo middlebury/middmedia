@@ -79,6 +79,11 @@ table.file_listing_table td.access {
 	width: 280px;
 }
 
+.middtube_quota_edit {
+	display: block;
+	float: right;
+}
+
 /*********************************************************
  * Help
  *********************************************************/

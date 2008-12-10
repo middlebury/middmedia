@@ -46,3 +46,4 @@ require_once (POLYPHONY_DIR."/polyphony.inc.php");
 require_once(MYDIR."/main/library/MenuGenerator.class.php");
 
 require_once(MYDIR."/main/modules/middtube/MiddTubeManager.class.php");
+require_once(MYDIR."/main/modules/middtube/AdminMiddTubeManager.class.php");

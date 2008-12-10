@@ -311,7 +311,7 @@ class browseAction
 		// ]]>
 		</script> ");
 		
-		$manager = MiddTubeManager::forCurrentUser();
+		$manager = $this->getManager();
 		
 		// Get the personal directory
 		try {
@@ -352,6 +352,17 @@ class browseAction
 				CENTER, 
 				CENTER);
 		}
+	}
+	
+	/**
+	 * Answer the manager to use for this action.
+	 * 
+	 * @return MiddTubeMangager
+	 * @access protected
+	 * @since 12/10/08
+	 */
+	protected function getManager () {
+		return MiddTubeManager::forCurrentUser();
 	}
 	
 	/**
