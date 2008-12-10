@@ -26,98 +26,198 @@ define("MYPATH", $protocol."://".$_SERVER['HTTP_HOST'].str_replace(
 												dirname($_SERVER['PHP_SELF'])));
 define("MYURL", MYPATH."/index.php");
 
+define("WSDL", MYPATH."/middtube.wsdl");
+
 require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
 require_once(dirname(__FILE__)."/main/include/setup.inc.php");
 
-
-
-/*********************************************************
- * Below here is just example stuff. Change to be implementation.
- *********************************************************/
-header('Content-Type: text/xml');
-print "<response>";
-
-// The following params would set by SOAP request values
-$user = 'jadministrator'; // the default user
-$pass = 'password';
-
-try {
-	// Create a new manager for a username/password combo (username/shared key not yet implemented)
-	$manager = MiddTubeManager::forUsernamePassword($user, $pass);
+/**
+ * Return a list of directories the user or group has access to view.
+ *
+ * @access	public
+ * @param 	string	$username	Username for authentication.
+ * @param	string	$password	Password for authentication.
+ * @return	array				List of directories.
+ * @since						0.2
+ */
+function getDirs($username, $password) {
 	
-	// Get the personal directory
-	$dir = $manager->getPersonalDirectory();
-	print "\n\t<directory 
-				name=\"".$dir->getBaseName()."\"
-				rtmp_url=\"".$dir->getRtmpUrl()."\"
-				bytes_used=\"".$dir->getBytesUsed()."\"
-				bytes_available=\"".$dir->getBytesAvailable()."\"
-				type=\"personal\">";
+	$manager = MiddTubeManager::forUsernamePassword($username, $password);
+
+	$directories = array();
 	
-	foreach ($dir->getFiles() as $file) {
-		 print "\n\t\t<file
-					name=\"".$file->getBaseName()."\"
-					http_url=\"".$file->getHttpUrl()."\"
-					rtmp_url=\"".$file->getRtmpUrl()."\"
-					mime_type=\"".$file->getMimeType()."\"
-					size=\"".$file->getSize()."\"
-					modification_date=\"".$file->getModificationDate()->asString()."\"";
-		try {
-			print "\n\t\t\tcreator_name=\"".$file->getCreator()->getDisplayName()."\"";
-		} catch (OperationFailedException $e) {
-		} catch (UnimplementedException $e) {
-		}
+	try {
+		$directories[] = $manager->getPersonalDirectory()->getBaseName();
+	} catch(Exception $ex) {
+		// user does not have a personal directory
 		
-		// As an example, lets include the content of text-files.
-		if ($file->getMimeType() == 'text/plain') {
-			print "><![CDATA[";
-			print $file->getContents();
-			print "]]></file>";
-		} else {
-			print "/>";
-		}
+		// no need to handle this here, we simply return a blank array
 	}
 	
-	print "\n\t</directory>";
-	
-	// Get the shared directories
-	foreach ($manager->getSharedDirectories() as $dir) {
-		print "\n\t<directory 
-				name=\"".$dir->getBaseName()."\"
-				rtmp_url=\"".$dir->getRtmpUrl()."\"
-				bytes_used=\"".$dir->getBytesUsed()."\"
-				bytes_available=\"".$dir->getBytesAvailable()."\"
-				type=\"shared\">";
-		
-		foreach ($dir->getFiles() as $file) {
-			 print "\n\t\t<file
-					name=\"".$file->getBaseName()."\"
-					http_url=\"".$file->getHttpUrl()."\"
-					rtmp_url=\"".$file->getRtmpUrl()."\"
-					mime_type=\"".$file->getMimeType()."\"
-					size=\"".$file->getSize()."\"
-					modification_date=\"".$file->getModificationDate()->asString()."\"";
-			
-			try {
-				print "\n\t\t\tcreator_name=\"".$file->getCreator()->getDisplayName()."\"";
-			} catch (OperationFailedException $e) {
-			} catch (UnimplementedException $e) {
-			}
-			
-			// As an example, lets include the content of text-files.
-			if ($file->getMimeType() == 'text/plain') {
-				print "><![CDATA[";
-				print $file->getContents();
-				print "]]></file>";
-			} else {
-				print "/>";
-			}
-		}
-		
-		print "\n\t</directory>";
+	foreach($manager->getSharedDirectories() as $directory) {
+		$directories[] = $directory->getBaseName();
 	}
-} catch (Exception $e) {
-	print "\n\t<error type='".get_class($e)."'><![CDATA[".$e->getMessage()."]]></error>";
+	
+	return $directories;
 }
 
-print "\n</response>";
+/**
+ * Return a list of video information in the user or group directory.
+ *
+ * @access	public
+ * @param	string	$username	Username for authentication.
+ * @param	string	$password	Password for authentication.
+ * @param	string	$directory	User or Group name.
+ * @return	array			List of video information.
+ * @since				0.1
+ */
+function getVideos($username, $password, $directory) {
+
+	try {
+		$manager = MiddTubeManager::forUsernamePassword($username, $password);
+	} catch(Exception $ex) {
+		return new SoapFault($ex->getMessage());
+	}
+	
+	$videos = array();
+	
+	foreach($manager->getDirectory($directory)->getFiles() as $file) {
+		$video = array();
+		
+		$video["name"] = $file->getBaseName();
+		$video["httpurl"] = $file->getHttpUrl();
+		$video["rtmpurl"] = $file->getRtmpUrl();
+		$video["mimetype"] = $file->getMimeType();
+		$video["size"] = $file->getSize();
+		
+		try {
+			$moddate = $newfile->getModificationDate();
+			$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
+		} catch(Exception $ex) {
+			return new SoapFault("Server", $ex->getMessage());
+		}
+		
+		$videos[] = $video;
+	}
+
+	return $videos;
+}
+
+/**
+ * Return information about a specific video in the user or group directory.
+ *
+ * @access	public
+ * @param	string	$username	Username for authentication.
+ * @param	string	$password	Password for authentication.
+ * @param	string	$directory	User or Group name.
+ * @param	string	$file		Name of the video file.
+ * @return	array			Video information.
+ * @since				0.1
+ */
+function getVideo($username, $password, $directory, $file) {
+
+	try {
+		$manager = MiddTubeManager::forUsernamePassword($username, $password);
+	} catch(Exception $ex) {
+		return new SoapFault("server", $ex->getMessage());
+	}
+	
+	$video = array();
+	
+	$file = $manager->getDirectory($directory)->getFile($file);
+	
+	$video["name"] = $file->getBaseName();
+	$video["httpurl"] = $file->getHttpUrl();
+	$video["rtmpurl"] = $file->getRtmpUrl();
+	$video["mimetype"] = $file->getMimeType();
+	$video["size"] = $file->getSize();
+	
+	try {
+		$moddate = $newfile->getModificationDate();
+		$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
+	} catch(Exception $ex) {
+		return new SoapFault("Server", $ex->getMessage());
+	}
+	
+	return $video;
+}
+
+/**
+ * Add a new video to the user or group directory.
+ *
+ * @access	public
+ * @param	string	$username	Username for authentication.
+ * @param	string	$password	Password for authentication.
+ * @param	string	$directory	User or Group name.
+ * @param	string	$file		base64string of file data.
+ * @param	string	$filename	Name of the video.
+ * @param	string	$filetype	MIME type of the video.
+ * @param	string	$filesize	Byte size of the video.
+ * @return	array			Video information.
+ * @since				0.1
+ */
+function addVideo($username, $password, $directory, $file, $filename, $filetype, $filesize) {
+	
+	$video = array();
+	
+	try {
+		$manager = MiddTubeManager::forUsernamePassword($username, $password);
+		$directory = MiddTube_Directory::getIfExists($manager, $directory);
+		$newfile = $directory->createFile($filename);
+		$newfile->putContents(base64_decode($file));
+		
+		$video["name"] = $newfile->getBaseName();
+		$video["httpurl"] = $newfile->getHttpUrl();
+		$video["rtmpurl"] = $newfile->getRtmpUrl();
+		$video["mimetype"] = $newfile->getMimeType();
+		$video["size"] = $newfile->getSize();
+
+		$moddate = $newfile->getModificationDate();
+		$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
+	} catch(Exception $ex) {
+		return new SoapFault("Server", $ex->getMessage());
+	}
+
+	return $video;
+}
+
+/**
+ * Remove a video from the user or group directory.
+ *
+ * @access	public
+ * @param	string	$username	Username for authentication.
+ * @param	string	$password	Password for authentication.
+ * @param	string	$directory	User or Group name.
+ * @param	string	$filename	Name of the video.
+ * @since				0.1
+ */
+function delVideo($username, $password, $directory, $filename) {
+	
+	try {
+		$manager = MiddTubeManager::forUsernamePassword($username, $password);
+		$directory = MiddTube_Directory::getIfExists($manager, $directory);
+		$file = $directory->getFile($filename);
+		$file->delete();
+	} catch(Exception $ex) {
+		return new SoapFault("Server", $ex->getMessage());
+	}
+	
+}
+ 
+
+/********************************************************
+ * SOAP Server Initialization.
+ ********************************************************/
+$server = new SoapServer(WSDL);
+
+$server->addFunction(
+	array(
+		"getDirs",
+		"getVideos",
+		"getVideo",
+		"addVideo",
+		"delVideo"
+	)
+);
+
+$server->handle();

@@ -1,5 +1,5 @@
 
-MiddTube v. 0.1 (The Future)
+
 =================================
 
 What is MiddTube?
