@@ -34,13 +34,13 @@ require_once(dirname(__FILE__)."/main/include/setup.inc.php");
 /*********************************************************
  * Authentication
  *********************************************************/
-if ((isset($_SESSION['LastLoginTokens']) 
+if (!isset($_SERVER['PHP_AUTH_USER']) || !$_SERVER['PHP_AUTH_USER'] || (isset($_SESSION['LastLoginTokens']) 
 	&& 	md5($_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'])
-		== $_SESSION['LastLoginTokens']) 
-	|| !isset($_SERVER['PHP_AUTH_USER']) || !$_SERVER['PHP_AUTH_USER']) 
+		!= $_SESSION['LastLoginTokens'])) 
 {
 	header("WWW-Authenticate: Basic realm=\"MiddTube\"");
 	header('HTTP/1.0 401 Unauthorized');
+	print "Please Authenticate.";
 	exit;
 }		
 $_SESSION['LastLoginTokens'] = md5($_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW']);
