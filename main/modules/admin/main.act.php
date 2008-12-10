@@ -60,6 +60,9 @@ class mainAction
 		
 		ob_start();
 		print "\n<ul>";
+		print "\n\t<li><a href='".$harmoni->request->quickURL("user","main")."'>";
+		print _("Change User");
+		print "</a></li>";
 		print "\n\t<li><a href='".$harmoni->request->quickURL("agents","create_agent")."'>";
 		print _("Create User");
 		print "</a></li>";

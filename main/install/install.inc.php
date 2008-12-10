@@ -272,6 +272,10 @@ if (!isset($_SESSION['table_setup_complete'])) {
 				$id =$idManager->getId("edu.middlebury.authorization.modify_authorizations");
 				$function =$authZManager->createFunction($id, "Modify Authorizations", "Modify Authorizations at qualifier.", $type, $qualifierHierarchyId);
 				$authZManager->createAuthorization($adminGroup->getId(), $function->getId(), $allOfId);
+				
+				$id = $idManager->getId("edu.middlebury.authorization.change_user");
+				$function = $authZManager->createFunction($id, "Change User", "Act as another user.", $type, $qualifierHierarchyId);
+				$authZManager->createAuthorization($adminGroup->getId(), $function->getId(), $allOfId);
 	
 			// Administration Functions
 				$type = new Type ("Authorization", "edu.middlebury.harmoni", "User Administration", "Functions for administering users.");
