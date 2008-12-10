@@ -91,17 +91,47 @@ class MiddTubeManager {
 	 *									  unauthorized to manage media.
 	 * 
 	 * @param string $username
-	 * @param string $sharedKey
+	 * @param string $serviceId
+	 * @param string $serviceKey
 	 * @return object MiddTubeManager
 	 * @access public
-	 * @since 10/24/08
+	 * @since 12/10/08
 	 * @static
 	 */
-	public static function forUsernameSharedKey ($username, $sharedKey) {
+	public static function forUsernameServiceKey ($username, $serviceId, $serviceKey) {
 		ArgumentValidator::validate($username, NonzeroLengthStringValidatorRule::getRule());
-		ArgumentValidator::validate($sharedKey, NonzeroLengthStringValidatorRule::getRule());
+		ArgumentValidator::validate($serviceId, NonzeroLengthStringValidatorRule::getRule());
+		ArgumentValidator::validate($serviceKey, NonzeroLengthStringValidatorRule::getRule());
 		
-		throw new UnimplementedException(); // @todo
+		if (!isset(self::$serviceKeys[$serviceId]) || self::$serviceKeys[$serviceId] != $serviceKey)
+			throw new OperationFailedException("Invalid Service ID or Service Key.");
+		
+		$authN = Services::getService('AuthN');
+		$authNMethodMgr = Services::getService('AuthNMethods');
+		
+		$tokens = array('username' => $username, 'password' => '');
+		
+		$authTypes = $authN->getAuthenticationTypes();
+		while ($authTypes->hasNext()) {
+			$authType = $authTypes->next();
+			
+			// Try authenticating with this type
+			try {
+				$method = $authNMethodMgr->getAuthNMethodForType($authType);
+			} catch (Exception $e) {
+				continue;
+			}
+			
+			$tokensObj = $method->createTokens($tokens);
+			
+			// if the the username exists allow them in.
+			if ($method->tokensExist($tokensObj)) {				
+				$agentMgr = Services::getService('Agent');
+				return new MiddTubeManager($agentMgr->getAgent(
+						$authN->_getAgentIdForAuthNTokens($tokensObj, $authType)));
+			}
+		}
+		
 		
 		throw new OperationFailedException("Could not authenticate with the credentials given.");
 	}
@@ -141,9 +171,41 @@ class MiddTubeManager {
 	 * @since 11/13/08
 	 * @static
 	 */
-	public function addPersonalDirectoryGroup ($groupIdString) {
+	public static function addPersonalDirectoryGroup ($groupIdString) {
 		self::$personalDirectoryGroups[] = new HarmoniId($groupIdString);
 	}
+	
+	/**
+	 * Add a new service key for a service who's authentication we trust to be valid. 
+	 * The usernames provided by this service will be validated, but no password 
+	 * check will be done for the user as we are trusting that has already happened 
+	 * at the remote service.
+	 * 
+	 * @param string $serviceId	An identifier for the service.
+	 * @param string $key		A passphrase/key to use when connecting as this service.
+	 * @return void
+	 * @access public
+	 * @since 12/10/08
+	 */
+	public static function addTrustedServiceKey ($serviceId, $key) {
+		if (strlen($serviceId) < 1)
+			throw new InvalidArgumentException("Service Id must be at least 1 character");
+		if (strlen($key) < 8)
+			throw new InvalidArgumentException("Key must be at least 8 characters");
+		if (in_array($key, self::$serviceKeys))
+			throw new InvalidArgumentException("Key already in use for the '".array_search($key, self::$serviceKeys)."' service");
+		if (isset(self::$serviceKeys[$serviceId]))
+			throw new InvalidArgumentException("Service $serviceId is already configured.");
+			
+		self::$serviceKeys[$serviceId] = $key;
+	}
+	
+	/**
+	 * @var array $serviceKeys;  
+	 * @access private
+	 * @since 12/10/08
+	 */
+	private static $serviceKeys = array();
 	
 	/**
 	 * @var array $personalDirectoryGroups;  
@@ -206,6 +268,7 @@ class MiddTubeManager {
 					try {
 						$sharedDirs[] = MiddTube_Directory::getIfExists($this, $dirname);
 					} catch(UnknownIdException $e) {
+					} catch(InvalidArgumentException $e) {
 					}
 				}
 			} catch (OperationFailedException $e) {

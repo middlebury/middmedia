@@ -8,3 +8,6 @@ define('MIDDTUBE_GROUP_DIRNAME_PROPERTY', 'mail nickname');
 
 MiddTubeManager::addPersonalDirectoryGroup('CN=All Faculty,OU=General,OU=Groups,DC=middlebury,DC=edu');
 MiddTubeManager::addPersonalDirectoryGroup('CN=All Staff,OU=General,OU=Groups,DC=middlebury,DC=edu');
+
+// MiddTubeManager::addTrustedServiceKey('blogs', '1234567890abcdefghijkl');	// Key for a remote service
+// MiddTubeManager::addTrustedServiceKey('wiki', 'abcdefghijklmnop');	// Key for a second remote service
