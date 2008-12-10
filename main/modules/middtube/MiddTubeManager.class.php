@@ -201,6 +201,27 @@ class MiddTubeManager {
 	}
 	
 	/**
+	 * Set the default quota for directories.
+	 * 
+	 * @param int $quota
+	 * @return void
+	 * @access public
+	 * @since 12/10/08
+	 */
+	public function setDefaultQuota ($quota) {
+		ArgumentValidator::validate($quota, IntegerValidatorRule::getRule());
+		
+		self::$defaultQuota = $quota;
+	}
+	
+	/**
+	 * @var int $defaultQuota;  
+	 * @access private
+	 * @since 12/10/08
+	 */
+	private static $defaultQuota = 524288000;	// 500MB
+	
+	/**
 	 * @var array $serviceKeys;  
 	 * @access private
 	 * @since 12/10/08
@@ -317,6 +338,17 @@ class MiddTubeManager {
 	 */
 	public function getAgent () {
 		return $this->_agent;
+	}
+	
+	/**
+	 * Answer the default quota (in bytes) associated with this manager
+	 * 
+	 * @return int
+	 * @access public
+	 * @since 12/10/08
+	 */
+	public function getDefaultQuota () {
+		return self::$defaultQuota;
 	}
 	
 	/*********************************************************

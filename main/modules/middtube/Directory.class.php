@@ -227,7 +227,7 @@ class MiddTube_Directory {
 	 */
 	public function getQuota () {
 		// @todo Implement per-directory quotas.
-		return 500 * 1024 * 1024;
+		return $this->manager->getDefaultQuota();
 	}
 	
 	/**
