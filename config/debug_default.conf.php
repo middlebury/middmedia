@@ -65,8 +65,8 @@ set_error_handler(array('HarmoniErrorHandler', 'handleError'));
  * the error_reporting level and will ignore any errors that
  * are not within the reporting level.
  *********************************************************/
-// error_reporting(E_ALL | E_STRICT);
-error_reporting(E_ALL);
+error_reporting(E_ALL | E_STRICT);
+// error_reporting(E_ALL);
 
 /*********************************************************
  * If you wish to display errors and uncaught exceptions on
