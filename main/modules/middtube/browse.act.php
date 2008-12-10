@@ -314,19 +314,28 @@ class browseAction
 		$manager = MiddTubeManager::forCurrentUser();
 		
 		// Get the personal directory
-		$dir = $manager->getPersonalDirectory();
-		$actionRows->add(
-			new Heading($dir->getBaseName()." ("._("Personal").")", 2), 
-			"100%", 
-			null, 
-			CENTER, 
-			CENTER);
-		$actionRows->add(
-			new Block($this->getDirectoryMarkup($dir), STANDARD_BLOCK), 
-			"100%", 
-			null, 
-			CENTER, 
-			CENTER);
+		try {
+			$dir = $manager->getPersonalDirectory();
+			$actionRows->add(
+				new Heading($dir->getBaseName()." ("._("Personal").")", 2), 
+				"100%", 
+				null, 
+				CENTER, 
+				CENTER);
+			$actionRows->add(
+				new Block($this->getDirectoryMarkup($dir), STANDARD_BLOCK), 
+				"100%", 
+				null, 
+				CENTER, 
+				CENTER);
+		} catch (PermissionDeniedException $e) {
+			$actionRows->add(
+				new Block(_("You are not authorized to upload personal videos."), STANDARD_BLOCK), 
+				"100%", 
+				null, 
+				CENTER, 
+				CENTER);
+		}
 			
 		// Get the shared directories
 		foreach ($manager->getSharedDirectories() as $dir) {
