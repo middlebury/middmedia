@@ -226,8 +226,77 @@ class MiddTube_Directory {
 	 * @since 10/24/08
 	 */
 	public function getQuota () {
-		// @todo Implement per-directory quotas.
-		return $this->manager->getDefaultQuota();
+		if (!isset($this->quota)) {
+			$dbMgr = Services::getService("DatabaseManager");
+		
+			$query = new SelectQuery;
+			$query->addColumn('quota');
+			$query->addTable('middtube_quotas');
+			$query->addWhereEqual('directory', $this->getBaseName());
+			$result = $dbMgr->query($query, HARMONI_DB_INDEX);
+			if ($result->getNumberOfRows()) {
+				$quota = intval($result->field('quota'));
+				if ($quota > 0)
+					$this->quota = $quota;
+				else
+					$this->quota = null;
+			} else {
+				$this->quota = null;
+			}	
+		}
+		if (is_null($this->quota))
+			return $this->manager->getDefaultQuota();
+		else
+			return $this->quota;
+	}
+	
+	/**
+	 * Set the quota of this directory in bytes.
+	 * 
+	 * @param int $quota
+	 * @return void
+	 * @access public
+	 * @since 12/10/08
+	 */
+	public function setCustomQuota ($quota) {
+		ArgumentValidator::validate($quota, IntegerValidatorRule::getRule());
+		if ($quota < 1)
+			throw new InvalidArgumentException("Invalid quota value $quota");
+		
+		$this->quota = $quota;
+		
+		$dbMgr = Services::getService("DatabaseManager");
+		try {
+			$query = new InsertQuery;
+			$query->setTable('middtube_quotas');
+			$query->addValue('directory', $this->getBaseName());
+			$query->addValue('quota', $quota);
+			$dbMgr->query($query, HARMONI_DB_INDEX);
+		} catch (DuplicateKeyDatabaseException $e) {
+			$query = new UpdateQuery;
+			$query->setTable('middtube_quotas');
+			$query->addValue('directory', $this->getBaseName());
+			$query->addValue('quota', $quota);
+			$dbMgr->query($query, HARMONI_DB_INDEX);
+		}
+	}
+	
+	/**
+	 * Remove the custom quota
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 12/10/08
+	 */
+	public function removeCustomQuota () {
+		$this->quota = null;
+		
+		$dbMgr = Services::getService("DatabaseManager");
+		
+		$query = new DeleteQuery;
+		$query->setTable('middtube_quotas');
+		$query->addWhereEqual('directory', $this->getBaseName());
+		$dbMgr->query($query, HARMONI_DB_INDEX);
 	}
 	
 	/**
