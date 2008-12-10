@@ -50,3 +50,10 @@
 	
 	$context = new OsidContext;
 	$context->assignContext('harmoni', $harmoni);
+	
+/*********************************************************
+ * Set the default timezone if not set.
+ *********************************************************/
+if (!ini_get('date.timezone')) {
+	ini_set('date.timezone', 'America/New_York');
+}
