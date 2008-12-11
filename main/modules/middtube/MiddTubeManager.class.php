@@ -351,6 +351,66 @@ class MiddTubeManager {
 		return self::$defaultQuota;
 	}
 	
+	/**
+	 * Answer an array of group names by search
+	 * 
+	 * @param string $searchTerm
+	 * @return array
+	 * @access public
+	 * @since 12/11/08
+	 */
+	public function getGroupNamesBySearch ($searchTerm) {
+		$results = array();
+		
+		// Return an empty array if there is no search term.
+		if (!strlen($searchTerm))
+			return $results;
+			
+		$agentManager = Services::getService("Agent");
+		$searchType = new HarmoniType("Agent & Group Search", "edu.middlebury.harmoni", "TokenSearch");
+		$string = "*".$searchTerm."*";
+		
+		$groups = $agentManager->getGroupsBySearch($string, $searchType);
+		
+		while ($groups->hasNext()) {
+			$group = $groups->next();
+			
+			// Pull out the directory name property
+			try {
+				$propertiesIterator = $group->getProperties();
+				while ($propertiesIterator->hasNext()) {
+					$properties = $propertiesIterator->next();
+					try {
+						if ($properties->getProperty(MIDDTUBE_GROUP_DIRNAME_PROPERTY)) {
+							$results[] = $properties->getProperty(MIDDTUBE_GROUP_DIRNAME_PROPERTY);
+							break;
+						}
+					} catch (Exception $e) {
+					}
+				}
+			} catch (Exception $e) {
+			}
+		}
+		
+		return $results;
+	}
+	
+	/**
+	 * Answer true if the name specified is a valid group name
+	 * 
+	 * @param string $groupName
+	 * @return boolean
+	 * @access public
+	 * @since 12/11/08
+	 */
+	public function isValidGroupName ($groupName) {
+		foreach ($this->getGroupNamesBySearch($groupName) as $match) {
+			if ($match == $groupName)
+				return true;
+		}
+		return false;
+	}
+	
 	/*********************************************************
 	 * Private Methods
 	 *********************************************************/

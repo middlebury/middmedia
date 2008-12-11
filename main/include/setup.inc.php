@@ -112,4 +112,5 @@ $harmoni->ActionHandler->addRequestTokenRequiredActions(array(
 		"middtube.upload",
 		"middtube.delete",
 		"middtube.update_quota",
+		"middtube.create_shared_dir"
 	));

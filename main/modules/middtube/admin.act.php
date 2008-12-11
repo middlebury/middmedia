@@ -51,6 +51,9 @@ class adminAction
 		
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/sorttable.js'></script> ");
 		
+		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/scriptaculous-js/lib/prototype.js'></script> ");
+		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/scriptaculous-js/src/scriptaculous.js'></script> ");
+		
 		$this->addToHead("
 		<script type='text/javascript'>
 		// <![CDATA[
@@ -160,6 +163,60 @@ class adminAction
 		
 		// ]]>
 		</script> ");
+		
+		$actionRows->add(
+				new Heading(_("Create new Shared Directory"), 2), 
+				"100%", 
+				null, 
+				CENTER, 
+				CENTER);
+		
+		ob_start();
+		$harmoni = Harmoni::instance();
+		print '
+		
+	<form action="'.$harmoni->request->quickURL('middtube', 'create_shared_dir').'" method="post">
+		
+		<input type="text" id="autocomplete" name="group"/>
+		<span id="indicator1" style="display: none">
+			<img src="'.MYPATH.'/images/loading.gif" alt="Working..." />
+		</span>
+		<input type="submit" value="'._('Create').'" />
+		<div id="autocomplete_choices" class="autocomplete"></div>
+		
+	</form>
+		
+		<script type="text/javascript">
+		// <![CDATA[
+		
+		
+		new Ajax.Autocompleter("autocomplete", "autocomplete_choices", Harmoni.quickUrl("middtube", "get_groups"), {
+		  paramName: "group", 
+		  minChars: 2, 
+// 		  updateElement: addItemToList, 
+		  indicator: "indicator1"
+		});
+
+		//]]>
+		</script>
+		
+		';
+		
+		
+		
+		$actionRows->add(
+				new Block(ob_get_clean(), STANDARD_BLOCK), 
+				"100%", 
+				null, 
+				CENTER, 
+				CENTER);
+		
+		$actionRows->add(
+				new Heading(_("All Directories"), 2), 
+				"100%", 
+				null, 
+				CENTER, 
+				CENTER);
 		
 		ob_start();
 		

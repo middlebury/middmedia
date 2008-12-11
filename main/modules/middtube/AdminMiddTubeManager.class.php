@@ -73,6 +73,33 @@ class AdminMiddTubeManager
 		
 		return $sharedDirs;
 	}
+	
+	/**
+	 * Create a new shared directory.
+	 * 
+	 * @param string $name
+	 * @return object MiddTube_Directory
+	 * @access public
+	 * @since 12/11/08
+	 */
+	public function createSharedDirectory ($name) {
+		// Check that the name has only the allowed chars
+		ArgumentValidator::validate($name, RegexValidatorRule::getRule('^[a-zA-Z0-9_\.&-]+$'));
+		
+		// Verify that the name specified doesn't already exist
+		try {
+			MiddTube_Directory::getIfExists($this, $name);
+			throw new OperationFailedException("Directory '$name' already exists.");
+		} catch (UnknownIdException $e) {
+		}
+		
+		// Verify that the name specified is a valid group name.
+		if (!$this->isValidGroupName($name))
+			throw new InvalidArgumentException("'$name' is not a valid group name.");
+		
+		// Create the directory.
+		return MiddTube_Directory::getAlways($this, $name);
+	}
 }
 
 ?>
