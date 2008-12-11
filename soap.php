@@ -43,7 +43,12 @@ require_once(dirname(__FILE__)."/main/include/setup.inc.php");
  */
 function getDirs($username, $password) {
 	
-	$manager = MiddTubeManager::forUsernamePassword($username, $password);
+	try {
+		$manager = MiddTubeManager::forUsernamePassword($username, $password);
+	} catch(Exception $ex) {
+		return new SoapFault($ex->getMessage());
+	}
+	
 	$directories = array();
 	try {
 		$directories[] = $manager->getPersonalDirectory()->getBaseName();
@@ -90,7 +95,7 @@ function getVideos($username, $password, $directory) {
 		$video["size"] = $file->getSize();
 		
 		try {
-			$moddate = $newfile->getModificationDate();
+			$moddate = $file->getModificationDate();
 			$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
 		} catch(Exception $ex) {
 			return new SoapFault("Server", $ex->getMessage());
@@ -132,7 +137,7 @@ function getVideo($username, $password, $directory, $file) {
 	$video["size"] = $file->getSize();
 	
 	try {
-		$moddate = $newfile->getModificationDate();
+		$moddate = $file->getModificationDate();
 		$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
 	} catch(Exception $ex) {
 		return new SoapFault("Server", $ex->getMessage());
