@@ -31,6 +31,7 @@ define("WSDL", MYPATH."/middtube.wsdl");
 require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
 require_once(dirname(__FILE__)."/main/include/setup.inc.php");
 
+
 /**
  * Return a list of directories the user or group has access to view.
  *
@@ -43,9 +44,7 @@ require_once(dirname(__FILE__)."/main/include/setup.inc.php");
 function getDirs($username, $password) {
 	
 	$manager = MiddTubeManager::forUsernamePassword($username, $password);
-
 	$directories = array();
-	
 	try {
 		$directories[] = $manager->getPersonalDirectory()->getBaseName();
 	} catch(Exception $ex) {
@@ -72,7 +71,7 @@ function getDirs($username, $password) {
  * @since				0.1
  */
 function getVideos($username, $password, $directory) {
-
+	
 	try {
 		$manager = MiddTubeManager::forUsernamePassword($username, $password);
 	} catch(Exception $ex) {
@@ -99,7 +98,7 @@ function getVideos($username, $password, $directory) {
 		
 		$videos[] = $video;
 	}
-
+	
 	return $videos;
 }
 
@@ -115,7 +114,7 @@ function getVideos($username, $password, $directory) {
  * @since				0.1
  */
 function getVideo($username, $password, $directory, $file) {
-
+	
 	try {
 		$manager = MiddTubeManager::forUsernamePassword($username, $password);
 	} catch(Exception $ex) {
@@ -171,7 +170,6 @@ function addVideo($username, $password, $directory, $file, $filename, $filetype,
 		$video["rtmpurl"] = $newfile->getRtmpUrl();
 		$video["mimetype"] = $newfile->getMimeType();
 		$video["size"] = $newfile->getSize();
-
 		$moddate = $newfile->getModificationDate();
 		$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
 	} catch(Exception $ex) {
@@ -221,3 +219,4 @@ $server->addFunction(
 );
 
 $server->handle();
+
