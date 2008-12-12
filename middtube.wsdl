@@ -30,18 +30,31 @@
 					</xsd:restriction>
 				</xsd:complexContent>
 			</xsd:complexType>
+
 			<xsd:complexType name="directories">
+
 				<xsd:complexContent>
+
 					<xsd:restriction base="SOAP-ENC:Array">
+
 						<attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:string" />
+
 					</xsd:restriction>
+
 				</xsd:complexContent>
+
 			</xsd:complexType>
 		</xsd:schema>
 	</types>
+
 	<message name="getDirsRequest">
 		<part name="username" type="xsd:string" />
 		<part name="password" type="xsd:string" />
+	</message>
+	<message name="serviceGetDirsRequest">
+		<part name="username" type="xsd:string" />
+		<part name="serviceId" type="xsd:string" />
+		<part name="serviceKey" type="xsd:string" />
 	</message>
 	<message name="getDirsResponse">
 		<part name="directories" type="directories" />
@@ -51,12 +64,25 @@
 		<part name="password" type="xsd:string" />
 		<part name="directory" type="xsd:string" />
 	</message>
+	<message name="serviceGetVideosRequest">
+		<part name="username" type="xsd:string" />
+		<part name="serviceId" type="xsd:string" />
+		<part name="serviceKey" type="xsd:string" />
+		<part name="directory" type="xsd:string" />
+	</message>
 	<message name="getVideosResponse">
 		<part name="videos" type="videos" />
 	</message>
 	<message name="getVideoRequest">
 		<part name="username" type="xsd:string" />
 		<part name="password" type="xsd:string" />
+		<part name="directory" type="xsd:string" />
+		<part name="file" type="xsd:string" />
+	</message>
+	<message name="serviceGetVideoRequest">
+		<part name="username" type="xsd:string" />
+		<part name="serviceId" type="xsd:string" />
+		<part name="serviceKey" type="xsd:string" />
 		<part name="directory" type="xsd:string" />
 		<part name="file" type="xsd:string" />
 	</message>
@@ -72,6 +98,16 @@
 		<part name="filetype" type="xsd:string" />
 		<part name="filesize" type="xsd:integer" />
 	</message>
+	<message name="serviceAddVideoRequest">
+		<part name="username" type="xsd:string" />
+		<part name="serviceId" type="xsd:string" />
+		<part name="serviceKey" type="xsd:string" />
+		<part name="directory" type="xsd:string" />
+		<part name="file" type="xsd:base64Binary" />
+		<part name="filename" type="xsd:string" />
+		<part name="filetype" type="xsd:string" />
+		<part name="filesize" type="xsd:integer" />
+	</message>
 	<message name="addVideoResponse">
 		<part name="video" type="video" />
 	</message>
@@ -81,10 +117,18 @@
 		<part name="directory" type="xsd:string" />
 		<part name="file" type="xsd:string" />
 	</message>
+	<message name="serviceDelVideoRequest">
+		<part name="username" type="xsd:string" />
+		<part name="serviceId" type="xsd:string" />
+		<part name="serviceKey" type="xsd:string" />
+		<part name="directory" type="xsd:string" />
+		<part name="file" type="xsd:string" />
+	</message>
 	<message name="delVideoResponse">
 		<part name="result" type="xsd:boolean" />
 	</message>
 	<portType name="MiddTubePortType">
+
 		<operation name="getDirs">
 			<documentation>
 				Get a list of directories for a user or group.
@@ -105,6 +149,7 @@
 			</documentation>
 			<input message="tns:getVideoRequest" />
 			<output message="tns:getVideoResponse" />
+
 		</operation>
 		<operation name="addVideo">
 			<documentation>
@@ -118,6 +163,43 @@
 				Remove a video file from a user or group's directory.
 			</documentation>
 			<input message="tns:delVideoRequest" />
+			<output message="tns:delVideoResponse" />
+		</operation>
+		
+		<operation name="serviceGetDirs">
+			<documentation>
+				Get a list of directories for a user or group.
+			</documentation>
+			<input message="tns:serviceGetDirsRequest" />
+			<output message="tns:getDirsResponse" />
+		</operation>
+		<operation name="serviceGetVideos">
+			<documentation>
+				Get a list of video information for a user or group.
+			</documentation>
+			<input message="tns:serviceGetVideosRequest" />
+			<output message="tns:getVideosResponse" />
+		</operation>
+		<operation name="serviceGetVideo">
+			<documentation>
+				Get video information for a single video.
+			</documentation>
+			<input message="tns:serviceGetVideoRequest" />
+			<output message="tns:getVideoResponse" />
+
+		</operation>
+		<operation name="serviceAddVideo">
+			<documentation>
+				Add a video file to a user or group's directory.
+			</documentation>
+			<input message="tns:serviceAddVideoRequest" />
+			<output message="tns:addVideoResponse" />
+		</operation>
+		<operation name="serviceDelVideo">
+			<documentation>
+				Remove a video file from a user or group's directory.
+			</documentation>
+			<input message="tns:serviceDelVideoRequest" />
 			<output message="tns:delVideoResponse" />
 		</operation>
 	</portType>
@@ -161,6 +243,52 @@
 		</operation>
 		<operation name="delVideo">
 			<soap:operation soapAction="urn:MiddTube#delVideo" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		
+		<operation name="serviceGetDirs">
+			<soap:operation soapAction="urn:MiddTube#serviceGetDirs" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="serviceGetVideos">
+			<soap:operation soapAction="urn:MiddTube#serviceGetVideos" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="serviceGetVideo">
+			<soap:operation soapAction="urn:MiddTube#serviceGetVideo" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="serviceAddVideo">
+			<soap:operation soapAction="urn:MiddTube#serviceAddVideo" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
+		<operation name="serviceDelVideo">
+			<soap:operation soapAction="urn:MiddTube#serviceDelVideo" style="rpc" />
 			<input>
 				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</input>

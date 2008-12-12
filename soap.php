@@ -42,13 +42,42 @@ require_once(dirname(__FILE__)."/main/include/setup.inc.php");
  * @since						0.2
  */
 function getDirs($username, $password) {
-	
 	try {
 		$manager = MiddTubeManager::forUsernamePassword($username, $password);
+		return doGetDirs($manager);
 	} catch(Exception $ex) {
 		return new SoapFault($ex->getMessage());
 	}
-	
+}
+
+/**
+ * Return a list of directories the user or group has access to view.
+ *
+ * @access	public
+ * @param 	string	$username	The user already authenticated
+ * @param	string	$serviceId	The service who is acting as an authentication proxy.
+ * @param	string	$serviceKey	The key of the service who is acting as an authentication proxy.
+ * @return	array				List of directories.
+ * @since						0.2
+ */
+function serviceGetDirs($username, $serviceId, $serviceKey) {
+	try {
+		$manager = MiddTubeManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		return doGetDirs($manager);
+	} catch(Exception $ex) {
+		return new SoapFault($ex->getMessage());
+	}
+}
+
+/**
+ * Return a list of directories the user has access to through the manger.
+ * 
+ * @param MiddTubeManager $manager	The manager to use in this request.
+ * @return array					List of directories
+ * @access public
+ * @since 12/12/08
+ */
+function doGetDirs (MiddTubeManager $manager) {
 	$directories = array();
 	try {
 		$directories[] = $manager->getPersonalDirectory()->getBaseName();
@@ -76,13 +105,44 @@ function getDirs($username, $password) {
  * @since				0.1
  */
 function getVideos($username, $password, $directory) {
-	
 	try {
 		$manager = MiddTubeManager::forUsernamePassword($username, $password);
+		return doGetVideos($manager, $directory);
 	} catch(Exception $ex) {
 		return new SoapFault($ex->getMessage());
 	}
-	
+}
+
+/**
+ * Return a list of video information in the user or group directory.
+ *
+ * @access	public
+ * @param 	string	$username	The user already authenticated
+ * @param	string	$serviceId	The service who is acting as an authentication proxy.
+ * @param	string	$serviceKey	The key of the service who is acting as an authentication proxy.
+ * @param	string	$directory	User or Group name.
+ * @return	array				List of directories.
+ * @since 12/12/08
+ */
+function serviceGetVideos($username, $serviceId, $serviceKey, $directory) {
+	try {
+		$manager = MiddTubeManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		return doGetVideos($manager, $directory);
+	} catch(Exception $ex) {
+		return new SoapFault($ex->getMessage());
+	}
+}
+
+/**
+ * Return a list of video information in the user or group directory.
+ *
+ * @access	public
+ * @param MiddTubeManager $manager	The manager to use in this request.
+ * @param	string	$directory	User or Group name.
+ * @return	array				List of video information.
+ * @since 12/12/08
+ */
+function doGetVideos(MiddTubeManager $manager, $directory) {
 	$videos = array();
 	
 	foreach($manager->getDirectory($directory)->getFiles() as $file) {
@@ -119,13 +179,46 @@ function getVideos($username, $password, $directory) {
  * @since				0.1
  */
 function getVideo($username, $password, $directory, $file) {
-	
 	try {
 		$manager = MiddTubeManager::forUsernamePassword($username, $password);
+		return doGetVideo($manager, $directory, $file);
 	} catch(Exception $ex) {
 		return new SoapFault("server", $ex->getMessage());
 	}
-	
+}
+
+/**
+ * Return information about a specific video in the user or group directory.
+ *
+ * @access	public
+ * @param 	string	$username	The user already authenticated
+ * @param	string	$serviceId	The service who is acting as an authentication proxy.
+ * @param	string	$serviceKey	The key of the service who is acting as an authentication proxy.
+ * @param	string	$directory	User or Group name.
+ * @param	string	$file		Name of the video file.
+ * @return	array			Video information.
+ * @since 12/12/08
+ */
+function serviceGetVideo($username, $serviceId, $serviceKey, $directory, $file) {
+	try {
+		$manager = MiddTubeManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		return doGetVideo($manager, $directory, $file);
+	} catch(Exception $ex) {
+		return new SoapFault("server", $ex->getMessage());
+	}
+}
+
+/**
+ * Return information about a specific video in the user or group directory.
+ *
+ * @access	public
+ * @param MiddTubeManager $manager	The manager to use in this request.
+ * @param	string	$directory	User or Group name.
+ * @param	string	$file		Name of the video file.
+ * @return	array			Video information.
+ * @since 12/12/08
+ */
+function doGetVideo(MiddTubeManager $manager, $directory, $file) {
 	$video = array();
 	
 	$file = $manager->getDirectory($directory)->getFile($file);
@@ -161,25 +254,65 @@ function getVideo($username, $password, $directory, $file) {
  * @since				0.1
  */
 function addVideo($username, $password, $directory, $file, $filename, $filetype, $filesize) {
-	
-	$video = array();
-	
 	try {
 		$manager = MiddTubeManager::forUsernamePassword($username, $password);
-		$directory = MiddTube_Directory::getIfExists($manager, $directory);
-		$newfile = $directory->createFile($filename);
-		$newfile->putContents(base64_decode($file));
-		
-		$video["name"] = $newfile->getBaseName();
-		$video["httpurl"] = $newfile->getHttpUrl();
-		$video["rtmpurl"] = $newfile->getRtmpUrl();
-		$video["mimetype"] = $newfile->getMimeType();
-		$video["size"] = $newfile->getSize();
-		$moddate = $newfile->getModificationDate();
-		$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
+		return doAddVideo($manager, $directory, $file, $filename, $filetype, $filesize);
 	} catch(Exception $ex) {
-		return new SoapFault("Server", $ex->getMessage());
+		return new SoapFault("server", $ex->getMessage());
 	}
+}
+
+/**
+ * Add a new video to the user or group directory.
+ *
+ * @access	public
+ * @param 	string	$username	The user already authenticated
+ * @param	string	$serviceId	The service who is acting as an authentication proxy.
+ * @param	string	$serviceKey	The key of the service who is acting as an authentication proxy.
+ * @param	string	$directory	User or Group name.
+ * @param	string	$file		base64string of file data.
+ * @param	string	$filename	Name of the video.
+ * @param	string	$filetype	MIME type of the video.
+ * @param	string	$filesize	Byte size of the video.
+ * @return	array			Video information.
+ * @since				0.1
+ */
+function serviceAddVideo($username, $serviceId, $serviceKey, $directory, $file, $filename, $filetype, $filesize) {
+	try {
+		$manager = MiddTubeManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		return doAddVideo($manager, $directory, $file, $filename, $filetype, $filesize);
+	} catch(Exception $ex) {
+		return new SoapFault("server", $ex->getMessage());
+	}
+}
+
+/**
+ * Add a new video to the user or group directory.
+ *
+ * @access	public
+ * @param MiddTubeManager $manager	The manager to use in this request.
+ * @param	string	$directory	User or Group name.
+ * @param	string	$file		base64string of file data.
+ * @param	string	$filename	Name of the video.
+ * @param	string	$filetype	MIME type of the video.
+ * @param	string	$filesize	Byte size of the video.
+ * @return	array			Video information.
+ * @since				0.1
+ */
+function doAddVideo(MiddTubeManager $manager, $directory, $file, $filename, $filetype, $filesize) {
+	$video = array();
+
+	$directory = MiddTube_Directory::getIfExists($manager, $directory);
+	$newfile = $directory->createFile($filename);
+	$newfile->putContents(base64_decode($file));
+	
+	$video["name"] = $newfile->getBaseName();
+	$video["httpurl"] = $newfile->getHttpUrl();
+	$video["rtmpurl"] = $newfile->getRtmpUrl();
+	$video["mimetype"] = $newfile->getMimeType();
+	$video["size"] = $newfile->getSize();
+	$moddate = $newfile->getModificationDate();
+	$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
 
 	return $video;
 }
@@ -195,18 +328,49 @@ function addVideo($username, $password, $directory, $file, $filename, $filetype,
  * @since				0.1
  */
 function delVideo($username, $password, $directory, $filename) {
-	
 	try {
 		$manager = MiddTubeManager::forUsernamePassword($username, $password);
-		$directory = MiddTube_Directory::getIfExists($manager, $directory);
-		$file = $directory->getFile($filename);
-		$file->delete();
+		return doDelVideo($manager, $directory, $filename);
 	} catch(Exception $ex) {
 		return new SoapFault("Server", $ex->getMessage());
 	}
-	
 }
- 
+
+/**
+ * Remove a video from the user or group directory.
+ *
+ * @access	public
+ * @param 	string	$username	The user already authenticated
+ * @param	string	$serviceId	The service who is acting as an authentication proxy.
+ * @param	string	$serviceKey	The key of the service who is acting as an authentication proxy.
+ * @param	string	$directory	User or Group name.
+ * @param	string	$filename	Name of the video.
+ * @since				0.1
+ */
+function serviceDelVideo($username, $serviceId, $serviceKey, $directory, $filename) {
+	try {
+		$manager = MiddTubeManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		return doDelVideo($manager, $directory, $filename);
+	} catch(Exception $ex) {
+		return new SoapFault("Server", $ex->getMessage());
+	}
+}
+
+/**
+ * Remove a video from the user or group directory.
+ *
+ * @access	public
+ * @param	string	$username	Username for authentication.
+ * @param	string	$password	Password for authentication.
+ * @param	string	$directory	User or Group name.
+ * @param	string	$filename	Name of the video.
+ * @since				0.1
+ */
+function doDelVideo(MiddTubeManager $manager, $directory, $filename) {
+	$directory = MiddTube_Directory::getIfExists($manager, $directory);
+	$file = $directory->getFile($filename);
+	$file->delete();
+} 
 
 /********************************************************
  * SOAP Server Initialization.
@@ -219,7 +383,12 @@ $server->addFunction(
 		"getVideos",
 		"getVideo",
 		"addVideo",
-		"delVideo"
+		"delVideo",
+		"serviceGetDirs",
+		"serviceGetVideos",
+		"serviceGetVideo",
+		"serviceAddVideo",
+		"serviceDelVideo"
 	)
 );
 
