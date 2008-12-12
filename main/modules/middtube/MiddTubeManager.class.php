@@ -443,11 +443,10 @@ class MiddTubeManager {
 	 * @since 8/23/07
 	 */
 	private function hasPersonal () {
-		$authN = Services::getService("AuthN");
 		$idManager = Services::getService("Id");
 		$agentManager = Services::getService("Agent");
 		
-		$userId = $authN->getFirstUserId();
+		$userId = $this->_agent->getId();
 		
 		if (!$userId->isEqual($idManager->getId("edu.middlebury.agents.anonymous"))) {
 			// Match the groups the user is in against our configuration of
