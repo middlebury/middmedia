@@ -1,12 +1,11 @@
 package {
-	/*
-	* Todo:
-	* I should look in to using array.splice to remove cancelled files from the array.
-	* Add GetFile(file_id) function that returns the FileItem js object for any file (defaults to current or first in queue).
-	* */
-
+	import flash.display.BlendMode;
+	import flash.display.DisplayObjectContainer;
+	import flash.display.Loader;
 	import flash.display.Stage;
 	import flash.display.Sprite;
+	import flash.display.StageAlign;
+	import flash.display.StageScaleMode;
 	import flash.net.FileReferenceList;
 	import flash.net.FileReference;
 	import flash.net.FileFilter;
@@ -16,6 +15,16 @@ package {
 	import flash.events.*;
 	import flash.external.ExternalInterface;
 	import flash.system.Security;
+	import flash.text.AntiAliasType;
+	import flash.text.GridFitType;
+	import flash.text.StaticText;
+	import flash.text.StyleSheet;
+	import flash.text.TextDisplayMode;
+	import flash.text.TextField;
+	import flash.text.TextFieldType;
+	import flash.text.TextFieldAutoSize;
+	import flash.text.TextFormat;
+	import flash.ui.Mouse;
 
 	import FileItem;
 	import ExternalCall;
@@ -27,7 +36,7 @@ package {
 			var SWFUpload:SWFUpload = new SWFUpload();
 		}
 		
-		private const build_number:String = "SWFUPLOAD 2.1.0 FP9 2008-05-12";
+		private const build_number:String = "SWFUPLOAD 2.2.0 Beta 3 2008-11-16";
 		
 		// State tracking variables
 		private var fileBrowserMany:FileReferenceList = new FileReferenceList();
@@ -74,8 +83,25 @@ package {
 		private var fileQueueLimit:Number = 0;
 		private var useQueryString:Boolean = false;
 		private var requeueOnError:Boolean = false;
+		private var httpSuccess:Array = [];
 		private var debugEnabled:Boolean;
 
+		private var buttonLoader:Loader;
+		private var buttonTextField:TextField;
+		private var buttonCursorSprite:Sprite;
+		private var buttonImageURL:String;
+		private var buttonWidth:Number;
+		private var buttonHeight:Number;
+		private var buttonText:String;
+		private var buttonTextStyle:String;
+		private var buttonTextTopPadding:Number;
+		private var buttonTextLeftPadding:Number;
+		private var buttonAction:Number;
+		private var buttonCursor:Number;
+		private var buttonStateOver:Boolean;
+		private var buttonStateMouseDown:Boolean;
+		private var buttonStateDisabled:Boolean;
+		
 		// Error code "constants"
 		// Size check constants
 		private var SIZE_TOO_BIG:Number		= 1;
@@ -100,6 +126,15 @@ package {
 		private var ERROR_CODE_FILE_CANCELLED:Number				= -280;
 		private var ERROR_CODE_UPLOAD_STOPPED:Number				= -290;
 
+		
+		// Button Actions
+		private var BUTTON_ACTION_SELECT_FILE:Number                = -100;
+		private var BUTTON_ACTION_SELECT_FILES:Number               = -110;
+		private var BUTTON_ACTION_START_UPLOAD:Number               = -120;
+		
+		private var BUTTON_CURSOR_ARROW:Number						= -1;
+		private var BUTTON_CURSOR_HAND:Number						= -2;
+		
 		public function SWFUpload() {
 			// Do the feature detection.  Make sure this version of Flash supports the features we need. If not
 			// abort initialization.
@@ -107,18 +142,85 @@ package {
 				return;
 			}
 
-			
 			Security.allowDomain("*");	// Allow uploading to any domain
 			
 			// Keep Flash Player busy so it doesn't show the "flash script is running slowly" error
 			var counter:Number = 0;
-			root.addEventListener(Event.ENTER_FRAME, function ():void { if (++counter > 100) counter = 100; });
+			root.addEventListener(Event.ENTER_FRAME, function ():void { if (++counter > 100) counter = 0; });
 
 			// Setup file FileReferenceList events
 			this.fileBrowserMany.addEventListener(Event.SELECT, this.Select_Many_Handler);
 			this.fileBrowserMany.addEventListener(Event.CANCEL,  this.DialogCancelled_Handler);
 
-			// Get the move name
+
+			this.stage.align = StageAlign.TOP_LEFT;
+			this.stage.scaleMode = StageScaleMode.NO_SCALE;			
+
+			// Setup the button and text label
+			this.buttonLoader = new Loader();
+			var doNothing:Function = function ():void { };
+			this.buttonLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, doNothing );
+			this.buttonLoader.contentLoaderInfo.addEventListener(HTTPStatusEvent.HTTP_STATUS, doNothing );
+			this.stage.addChild(this.buttonLoader);
+
+			var self:SWFUpload = this;
+			
+			this.stage.addEventListener(MouseEvent.CLICK, function (event:MouseEvent):void {
+				self.UpdateButtonState();
+				self.ButtonClickHandler(event);
+			});
+			this.stage.addEventListener(MouseEvent.MOUSE_DOWN, function (event:MouseEvent):void {
+				self.buttonStateMouseDown = true;
+				self.UpdateButtonState();
+			});
+			this.stage.addEventListener(MouseEvent.MOUSE_UP, function (event:MouseEvent):void {
+				self.buttonStateMouseDown = false;
+				self.UpdateButtonState();
+			});
+			this.stage.addEventListener(MouseEvent.MOUSE_OVER, function (event:MouseEvent):void {
+				self.buttonStateMouseDown = event.buttonDown;
+				self.buttonStateOver = true;
+				self.UpdateButtonState();
+			});
+			this.stage.addEventListener(MouseEvent.MOUSE_OUT, function (event:MouseEvent):void {
+				self.buttonStateMouseDown = false;
+				self.buttonStateOver = false;
+				self.UpdateButtonState();
+			});
+			// Handle the mouse leaving the flash movie altogether
+			this.stage.addEventListener(Event.MOUSE_LEAVE, function (event:Event):void {
+				self.buttonStateMouseDown = false;
+				self.buttonStateOver = false;
+				self.UpdateButtonState();
+			});
+			
+			this.buttonTextField = new TextField();
+			this.buttonTextField.type = TextFieldType.DYNAMIC;
+			this.buttonTextField.antiAliasType = AntiAliasType.ADVANCED;
+			this.buttonTextField.autoSize = TextFieldAutoSize.NONE;
+			this.buttonTextField.cacheAsBitmap = true;
+			this.buttonTextField.multiline = true;
+			this.buttonTextField.wordWrap = false;
+			this.buttonTextField.tabEnabled = false;
+			this.buttonTextField.background = false;
+			this.buttonTextField.border = false;
+			this.buttonTextField.selectable = false;
+			this.buttonTextField.condenseWhite = true;
+			
+			this.stage.addChild(this.buttonTextField);
+			
+			
+			this.buttonCursorSprite = new Sprite();
+			this.buttonCursorSprite.graphics.beginFill(0xFFFFFF, 0);
+			this.buttonCursorSprite.graphics.drawRect(0, 0, 1, 1);
+			this.buttonCursorSprite.graphics.endFill();
+			this.buttonCursorSprite.buttonMode = true;
+			this.buttonCursorSprite.x = 0;
+			this.buttonCursorSprite.y = 0;
+			this.buttonCursorSprite.addEventListener(MouseEvent.CLICK, doNothing);
+			this.stage.addChild(this.buttonCursorSprite);
+			
+			// Get the movie name
 			this.movieName = root.loaderInfo.parameters.movieName;
 
 			// **Configure the callbacks**
@@ -206,10 +308,70 @@ package {
 			} catch (ex:Object) {
 				this.requeueOnError = false;
 			}
+
+			try {
+				this.SetHTTPSuccess(String(root.loaderInfo.parameters.httpSuccess));
+			} catch (ex:Object) {
+				this.SetHTTPSuccess([]);
+			}
+
+			try {
+				this.SetButtonDimensions(Number(root.loaderInfo.parameters.buttonWidth), Number(root.loaderInfo.parameters.buttonHeight));
+			} catch (ex:Object) {
+				this.SetButtonDimensions(0, 0);
+			}
+
+			try {
+				this.SetButtonImageURL(String(root.loaderInfo.parameters.buttonImageURL));
+			} catch (ex:Object) {
+				this.SetButtonImageURL("");
+			}
 			
 			try {
-				ExternalInterface.addCallback("SelectFile", this.SelectFile);
-				ExternalInterface.addCallback("SelectFiles", this.SelectFiles);
+				this.SetButtonText(String(root.loaderInfo.parameters.buttonText));
+			} catch (ex:Object) {
+				this.SetButtonText("");
+			}
+			
+			try {
+				this.SetButtonTextPadding(Number(root.loaderInfo.parameters.buttonTextLeftPadding), Number(root.loaderInfo.parameters.buttonTextTopPadding));
+			} catch (ex:Object) {
+				this.SetButtonTextPadding(0, 0);
+			}
+
+			try {
+				this.SetButtonTextStyle(String(root.loaderInfo.parameters.buttonTextStyle));
+			} catch (ex:Object) {
+				this.SetButtonTextStyle("");
+			}
+
+			try {
+				this.SetButtonTextStyle(String(root.loaderInfo.parameters.buttonTextStyle));
+			} catch (ex:Object) {
+				this.SetButtonTextStyle("");
+			}
+
+			try {
+				this.SetButtonAction(Number(root.loaderInfo.parameters.buttonAction));
+			} catch (ex:Object) {
+				this.SetButtonAction(this.BUTTON_ACTION_SELECT_FILES);
+			}
+			
+			try {
+				this.SetButtonDisabled(root.loaderInfo.parameters.buttonDisabled == "true" ? true : false);
+			} catch (ex:Object) {
+				this.SetButtonDisabled(Boolean(false));
+			}
+			
+			try {
+				this.SetButtonCursor(Number(root.loaderInfo.parameters.buttonCursor));
+			} catch (ex:Object) {
+				this.SetButtonCursor(this.BUTTON_CURSOR_ARROW);
+			}
+			
+			try {
+				//ExternalInterface.addCallback("SelectFile", this.SelectFile);
+				//ExternalInterface.addCallback("SelectFiles", this.SelectFiles);
 				ExternalInterface.addCallback("StartUpload", this.StartUpload);
 				ExternalInterface.addCallback("ReturnUploadStart", this.ReturnUploadStart);
 				ExternalInterface.addCallback("StopUpload", this.StopUpload);
@@ -232,7 +394,17 @@ package {
 				ExternalInterface.addCallback("SetFilePostName", this.SetFilePostName);
 				ExternalInterface.addCallback("SetUseQueryString", this.SetUseQueryString);
 				ExternalInterface.addCallback("SetRequeueOnError", this.SetRequeueOnError);
+				ExternalInterface.addCallback("SetHTTPSuccess", this.SetHTTPSuccess);
 				ExternalInterface.addCallback("SetDebugEnabled", this.SetDebugEnabled);
+
+				ExternalInterface.addCallback("SetButtonImageURL", this.SetButtonImageURL);
+				ExternalInterface.addCallback("SetButtonDimensions", this.SetButtonDimensions);
+				ExternalInterface.addCallback("SetButtonText", this.SetButtonText);
+				ExternalInterface.addCallback("SetButtonTextPadding", this.SetButtonTextPadding);
+				ExternalInterface.addCallback("SetButtonTextStyle", this.SetButtonTextStyle);
+				ExternalInterface.addCallback("SetButtonAction", this.SetButtonAction);
+				ExternalInterface.addCallback("SetButtonDisabled", this.SetButtonDisabled);
+				ExternalInterface.addCallback("SetButtonCursor", this.SetButtonCursor);
 			} catch (ex:Error) {
 				this.Debug("Callbacks where not set.");
 				return;
@@ -249,7 +421,7 @@ package {
 		* *************************************** */
 		private function DialogCancelled_Handler(event:Event):void {
 			this.Debug("Event: fileDialogComplete: File Dialog window cancelled.");
-			ExternalCall.FileDialogComplete(this.fileDialogComplete_Callback, 0, 0);
+			ExternalCall.FileDialogComplete(this.fileDialogComplete_Callback, 0, 0, this.queued_uploads);
 		}
 
 		private function Open_Handler(event:Event):void {
@@ -279,12 +451,28 @@ package {
 		}
 
 		private function HTTPError_Handler(event:HTTPStatusEvent):void {
-			this.upload_errors++;
-			this.current_file_item.file_status = FileItem.FILE_STATUS_ERROR;
+			var isSuccessStatus:Boolean = false;
+			for (var i:Number = 0; i < this.httpSuccess.length; i++) {
+				if (this.httpSuccess[i] === event.status) {
+					isSuccessStatus = true;
+					break;
+				}
+			}
+			
+			
+			if (isSuccessStatus) {
+				this.Debug("Event: httpError: Translating status code " + event.status + " to uploadSuccess");
 
-			this.Debug("Event: uploadError: HTTP ERROR : File ID: " + this.current_file_item.id + ". HTTP Status: " + event.status + ".");
-			ExternalCall.UploadError(this.uploadError_Callback, this.ERROR_CODE_HTTP_ERROR, this.current_file_item.ToJavaScriptObject(), event.status.toString());
-			this.UploadComplete(true); 	// An IO Error is also called so we don't want to complete the upload yet.
+				var serverDataEvent:DataEvent = new DataEvent(DataEvent.UPLOAD_COMPLETE_DATA, event.bubbles, event.cancelable, "");
+				this.ServerData_Handler(serverDataEvent);
+			} else {
+				this.upload_errors++;
+				this.current_file_item.file_status = FileItem.FILE_STATUS_ERROR;
+
+				this.Debug("Event: uploadError: HTTP ERROR : File ID: " + this.current_file_item.id + ". HTTP Status: " + event.status + ".");
+				ExternalCall.UploadError(this.uploadError_Callback, this.ERROR_CODE_HTTP_ERROR, this.current_file_item.ToJavaScriptObject(), event.status.toString());
+				this.UploadComplete(true); 	// An IO Error is also called so we don't want to complete the upload yet.
+			}
 		}
 		
 		// Note: Flash Player does not support Uploads that require authentication. Attempting this will trigger an
@@ -394,7 +582,7 @@ package {
 			}
 			
 			this.Debug("Event: fileDialogComplete : Finished processing selected files. Files selected: " + file_reference_list.length + ". Files Queued: " + num_files_queued);
-			ExternalCall.FileDialogComplete(this.fileDialogComplete_Callback, file_reference_list.length, num_files_queued);
+			ExternalCall.FileDialogComplete(this.fileDialogComplete_Callback, file_reference_list.length, num_files_queued, this.queued_uploads);
 		}
 
 		
@@ -475,7 +663,7 @@ package {
 		 * event gets called.
 		 * If the file is not currently uploading then only the uploadCancelled event is fired.
 		 * */
-		private function CancelUpload(file_id:String):void {
+		private function CancelUpload(file_id:String, triggerErrorEvent:Boolean = true):void {
 			var file_item:FileItem = null;
 			
 			// Check the current file item
@@ -484,9 +672,12 @@ package {
 					this.current_file_item.file_status = FileItem.FILE_STATUS_CANCELLED;
 					this.upload_cancelled++;
 					
-					this.Debug("Event: uploadError: File ID: " + this.current_file_item.id + ". Cancelled current upload");
-					ExternalCall.UploadError(this.uploadError_Callback, this.ERROR_CODE_FILE_CANCELLED, this.current_file_item.ToJavaScriptObject(), "File Upload Cancelled.");
-
+					if (triggerErrorEvent) {
+						this.Debug("Event: uploadError: File ID: " + this.current_file_item.id + ". Cancelled current upload");
+						ExternalCall.UploadError(this.uploadError_Callback, this.ERROR_CODE_FILE_CANCELLED, this.current_file_item.ToJavaScriptObject(), "File Upload Cancelled.");
+					} else {
+						this.Debug("Event: cancelUpload: File ID: " + this.current_file_item.id + ". Cancelled current upload. Suppressed uploadError event.");
+					}
 					this.UploadComplete(false);
 			} else if (file_id) {
 					// Find the file in the queue
@@ -504,8 +695,12 @@ package {
 						this.removeFileReferenceEventListeners(file_item);
 						file_item.file_reference = null;
 						
-						this.Debug("Event: uploadError : " + file_item.id + ". Cancelled queued upload");
-						ExternalCall.UploadError(this.uploadError_Callback, this.ERROR_CODE_FILE_CANCELLED, file_item.ToJavaScriptObject(), "File Cancelled");
+						if (triggerErrorEvent) {
+							this.Debug("Event: uploadError : " + file_item.id + ". Cancelled queued upload");
+							ExternalCall.UploadError(this.uploadError_Callback, this.ERROR_CODE_FILE_CANCELLED, file_item.ToJavaScriptObject(), "File Cancelled");
+						} else {
+							this.Debug("Event: cancelUpload: File ID: " + file_item.id + ". Cancelled current upload. Suppressed uploadError event.");
+						}
 
 						// Get rid of the file object
 						file_item = null;
@@ -532,8 +727,12 @@ package {
 					this.removeFileReferenceEventListeners(file_item);
 					file_item.file_reference = null;
 
-					this.Debug("Event: uploadError : " + file_item.id + ". Cancelled queued upload");
-					ExternalCall.UploadError(this.uploadError_Callback, this.ERROR_CODE_FILE_CANCELLED, file_item.ToJavaScriptObject(), "File Cancelled");
+					if (triggerErrorEvent) {
+						this.Debug("Event: uploadError : " + file_item.id + ". Cancelled queued upload");
+						ExternalCall.UploadError(this.uploadError_Callback, this.ERROR_CODE_FILE_CANCELLED, file_item.ToJavaScriptObject(), "File Cancelled");
+					} else {
+						this.Debug("Event: cancelUpload: File ID: " + file_item.id + ". Cancelled current upload. Suppressed uploadError event.");
+					}
 
 					// Get rid of the file object
 					file_item = null;
@@ -693,8 +892,136 @@ package {
 			this.requeueOnError = requeue_on_error;
 		}
 		
+		private function SetHTTPSuccess(http_status_codes:*):void {
+			this.httpSuccess = [];
+
+			if (typeof http_status_codes === "string") {
+				var status_code_strings:Array = http_status_codes.replace(" ", "").split(",");
+				for each (var http_status_string:String in status_code_strings) 
+				{
+					try {
+						this.httpSuccess.push(Number(http_status_string));
+					} catch (ex:Object) {
+						// Ignore errors
+						this.Debug("Could not add HTTP Success code: " + http_status_string);
+					}
+				}
+			}
+			else if (typeof http_status_codes === "object" && typeof http_status_codes.length === "number") {
+				for each (var http_status:* in http_status_codes) 
+				{
+					try {
+						this.Debug("adding: " + http_status);
+						this.httpSuccess.push(Number(http_status));
+					} catch (ex:Object) {
+						this.Debug("Could not add HTTP Success code: " + http_status);
+					}
+				}
+			}
+		}
+
 		private function SetDebugEnabled(debug_enabled:Boolean):void {
 			this.debugEnabled = debug_enabled;
+		}
+		
+		/* *************************************************************
+			Button Handling Functions
+		*************************************************************** */
+		private function SetButtonImageURL(button_image_url:String):void {
+			this.buttonImageURL = button_image_url;
+
+			try {
+				if (this.buttonImageURL !== null && this.buttonImageURL !== "") {
+					this.buttonLoader.load(new URLRequest(this.buttonImageURL));
+				}
+			} catch (ex:Object) {
+			}
+		}
+		
+		private function ButtonClickHandler(e:MouseEvent):void {
+			if (!this.buttonStateDisabled) {
+				if (this.buttonAction === this.BUTTON_ACTION_SELECT_FILE) {
+					this.SelectFile();
+				}
+				else if (this.buttonAction === this.BUTTON_ACTION_START_UPLOAD) {
+					this.StartUpload();
+				}
+				else {
+					this.SelectFiles();
+				}
+			}
+		}
+		
+		private function UpdateButtonState():void {
+			var xOffset:Number = 0;
+			var yOffset:Number = 0;
+			
+			this.buttonLoader.x = xOffset;
+			this.buttonLoader.y = yOffset;
+			
+			if (this.buttonStateDisabled) {
+				this.buttonLoader.y = this.buttonHeight * -3 + yOffset;
+			}
+			else if (this.buttonStateMouseDown) {
+				this.buttonLoader.y = this.buttonHeight * -2 + yOffset;
+			}
+			else if (this.buttonStateOver) {
+				this.buttonLoader.y = this.buttonHeight * -1 + yOffset;
+			}
+			else {
+				this.buttonLoader.y = -yOffset;
+			}
+		};
+
+		private function SetButtonDimensions(width:Number = -1, height:Number = -1):void {
+			if (width >= 0) {
+				this.buttonWidth = width;
+			}
+			if (height >= 0) {
+				this.buttonHeight = height;
+			}
+			
+			this.buttonTextField.width = this.buttonWidth;
+			this.buttonTextField.height = this.buttonHeight;
+			this.buttonCursorSprite.width = this.buttonWidth;
+			this.buttonCursorSprite.height = this.buttonHeight;
+			
+			this.UpdateButtonState();
+		}
+		
+		private function SetButtonText(button_text:String):void {
+			this.buttonText = button_text;
+			
+			this.SetButtonTextStyle(this.buttonTextStyle);
+		}
+		
+		private function SetButtonTextStyle(button_text_style:String):void {
+			this.buttonTextStyle = button_text_style;
+			
+			var style:StyleSheet = new StyleSheet();
+			style.parseCSS(this.buttonTextStyle);
+			this.buttonTextField.styleSheet = style;
+			this.buttonTextField.htmlText = this.buttonText;
+		}
+
+		private function SetButtonTextPadding(left:Number, top:Number):void {
+				this.buttonTextField.x = this.buttonTextLeftPadding = left;
+				this.buttonTextField.y = this.buttonTextTopPadding = top;
+		}
+		
+		private function SetButtonDisabled(disabled:Boolean):void {
+			this.buttonStateDisabled = disabled;
+			this.UpdateButtonState();
+		}
+		
+		private function SetButtonAction(button_action:Number):void {
+			this.buttonAction = button_action;
+		}
+		
+		private function SetButtonCursor(button_cursor:Number):void {
+			this.buttonCursor = button_cursor;
+			
+			this.buttonCursorSprite.useHandCursor = (button_cursor === this.BUTTON_CURSOR_HAND);
 		}
 		
 		/* *************************************************************
@@ -878,7 +1205,7 @@ package {
 				for (key in this.uploadPostObject) {
 					this.Debug("Global URL Item: " + key + "=" + this.uploadPostObject[key]);
 					if (this.uploadPostObject.hasOwnProperty(key)) {
-						pairs[key] = this.uploadPostObject[key];
+						pairs.push(escape(key) + "=" + escape(this.uploadPostObject[key]));
 					}
 				}
 
@@ -937,6 +1264,7 @@ package {
 			debug_info += "Upload URL:             " + this.uploadURL + "\n";
 			debug_info += "File Types String:      " + this.fileTypes + "\n";
 			debug_info += "Parsed File Types:      " + this.valid_file_extensions.toString() + "\n";
+			debug_info += "HTTP Success:           " + this.httpSuccess.join(", ") + "\n";
 			debug_info += "File Types Description: " + this.fileTypesDescription + "\n";
 			debug_info += "File Size Limit:        " + this.fileSizeLimit + " bytes\n";
 			debug_info += "File Upload Limit:      " + this.fileUploadLimit + "\n";

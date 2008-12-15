@@ -6,18 +6,17 @@
 <flex-config>
   <compiler>
     <source-path append="true">
-      <path-element>C:\Inetpub\wwwroot\other\swfupload\FlashDevelop\Flash9</path-element>
-      <path-element>C:\Documents and Settings\jaroberts\Local Settings\Application Data\FlashDevelop\Library\AS3\classes</path-element>
+      <path-element>C:\inetpub\wwwroot\other\swfupload\core\Flash</path-element>
+      <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
   </compiler>
   <file-specs>
-    <path-element>C:\Inetpub\wwwroot\other\swfupload\FlashDevelop\Flash9\SWFUpload.as</path-element>
+    <path-element>C:\inetpub\wwwroot\other\swfupload\core\Flash\SWFUpload.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
-  <default-frame-rate>1</default-frame-rate>
+  <default-frame-rate>15</default-frame-rate>
   <default-size>
-    <width>1</width>
-    <height>1</height>
+    <width>300</width>
+    <height>300</height>
   </default-size>
-  <metadata />
 </flex-config>

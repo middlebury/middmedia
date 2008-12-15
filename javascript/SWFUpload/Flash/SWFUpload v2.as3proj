@@ -4,10 +4,10 @@
   <output>
     <movie disabled="False" />
     <movie input="" />
-    <movie path="swfupload_f9.swf" />
-    <movie fps="1" />
-    <movie width="1" />
-    <movie height="1" />
+    <movie path="swfupload.swf" />
+    <movie fps="15" />
+    <movie width="300" />
+    <movie height="300" />
     <movie version="9" />
     <movie background="#FFFFFF" />
   </output>
@@ -51,6 +51,10 @@
   <rslPaths>
     <!-- example: <element path="..." /> -->
   </rslPaths>
+  <!-- Intrinsic Libraries -->
+  <intrinsics>
+    <!-- example: <element path="..." /> -->
+  </intrinsics>
   <!-- Assets to embed into the output SWF -->
   <library>
     <!-- example: <asset path="..." id="..." update="..." glyphs="..." mode="..." place="..." sharepoint="..." /> -->
