@@ -440,14 +440,14 @@ class browseAction
 					},
 					
 					// Button settings
-					button_image_url: '../SWFUpload_Samples/images/TestImageNoText_65x29.png',	// Relative to the Flash file
-					button_width: '65',
-					button_height: '29',
+					button_image_url: '".MYPATH."/javascript/SWFUpload_Samples/images/UploadBackground-100x22.png',	// Relative to the Flash file
+					button_width: '90',
+					button_height: '22',
 					button_placeholder_id: 'upload-".$dirId."',
 					button_text: '<span class=\"theFont\">Upload Files</span>',
-					button_text_style: '.theFont { font-size: 16; }',
-					button_text_left_padding: 12,
-					button_text_top_padding: 3,
+					button_text_style: '.theFont { font-family: Vedana,Arial,Helvetica,sans-serif; font-size: 13; }',
+					button_text_left_padding: 3,
+					button_text_top_padding: 2,
 					
 					// The event handler functions are defined in handlers.js
 					file_queued_handler : fileQueued,
@@ -461,9 +461,9 @@ class browseAction
 // 					queue_complete_handler : queueComplete	// Queue plugin event
 					
 				}); 
-// 			document.get_element_by_id('upload-".$dirId."').onclick = function () {
-// 				swfu.selectFiles();
-// 			};
+			document.get_element_by_id('cancel-".$dirId."').onclick = function () {
+				swfu.cancelQueue();
+			};
 		});
 		
 		// ]]>
@@ -471,8 +471,8 @@ class browseAction
 		);
 		
 		print "\n<div class='middtube_upload'>";
-		print "\n\t<span id='upload-".$dirId."'></span>";
-		print "\n\t<input type='button' id='cancel-".$dirId."' value='Cancel All Uploads' disabled='disabled' />";
+		print "\n\t<button class='btnUpload' id='upload-".$dirId."'></button>";
+		print "\n\t<input  class='btnCancel' type='button' id='cancel-".$dirId."' value='Cancel All Uploads' disabled='disabled' />";
 		
 		print "\n<fieldset class='progress' id='uploadProgress-".$dirId."'>";
 		print "\n\t<legend>"._("Upload Queue")."</legend>";

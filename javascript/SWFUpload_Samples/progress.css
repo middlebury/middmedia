@@ -1,4 +1,30 @@
 
+button,
+input,
+select,
+textarea { 
+	border-width: 1px; 
+	margin-bottom: 10px;
+	padding: 2px 3px;
+}
+
+.btnUpload {
+
+}
+
+.btnCancel {
+
+}
+
+input[disabled]{ border: 1px solid #ccc } /* FF 2 Fix */
+
+label { 
+	width: 150px; 
+	text-align: right; 
+	display:block;
+	margin-right: 5px;
+}
+
 .progress {
 	margin-bottom: 10px;
 }
@@ -96,4 +122,9 @@ a.progressCancel {
 
 a.progressCancel:hover {
 	background-position: 0px 0px;
+}
+
+/* -- SWFUpload Object Styles ------------------------------- */
+.swfupload {
+	vertical-align: top;
 }
