@@ -425,7 +425,7 @@ class browseAction
 		window.addOnLoad(function() {
 			var swfu = new SWFUpload({
 					upload_url : '".str_replace('&amp;', '&', $harmoni->request->quickURL('middtube', 'upload', array('directory' => $dir->getBaseName())))."', 
-					flash_url : '".MYPATH."/javascript/SWFUpload/Flash9/swfupload_f9.swf', 
+					flash_url : '".MYPATH."/javascript/SWFUpload/swfupload.swf', 
 					post_params: {'".session_name()."' : '".session_id()."'},
 					file_size_limit : '".ByteSize::withValue($this->getFileSizeLimit())->asString()."',
 					file_types : '*.flv;*.mp4;*.mp3',
@@ -439,6 +439,16 @@ class browseAction
 						fileListingId : 'listing-".$dirId."'
 					},
 					
+					// Button settings
+					button_image_url: '../SWFUpload_Samples/images/TestImageNoText_65x29.png',	// Relative to the Flash file
+					button_width: '65',
+					button_height: '29',
+					button_placeholder_id: 'upload-".$dirId."',
+					button_text: '<span class=\"theFont\">Upload Files</span>',
+					button_text_style: '.theFont { font-size: 16; }',
+					button_text_left_padding: 12,
+					button_text_top_padding: 3,
+					
 					// The event handler functions are defined in handlers.js
 					file_queued_handler : fileQueued,
 					file_queue_error_handler : fileQueueError,
@@ -451,9 +461,9 @@ class browseAction
 // 					queue_complete_handler : queueComplete	// Queue plugin event
 					
 				}); 
-			document.get_element_by_id('upload-".$dirId."').onclick = function () {
-				swfu.selectFiles();
-			};
+// 			document.get_element_by_id('upload-".$dirId."').onclick = function () {
+// 				swfu.selectFiles();
+// 			};
 		});
 		
 		// ]]>
@@ -461,7 +471,7 @@ class browseAction
 		);
 		
 		print "\n<div class='middtube_upload'>";
-		print "\n\t<input type='button' id='upload-".$dirId."' value='Upload Files'/>";
+		print "\n\t<span id='upload-".$dirId."'></span>";
 		print "\n\t<input type='button' id='cancel-".$dirId."' value='Cancel All Uploads' disabled='disabled' />";
 		
 		print "\n<fieldset class='progress' id='uploadProgress-".$dirId."'>";
