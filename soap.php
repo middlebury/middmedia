@@ -31,6 +31,54 @@ define("WSDL", MYPATH."/middtube.wsdl");
 require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
 require_once(dirname(__FILE__)."/main/include/setup.inc.php");
 
+/**
+ * Return a list of allowed file type extensions.
+ *
+ * @access	public
+ * @param	string	$username	Username for authentication.
+ * @param	string	$password	Password for authentication.
+ * @return	array			List of file types.
+ * @since	Jan 09
+ */
+function getTypes($username, $password) {
+	try {
+		$manager = MiddTubeManager::forUsernamePassword($username, $password);
+		return doGetTypes($manager);
+	} catch(Exception $ex) {
+		return new SoapFault($ex->getMessage());
+	}
+}
+
+/**
+ * Return a list of allowed file type extensions.
+ *
+ * @access	public
+ * @param	string	$username	The user already authenticated.
+ * @param	string	$serviceId	The service who is acting as an authentication proxy.
+ * @param	string	$serviceKey	The key of the service who is acting as an authentication proxy.
+ * @return	array			List of file types.
+ * @since	Jan 09
+ */
+function serviceGetTypes($username, $serviceId, $serviceKey) {
+	try {
+		$manager = MiddTubeManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		return doGetTypes($manager);
+	} catch(Exception $ex) {
+		return new SoapFault($ex->getMessage());
+	}
+}
+
+/**
+ * Return a list of allowed file type extensions.
+ *
+ * @access	public
+ * @param	MiddTubeManager	$manager	The manager to use in this request.
+ * @return	array				A list of allowed file type extensions.
+ * @since	Jan 09
+ */
+function doGetTypes($manager) {
+	return explode(", ", MIDDTUBE_ALLOWED_FILE_TYPES);
+}
 
 /**
  * Return a list of directories the user or group has access to view.
@@ -39,7 +87,7 @@ require_once(dirname(__FILE__)."/main/include/setup.inc.php");
  * @param 	string	$username	Username for authentication.
  * @param	string	$password	Password for authentication.
  * @return	array				List of directories.
- * @since						0.2
+ * @since	Dec 08
  */
 function getDirs($username, $password) {
 	try {
@@ -58,7 +106,7 @@ function getDirs($username, $password) {
  * @param	string	$serviceId	The service who is acting as an authentication proxy.
  * @param	string	$serviceKey	The key of the service who is acting as an authentication proxy.
  * @return	array				List of directories.
- * @since						0.2
+ * @since	Dec 08
  */
 function serviceGetDirs($username, $serviceId, $serviceKey) {
 	try {
@@ -72,10 +120,10 @@ function serviceGetDirs($username, $serviceId, $serviceKey) {
 /**
  * Return a list of directories the user has access to through the manger.
  * 
- * @param MiddTubeManager $manager	The manager to use in this request.
- * @return array					List of directories
- * @access public
- * @since 12/12/08
+ * @param 	MiddTubeManager	$manager		The manager to use in this request.
+ * @return	array					List of directories
+ * @access	public
+ * @since	Dec 08
  */
 function doGetDirs (MiddTubeManager $manager) {
 	$directories = array();
@@ -88,7 +136,12 @@ function doGetDirs (MiddTubeManager $manager) {
 	}
 	
 	foreach($manager->getSharedDirectories() as $directory) {
-		$directories[] = $directory->getBaseName();
+		$directory = array();
+		$directory['name'] = $directory->getBaseName();
+		$directory['bytesused'] = $directory->getBytesUsed();
+		$directory['bytesavailable'] = $directory->getBytesAvailable();
+	
+		$directories[] = $directory;
 	}
 	
 	return $directories;
@@ -102,7 +155,7 @@ function doGetDirs (MiddTubeManager $manager) {
  * @param	string	$password	Password for authentication.
  * @param	string	$directory	User or Group name.
  * @return	array			List of video information.
- * @since				0.1
+ * @since	Dec 08
  */
 function getVideos($username, $password, $directory) {
 	try {
@@ -122,7 +175,7 @@ function getVideos($username, $password, $directory) {
  * @param	string	$serviceKey	The key of the service who is acting as an authentication proxy.
  * @param	string	$directory	User or Group name.
  * @return	array				List of directories.
- * @since 12/12/08
+ * @since	Dec 08
  */
 function serviceGetVideos($username, $serviceId, $serviceKey, $directory) {
 	try {
@@ -137,10 +190,10 @@ function serviceGetVideos($username, $serviceId, $serviceKey, $directory) {
  * Return a list of video information in the user or group directory.
  *
  * @access	public
- * @param MiddTubeManager $manager	The manager to use in this request.
- * @param	string	$directory	User or Group name.
+ * @param	MiddTubeManager	$manager	The manager to use in this request.
+ * @param	string		$directory	User or Group name.
  * @return	array				List of video information.
- * @since 12/12/08
+ * @since	Dec 08
  */
 function doGetVideos(MiddTubeManager $manager, $directory) {
 	$videos = array();
@@ -176,7 +229,7 @@ function doGetVideos(MiddTubeManager $manager, $directory) {
  * @param	string	$directory	User or Group name.
  * @param	string	$file		Name of the video file.
  * @return	array			Video information.
- * @since				0.1
+ * @since	Dec 08
  */
 function getVideo($username, $password, $directory, $file) {
 	try {
@@ -197,7 +250,7 @@ function getVideo($username, $password, $directory, $file) {
  * @param	string	$directory	User or Group name.
  * @param	string	$file		Name of the video file.
  * @return	array			Video information.
- * @since 12/12/08
+ * @since	Dec 08
  */
 function serviceGetVideo($username, $serviceId, $serviceKey, $directory, $file) {
 	try {
@@ -212,11 +265,11 @@ function serviceGetVideo($username, $serviceId, $serviceKey, $directory, $file) 
  * Return information about a specific video in the user or group directory.
  *
  * @access	public
- * @param MiddTubeManager $manager	The manager to use in this request.
- * @param	string	$directory	User or Group name.
- * @param	string	$file		Name of the video file.
- * @return	array			Video information.
- * @since 12/12/08
+ * @param 	MiddTubeManager	$manager	The manager to use in this request.
+ * @param	string		$directory	User or Group name.
+ * @param	string		$file		Name of the video file.
+ * @return	array				Video information.
+ * @since	Dec 08
  */
 function doGetVideo(MiddTubeManager $manager, $directory, $file) {
 	$video = array();
@@ -251,7 +304,7 @@ function doGetVideo(MiddTubeManager $manager, $directory, $file) {
  * @param	string	$filetype	MIME type of the video.
  * @param	string	$filesize	Byte size of the video.
  * @return	array			Video information.
- * @since				0.1
+ * @since	Dec 08
  */
 function addVideo($username, $password, $directory, $file, $filename, $filetype, $filesize) {
 	try {
@@ -275,7 +328,7 @@ function addVideo($username, $password, $directory, $file, $filename, $filetype,
  * @param	string	$filetype	MIME type of the video.
  * @param	string	$filesize	Byte size of the video.
  * @return	array			Video information.
- * @since				0.1
+ * @since	Dec 08
  */
 function serviceAddVideo($username, $serviceId, $serviceKey, $directory, $file, $filename, $filetype, $filesize) {
 	try {
@@ -290,14 +343,14 @@ function serviceAddVideo($username, $serviceId, $serviceKey, $directory, $file, 
  * Add a new video to the user or group directory.
  *
  * @access	public
- * @param MiddTubeManager $manager	The manager to use in this request.
- * @param	string	$directory	User or Group name.
- * @param	string	$file		base64string of file data.
- * @param	string	$filename	Name of the video.
- * @param	string	$filetype	MIME type of the video.
- * @param	string	$filesize	Byte size of the video.
- * @return	array			Video information.
- * @since				0.1
+ * @param 	MiddTubeManager	$manager	The manager to use in this request.
+ * @param	string		$directory	User or Group name.
+ * @param	string		$file		base64string of file data.
+ * @param	string		$filename	Name of the video.
+ * @param	string		$filetype	MIME type of the video.
+ * @param	string		$filesize	Byte size of the video.
+ * @return	array				Video information.
+ * @since	Dec 08
  */
 function doAddVideo(MiddTubeManager $manager, $directory, $file, $filename, $filetype, $filesize) {
 	$video = array();
@@ -325,7 +378,7 @@ function doAddVideo(MiddTubeManager $manager, $directory, $file, $filename, $fil
  * @param	string	$password	Password for authentication.
  * @param	string	$directory	User or Group name.
  * @param	string	$filename	Name of the video.
- * @since				0.1
+ * @since	Dec 08
  */
 function delVideo($username, $password, $directory, $filename) {
 	try {
@@ -345,7 +398,7 @@ function delVideo($username, $password, $directory, $filename) {
  * @param	string	$serviceKey	The key of the service who is acting as an authentication proxy.
  * @param	string	$directory	User or Group name.
  * @param	string	$filename	Name of the video.
- * @since				0.1
+ * @since	Dec 08
  */
 function serviceDelVideo($username, $serviceId, $serviceKey, $directory, $filename) {
 	try {
@@ -364,7 +417,7 @@ function serviceDelVideo($username, $serviceId, $serviceKey, $directory, $filena
  * @param	string	$password	Password for authentication.
  * @param	string	$directory	User or Group name.
  * @param	string	$filename	Name of the video.
- * @since				0.1
+ * @since	Dec 08
  */
 function doDelVideo(MiddTubeManager $manager, $directory, $filename) {
 	$directory = MiddTube_Directory::getIfExists($manager, $directory);

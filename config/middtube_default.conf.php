@@ -6,6 +6,8 @@ define('MIDDTUBE_RTMP_BASE_URL', 'rtmp://termite.middlebury.edu/fms');
 
 define('MIDDTUBE_GROUP_DIRNAME_PROPERTY', 'mail nickname');
 
+define('MIDDTUBE_ALLOWED_FILE_TYPES', 'mp4, flv, mp3');
+
 MiddTubeManager::addPersonalDirectoryGroup('CN=All Faculty,OU=General,OU=Groups,DC=middlebury,DC=edu');
 MiddTubeManager::addPersonalDirectoryGroup('CN=All Staff,OU=General,OU=Groups,DC=middlebury,DC=edu');
 

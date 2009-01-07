@@ -30,23 +30,42 @@
 					</xsd:restriction>
 				</xsd:complexContent>
 			</xsd:complexType>
-
-			<xsd:complexType name="directories">
-
-				<xsd:complexContent>
-
-					<xsd:restriction base="SOAP-ENC:Array">
-
-						<attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:string" />
-
-					</xsd:restriction>
-
-				</xsd:complexContent>
-
+			<xsd:complexType name="directory">
+				<xsd:sequence>
+					<xsd:element name="name" type="xsd:string" />
+					<xsd:element name="bytesused" type="xsd:positiveInteger" />
+					<xsd:element name="bytesavailable" type="xsd:positiveInteger" />
+				</xsd:sequence>
 			</xsd:complexType>
+			<xsd:complexType name="directories">
+				<xsd:complexContent>
+					<xsd:restriction base="SOAP-ENC:Array">
+						<attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:directory[]" />
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="types">
+                                <xsd:complexContent>
+                                        <xsd:restriction base="SOAP-ENC:Array">
+                                                <attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:string" />
+                                        </xsd:restriction>
+                                </xsd:complexContent>
+                        </xsd:complexType>
 		</xsd:schema>
 	</types>
 
+	<message name="getTypesRequest">
+		<part name="username" type="xsd:string" />
+		<part name="password" type="xsd:string" />
+	</message>
+	<message name="serviceGetTypesRequest">
+		<part name="username" type="xsd:string" />
+		<part name="serviceId" type="xsd:string" />
+		<part name="serviceKey" type="xsd:string" />
+	</message>
+	<message name="getTypesResponse">
+		<part name="types" type="types" />
+	</message>
 	<message name="getDirsRequest">
 		<part name="username" type="xsd:string" />
 		<part name="password" type="xsd:string" />
@@ -128,7 +147,13 @@
 		<part name="result" type="xsd:boolean" />
 	</message>
 	<portType name="MiddTubePortType">
-
+		<operation name="getTypes">
+			<documentation>
+				Get a list of allowed file type extensions.
+			</documentation>
+			<input message="tns:getTypesRequest" />
+			<output message="tns:getTypesResponse" />
+		</operation>
 		<operation name="getDirs">
 			<documentation>
 				Get a list of directories for a user or group.
@@ -165,7 +190,13 @@
 			<input message="tns:delVideoRequest" />
 			<output message="tns:delVideoResponse" />
 		</operation>
-		
+		<operation name="serviceGetTypes">
+			<documentation>
+				Get a list of allowed file type extensions.
+			</documentation>
+			<input message="tns:serviceGetTypesRequest" />
+			<output message="tns:getTypesResponse" />
+		</operation>
 		<operation name="serviceGetDirs">
 			<documentation>
 				Get a list of directories for a user or group.
@@ -205,6 +236,15 @@
 	</portType>
 	<binding name="MiddTubeBinding" type="tns:MiddTubePortType">
 		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="getTypes">
+			<soap:operation soapAction="urn:MiddTube#getTypes" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
 		<operation name="getDirs">
 			<soap:operation soapAction="urn:MiddTube#getDirs" style="rpc" />
 			<input>
@@ -250,7 +290,15 @@
 				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</output>
 		</operation>
-		
+		<operation name="serviceGetTypes">
+			<soap:operation soapAction="urn:MiddTube#serviceGetTypes" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:MiddTueb" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
 		<operation name="serviceGetDirs">
 			<soap:operation soapAction="urn:MiddTube#serviceGetDirs" style="rpc" />
 			<input>

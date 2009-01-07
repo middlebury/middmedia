@@ -67,7 +67,7 @@ class uploadAction
 			4=>"No file was uploaded",
 			6=>"Missing a temporary folder"
 		);
-		$extension_whitelist = array("mp4", "flv", "mp3");	// Allowed file extensions
+		$extension_whitelist = explode(", ", MIDDTUBE_ALLOWED_FILE_TYPES);	// Allowed file extensions
 		$valid_chars_regex = '.A-Z0-9_ !@#$%^&()+={}\[\]\',~`-';				// Characters allowed in the file name (in a Regular Expression format)
 		$upload_name = "Filedata";
 		$MAX_FILENAME_LENGTH = 260;
