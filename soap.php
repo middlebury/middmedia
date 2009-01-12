@@ -438,11 +438,13 @@ $server = new SoapServer(WSDL);
 
 $server->addFunction(
 	array(
+		"getTypes",
 		"getDirs",
 		"getVideos",
 		"getVideo",
 		"addVideo",
 		"delVideo",
+		"serviceGetTypes",
 		"serviceGetDirs",
 		"serviceGetVideos",
 		"serviceGetVideo",
