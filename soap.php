@@ -128,7 +128,13 @@ function serviceGetDirs($username, $serviceId, $serviceKey) {
 function doGetDirs (MiddTubeManager $manager) {
 	$directories = array();
 	try {
-		$directories[] = $manager->getPersonalDirectory()->getBaseName();
+		$dir = $manager->getPersonalDirectory();
+		$directory = array();
+		$directory['name'] = $dir->getBaseName();
+		$directory['bytesused'] = $dir->getBytesUsed();
+		$directory['bytesavailable'] = $dir->getBytesAvailable();
+	
+		$directories[] = $directory;
 	} catch(Exception $ex) {
 		// user does not have a personal directory
 		
