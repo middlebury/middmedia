@@ -135,11 +135,11 @@ function doGetDirs (MiddTubeManager $manager) {
 		// no need to handle this here, we simply return a blank array
 	}
 	
-	foreach($manager->getSharedDirectories() as $directory) {
+	foreach($manager->getSharedDirectories() as $dir) {
 		$directory = array();
-		$directory['name'] = $directory->getBaseName();
-		$directory['bytesused'] = $directory->getBytesUsed();
-		$directory['bytesavailable'] = $directory->getBytesAvailable();
+		$directory['name'] = $dir->getBaseName();
+		$directory['bytesused'] = $dir->getBytesUsed();
+		$directory['bytesavailable'] = $dir->getBytesAvailable();
 	
 		$directories[] = $directory;
 	}
