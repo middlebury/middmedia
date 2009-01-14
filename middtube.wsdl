@@ -46,12 +46,12 @@
 				</xsd:complexContent>
 			</xsd:complexType>
 			<xsd:complexType name="types">
-                                <xsd:complexContent>
-                                        <xsd:restriction base="SOAP-ENC:Array">
-                                                <attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:string" />
-                                        </xsd:restriction>
-                                </xsd:complexContent>
-                        </xsd:complexType>
+				<xsd:complexContent>
+					<xsd:restriction base="SOAP-ENC:Array">
+							<attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:string" />
+					</xsd:restriction>
+				</xsd:complexContent>
+			</xsd:complexType>
 		</xsd:schema>
 	</types>
 
