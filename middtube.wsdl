@@ -21,6 +21,7 @@
 					<xsd:element name="mimetype" type="xsd:string" />
 					<xsd:element name="size" type="xsd:positiveInteger" />
 					<xsd:element name="date" type="xsd:dateTime" />
+					<xsd:element name="creator" type="xsd:string" />
 				</xsd:sequence>
 			</xsd:complexType>
 			<xsd:complexType name="videos">

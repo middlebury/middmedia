@@ -153,6 +153,25 @@ class MiddTube_File
 	}
 	
 	/**
+	 * Answer the username of the creator
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 1/14/09
+	 */
+	public function getCreatorUsername () {
+		$creator = $this->getCreator();
+		$propertiesCollections = $creator->getProperties();
+		while($propertiesCollections->hasNext()) {
+			$properties = $propertiesCollections->next();
+			$username = $properties->getProperty('username');
+			if (!is_null($username))
+				return $username;
+		}
+		throw new OperationFailedException ("No creator username available.");
+	}
+	
+	/**
 	 * Set the creator of the file.
 	 * 
 	 * @param object Agent $creator

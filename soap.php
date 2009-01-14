@@ -212,6 +212,11 @@ function doGetVideos(MiddTubeManager $manager, $directory) {
 		$video["rtmpurl"] = $file->getRtmpUrl();
 		$video["mimetype"] = $file->getMimeType();
 		$video["size"] = $file->getSize();
+		try {
+			$video["creator"] = $file->getCreatorUsername();
+		} catch (OperationFailedException $e) {
+			$video["creator"] = null;
+		}
 		
 		try {
 			$moddate = $file->getModificationDate();
@@ -287,6 +292,11 @@ function doGetVideo(MiddTubeManager $manager, $directory, $file) {
 	$video["rtmpurl"] = $file->getRtmpUrl();
 	$video["mimetype"] = $file->getMimeType();
 	$video["size"] = $file->getSize();
+	try {
+		$video["creator"] = $file->getCreatorUsername();
+	} catch (OperationFailedException $e) {
+		$video["creator"] = null;
+	}
 	
 	try {
 		$moddate = $file->getModificationDate();
@@ -372,6 +382,11 @@ function doAddVideo(MiddTubeManager $manager, $directory, $file, $filename, $fil
 	$video["size"] = $newfile->getSize();
 	$moddate = $newfile->getModificationDate();
 	$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
+	try {
+		$video["creator"] = $newfile->getCreatorUsername();
+	} catch (OperationFailedException $e) {
+		$video["creator"] = null;
+	}
 
 	return $video;
 }
