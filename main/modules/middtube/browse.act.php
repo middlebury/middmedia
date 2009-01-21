@@ -507,6 +507,7 @@ class browseAction
 		print "\n\t</thead>";
 		print "\n\t<tbody id='listing-".$dirId."'>";
 		
+		$embedCode = str_replace('###DIR###', $dir->getBaseName(), MIDDTUBE_EMBED_CODE);
 		foreach ($dir->getFiles() as $file) {
 			$fileId = md5($dir->getBaseName().'/'.$file->getBaseName());
 			
@@ -546,6 +547,21 @@ class browseAction
 			print "<a href='".$file->getHttpUrl()."'>HTTP (Download)</a>";
 			print "<br/><a href='".$file->getRtmpUrl()."'>RTMP (Streaming)</a>";
 			print "<br/><a href='#' onclick=\"alert('Unimplemented'); return false;\">Embed Code</a>";
+			print "<textarea style='display: none'>";
+			$parts = pathinfo($file->getBasename());
+			switch ($parts['extension']) {
+				case 'mp3':
+					$myId = 'mp3:'.$parts['filename'];
+					break;
+				case 'mp4':
+					$myId = 'mp4:'.$parts['filename'];
+					break;
+				default:
+					$myId = $parts['filename'];
+			}
+			print str_replace('###ID###', $myId,
+				str_replace('###SPLASH_IMAGE_URL###', '', $embedCode));
+			print "</textarea>";
 			print "</td>";
 			
 			print "\n\t\t</tr>";
