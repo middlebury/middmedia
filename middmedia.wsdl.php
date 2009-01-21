@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?php
+
+define("MYDIR",dirname(__FILE__));
+
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
+	$protocol = 'https';
+else
+	$protocol = 'http';
+
+define("MYPATH", $protocol."://".$_SERVER['HTTP_HOST'].str_replace(
+												"\\", "/", 
+												dirname($_SERVER['PHP_SELF'])));
+							
+print '<'.'?xml version="1.0" encoding="ISO-8859-1"?'.'>';
+
+?>
+
 <definitions
 	xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -348,7 +364,7 @@
 	</binding>
 	<service name="MiddTube">
 		<port name="MiddTubePort" binding="MiddTubeBinding">
-			<soap:address location="http://termite.middlebury.edu/~imcbride/middtube/soap.php" />
+			<soap:address location="<?php print MYPATH.'/soap.php'; ?>" />
 		</port>
 	</service>
 </definitions>
