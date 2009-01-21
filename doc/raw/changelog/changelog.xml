@@ -10,9 +10,9 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
-	<version number="0.1" date="The Future">
+	<version number="0.1.0" date="2009-01-21">
 		<releaseNotes>
-			
+			This is the first release of the MiddMedia system to be put into testing.
 		</releaseNotes>
 		<new author='adam' date='2008-10-23' ref='' reftype='fr'  reporter=''>
 			Everything is new.

@@ -1,5 +1,5 @@
 
-
+MiddMedia v. 0.1.0 (2009-01-21)
 =================================
 
 What is MiddMedia?
@@ -10,7 +10,7 @@ Flash Media Server (FMS) to deliver user-created videos.
 
 Current Version Notes
 ---------------------
-
+This is the first release of the MiddMedia system to be put into testing.
 
 
 Downloads
@@ -52,9 +52,9 @@ http://bugs.example.com/12345/
 ===================================================================
 
 
-v. 0.1 (The Future)
+v. 0.1.0 (2009-01-21)
 ----------------------------------------------------
-
+This is the first release of the MiddMedia system to be put into testing.
 
 
 
