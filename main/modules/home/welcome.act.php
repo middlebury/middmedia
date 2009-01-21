@@ -42,7 +42,7 @@ class welcomeAction
 	 * @since 4/26/05
 	 */
 	function getHeadingText () {
-		return _("Welcome to MiddTube");
+		return _("Welcome to MiddMedia");
 	}
 	
 	/**
@@ -56,14 +56,14 @@ class welcomeAction
 		$authN = Services::getService("AuthN");
 		if ($authN->isUserAuthenticatedWithAnyType()) {	
 			$harmoni = Harmoni::instance();
-			RequestContext::sendTo($harmoni->request->quickURL('middtube', 'browse'));
+			RequestContext::sendTo($harmoni->request->quickURL('middmedia', 'browse'));
 		}
 		
 		$actionRows = $this->getActionRows();
 		ob_start();
 		
 		print "\n<p>";
-		print _("Welcome to the <strong>MiddTube</strong> video management system.");
+		print _("Welcome to the <strong>MiddMedia</strong> video management system.");
 		print "</p>";
 		
 		print "\n<p>";

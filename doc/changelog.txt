@@ -1,5 +1,5 @@
 
-MiddTube Change Log
+MiddMedia Change Log
 
 
 v. 0.1 (The Future)

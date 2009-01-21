@@ -16,8 +16,8 @@
 // :: set up the $harmoni object :: 
 	$harmoni->config->set("defaultModule","home");
 	$harmoni->config->set("defaultAction","welcome");
-	$harmoni->config->set("programTitle","MiddTube");
-	$harmoni->config->set("sessionName","MIDDTUBE_SESSID");
+	$harmoni->config->set("programTitle","MiddMedia");
+	$harmoni->config->set("sessionName","MIDDMEDIA_SESSID");
 	$harmoni->config->set("sessionUseCookies",true);
 	// In order to prevent User's from including their SESSION IDs in urls that they
 	// copy/paste for others, we will force the usage of cookies. This will prevent
@@ -28,7 +28,7 @@
 	
 	// An array of actions for which the SESSION ID *can* be passed in the url
 	$harmoni->config->set("sessionInUrlActions", array(
-		'middtube.upload'));
+		'middmedia.upload'));
 	
 	// tell harmoni to post-process all actions with this specified action.
 	// the action takes the result from previous actions and builds a display
@@ -40,7 +40,7 @@
 									"language.*",
 									"repository.*",
 									"help.*",
-									"middtube.upload",
+									"middmedia.upload",
 									
 									// and our special no-theme action
 									"example.no_theme"

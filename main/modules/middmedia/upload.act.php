@@ -1,7 +1,7 @@
 <?php
 /**
  * @since 11/13/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -16,7 +16,7 @@ require_once(POLYPHONY."/main/library/AbstractActions/Action.class.php");
  * Handle a file-upload
  * 
  * @since 11/13/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -67,7 +67,7 @@ class uploadAction
 			4=>"No file was uploaded",
 			6=>"Missing a temporary folder"
 		);
-		$extension_whitelist = explode(", ", MIDDTUBE_ALLOWED_FILE_TYPES);	// Allowed file extensions
+		$extension_whitelist = explode(", ", MIDDMEDIA_ALLOWED_FILE_TYPES);	// Allowed file extensions
 		$valid_chars_regex = '.A-Z0-9_ !@#$%^&()+={}\[\]\',~`-';				// Characters allowed in the file name (in a Regular Expression format)
 		$upload_name = "Filedata";
 		$MAX_FILENAME_LENGTH = 260;
@@ -94,7 +94,7 @@ class uploadAction
 			$this->error("Invalid file name");
 		}
 		
-		if (!MiddTube_File::nameValid($file_name)) {
+		if (!MiddMedia_File::nameValid($file_name)) {
 			$this->error("Invalid file name");
 		}
 		
@@ -154,7 +154,7 @@ class uploadAction
 		// Log the success
 		if (Services::serviceRunning("Logging")) {
 			$loggingManager = Services::getService("Logging");
-			$log = $loggingManager->getLogForWriting("MiddTube");
+			$log = $loggingManager->getLogForWriting("MiddMedia");
 			$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
 							"A format in which the acting Agent[s] and the target nodes affected are specified.");
 			$priorityType = new Type("logging", "edu.middlebury", "Error",
@@ -170,7 +170,7 @@ class uploadAction
 	/**
 	 * Answer the target directory object
 	 * 
-	 * @return object MiddTube_Directory
+	 * @return object MiddMedia_Directory
 	 * @access protected
 	 * @since 11/19/08
 	 */
@@ -186,16 +186,16 @@ class uploadAction
 	/**
 	 * Answer the manager to use
 	 * 
-	 * @return MiddTubeManager
+	 * @return MiddMediaManager
 	 * @access protected
 	 * @since 12/10/08
 	 */
 	protected function getManager () {
-		return MiddTubeManager::forCurrentUser();
+		return MiddMediaManager::forCurrentUser();
 	}
 	
 	/**
-	 * @var object MiddTube_Directory $directory;  
+	 * @var object MiddMedia_Directory $directory;  
 	 * @access private
 	 * @since 11/19/08
 	 */
@@ -213,7 +213,7 @@ class uploadAction
 		// Log the success or failure
 		if (Services::serviceRunning("Logging")) {
 			$loggingManager = Services::getService("Logging");
-			$log = $loggingManager->getLogForWriting("MiddTube");
+			$log = $loggingManager->getLogForWriting("MiddMedia");
 			$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
 							"A format in which the acting Agent[s] and the target nodes affected are specified.");
 			$priorityType = new Type("logging", "edu.middlebury", "Error",

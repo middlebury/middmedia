@@ -1,7 +1,7 @@
 <?php
 /**
  * @since 10/24/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -15,14 +15,14 @@ require_once(HARMONI.'/utilities/Filing/FileSystemFile.class.php');
  * This class is a basic wrapper around a file
  * 
  * @since 10/24/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id$
  */
-class MiddTube_File
+class MiddMedia_File
 	extends Harmoni_Filing_FileSystemFile
 {
 	
@@ -42,13 +42,13 @@ class MiddTube_File
 	/**
 	 * Constructor.
 	 * 
-	 * @param object MiddTube_Directory $directory
+	 * @param object MiddMedia_Directory $directory
 	 * @param string $basename
 	 * @return void
 	 * @access public
 	 * @since 10/24/08
 	 */
-	public function __construct (MiddTube_Directory $directory, $basename) {
+	public function __construct (MiddMedia_Directory $directory, $basename) {
 		$this->directory = $directory;
 		if (!self::nameValid($basename))
 			throw new InvalidArgumentException('Invalid file name '.$basename);
@@ -112,7 +112,7 @@ class MiddTube_File
 		parent::delete();
 		
 		$query = new DeleteQuery;
-		$query->setTable('middtube_metadata');
+		$query->setTable('middmedia_metadata');
 		$query->addWhereEqual('directory', $this->directory->getBaseName());
 		$query->addWhereEqual('file', $this->getBaseName());
 		
@@ -134,7 +134,7 @@ class MiddTube_File
 	public function getCreator () {
 		if (!isset($this->creator)) {
 			$query = new SelectQuery;
-			$query->addTable('middtube_metadata');
+			$query->addTable('middmedia_metadata');
 			$query->addColumn('creator');
 			$query->addWhereEqual('directory', $this->directory->getBaseName());
 			$query->addWhereEqual('file', $this->getBaseName());
@@ -181,7 +181,7 @@ class MiddTube_File
 	 */
 	public function setCreator (Agent $creator) {
 		$query = new InsertQuery;
-		$query->setTable('middtube_metadata');
+		$query->setTable('middmedia_metadata');
 		$query->addValue('directory', $this->directory->getBaseName());
 		$query->addValue('file', $this->getBaseName());
 		$query->addValue('creator', $creator->getId()->getIdString());

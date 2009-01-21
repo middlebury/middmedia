@@ -1,8 +1,8 @@
 <?php
 /**
- * This is a soap endpoint for Middtube
+ * This is a soap endpoint for MiddMedia
  *
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -38,7 +38,7 @@ if (!isset($_SERVER['PHP_AUTH_USER']) || !$_SERVER['PHP_AUTH_USER'] || (isset($_
 	&& 	md5($_SERVER['PHP_AUTH_USER'].$_SERVER['PHP_AUTH_PW'])
 		!= $_SESSION['LastLoginTokens'])) 
 {
-	header("WWW-Authenticate: Basic realm=\"MiddTube\"");
+	header("WWW-Authenticate: Basic realm=\"MiddMedia\"");
 	header('HTTP/1.0 401 Unauthorized');
 	print "Please Authenticate.";
 	exit;
@@ -55,7 +55,7 @@ print "<response>";
 
 try {
 	// Create a new manager for a username/password combo (username/shared key not yet implemented)
-	$manager = MiddTubeManager::forUsernamePassword($user, $pass);
+	$manager = MiddMediaManager::forUsernamePassword($user, $pass);
 	
 	// Get the personal directory
 	try {

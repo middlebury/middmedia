@@ -1,7 +1,7 @@
 <?php
 /**
  * @since 12/10/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -13,15 +13,15 @@
  * This is an admin-view manager that provides access to all directories.
  * 
  * @since 12/10/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id$
  */
-class AdminMiddTubeManager
-	extends MiddTubeManager
+class AdminMiddMediaManager
+	extends MiddMediaManager
 {
 		
 	/**
@@ -31,7 +31,7 @@ class AdminMiddTubeManager
 	 *		OperationFailedException 	- If there is no user authenticated.
 	 *		PermissionDeniedException 	- If the user is unauthorized to manage media.
 	 * 
-	 * @return object MiddTubeManager
+	 * @return object MiddMediaManager
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -50,22 +50,22 @@ class AdminMiddTubeManager
 				$idMgr->getId('edu.middlebury.authorization.root')))
 			throw new PermissionDeniedException('Unauthorized to manage this system.');
 		
-		return new AdminMiddTubeManager($agentMgr->getAgent($authN->getFirstUserId()));
+		return new AdminMiddMediaManager($agentMgr->getAgent($authN->getFirstUserId()));
 	}
 	
 	/**
 	 * Answer an array of all directories
 	 * 
-	 * @return array of MiddTube_Directory objects
+	 * @return array of MiddMedia_Directory objects
 	 * @access public
 	 * @since 10/24/08
 	 */
 	public function getSharedDirectories () {
 		$sharedDirs = array();
 		
-		foreach (scandir(MIDDTUBE_FS_BASE_DIR) as $dirname) {
+		foreach (scandir(MIDDMEDIA_FS_BASE_DIR) as $dirname) {
 			try {
-				$sharedDirs[] = MiddTube_Directory::getIfExists($this, $dirname);
+				$sharedDirs[] = MiddMedia_Directory::getIfExists($this, $dirname);
 			} catch(UnknownIdException $e) {
 			} catch(InvalidArgumentException $e) {
 			}
@@ -78,7 +78,7 @@ class AdminMiddTubeManager
 	 * Create a new shared directory.
 	 * 
 	 * @param string $name
-	 * @return object MiddTube_Directory
+	 * @return object MiddMedia_Directory
 	 * @access public
 	 * @since 12/11/08
 	 */
@@ -88,7 +88,7 @@ class AdminMiddTubeManager
 		
 		// Verify that the name specified doesn't already exist
 		try {
-			MiddTube_Directory::getIfExists($this, $name);
+			MiddMedia_Directory::getIfExists($this, $name);
 			throw new OperationFailedException("Directory '$name' already exists.");
 		} catch (UnknownIdException $e) {
 		}
@@ -98,7 +98,7 @@ class AdminMiddTubeManager
 			throw new InvalidArgumentException("'$name' is not a valid group name.");
 		
 		// Create the directory.
-		return MiddTube_Directory::getAlways($this, $name);
+		return MiddMedia_Directory::getAlways($this, $name);
 	}
 }
 

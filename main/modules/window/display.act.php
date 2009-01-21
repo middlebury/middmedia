@@ -1,6 +1,6 @@
 <?php
 /**
- * @package middtube.modules.window
+ * @package middmedia.modules.window
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -27,7 +27,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FloatSP.class.php");
 /**
  * build the frame of the window
  * 
- * @package middtube.modules.window
+ * @package middmedia.modules.window
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -98,7 +98,7 @@ class displayAction
 		
 		// The logo
 		$logo = new Component("\n<a href='".MYPATH."/'> <img src='".LOGO_URL."' 
-							style='border: 0px;' class='program_logo' alt='"._("MiddTube Logo'"). "/> </a>", BLANK, 1);
+							style='border: 0px;' class='program_logo' alt='"._("MiddMedia Logo'"). "/> </a>", BLANK, 1);
 		$headRow->add($logo, null, null, LEFT, TOP);
 		
 		// Language Bar
@@ -197,7 +197,7 @@ class displayAction
 		$harmoni = Harmoni::instance();
 		ob_start();
 		print "<div class='seguefooter_right'>";
-		print "<a href='".$harmoni->request->quickURL('window', 'changelog')."' target='_blank'>MiddTube v.".self::getSegueVersion()."</a>";
+		print "<a href='".$harmoni->request->quickURL('window', 'changelog')."' target='_blank'>MiddMedia v.".self::getSegueVersion()."</a>";
 // 		print "&nbsp; &nbsp; &nbsp; ";
 // 		print "&copy;".self::getSegueCopyrightYear()." Middlebury College";
 // 		print "&nbsp; &nbsp; &nbsp; <a href='http://segue.sourceforge.net'>";

@@ -43,10 +43,12 @@ if (!isset($_SESSION['table_setup_complete'])) {
 		switch ($dbHandler->getDatabaseType(HARMONI_DB_INDEX)) {
 			case MYSQL:
 				SQLUtils::runSQLdir(HARMONI_BASE."/SQL/MySQL", HARMONI_DB_INDEX);
+				SQLUtils::runSQLdir(MYDIR."/main/SQL/MySQL", HARMONI_DB_INDEX);
 				break;
 			case POSTGRESQL:
 				try {
 					SQLUtils::runSQLdir(HARMONI_BASE."/SQL/PostgreSQL", HARMONI_DB_INDEX);
+					SQLUtils::runSQLdir(MYDIR."/main/SQL/PostgreSQL", HARMONI_DB_INDEX);
 				} catch (QueryDatabaseException $e) {
 					if (preg_match('/function .+ does not exist/i', $e->getMessage()))
 						throw new Exception ($e->getMessage().". You must first run the Harmoni SQL file, <a href='main/harmoni/SQL/PostgreSQL/000_DigitalRepository.sql.run_manually'>example_skeleton/main/harmoni/SQL/PostgreSQL/000_DigitalRepository.sql.run_manually</a> on your database as a superuser to install plpgsql and the necessary trigger functions.");
@@ -56,6 +58,7 @@ if (!isset($_SESSION['table_setup_complete'])) {
 				break;
 			case ORACLE:
 				SQLUtils::runSQLdir(HARMONI_BASE."/SQL/PostgreSQL", HARMONI_DB_INDEX);
+				SQLUtils::runSQLdir(MYDIR."/main/SQL/PostgreSQL", HARMONI_DB_INDEX);
 				break;
 			default:
 				throw new Exception("Database schemas are not defined for specified database type.");

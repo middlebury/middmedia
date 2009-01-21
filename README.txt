@@ -2,9 +2,9 @@
 
 =================================
 
-What is MiddTube?
+What is MiddMedia?
 ------------------
-MiddTube is a audio/video upload and management tool that works in parallel with a
+MiddMedia is a audio/video upload and management tool that works in parallel with a
 Flash Media Server (FMS) to deliver user-created videos.
 
 
@@ -22,7 +22,7 @@ http://downloads.example.com
 
 Documentation
 ---------------------
-MiddTube includes contextual help for users. Additional documentation can be found
+MiddMedia includes contextual help for users. Additional documentation can be found
 online at:
 
 http://help.example.com
@@ -47,8 +47,8 @@ http://bugs.example.com/12345/
 
 
 ===================================================================
-| Prior MiddTube Release Notes
-| (See the MiddTube change log for more details)
+| Prior MiddMedia Release Notes
+| (See the MiddMedia change log for more details)
 ===================================================================
 
 

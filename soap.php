@@ -1,8 +1,8 @@
 <?php
 /**
- * This is a soap endpoint for Middtube
+ * This is a soap endpoint for MiddMedia
  *
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -26,7 +26,7 @@ define("MYPATH", $protocol."://".$_SERVER['HTTP_HOST'].str_replace(
 												dirname($_SERVER['PHP_SELF'])));
 define("MYURL", MYPATH."/index.php");
 
-define("WSDL", MYPATH."/middtube.wsdl");
+define("WSDL", MYPATH."/middmedia.wsdl");
 
 require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
 require_once(dirname(__FILE__)."/main/include/setup.inc.php");
@@ -42,7 +42,7 @@ require_once(dirname(__FILE__)."/main/include/setup.inc.php");
  */
 function getTypes($username, $password) {
 	try {
-		$manager = MiddTubeManager::forUsernamePassword($username, $password);
+		$manager = MiddMediaManager::forUsernamePassword($username, $password);
 		return doGetTypes($manager);
 	} catch(Exception $ex) {
 		return new SoapFault($ex->getMessage());
@@ -61,7 +61,7 @@ function getTypes($username, $password) {
  */
 function serviceGetTypes($username, $serviceId, $serviceKey) {
 	try {
-		$manager = MiddTubeManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doGetTypes($manager);
 	} catch(Exception $ex) {
 		return new SoapFault($ex->getMessage());
@@ -72,12 +72,12 @@ function serviceGetTypes($username, $serviceId, $serviceKey) {
  * Return a list of allowed file type extensions.
  *
  * @access	public
- * @param	MiddTubeManager	$manager	The manager to use in this request.
+ * @param	MiddMediaManager	$manager	The manager to use in this request.
  * @return	array				A list of allowed file type extensions.
  * @since	Jan 09
  */
 function doGetTypes($manager) {
-	return explode(", ", MIDDTUBE_ALLOWED_FILE_TYPES);
+	return explode(", ", MIDDMEDIA_ALLOWED_FILE_TYPES);
 }
 
 /**
@@ -91,7 +91,7 @@ function doGetTypes($manager) {
  */
 function getDirs($username, $password) {
 	try {
-		$manager = MiddTubeManager::forUsernamePassword($username, $password);
+		$manager = MiddMediaManager::forUsernamePassword($username, $password);
 		return doGetDirs($manager);
 	} catch(Exception $ex) {
 		return new SoapFault($ex->getMessage());
@@ -110,7 +110,7 @@ function getDirs($username, $password) {
  */
 function serviceGetDirs($username, $serviceId, $serviceKey) {
 	try {
-		$manager = MiddTubeManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doGetDirs($manager);
 	} catch(Exception $ex) {
 		return new SoapFault($ex->getMessage());
@@ -120,12 +120,12 @@ function serviceGetDirs($username, $serviceId, $serviceKey) {
 /**
  * Return a list of directories the user has access to through the manger.
  * 
- * @param 	MiddTubeManager	$manager		The manager to use in this request.
+ * @param 	MiddMediaManager	$manager		The manager to use in this request.
  * @return	array					List of directories
  * @access	public
  * @since	Dec 08
  */
-function doGetDirs (MiddTubeManager $manager) {
+function doGetDirs (MiddMediaManager $manager) {
 	$directories = array();
 	try {
 		$dir = $manager->getPersonalDirectory();
@@ -165,7 +165,7 @@ function doGetDirs (MiddTubeManager $manager) {
  */
 function getVideos($username, $password, $directory) {
 	try {
-		$manager = MiddTubeManager::forUsernamePassword($username, $password);
+		$manager = MiddMediaManager::forUsernamePassword($username, $password);
 		return doGetVideos($manager, $directory);
 	} catch(Exception $ex) {
 		return new SoapFault($ex->getMessage());
@@ -185,7 +185,7 @@ function getVideos($username, $password, $directory) {
  */
 function serviceGetVideos($username, $serviceId, $serviceKey, $directory) {
 	try {
-		$manager = MiddTubeManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doGetVideos($manager, $directory);
 	} catch(Exception $ex) {
 		return new SoapFault($ex->getMessage());
@@ -196,12 +196,12 @@ function serviceGetVideos($username, $serviceId, $serviceKey, $directory) {
  * Return a list of video information in the user or group directory.
  *
  * @access	public
- * @param	MiddTubeManager	$manager	The manager to use in this request.
+ * @param	MiddMediaManager	$manager	The manager to use in this request.
  * @param	string		$directory	User or Group name.
  * @return	array				List of video information.
  * @since	Dec 08
  */
-function doGetVideos(MiddTubeManager $manager, $directory) {
+function doGetVideos(MiddMediaManager $manager, $directory) {
 	$videos = array();
 	
 	foreach($manager->getDirectory($directory)->getFiles() as $file) {
@@ -244,7 +244,7 @@ function doGetVideos(MiddTubeManager $manager, $directory) {
  */
 function getVideo($username, $password, $directory, $file) {
 	try {
-		$manager = MiddTubeManager::forUsernamePassword($username, $password);
+		$manager = MiddMediaManager::forUsernamePassword($username, $password);
 		return doGetVideo($manager, $directory, $file);
 	} catch(Exception $ex) {
 		return new SoapFault("server", $ex->getMessage());
@@ -265,7 +265,7 @@ function getVideo($username, $password, $directory, $file) {
  */
 function serviceGetVideo($username, $serviceId, $serviceKey, $directory, $file) {
 	try {
-		$manager = MiddTubeManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doGetVideo($manager, $directory, $file);
 	} catch(Exception $ex) {
 		return new SoapFault("server", $ex->getMessage());
@@ -276,13 +276,13 @@ function serviceGetVideo($username, $serviceId, $serviceKey, $directory, $file) 
  * Return information about a specific video in the user or group directory.
  *
  * @access	public
- * @param 	MiddTubeManager	$manager	The manager to use in this request.
+ * @param 	MiddMediaManager	$manager	The manager to use in this request.
  * @param	string		$directory	User or Group name.
  * @param	string		$file		Name of the video file.
  * @return	array				Video information.
  * @since	Dec 08
  */
-function doGetVideo(MiddTubeManager $manager, $directory, $file) {
+function doGetVideo(MiddMediaManager $manager, $directory, $file) {
 	$video = array();
 	
 	$file = $manager->getDirectory($directory)->getFile($file);
@@ -324,7 +324,7 @@ function doGetVideo(MiddTubeManager $manager, $directory, $file) {
  */
 function addVideo($username, $password, $directory, $file, $filename, $filetype, $filesize) {
 	try {
-		$manager = MiddTubeManager::forUsernamePassword($username, $password);
+		$manager = MiddMediaManager::forUsernamePassword($username, $password);
 		return doAddVideo($manager, $directory, $file, $filename, $filetype, $filesize);
 	} catch(Exception $ex) {
 		return new SoapFault("server", $ex->getMessage());
@@ -348,7 +348,7 @@ function addVideo($username, $password, $directory, $file, $filename, $filetype,
  */
 function serviceAddVideo($username, $serviceId, $serviceKey, $directory, $file, $filename, $filetype, $filesize) {
 	try {
-		$manager = MiddTubeManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doAddVideo($manager, $directory, $file, $filename, $filetype, $filesize);
 	} catch(Exception $ex) {
 		return new SoapFault("server", $ex->getMessage());
@@ -359,7 +359,7 @@ function serviceAddVideo($username, $serviceId, $serviceKey, $directory, $file, 
  * Add a new video to the user or group directory.
  *
  * @access	public
- * @param 	MiddTubeManager	$manager	The manager to use in this request.
+ * @param 	MiddMediaManager	$manager	The manager to use in this request.
  * @param	string		$directory	User or Group name.
  * @param	string		$file		base64string of file data.
  * @param	string		$filename	Name of the video.
@@ -368,10 +368,10 @@ function serviceAddVideo($username, $serviceId, $serviceKey, $directory, $file, 
  * @return	array				Video information.
  * @since	Dec 08
  */
-function doAddVideo(MiddTubeManager $manager, $directory, $file, $filename, $filetype, $filesize) {
+function doAddVideo(MiddMediaManager $manager, $directory, $file, $filename, $filetype, $filesize) {
 	$video = array();
 
-	$directory = MiddTube_Directory::getIfExists($manager, $directory);
+	$directory = MiddMedia_Directory::getIfExists($manager, $directory);
 	$newfile = $directory->createFile($filename);
 	$newfile->putContents(base64_decode($file));
 	
@@ -403,7 +403,7 @@ function doAddVideo(MiddTubeManager $manager, $directory, $file, $filename, $fil
  */
 function delVideo($username, $password, $directory, $filename) {
 	try {
-		$manager = MiddTubeManager::forUsernamePassword($username, $password);
+		$manager = MiddMediaManager::forUsernamePassword($username, $password);
 		return doDelVideo($manager, $directory, $filename);
 	} catch(Exception $ex) {
 		return new SoapFault("Server", $ex->getMessage());
@@ -423,7 +423,7 @@ function delVideo($username, $password, $directory, $filename) {
  */
 function serviceDelVideo($username, $serviceId, $serviceKey, $directory, $filename) {
 	try {
-		$manager = MiddTubeManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doDelVideo($manager, $directory, $filename);
 	} catch(Exception $ex) {
 		return new SoapFault("Server", $ex->getMessage());
@@ -440,8 +440,8 @@ function serviceDelVideo($username, $serviceId, $serviceKey, $directory, $filena
  * @param	string	$filename	Name of the video.
  * @since	Dec 08
  */
-function doDelVideo(MiddTubeManager $manager, $directory, $filename) {
-	$directory = MiddTube_Directory::getIfExists($manager, $directory);
+function doDelVideo(MiddMediaManager $manager, $directory, $filename) {
+	$directory = MiddMedia_Directory::getIfExists($manager, $directory);
 	$file = $directory->getFile($filename);
 	$file->delete();
 } 

@@ -90,7 +90,7 @@ $configs = array(
 					'repository',
 					'post_config_setup',
 					'viewer',
-					'middtube'
+					'middmedia'
 				);
 
 foreach ($configs as $config) {
@@ -109,8 +109,8 @@ foreach ($configs as $config) {
  *********************************************************/
 $harmoni->ActionHandler->addRequestTokenRequiredActions(array(
 		"updates.*",
-		"middtube.upload",
-		"middtube.delete",
-		"middtube.update_quota",
-		"middtube.create_shared_dir"
+		"middmedia.upload",
+		"middmedia.delete",
+		"middmedia.update_quota",
+		"middmedia.create_shared_dir"
 	));

@@ -9,7 +9,7 @@
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
-<changelog name="MiddTube">
+<changelog name="MiddMedia">
 	<version number="0.1" date="The Future">
 		<releaseNotes>
 			
@@ -20,7 +20,7 @@
 	</version>
 	
 	<about>
-		MiddTube is a audio/video upload and management tool that works in parallel
+		MiddMedia is a audio/video upload and management tool that works in parallel
 		with a Flash Media Server (FMS) to deliver user-created videos.
 	</about>
 	
@@ -32,7 +32,7 @@
 	<info>
 		<title>Documentation</title>
 		<description>
-			MiddTube includes contextual help for users. Additional documentation can
+			MiddMedia includes contextual help for users. Additional documentation can
 			be found online at:
 		</description>
 		<url>http://help.example.com</url>

@@ -7,7 +7,7 @@ body {
 }
 
 /*********************************************************
- * MiddTube Styles
+ * MiddMedia Styles
  *********************************************************/
 table.file_listing_table {
 	width: 600px;
@@ -70,16 +70,16 @@ table.file_listing_table td.access {
 }
 
 
-.middtube_delete {
+.middmedia_delete {
 /*	float: right;*/
 }
 
-.middtube_upload {
+.middmedia_upload {
 	float: right;
 	width: 280px;
 }
 
-.middtube_quota_edit {
+.middmedia_quota_edit {
 	display: block;
 	float: right;
 }
