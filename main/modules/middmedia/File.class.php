@@ -86,7 +86,17 @@ class MiddMedia_File
 	 * @since 10/24/08
 	 */
 	public function getRtmpUrl () {
-		return $this->directory->getRtmpUrl().'/'.rawurlencode($this->getBaseName());
+		$base = rtrim(MIDDMEDIA_RTMP_BASE_URL, '/').'/';
+		$parts = pathinfo($this->getBaseName());
+		switch (strtolower($parts['extension'])) {
+			case 'mp4':
+				$base .= 'mp4:';
+				break;
+			case 'mp3':
+				$base .= 'mp3:';
+				break;
+		}
+		return $base.$this->directory->getBaseName().'/'.rawurlencode($this->getBaseName());
 	}
 	
 	/**
