@@ -1,5 +1,5 @@
 
-MiddMedia v. 0.1.0 (2009-01-21)
+MiddMedia v. 0.1.1 (2009-01-23)
 =================================
 
 What is MiddMedia?
@@ -10,7 +10,12 @@ Flash Media Server (FMS) to deliver user-created videos.
 
 Current Version Notes
 ---------------------
-This is the first release of the MiddMedia system to be put into testing.
+This release includes updates to Harmoni and the MiddMedia codebases needed to get
+this system running under PHP 5.1 
+
+----
+
+ This release of MiddMedia uses Harmoni 1.9.0 and Polyphony 1.4.9.
 
 
 Downloads
@@ -50,6 +55,17 @@ http://bugs.example.com/12345/
 | Prior MiddMedia Release Notes
 | (See the MiddMedia change log for more details)
 ===================================================================
+
+
+v. 0.1.1 (2009-01-23)
+----------------------------------------------------
+This release includes updates to Harmoni and the MiddMedia codebases needed to get
+this system running under PHP 5.1 
+
+----
+
+ This release of MiddMedia uses Harmoni 1.9.0 and Polyphony 1.4.9.
+
 
 
 v. 0.1.0 (2009-01-21)

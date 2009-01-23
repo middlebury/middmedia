@@ -10,6 +10,25 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
+	<version number="0.1.1" date="2009-01-23">
+		<releaseNotes>
+			This release includes updates to Harmoni and the MiddMedia codebases
+			needed to get this system running under PHP 5.1
+			
+			----
+			
+			This release of MiddMedia uses Harmoni 1.9.0 and Polyphony 1.4.9.
+		</releaseNotes>
+		<fix author='adam' date='2009-01-23' ref='' reftype='bug'  reporter=''>
+			Config: Removed custom 'libraries' config file from version-control.
+		</fix>
+		<fix author='adam' date='2009-01-23' ref='' reftype='bug'  reporter=''>
+			Files: Now can return the appropriate RTMP url.
+		</fix>
+		<change author='adam' date='2009-01-23' ref='' reftype='fr'  reporter=''>
+			Config: URL configuration updated to support PathInfo URLs.
+		</change>
+	</version>
 	<version number="0.1.0" date="2009-01-21">
 		<releaseNotes>
 			This is the first release of the MiddMedia system to be put into testing.
