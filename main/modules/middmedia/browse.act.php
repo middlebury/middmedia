@@ -66,6 +66,8 @@ class browseAction
 		
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/sorttable.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/md5.js'></script> ");
+		$this->addToHead("\n\t\t<script type='text/javascript' src='".POLYPHONY_PATH."/javascript/Panel.js'></script> ");
+		$this->addToHead("\n\t\t<script type='text/javascript' src='".POLYPHONY_PATH."/javascript/CenteredPanel.js'></script> ");
 		
 		$this->addToHead("
 		<script type='text/javascript'>
@@ -307,6 +309,64 @@ class browseAction
 			
 		}
 		
+		var embedCode = '".MIDDMEDIA_EMBED_CODE."';
+		
+		function displayEmbedCode(link, dirName, fileId, httpUrl, rtmpUrl) {
+			if (link.panel) {
+				link.panel.open();
+			} else {
+				var panel = new CenteredPanel('Embed Code and URLs', 400, 600, link);
+				
+				var code = embedCode.replace('###DIR###', dirName);
+				code = code.replace('###ID###', fileId);
+				
+				
+				var heading = panel.contentElement.appendChild(document.createElement('h4'));
+				heading.innerHTML = 'Embed Code';
+				
+				var desc = panel.contentElement.appendChild(document.createElement('p'));
+				desc.innerHTML = 'The following code can be pasted into web sites to display this video in-line. Please note that some services may not allow embedding videos.';
+				
+				var text = panel.contentElement.appendChild(document.createElement('textarea'));
+				text.cols = 70;
+				text.rows = 8;
+				text.value = code;
+				text.readOnly = true;
+				
+				
+				
+				var heading = panel.contentElement.appendChild(document.createElement('h4'));
+				heading.innerHTML = 'HTTP (Download) URL';
+				
+				var desc = panel.contentElement.appendChild(document.createElement('p'));
+				desc.innerHTML = '<a href=\"' + httpUrl  + '\" target=\"_blank\">Click here to download this file.</a>';
+				
+				var desc = panel.contentElement.appendChild(document.createElement('p'));
+				desc.innerHTML = 'Make a link to the following URL to allow downloads of this file. ';
+				
+				var text = panel.contentElement.appendChild(document.createElement('input'));
+				text.type = text;
+				text.size = 80;
+				text.value = httpUrl;
+				text.readOnly = true;
+				
+				
+				
+				var heading = panel.contentElement.appendChild(document.createElement('h4'));
+				heading.innerHTML = 'RTMP (Streaming) URL';
+				
+				var desc = panel.contentElement.appendChild(document.createElement('p'));
+				desc.innerHTML = 'The following URL may be used in custom Flash video players to stream this video.';
+				
+				var text = panel.contentElement.appendChild(document.createElement('input'));
+				text.type = text;
+				text.size = 80;
+				text.value = rtmpUrl;
+				text.readOnly = true;
+				
+			}
+		}
+		
 		
 		// ]]>
 		</script> ");
@@ -507,7 +567,6 @@ class browseAction
 		print "\n\t</thead>";
 		print "\n\t<tbody id='listing-".$dirId."'>";
 		
-		$embedCode = str_replace('###DIR###', $dir->getBaseName(), MIDDTUBE_EMBED_CODE);
 		foreach ($dir->getFiles() as $file) {
 			$fileId = md5($dir->getBaseName().'/'.$file->getBaseName());
 			
@@ -544,24 +603,17 @@ class browseAction
 			print "</td>";
 			
 			print "\n\t\t\t<td class='access'>";
-			print "<a href='".$file->getHttpUrl()."'>HTTP (Download)</a>";
-			print "<br/><a href='".$file->getRtmpUrl()."'>RTMP (Streaming)</a>";
-			print "<br/><a href='#' onclick=\"alert('Unimplemented'); return false;\">Embed Code</a>";
-			print "<textarea style='display: none'>";
+			
 			$parts = pathinfo($file->getBasename());
-			switch ($parts['extension']) {
-				case 'mp3':
-					$myId = 'mp3:'.$parts['filename'];
-					break;
-				case 'mp4':
-					$myId = 'mp4:'.$parts['filename'];
+			switch (strtolower($parts['extension'])) {
+				case 'flv':
+					$myId = $parts['filename'];
 					break;
 				default:
-					$myId = $parts['filename'];
+					$myId = strtolower($parts['extension']).':'.$parts['filename'].'.'.$parts['extension'];
 			}
-			print str_replace('###ID###', $myId,
-				str_replace('###SPLASH_IMAGE_URL###', '', $embedCode));
-			print "</textarea>";
+			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".rawurlencode($dir->getBaseName())."', '".rawurlencode($myId)."', '".$file->getHttpUrl()."', '".$file->getRtmpUrl()."'); return false;\">Embed Code &amp; URLs</a>";
+			
 			print "</td>";
 			
 			print "\n\t\t</tr>";

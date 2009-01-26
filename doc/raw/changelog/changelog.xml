@@ -14,6 +14,9 @@
 		<releaseNotes>
 			
 		</releaseNotes>
+		<new author='adam' date='2009-01-26' ref='' reftype='fr'  reporter=''>
+			Browsing: Now provides a pop-up panel with embed code and URLs.
+		</new>
 		<fix author='adam' date='2009-01-26' ref='' reftype='bug'  reporter=''>
 			Now displaying link to User Tools for admins.
 		</fix>
