@@ -10,9 +10,14 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
-	<version number="0.1.2" date="The Future">
+	<version number="0.1.2" date="2009-01-26">
 		<releaseNotes>
+			This release updates to the quota support and adds the display of embed
+			code and URLs to media
 			
+			----
+			
+			This release of MiddMedia uses Harmoni 1.9.1 and Polyphony 1.4.9.
 		</releaseNotes>
 		<new author='adam' date='2009-01-26' ref='' reftype='fr'  reporter=''>
 			Browsing: Now provides a pop-up panel with embed code and URLs.

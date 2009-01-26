@@ -2,6 +2,35 @@
 MiddMedia Change Log
 
 
+v. 0.1.2 (2009-01-26)
+----------------------------------------------------
+This release updates to the quota support and adds the display of embed code and
+URLs to media 
+
+----
+
+ This release of MiddMedia uses Harmoni 1.9.1 and Polyphony 1.4.9.
+		
+		
+	* New feature: 
+		Browsing: Now provides a pop-up panel with embed code and URLs.
+		(2009-01-26 - Adam Franco)
+		
+	* Bug Fix: 
+		Now displaying link to User Tools for admins.
+		(2009-01-26 - Adam Franco)
+		
+	* Bug Fix: 
+		Quotas:Quota-admin screen now updates available space to reflect new quota.
+		(2009-01-26 - Adam Franco)
+		
+	* Bug Fix: 
+		Quotas: Now doesn't truncate quotas to 2 GB due to max integer size.
+		(2009-01-26 - Adam Franco)
+	
+
+
+
 v. 0.1.1 (2009-01-23)
 ----------------------------------------------------
 This release includes updates to Harmoni and the MiddMedia codebases needed to get
