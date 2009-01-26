@@ -15,6 +15,9 @@
 			
 		</releaseNotes>
 		<fix author='adam' date='2009-01-26' ref='' reftype='bug'  reporter=''>
+			Quotas: Quota-admin screen now updates available space to reflect new quota.
+		</fix>
+		<fix author='adam' date='2009-01-26' ref='' reftype='bug'  reporter=''>
 			Quotas: Now doesn't truncate quotas to 2 GB due to max integer size.
 		</fix>
 	</version>

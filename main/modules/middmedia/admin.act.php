@@ -150,6 +150,22 @@ class adminAction
 							editQuota(container, dirName, isDefault);
 						}
 						
+						// Update the space-available
+						var elem = container;
+						while (elem) {
+							if (elem.className == 'middmedia_used')
+								var usedTd = elem;
+							else if (elem.className == 'middmedia_available')
+								var availableTd = elem;
+							
+							elem = elem.nextSibling;
+						}
+						
+						var bytesAvailable = quota - new Number(usedTd.getAttribute('sorttable_customkey'));
+						availableTd.setAttribute('sorttable_customkey', bytesAvailable);
+						availableTd.innerHTML = bytesAvailable.asByteSizeString();
+						
+						
 					} else {
 						alert(req.responseText);
 					}
@@ -246,10 +262,10 @@ class adminAction
 			print "</td>";
 			
 			$bytes = ByteSize::withValue($dir->getBytesUsed());
-			print "\n\t\t<td sorttable_customkey='".$bytes->value()."'>".$bytes->asString()."</td>";
+			print "\n\t\t<td class='middmedia_used'  sorttable_customkey='".$bytes->value()."'>".$bytes->asString()."</td>";
 			
 			$bytes = ByteSize::withValue($dir->getBytesAvailable());
-			print "\n\t\t<td sorttable_customkey='".$bytes->value()."'>".$bytes->asString()."</td>";
+			print "\n\t\t<td class='middmedia_available' sorttable_customkey='".$bytes->value()."'>".$bytes->asString()."</td>";
 			
 			print"\n\t\t<td>".count($dir->getFiles())."</td>";
 			
