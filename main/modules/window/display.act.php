@@ -1,6 +1,6 @@
 <?php
 /**
- * @package middtube.modules.window
+ * @package middmedia.modules.window
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -27,7 +27,7 @@ require_once(HARMONI."GUIManager/StyleProperties/FloatSP.class.php");
 /**
  * build the frame of the window
  * 
- * @package middtube.modules.window
+ * @package middmedia.modules.window
  * 
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -70,16 +70,28 @@ class displayAction
 			new Container($xLayout, BLANK, 1), 
 			"100%", null, CENTER, TOP);
 		
+		// Admin Links
+		ob_start();
+		
 		$authZ = Services::getService('AuthZ');
 		$idMgr = Services::getService('Id');
 		if ($authZ->isUserAuthorized($idMgr->getId('edu.middlebury.authorization.modify'), $idMgr->getId('edu.middlebury.authorization.root'))) {
-			ob_start();
 			print "<a href='".$harmoni->request->quickURL('admin', 'main')."'>";
 			print _("Admin Tools");
-			print "</a>";
-			$this->headRow->add(new UnstyledBlock(ob_get_clean(), 1), 
-				null, null, LEFT, TOP);
+			print "</a> | ";
+			
 		}
+		
+		if ($authZ->isUserAuthorized($idMgr->getId('edu.middlebury.authorization.change_user'), $idMgr->getId('edu.middlebury.authorization.root'))) {
+			print "<a href='".$harmoni->request->quickURL('user', 'main')."'>";
+			print _("User Tools");
+			print "</a> ";
+		}
+		
+		$this->headRow->add(new UnstyledBlock(ob_get_clean(), 1), 
+				null, null, LEFT, TOP);
+		// END - Admin Links		
+		
 		
 		$rightHeadColumn = $this->headRow->add(
 			new Container($yLayout, BLANK, 1), 
@@ -98,7 +110,7 @@ class displayAction
 		
 		// The logo
 		$logo = new Component("\n<a href='".MYPATH."/'> <img src='".LOGO_URL."' 
-							style='border: 0px;' class='program_logo' alt='"._("MiddTube Logo'"). "/> </a>", BLANK, 1);
+							style='border: 0px;' class='program_logo' alt='"._("MiddMedia Logo'"). "/> </a>", BLANK, 1);
 		$headRow->add($logo, null, null, LEFT, TOP);
 		
 		// Language Bar
@@ -197,7 +209,7 @@ class displayAction
 		$harmoni = Harmoni::instance();
 		ob_start();
 		print "<div class='seguefooter_right'>";
-		print "<a href='".$harmoni->request->quickURL('window', 'changelog')."' target='_blank'>MiddTube v.".self::getSegueVersion()."</a>";
+		print "<a href='".$harmoni->request->quickURL('window', 'changelog')."' target='_blank'>MiddMedia v.".self::getSegueVersion()."</a>";
 // 		print "&nbsp; &nbsp; &nbsp; ";
 // 		print "&copy;".self::getSegueCopyrightYear()." Middlebury College";
 // 		print "&nbsp; &nbsp; &nbsp; <a href='http://segue.sourceforge.net'>";

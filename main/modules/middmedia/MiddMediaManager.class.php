@@ -1,7 +1,7 @@
 <?php
 /**
  * @since 10/24/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -16,14 +16,14 @@ require_once(dirname(__FILE__).'/Directory.class.php');
  * video management interfaces and webservices, hiding the details of Harmoni
  * 
  * @since 10/24/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id$
  */
-class MiddTubeManager {
+class MiddMediaManager {
 	
 	/*********************************************************
 	 * Instance Creation Methods
@@ -41,7 +41,7 @@ class MiddTubeManager {
 	 * 
 	 * @param string $username
 	 * @param string $password
-	 * @return object MiddTubeManager
+	 * @return object MiddMediaManager
 	 * @access public
 	 * @since 10/24/08
 	 * @static
@@ -71,7 +71,7 @@ class MiddTubeManager {
 			// If they are authenticated, continue
 			if ($authN->isUserAuthenticated($authType)) {
 				$agentMgr = Services::getService('Agent');
-				return new MiddTubeManager($agentMgr->getAgent($authN->getUserId($authType)));
+				return new MiddMediaManager($agentMgr->getAgent($authN->getUserId($authType)));
 			}
 		}
 		
@@ -81,7 +81,7 @@ class MiddTubeManager {
 	/**
 	 * Create a new manager for a username and shared key. 
 	 * The username can be a samaccountname, email, or DN.
-	 * The shared key is a secret known to both MiddTube and other systems it trusts
+	 * The shared key is a secret known to both MiddMedia and other systems it trusts
 	 * to authenticate users.
 	 *
 	 * This method throws the following exceptions:
@@ -93,7 +93,7 @@ class MiddTubeManager {
 	 * @param string $username
 	 * @param string $serviceId
 	 * @param string $serviceKey
-	 * @return object MiddTubeManager
+	 * @return object MiddMediaManager
 	 * @access public
 	 * @since 12/10/08
 	 * @static
@@ -127,7 +127,7 @@ class MiddTubeManager {
 			// if the the username exists allow them in.
 			if ($method->tokensExist($tokensObj)) {				
 				$agentMgr = Services::getService('Agent');
-				return new MiddTubeManager($agentMgr->getAgent(
+				return new MiddMediaManager($agentMgr->getAgent(
 						$authN->_getAgentIdForAuthNTokens($tokensObj, $authType)));
 			}
 		}
@@ -143,7 +143,7 @@ class MiddTubeManager {
 	 *		OperationFailedException 	- If there is no user authenticated.
 	 *		PermissionDeniedException 	- If the user is unauthorized to manage media.
 	 * 
-	 * @return object MiddTubeManager
+	 * @return object MiddMediaManager
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -154,7 +154,7 @@ class MiddTubeManager {
 		if (!$authN->isUserAuthenticatedWithAnyType())
 			throw new OperationFailedException("No user authenticated");
 		
-		return new MiddTubeManager($agentMgr->getAgent($authN->getFirstUserId()));
+		return new MiddMediaManager($agentMgr->getAgent($authN->getFirstUserId()));
 	}
 	
 	/*********************************************************
@@ -163,7 +163,7 @@ class MiddTubeManager {
 	/**
 	 * Add a new group id string that is authorized to have personal directories.
 	 *
-	 * ex: MiddTubeManager::addPersonalDirectoryGroup('CN=All Faculty,OU=General,OU=Groups,DC=middlebury,DC=edu');
+	 * ex: MiddMediaManager::addPersonalDirectoryGroup('CN=All Faculty,OU=General,OU=Groups,DC=middlebury,DC=edu');
 	 * 
 	 * @param string $groupIdString
 	 * @return void
@@ -245,7 +245,7 @@ class MiddTubeManager {
 	 * This method throws the following exceptions:
 	 *		PermissionDeniedException 	- If the user is unauthorized to have a personal directory.
 	 *
-	 * @return object MiddTube_Directory
+	 * @return object MiddMedia_Directory
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -253,13 +253,13 @@ class MiddTubeManager {
 		if (!$this->hasPersonal())
 			throw new PermissionDeniedException("You are not authorized to have a personal directory.");
 		
-		return MiddTube_Directory::getAlways($this, $this->getPersonalShortname());
+		return MiddMedia_Directory::getAlways($this, $this->getPersonalShortname());
 	}
 	
 	/**
 	 * Answer an array of all shared directories the user can access.
 	 * 
-	 * @return array of MiddTube_Directory objects
+	 * @return array of MiddMedia_Directory objects
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -281,13 +281,13 @@ class MiddTubeManager {
 				while (!$dirname && $propertiesIterator->hasNext()) {
 					$properties = $propertiesIterator->next();
 					try {
-						$dirname = $properties->getProperty(MIDDTUBE_GROUP_DIRNAME_PROPERTY);
+						$dirname = $properties->getProperty(MIDDMEDIA_GROUP_DIRNAME_PROPERTY);
 					} catch(UnknownIdException $e) {
 					}
 				}
 				if ($dirname) {
 					try {
-						$sharedDirs[] = MiddTube_Directory::getIfExists($this, $dirname);
+						$sharedDirs[] = MiddMedia_Directory::getIfExists($this, $dirname);
 					} catch(UnknownIdException $e) {
 					} catch(InvalidArgumentException $e) {
 					}
@@ -307,7 +307,7 @@ class MiddTubeManager {
 	 *		PermissionDeniedException 	- If the user is unauthorized to access the directory.
 	 * 
 	 * @param string $name
-	 * @return object MiddTube_Directory
+	 * @return object MiddMedia_Directory
 	 * @access public
 	 * @since 11/13/08
 	 */
@@ -381,8 +381,8 @@ class MiddTubeManager {
 				while ($propertiesIterator->hasNext()) {
 					$properties = $propertiesIterator->next();
 					try {
-						if ($properties->getProperty(MIDDTUBE_GROUP_DIRNAME_PROPERTY)) {
-							$results[] = $properties->getProperty(MIDDTUBE_GROUP_DIRNAME_PROPERTY);
+						if ($properties->getProperty(MIDDMEDIA_GROUP_DIRNAME_PROPERTY)) {
+							$results[] = $properties->getProperty(MIDDMEDIA_GROUP_DIRNAME_PROPERTY);
 							break;
 						}
 					} catch (Exception $e) {

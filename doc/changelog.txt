@@ -1,10 +1,35 @@
 
-MiddTube Change Log
+MiddMedia Change Log
 
 
-v. 0.1 (The Future)
+v. 0.1.1 (2009-01-23)
 ----------------------------------------------------
+This release includes updates to Harmoni and the MiddMedia codebases needed to get
+this system running under PHP 5.1 
 
+----
+
+ This release of MiddMedia uses Harmoni 1.9.0 and Polyphony 1.4.9.
+		
+		
+	* Bug Fix: 
+		Config: Removed custom 'libraries' config file from version-control.
+		(2009-01-23 - Adam Franco)
+		
+	* Bug Fix: 
+		Files: Now can return the appropriate RTMP url.
+		(2009-01-23 - Adam Franco)
+		
+	* Change: 
+		Config: URL configuration updated to support PathInfo URLs.
+		(2009-01-23 - Adam Franco)
+	
+
+
+
+v. 0.1.0 (2009-01-21)
+----------------------------------------------------
+This is the first release of the MiddMedia system to be put into testing.
 		
 		
 	* New feature: 

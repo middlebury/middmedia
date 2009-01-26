@@ -72,7 +72,7 @@ class changelogAction
 ";
 				break;
 			default:
-				$currentPackage = 'middtube';
+				$currentPackage = 'middmedia';
 				$file = MYDIR."/doc/changelog.html";
 				$source = file_get_contents($file);
 				break;
@@ -97,7 +97,7 @@ class changelogAction
 		$harmoni = Harmoni::instance();
 		
 		$packages = array(
-			'middtube' 	=> 'MiddTube Changelog',
+			'middmedia' 	=> 'MiddMedia Changelog',
 			'harmoni' 	=> 'Harmoni Changelog',
 			'polyphony'	=> 'Polyphony Changelog',
 // 			'viewer'	=> 'Concerto Viewer Changelog',

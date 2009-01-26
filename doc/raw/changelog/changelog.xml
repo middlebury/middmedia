@@ -9,10 +9,43 @@
  -->
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
-<changelog name="MiddTube">
-	<version number="0.1" date="The Future">
+<changelog name="MiddMedia">
+	<version number="0.1.2" date="The Future">
 		<releaseNotes>
 			
+		</releaseNotes>
+		<fix author='adam' date='2009-01-26' ref='' reftype='bug'  reporter=''>
+			Now displaying link to User Tools for admins.
+		</fix>
+		<fix author='adam' date='2009-01-26' ref='' reftype='bug'  reporter=''>
+			Quotas: Quota-admin screen now updates available space to reflect new quota.
+		</fix>
+		<fix author='adam' date='2009-01-26' ref='' reftype='bug'  reporter=''>
+			Quotas: Now doesn't truncate quotas to 2 GB due to max integer size.
+		</fix>
+	</version>
+	<version number="0.1.1" date="2009-01-23">
+		<releaseNotes>
+			This release includes updates to Harmoni and the MiddMedia codebases
+			needed to get this system running under PHP 5.1
+			
+			----
+			
+			This release of MiddMedia uses Harmoni 1.9.0 and Polyphony 1.4.9.
+		</releaseNotes>
+		<fix author='adam' date='2009-01-23' ref='' reftype='bug'  reporter=''>
+			Config: Removed custom 'libraries' config file from version-control.
+		</fix>
+		<fix author='adam' date='2009-01-23' ref='' reftype='bug'  reporter=''>
+			Files: Now can return the appropriate RTMP url.
+		</fix>
+		<change author='adam' date='2009-01-23' ref='' reftype='fr'  reporter=''>
+			Config: URL configuration updated to support PathInfo URLs.
+		</change>
+	</version>
+	<version number="0.1.0" date="2009-01-21">
+		<releaseNotes>
+			This is the first release of the MiddMedia system to be put into testing.
 		</releaseNotes>
 		<new author='adam' date='2008-10-23' ref='' reftype='fr'  reporter=''>
 			Everything is new.
@@ -20,7 +53,7 @@
 	</version>
 	
 	<about>
-		MiddTube is a audio/video upload and management tool that works in parallel
+		MiddMedia is a audio/video upload and management tool that works in parallel
 		with a Flash Media Server (FMS) to deliver user-created videos.
 	</about>
 	
@@ -32,7 +65,7 @@
 	<info>
 		<title>Documentation</title>
 		<description>
-			MiddTube includes contextual help for users. Additional documentation can
+			MiddMedia includes contextual help for users. Additional documentation can
 			be found online at:
 		</description>
 		<url>http://help.example.com</url>

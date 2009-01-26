@@ -1,7 +1,7 @@
 <?php
 /**
  * @since 10/24/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -15,27 +15,27 @@ require_once(dirname(__FILE__).'/File.class.php');
  * This class is a simple directory-access wrapper.
  * 
  * @since 10/24/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id$
  */
-class MiddTube_Directory {
+class MiddMedia_Directory {
 
 	/**
 	 * Answer the directory if it exists. Throw an UnknownIdException if it doesn't.
 	 * 
-	 * @param object MiddTubeManagerMiddTubeManager $manager
+	 * @param object MiddMediaManagerMiddMediaManager $manager
 	 * @param string $name
-	 * @return object MiddTube_Directory
+	 * @return object MiddMedia_Directory
 	 * @access public
 	 * @since 11/13/08
 	 * @static
 	 */
-	public static function getIfExists (MiddTubeManager $manager, $name) {
-		$dir = new MiddTube_Directory($manager, $name);
+	public static function getIfExists (MiddMediaManager $manager, $name) {
+		$dir = new MiddMedia_Directory($manager, $name);
 		
 		if (!file_exists($dir->getFSPath())) {
 			throw new UnknownIdException("Directory does not exist");
@@ -47,19 +47,19 @@ class MiddTube_Directory {
 	/**
 	 * Answer the directory, creating if needed.
 	 * 
-	 * @param object MiddTubeManagerMiddTubeManager $manager
+	 * @param object MiddMediaManagerMiddMediaManager $manager
 	 * @param string $name
-	 * @return ovject MiddTube_Directory
+	 * @return ovject MiddMedia_Directory
 	 * @access public
 	 * @since 11/13/08
 	 * @static
 	 */
-	public static function getAlways (MiddTubeManager $manager, $name) {
-		$dir = new MiddTube_Directory($manager, $name);
+	public static function getAlways (MiddMediaManager $manager, $name) {
+		$dir = new MiddMedia_Directory($manager, $name);
 		
 		if (!file_exists($dir->getFSPath())) {
-			if (!is_writable(MIDDTUBE_FS_BASE_DIR))
-				throw new ConfigurationErrorException("MIDDTUBE_FS_BASE_DIR is not writable.");
+			if (!is_writable(MIDDMEDIA_FS_BASE_DIR))
+				throw new ConfigurationErrorException("MIDDMEDIA_FS_BASE_DIR is not writable.");
 			mkdir($dir->getFSPath());
 		}
 		
@@ -69,30 +69,30 @@ class MiddTube_Directory {
 	/**
 	 * Constructor
 	 * 
-	 * @param object MiddTubeManagerMiddTubeManager $manager
+	 * @param object MiddMediaManagerMiddMediaManager $manager
 	 * @param string $name
 	 * @return void
 	 * @access public
 	 * @since 10/24/08
 	 */
-	private function __construct (MiddTubeManager $manager, $name) {
+	private function __construct (MiddMediaManager $manager, $name) {
 		ArgumentValidator::validate($name, RegexValidatorRule::getRule('^[a-zA-Z0-9_&-]+$'));
 		
-		if (!file_exists(MIDDTUBE_FS_BASE_DIR))
-			throw new ConfigurationErrorException("MIDDTUBE_FS_BASE_DIR does not exist.");
+		if (!file_exists(MIDDMEDIA_FS_BASE_DIR))
+			throw new ConfigurationErrorException("MIDDMEDIA_FS_BASE_DIR does not exist.");
 		
-		if (!is_dir(MIDDTUBE_FS_BASE_DIR))
-			throw new ConfigurationErrorException("MIDDTUBE_FS_BASE_DIR is not a directory.");
+		if (!is_dir(MIDDMEDIA_FS_BASE_DIR))
+			throw new ConfigurationErrorException("MIDDMEDIA_FS_BASE_DIR is not a directory.");
 		
-		if (!is_executable(MIDDTUBE_FS_BASE_DIR))
-			throw new ConfigurationErrorException("MIDDTUBE_FS_BASE_DIR is not listable.");
+		if (!is_executable(MIDDMEDIA_FS_BASE_DIR))
+			throw new ConfigurationErrorException("MIDDMEDIA_FS_BASE_DIR is not listable.");
 		
 		$this->manager = $manager;
 		$this->name = $name;
 	}
 	
 	/**
-	 * @var object MiddTubeManager $manager;  
+	 * @var object MiddMediaManager $manager;  
 	 * @access private
 	 * @since 11/21/08
 	 */
@@ -124,7 +124,7 @@ class MiddTube_Directory {
 	 * @since 10/24/08
 	 */
 	public function getFsPath () {
-		return MIDDTUBE_FS_BASE_DIR.'/'.$this->name;
+		return MIDDMEDIA_FS_BASE_DIR.'/'.$this->name;
 	}
 	
 	/**
@@ -135,7 +135,7 @@ class MiddTube_Directory {
 	 * @since 10/24/08
 	 */
 	public function getHttpUrl () {
-		return MIDDTUBE_HTTP_BASE_URL.'/'.$this->name;
+		return MIDDMEDIA_HTTP_BASE_URL.'/'.$this->name;
 	}
 	
 	/**
@@ -146,13 +146,13 @@ class MiddTube_Directory {
 	 * @since 10/24/08
 	 */
 	public function getRtmpUrl () {
-		return MIDDTUBE_RTMP_BASE_URL.'/'.$this->name;
+		return MIDDMEDIA_RTMP_BASE_URL.'/'.$this->name;
 	}
 	
 	/**
 	 * Answer an array of the files in this directory.
 	 * 
-	 * @return array of MiddTubeFile objects
+	 * @return array of MiddMediaFile objects
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -160,7 +160,7 @@ class MiddTube_Directory {
 		$files = array();
 		foreach (scandir($this->getFsPath()) as $fname) {
 			if ($fname != '.' && $fname != '..')
-				$files[] = new MiddTube_File($this, $fname);
+				$files[] = new MiddMedia_File($this, $fname);
 		}
 		return $files;
 	}
@@ -169,14 +169,14 @@ class MiddTube_Directory {
 	 * Answer a single file by name
 	 * 
 	 * @param string $name
-	 * @return object Middtube_File
+	 * @return object MiddMedia_File
 	 * @access public
 	 * @since 11/13/08
 	 */
 	public function getFile ($name) {
 		if (!$this->fileExists($name))
 			throw new UnknownIdException("File '$name' does not exist.");
-		return new MiddTube_File($this, $name);
+		return new MiddMedia_File($this, $name);
 	}
 	
 	/**
@@ -188,7 +188,7 @@ class MiddTube_Directory {
 	 * @since 11/13/08
 	 */
 	public function fileExists ($name) {
-		if (!MiddTube_File::nameValid($name))
+		if (!MiddMedia_File::nameValid($name))
 			throw new InvalidArgumentException('Invalid file name '.$name);
 		return file_exists($this->getFsPath().'/'.$name);
 	}
@@ -231,11 +231,11 @@ class MiddTube_Directory {
 		
 			$query = new SelectQuery;
 			$query->addColumn('quota');
-			$query->addTable('middtube_quotas');
+			$query->addTable('middmedia_quotas');
 			$query->addWhereEqual('directory', $this->getBaseName());
 			$result = $dbMgr->query($query, HARMONI_DB_INDEX);
 			if ($result->getNumberOfRows()) {
-				$quota = intval($result->field('quota'));
+				$quota = round(floatval($result->field('quota')));
 				if ($quota > 0)
 					$this->quota = $quota;
 				else
@@ -280,13 +280,13 @@ class MiddTube_Directory {
 		$dbMgr = Services::getService("DatabaseManager");
 		try {
 			$query = new InsertQuery;
-			$query->setTable('middtube_quotas');
+			$query->setTable('middmedia_quotas');
 			$query->addValue('directory', $this->getBaseName());
 			$query->addValue('quota', strval($quota));
 			$dbMgr->query($query, HARMONI_DB_INDEX);
 		} catch (DuplicateKeyDatabaseException $e) {
 			$query = new UpdateQuery;
-			$query->setTable('middtube_quotas');
+			$query->setTable('middmedia_quotas');
 			$query->addWhereEqual('directory', $this->getBaseName());
 			$query->addValue('quota', strval($quota));
 			$dbMgr->query($query, HARMONI_DB_INDEX);
@@ -306,7 +306,7 @@ class MiddTube_Directory {
 		$dbMgr = Services::getService("DatabaseManager");
 		
 		$query = new DeleteQuery;
-		$query->setTable('middtube_quotas');
+		$query->setTable('middmedia_quotas');
 		$query->addWhereEqual('directory', $this->getBaseName());
 		$dbMgr->query($query, HARMONI_DB_INDEX);
 	}
@@ -331,7 +331,7 @@ class MiddTube_Directory {
 	 *		PermissionDeniedException 	- If the user is unauthorized to manage media here.
 	 * 
 	 * @param object Harmoni_Filing_FileInterface $file
-	 * @return object MiddTubeFile The new file
+	 * @return object MiddMediaFile The new file
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -339,7 +339,7 @@ class MiddTube_Directory {
 		if (file_exists($this->getFsPath().'/'.$file->getBaseName()))
 			throw new OperationFailedException("File already exists.");
 		
-		$newFile = new MiddTube_File($this, $file->getBaseName());
+		$newFile = new MiddMedia_File($this, $file->getBaseName());
 		$newFile->putContents($file->getContents());
 		$newFile->setCreator($this->manager->getAgent());
 		
@@ -355,18 +355,18 @@ class MiddTube_Directory {
 	 *		PermissionDeniedException 	- If the user is unauthorized to manage media here.
 	 * 
 	 * @param string $name
-	 * @return object MiddTubeFile The new file
+	 * @return object MiddMediaFile The new file
 	 * @access public
 	 * @since 11/21/08
 	 */
 	public function createFile ($name) {
-		if (!MiddTube_File::nameValid($name))
+		if (!MiddMedia_File::nameValid($name))
 			throw new InvalidArgumentException("Invalid file name");
 		if ($this->fileExists($name))
 			throw new OperationFailedException("File already exists.");
 		
 		touch($this->getFsPath().'/'.$name);
-		$newFile = new MiddTube_File($this, $name);
+		$newFile = new MiddMedia_File($this, $name);
 		$newFile->setCreator($this->manager->getAgent());
 		
 		return $newFile;

@@ -1,7 +1,7 @@
 <?php
 /**
  * @since 11/19/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -15,7 +15,7 @@ require_once(dirname(__FILE__).'/upload.act.php');
  * Update a directory quota
  * 
  * @since 11/19/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -61,7 +61,7 @@ class update_quotaAction
 		// Log the success
 		if (Services::serviceRunning("Logging")) {
 			$loggingManager = Services::getService("Logging");
-			$log = $loggingManager->getLogForWriting("MiddTube");
+			$log = $loggingManager->getLogForWriting("MiddMedia");
 			$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
 							"A format in which the acting Agent[s] and the target nodes affected are specified.");
 			$priorityType = new Type("logging", "edu.middlebury", "Admin",
@@ -99,12 +99,12 @@ class update_quotaAction
 	/**
 	 * Answer the manager to use
 	 * 
-	 * @return MiddTubeManager
+	 * @return MiddMediaManager
 	 * @access protected
 	 * @since 12/10/08
 	 */
 	protected function getManager () {
-		return AdminMiddTubeManager::forCurrentUser();
+		return AdminMiddMediaManager::forCurrentUser();
 	}
 	
 }

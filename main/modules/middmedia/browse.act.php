@@ -74,7 +74,7 @@ class browseAction
 		function deleteFile (directory, file, row) {
 // 			if (!confirm(\"Are you sure you want to delete this file?\\n\\n\" + file))
 // 				return;
-			var url = Harmoni.quickUrl('middtube', 'delete', {
+			var url = Harmoni.quickUrl('middmedia', 'delete', {
 				'directory': directory,
 				'file': file
 			});
@@ -112,7 +112,7 @@ class browseAction
 		}
 		
 		
-		function middtubeUploadSuccess (file, serverData) {
+		function middmediaUploadSuccess (file, serverData) {
 			// run the default handler to close up the progress bar
 			uploadSuccess.apply(this, [file, serverData]);
 			
@@ -357,12 +357,12 @@ class browseAction
 	/**
 	 * Answer the manager to use for this action.
 	 * 
-	 * @return MiddTubeMangager
+	 * @return MiddMediaMangager
 	 * @access protected
 	 * @since 12/10/08
 	 */
 	protected function getManager () {
-		return MiddTubeManager::forCurrentUser();
+		return MiddMediaManager::forCurrentUser();
 	}
 	
 	/**
@@ -382,12 +382,12 @@ class browseAction
 	/**
 	 * Answer a block of HTML to represent the directory
 	 * 
-	 * @param object MiddTube_Directory $dir
+	 * @param object MiddMedia_Directory $dir
 	 * @return string
 	 * @access public
 	 * @since 10/24/08
 	 */
-	public function getDirectoryMarkup (MiddTube_Directory $dir) {
+	public function getDirectoryMarkup (MiddMedia_Directory $dir) {
 		ob_start();
 		$harmoni = Harmoni::instance();
 		
@@ -424,7 +424,7 @@ class browseAction
 		
 		window.addOnLoad(function() {
 			var swfu = new SWFUpload({
-					upload_url : '".str_replace('&amp;', '&', $harmoni->request->quickURL('middtube', 'upload', array('directory' => $dir->getBaseName())))."', 
+					upload_url : '".str_replace('&amp;', '&', $harmoni->request->quickURL('middmedia', 'upload', array('directory' => $dir->getBaseName())))."', 
 					flash_url : '".MYPATH."/javascript/SWFUpload/swfupload.swf', 
 					post_params: {'".session_name()."' : '".session_id()."'},
 					file_size_limit : '".ByteSize::withValue($this->getFileSizeLimit())->asString()."',
@@ -456,7 +456,7 @@ class browseAction
 					upload_start_handler : uploadStart,
 					upload_progress_handler : uploadProgress,
 					upload_error_handler : uploadError,
-					upload_success_handler : middtubeUploadSuccess,
+					upload_success_handler : middmediaUploadSuccess,
 					upload_complete_handler : uploadComplete,
 // 					queue_complete_handler : queueComplete	// Queue plugin event
 					
@@ -470,7 +470,7 @@ class browseAction
 		</script>"
 		);
 		
-		print "\n<div class='middtube_upload'>";
+		print "\n<div class='middmedia_upload'>";
 		print "\n\t<button class='btnUpload' id='upload-".$dirId."'></button>";
 		print "\n\t<input  class='btnCancel' type='button' id='cancel-".$dirId."' value='Cancel All Uploads' disabled='disabled' />";
 		
@@ -483,7 +483,7 @@ class browseAction
 		/*********************************************************
 		 * Delete Controls
 		 *********************************************************/
-		print "\n<div class='middtube_delete'>";
+		print "\n<div class='middmedia_delete'>";
 		print "\n\t<input type='button' onclick=\"deleteChecked('".$dir->getBaseName()."');\" value='Delete Checked Files'/>";
 		print "\n</div>";
 		

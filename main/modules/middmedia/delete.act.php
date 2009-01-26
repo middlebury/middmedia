@@ -1,7 +1,7 @@
 <?php
 /**
  * @since 11/19/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -15,7 +15,7 @@ require_once(dirname(__FILE__).'/upload.act.php');
  * Delete a file
  * 
  * @since 11/19/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -56,7 +56,7 @@ class deleteAction
 		// Log the success
 		if (Services::serviceRunning("Logging")) {
 			$loggingManager = Services::getService("Logging");
-			$log = $loggingManager->getLogForWriting("MiddTube");
+			$log = $loggingManager->getLogForWriting("MiddMedia");
 			$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
 							"A format in which the acting Agent[s] and the target nodes affected are specified.");
 			$priorityType = new Type("logging", "edu.middlebury", "Error",

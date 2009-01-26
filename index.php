@@ -21,10 +21,24 @@ if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
 else
 	$protocol = 'http';
 
+if ($_SERVER['SCRIPT_NAME'])
+	$scriptPath = $_SERVER['SCRIPT_NAME'];
+else
+	$scriptPath = $_SERVER['PHP_SELF'];
+	
 define("MYPATH", $protocol."://".$_SERVER['HTTP_HOST'].str_replace(
 												"\\", "/", 
-												dirname($_SERVER['PHP_SELF'])));
-define("MYURL", MYPATH."/index.php");
+												dirname($scriptPath)));
+
+// The following lines set the MYURL constant.
+if (file_exists(MYDIR.'/config/url.conf.php'))
+	include_once (MYDIR.'/config/url.conf.php');
+else
+	include_once (MYDIR.'/config/url_default.conf.php');
+
+if (!defined("MYURL"))
+	define("MYURL", trim(MYPATH, '/')."/index.php");
+
 
 define("LOAD_GUI", true);
 

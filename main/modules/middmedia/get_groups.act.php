@@ -1,7 +1,7 @@
 <?php
 /**
  * @since 11/13/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -16,7 +16,7 @@ require_once(POLYPHONY."/main/library/AbstractActions/Action.class.php");
  * Answer a list of groups matching the search parameters.
  * 
  * @since 11/13/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -58,7 +58,7 @@ class get_groupsAction
 		
 		
 		print "<ul>";
-		$manager = AdminMiddTubeManager::forCurrentUser();
+		$manager = AdminMiddMediaManager::forCurrentUser();
 		
 		foreach ($manager->getGroupNamesBySearch(RequestContext::value('group')) as $group) {
 			print "\n\t<li>".$group."</li>";

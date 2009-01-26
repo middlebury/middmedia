@@ -20,13 +20,13 @@ print '<'.'?xml version="1.0" encoding="ISO-8859-1"?'.'>';
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
-	xmlns:tns="urn:MiddTube"
+	xmlns:tns="urn:MiddMedia"
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns="http://schemas.xmlsoap.org/wsdl/"
-	targetNamespace="urn:MiddTube">
+	targetNamespace="urn:MiddMedia">
 	<types>
-		<xsd:schema targetNamespace="urn:MiddTube">
+		<xsd:schema targetNamespace="urn:MiddMedia">
 			<xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
 			<xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
 			<xsd:complexType name="video">
@@ -163,7 +163,7 @@ print '<'.'?xml version="1.0" encoding="ISO-8859-1"?'.'>';
 	<message name="delVideoResponse">
 		<part name="result" type="xsd:boolean" />
 	</message>
-	<portType name="MiddTubePortType">
+	<portType name="MiddMediaPortType">
 		<operation name="getTypes">
 			<documentation>
 				Get a list of allowed file type extensions.
@@ -251,119 +251,119 @@ print '<'.'?xml version="1.0" encoding="ISO-8859-1"?'.'>';
 			<output message="tns:delVideoResponse" />
 		</operation>
 	</portType>
-	<binding name="MiddTubeBinding" type="tns:MiddTubePortType">
+	<binding name="MiddMediaBinding" type="tns:MiddMediaPortType">
 		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
 		<operation name="getTypes">
-			<soap:operation soapAction="urn:MiddTube#getTypes" style="rpc" />
+			<soap:operation soapAction="urn:MiddMedia#getTypes" style="rpc" />
 			<input>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</input>
 			<output>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</output>
 		</operation>
 		<operation name="getDirs">
-			<soap:operation soapAction="urn:MiddTube#getDirs" style="rpc" />
+			<soap:operation soapAction="urn:MiddMedia#getDirs" style="rpc" />
 			<input>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</input>
 			<output>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</output>
 		</operation>
 		<operation name="getVideos">
-			<soap:operation soapAction="urn:MiddTube#getVideos" style="rpc" />
+			<soap:operation soapAction="urn:MiddMedia#getVideos" style="rpc" />
 			<input>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</input>
 			<output>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</output>
 		</operation>
 		<operation name="getVideo">
-			<soap:operation soapAction="urn:MiddTube#getVideo" style="rpc" />
+			<soap:operation soapAction="urn:MiddMedia#getVideo" style="rpc" />
 			<input>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</input>
 			<output>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</output>
 		</operation>
 		<operation name="addVideo">
-			<soap:operation soapAction="urn:MiddTube#addVideo" style="rpc" />
+			<soap:operation soapAction="urn:MiddMedia#addVideo" style="rpc" />
 			<input>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</input>
 			<output>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</output>
 		</operation>
 		<operation name="delVideo">
-			<soap:operation soapAction="urn:MiddTube#delVideo" style="rpc" />
+			<soap:operation soapAction="urn:MiddMedia#delVideo" style="rpc" />
 			<input>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</input>
 			<output>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</output>
 		</operation>
 		<operation name="serviceGetTypes">
-			<soap:operation soapAction="urn:MiddTube#serviceGetTypes" style="rpc" />
+			<soap:operation soapAction="urn:MiddMedia#serviceGetTypes" style="rpc" />
 			<input>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</input>
 			<output>
 				<soap:body use="encoded" namespace="urn:MiddTueb" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</output>
 		</operation>
 		<operation name="serviceGetDirs">
-			<soap:operation soapAction="urn:MiddTube#serviceGetDirs" style="rpc" />
+			<soap:operation soapAction="urn:MiddMedia#serviceGetDirs" style="rpc" />
 			<input>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</input>
 			<output>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</output>
 		</operation>
 		<operation name="serviceGetVideos">
-			<soap:operation soapAction="urn:MiddTube#serviceGetVideos" style="rpc" />
+			<soap:operation soapAction="urn:MiddMedia#serviceGetVideos" style="rpc" />
 			<input>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</input>
 			<output>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</output>
 		</operation>
 		<operation name="serviceGetVideo">
-			<soap:operation soapAction="urn:MiddTube#serviceGetVideo" style="rpc" />
+			<soap:operation soapAction="urn:MiddMedia#serviceGetVideo" style="rpc" />
 			<input>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</input>
 			<output>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</output>
 		</operation>
 		<operation name="serviceAddVideo">
-			<soap:operation soapAction="urn:MiddTube#serviceAddVideo" style="rpc" />
+			<soap:operation soapAction="urn:MiddMedia#serviceAddVideo" style="rpc" />
 			<input>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</input>
 			<output>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</output>
 		</operation>
 		<operation name="serviceDelVideo">
-			<soap:operation soapAction="urn:MiddTube#serviceDelVideo" style="rpc" />
+			<soap:operation soapAction="urn:MiddMedia#serviceDelVideo" style="rpc" />
 			<input>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</input>
 			<output>
-				<soap:body use="encoded" namespace="urn:MiddTube" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
 			</output>
 		</operation>
 	</binding>
-	<service name="MiddTube">
-		<port name="MiddTubePort" binding="MiddTubeBinding">
+	<service name="MiddMedia">
+		<port name="MiddMediaPort" binding="MiddMediaBinding">
 			<soap:address location="<?php print MYPATH.'/soap.php'; ?>" />
 		</port>
 	</service>

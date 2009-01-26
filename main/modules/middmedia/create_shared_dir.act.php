@@ -1,31 +1,30 @@
 <?php
 /**
- * @since 12/10/08
- * @package middtube
+ * @since 12/11/08
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id$
  */ 
-
-require_once(dirname(__FILE__).'/browse.act.php');
+require_once(POLYPHONY."/main/library/AbstractActions/MainWindowAction.class.php");
 
 /**
- * Browse all media as an admin
+ * <##>
  * 
- * @since 12/10/08
- * @package middtube
+ * @since 12/11/08
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id$
  */
-class admin_browseAction
-	extends browseAction
+class create_shared_dirAction
+	extends MainWindowAction
 {
-	
+		
 	/**
 	 * Check Authorizations
 	 * 
@@ -43,14 +42,23 @@ class admin_browseAction
 	}
 	
 	/**
-	 * Answer the manager to use for this action.
+	 * Exectute
 	 * 
-	 * @return MiddTubeMangager
-	 * @access protected
-	 * @since 12/10/08
+	 * @return void
+	 * @access public
+	 * @since 12/11/08
 	 */
-	protected function getManager () {
-		return AdminMiddTubeManager::forCurrentUser();
+	public function buildContent () {
+		$harmoni = Harmoni::instance();
+		
+		try {
+			$manager = AdminMiddMediaManager::forCurrentUser();
+			$dir = $manager->createSharedDirectory(RequestContext::value('group'));
+		
+			RequestContext::sendTo($harmoni->request->quickURL('middmedia', 'admin'));
+		} catch (Exception $e) {
+			throw $e;
+		}
 	}
 	
 }

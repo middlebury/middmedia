@@ -1,7 +1,7 @@
 <?php
 /**
  * @since 12/10/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -15,7 +15,7 @@ require_once(dirname(__FILE__).'/admin_browse.act.php');
  * Browse all media as an admin
  * 
  * @since 12/10/08
- * @package middtube
+ * @package middmedia
  * 
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -107,7 +107,7 @@ class adminAction
 		 * @since 12/10/08
 		 */
 		function updateQuota (container, dirName, newQuota) {
-			var url = Harmoni.quickUrl('middtube', 'update_quota', {
+			var url = Harmoni.quickUrl('middmedia', 'update_quota', {
 				'directory': dirName,
 				'quota': newQuota
 			});
@@ -144,11 +144,27 @@ class adminAction
 						
 						var link = container.insertBefore(document.createElement('a'), container.firstChild);
 						link.href = '#';
-						link.className = 'middtube_quota_edit';
+						link.className = 'middmedia_quota_edit';
 						link.innerHTML = '"._('edit')."';
 						link.onclick = function () {
 							editQuota(container, dirName, isDefault);
 						}
+						
+						// Update the space-available
+						var elem = container;
+						while (elem) {
+							if (elem.className == 'middmedia_used')
+								var usedTd = elem;
+							else if (elem.className == 'middmedia_available')
+								var availableTd = elem;
+							
+							elem = elem.nextSibling;
+						}
+						
+						var bytesAvailable = quota - new Number(usedTd.getAttribute('sorttable_customkey'));
+						availableTd.setAttribute('sorttable_customkey', bytesAvailable);
+						availableTd.innerHTML = bytesAvailable.asByteSizeString();
+						
 						
 					} else {
 						alert(req.responseText);
@@ -175,7 +191,7 @@ class adminAction
 		$harmoni = Harmoni::instance();
 		print '
 		
-	<form action="'.$harmoni->request->quickURL('middtube', 'create_shared_dir').'" method="post">
+	<form action="'.$harmoni->request->quickURL('middmedia', 'create_shared_dir').'" method="post">
 		
 		<input type="text" id="autocomplete" name="group"/>
 		<span id="indicator1" style="display: none">
@@ -190,7 +206,7 @@ class adminAction
 		// <![CDATA[
 		
 		
-		new Ajax.Autocompleter("autocomplete", "autocomplete_choices", Harmoni.quickUrl("middtube", "get_groups"), {
+		new Ajax.Autocompleter("autocomplete", "autocomplete_choices", Harmoni.quickUrl("middmedia", "get_groups"), {
 		  paramName: "group", 
 		  minChars: 2, 
 // 		  updateElement: addItemToList, 
@@ -239,17 +255,17 @@ class adminAction
 			
 			$quota = ByteSize::withValue($dir->getQuota());
 			print "\n\t\t<td sorttable_customkey='".$quota->value()."'>";
-			print " <a href='#' class='middtube_quota_edit' onclick=\"editQuota(this.parentNode, '".$dir->getBasename()."', ".(($dir->hasCustomQuota())?'false':'true')."); return false;\">"._("edit")."</a>";
+			print " <a href='#' class='middmedia_quota_edit' onclick=\"editQuota(this.parentNode, '".$dir->getBasename()."', ".(($dir->hasCustomQuota())?'false':'true')."); return false;\">"._("edit")."</a>";
 			print $quota->asString();
 			if (!$dir->hasCustomQuota())
 				print ' ('._('Default').')';
 			print "</td>";
 			
 			$bytes = ByteSize::withValue($dir->getBytesUsed());
-			print "\n\t\t<td sorttable_customkey='".$bytes->value()."'>".$bytes->asString()."</td>";
+			print "\n\t\t<td class='middmedia_used'  sorttable_customkey='".$bytes->value()."'>".$bytes->asString()."</td>";
 			
 			$bytes = ByteSize::withValue($dir->getBytesAvailable());
-			print "\n\t\t<td sorttable_customkey='".$bytes->value()."'>".$bytes->asString()."</td>";
+			print "\n\t\t<td class='middmedia_available' sorttable_customkey='".$bytes->value()."'>".$bytes->asString()."</td>";
 			
 			print"\n\t\t<td>".count($dir->getFiles())."</td>";
 			
