@@ -70,16 +70,28 @@ class displayAction
 			new Container($xLayout, BLANK, 1), 
 			"100%", null, CENTER, TOP);
 		
+		// Admin Links
+		ob_start();
+		
 		$authZ = Services::getService('AuthZ');
 		$idMgr = Services::getService('Id');
 		if ($authZ->isUserAuthorized($idMgr->getId('edu.middlebury.authorization.modify'), $idMgr->getId('edu.middlebury.authorization.root'))) {
-			ob_start();
 			print "<a href='".$harmoni->request->quickURL('admin', 'main')."'>";
 			print _("Admin Tools");
-			print "</a>";
-			$this->headRow->add(new UnstyledBlock(ob_get_clean(), 1), 
-				null, null, LEFT, TOP);
+			print "</a> | ";
+			
 		}
+		
+		if ($authZ->isUserAuthorized($idMgr->getId('edu.middlebury.authorization.change_user'), $idMgr->getId('edu.middlebury.authorization.root'))) {
+			print "<a href='".$harmoni->request->quickURL('user', 'main')."'>";
+			print _("User Tools");
+			print "</a> ";
+		}
+		
+		$this->headRow->add(new UnstyledBlock(ob_get_clean(), 1), 
+				null, null, LEFT, TOP);
+		// END - Admin Links		
+		
 		
 		$rightHeadColumn = $this->headRow->add(
 			new Container($yLayout, BLANK, 1), 

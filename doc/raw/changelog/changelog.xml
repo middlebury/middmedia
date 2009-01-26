@@ -15,6 +15,9 @@
 			
 		</releaseNotes>
 		<fix author='adam' date='2009-01-26' ref='' reftype='bug'  reporter=''>
+			Now displaying link to User Tools for admins.
+		</fix>
+		<fix author='adam' date='2009-01-26' ref='' reftype='bug'  reporter=''>
 			Quotas: Quota-admin screen now updates available space to reflect new quota.
 		</fix>
 		<fix author='adam' date='2009-01-26' ref='' reftype='bug'  reporter=''>
