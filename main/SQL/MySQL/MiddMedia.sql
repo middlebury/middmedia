@@ -8,6 +8,6 @@ CREATE TABLE IF NOT EXISTS `middmedia_metadata` (
 
 CREATE TABLE IF NOT EXISTS `middmedia_quotas` (
   `directory` varchar(50) character set utf8 collate utf8_bin NOT NULL,
-  `quota` int(11) NOT NULL,
+  `quota` bigint(16) NOT NULL,
   PRIMARY KEY  (`directory`)
 ) ENGINE=InnoDB;

@@ -235,7 +235,7 @@ class MiddMedia_Directory {
 			$query->addWhereEqual('directory', $this->getBaseName());
 			$result = $dbMgr->query($query, HARMONI_DB_INDEX);
 			if ($result->getNumberOfRows()) {
-				$quota = intval($result->field('quota'));
+				$quota = round(floatval($result->field('quota')));
 				if ($quota > 0)
 					$this->quota = $quota;
 				else

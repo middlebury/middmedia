@@ -10,6 +10,14 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
+	<version number="0.1.2" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2009-01-26' ref='' reftype='bug'  reporter=''>
+			Quotas: Now doesn't truncate quotas to 2 GB due to max integer size.
+		</fix>
+	</version>
 	<version number="0.1.1" date="2009-01-23">
 		<releaseNotes>
 			This release includes updates to Harmoni and the MiddMedia codebases
