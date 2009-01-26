@@ -10,6 +10,18 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
+	<version number="" date="2009-01-26">
+		<releaseNotes>
+			This release now supports audio embed code.
+			
+			----
+			
+			This release of MiddMedia uses Harmoni 1.9.1 and Polyphony 1.4.9.
+		</releaseNotes>
+		<new author='adam' date='2009-01-26' ref='' reftype='fr'  reporter=''>
+			Now supports audio embed code different from video embed code.
+		</new>
+	</version>
 	<version number="0.1.2" date="2009-01-26">
 		<releaseNotes>
 			This release updates to the quota support and adds the display of embed

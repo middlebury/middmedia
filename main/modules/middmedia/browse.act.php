@@ -309,22 +309,33 @@ class browseAction
 			
 		}
 		
-		var embedCode = '".MIDDMEDIA_EMBED_CODE."';
+		var videoEmbedCode = '".MIDDMEDIA_VIDEO_EMBED_CODE."';
+		var audioEmbedCode = '".MIDDMEDIA_AUDIO_EMBED_CODE."';
 		
-		function displayEmbedCode(link, fileId, httpUrl, rtmpUrl) {
+		function displayEmbedCode(link, type, fileId, httpUrl, rtmpUrl) {
 			if (link.panel) {
 				link.panel.open();
 			} else {
 				var panel = new CenteredPanel('Embed Code and URLs', 400, 600, link);
 				
-				var code = embedCode.replace('###ID###', fileId);
+				if (type == 'video')
+					var code = videoEmbedCode;
+				else if (type == 'audio')
+					var code = audioEmbedCode;
+				else
+					throw 'Unknow media type: ' + type;
+					
+				code = code.replace('###ID###', fileId);
+				code = code.replace('###HTML_ID###', 'media_' + fileId.replaceAll(/[^a-z0-9]/, ''));
+				code = code.replace('###HTTP_URL###', httpUrl);
+				code = code.replace('###RTMP_URL###', rtmpUrl);
 				
 				
 				var heading = panel.contentElement.appendChild(document.createElement('h4'));
 				heading.innerHTML = 'Embed Code';
 				
 				var desc = panel.contentElement.appendChild(document.createElement('p'));
-				desc.innerHTML = 'The following code can be pasted into web sites to display this video in-line. Please note that some services may not allow embedding videos.';
+				desc.innerHTML = 'The following code can be pasted into web sites to display this video in-line. Please note that some services may not allow the embedding of videos.';
 				
 				var text = panel.contentElement.appendChild(document.createElement('textarea'));
 				text.cols = 70;
@@ -611,14 +622,20 @@ class browseAction
 				$parts['filename'] = $matches[1];
 			}
 			
+			unset($type);
 			switch (strtolower($parts['extension'])) {
 				case 'flv':
+					$type = 'video';
 					$myId = $dir->getBaseName().'/'.$parts['filename'];
 					break;
+				case 'mp3':
+					$type = 'audio';
 				default:
+					if (!isset($type))
+						$type = 'video';
 					$myId = strtolower($parts['extension']).':'.$dir->getBaseName().'/'.$parts['filename'].'.'.$parts['extension'];
 			}
-			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".rawurlencode($myId)."', '".$file->getHttpUrl()."', '".$file->getRtmpUrl()."'); return false;\">Embed Code &amp; URLs</a>";
+			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".$type."', '".rawurlencode($myId)."', '".$file->getHttpUrl()."', '".$file->getRtmpUrl()."'); return false;\">Embed Code &amp; URLs</a>";
 			
 			print "</td>";
 			

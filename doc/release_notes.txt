@@ -1,5 +1,5 @@
 
-MiddMedia v. 0.1.2 (2009-01-26)
+MiddMedia v.  (2009-01-26)
 =================================
 
 What is MiddMedia?
@@ -10,8 +10,7 @@ Flash Media Server (FMS) to deliver user-created videos.
 
 Current Version Notes
 ---------------------
-This release updates to the quota support and adds the display of embed code and
-URLs to media 
+This release now supports audio embed code. 
 
 ----
 
@@ -55,6 +54,16 @@ http://bugs.example.com/12345/
 | Prior MiddMedia Release Notes
 | (See the MiddMedia change log for more details)
 ===================================================================
+
+
+v.  (2009-01-26)
+----------------------------------------------------
+This release now supports audio embed code. 
+
+----
+
+ This release of MiddMedia uses Harmoni 1.9.1 and Polyphony 1.4.9.
+
 
 
 v. 0.1.2 (2009-01-26)

@@ -2,6 +2,22 @@
 MiddMedia Change Log
 
 
+v.  (2009-01-26)
+----------------------------------------------------
+This release now supports audio embed code. 
+
+----
+
+ This release of MiddMedia uses Harmoni 1.9.1 and Polyphony 1.4.9.
+		
+		
+	* New feature: 
+		Now supports audio embed code different from video embed code.
+		(2009-01-26 - Adam Franco)
+	
+
+
+
 v. 0.1.2 (2009-01-26)
 ----------------------------------------------------
 This release updates to the quota support and adds the display of embed code and
