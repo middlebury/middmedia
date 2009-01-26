@@ -311,14 +311,13 @@ class browseAction
 		
 		var embedCode = '".MIDDMEDIA_EMBED_CODE."';
 		
-		function displayEmbedCode(link, dirName, fileId, httpUrl, rtmpUrl) {
+		function displayEmbedCode(link, fileId, httpUrl, rtmpUrl) {
 			if (link.panel) {
 				link.panel.open();
 			} else {
 				var panel = new CenteredPanel('Embed Code and URLs', 400, 600, link);
 				
-				var code = embedCode.replace('###DIR###', dirName);
-				code = code.replace('###ID###', fileId);
+				var code = embedCode.replace('###ID###', fileId);
 				
 				
 				var heading = panel.contentElement.appendChild(document.createElement('h4'));
@@ -607,12 +606,12 @@ class browseAction
 			$parts = pathinfo($file->getBasename());
 			switch (strtolower($parts['extension'])) {
 				case 'flv':
-					$myId = $parts['filename'];
+					$myId = $dir->getBaseName().'/'.$parts['filename'];
 					break;
 				default:
-					$myId = strtolower($parts['extension']).':'.$parts['filename'].'.'.$parts['extension'];
+					$myId = strtolower($parts['extension']).':'.$dir->getBaseName().'/'.$parts['filename'].'.'.$parts['extension'];
 			}
-			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".rawurlencode($dir->getBaseName())."', '".rawurlencode($myId)."', '".$file->getHttpUrl()."', '".$file->getRtmpUrl()."'); return false;\">Embed Code &amp; URLs</a>";
+			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".rawurlencode($myId)."', '".$file->getHttpUrl()."', '".$file->getRtmpUrl()."'); return false;\">Embed Code &amp; URLs</a>";
 			
 			print "</td>";
 			
