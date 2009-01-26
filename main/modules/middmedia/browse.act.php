@@ -604,6 +604,13 @@ class browseAction
 			print "\n\t\t\t<td class='access'>";
 			
 			$parts = pathinfo($file->getBasename());
+			
+			// PHP < 5.2.0 doesn't have 'filename'
+			if (!isset($parts['filename'])) {
+				preg_match('/(.+)\.[a-z0-9]+/i', $file->getBasename(), $matches);
+				$parts['filename'] = $matches[1];
+			}
+			
 			switch (strtolower($parts['extension'])) {
 				case 'flv':
 					$myId = $dir->getBaseName().'/'.$parts['filename'];
