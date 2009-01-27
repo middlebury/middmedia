@@ -10,7 +10,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
-	<version number="" date="2009-01-26">
+	<version number="0.1.4" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2009-01-27' ref='' reftype='bug'  reporter=''>
+			SOAP: Fixed WSDL to remove extra slash in soap URI.
+		</fix>
+	</version>
+	<version number="0.1.3" date="2009-01-26">
 		<releaseNotes>
 			This release now supports audio embed code.
 			

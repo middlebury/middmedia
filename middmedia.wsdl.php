@@ -364,7 +364,7 @@ print '<'.'?xml version="1.0" encoding="ISO-8859-1"?'.'>';
 	</binding>
 	<service name="MiddMedia">
 		<port name="MiddMediaPort" binding="MiddMediaBinding">
-			<soap:address location="<?php print MYPATH.'/soap.php'; ?>" />
+			<soap:address location="<?php print rtrim(MYPATH, '/').'/soap.php'; ?>" />
 		</port>
 	</service>
 </definitions>
