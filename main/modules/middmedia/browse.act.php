@@ -173,20 +173,28 @@ class browseAction
 			td.className = 'access';
 			
 			var link = td.appendChild(document.createElement('a'));
-			link.innerHTML = 'HTTP (Download)';
-			link.href = file.getAttribute('http_url');
-			td.appendChild(document.createElement('br'));
-			
-			var link = td.appendChild(document.createElement('a'));
-			link.innerHTML = 'RTMP (Streaming)';
-			link.href = file.getAttribute('rtmp_url');
-			td.appendChild(document.createElement('br'));
-			
-			var link = td.appendChild(document.createElement('a'));
-			link.innerHTML = 'Embed Code';
+			link.innerHTML = 'Embed Code &amp; URLs';
 			link.href = '#';
+						
+			var pathInfo = file.getAttribute('name').match(/(.+)\.([a-zA-Z0-9]+)/);
+			var type = null;
+			var extension = pathInfo[2].toLowerCase();
+			switch(extension) {
+				case 'flv':
+					type = 'video';
+					var myId = file.getAttribute('directory') + '/' + pathInfo[1];
+					break;
+				case 'mp3':
+					type = 'audio';
+				default:
+					if (!type)
+						type = 'video';
+					var myId = extension + ':' + file.getAttribute('directory') + '/' + file.getAttribute('name');
+			}
+			
 			link.onclick = function() {
-				alert('unimplemented');
+				displayEmbedCode(this, type, myId, file.getAttribute('http_url'), file.getAttribute('rtmp_url')); 
+				return false;
 			}
 		}
 		
