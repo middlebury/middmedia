@@ -199,6 +199,203 @@ class MiddMedia_File
 		$dbMgr = Services::getService("DatabaseManager");
 		$dbMgr->query($query, HARMONI_DB_INDEX);
 	}
+	
+	/**
+	 * Answer the thumbnail image, throws an OperationFailedException if not available.
+	 * 
+	 * @return object MiddMedia_ImageFile
+	 * @access public
+	 * @since 1/29/09
+	 */
+	public function getThumbnailImage () {
+		if (!file_exists($this->getThumbImagePath())) {
+			try {
+				$this->createImages();
+			} catch (InvalidArgumentException $e) {
+				throw new OperationFailedException("Thumbnal image does not exist");
+			}
+		}
+		return new MiddMedia_ImageFile($this->getThumbImagePath());
+	}
+	
+	/**
+	 * Answer the splash image, throws an OperationFailedException if not available.
+	 * 
+	 * @return object MiddMedia_ImageFile
+	 * @access public
+	 * @since 1/29/09
+	 */
+	public function getSplashImage () {
+		if (!file_exists($this->getSplashImagePath())) {
+			try {
+				$this->createImages();
+			} catch (InvalidArgumentException $e) {
+				throw new OperationFailedException("Thumbnal image does not exist");
+			}
+		}
+		return new MiddMedia_ImageFile($this->getSplashImagePath());
+	}
+	
+	/**
+	 * Create a set of thumbnail images from the video file at the time-code specified.
+	 * - If the time-code is out of range, alternate time-codes will be tried.
+	 * - If no thumbnail images can be generated, default images will be used.
+	 * 
+	 * @param optional float $seconds Time-offset at which to grab the frame.
+	 * @return void
+	 * @access public
+	 * @since 1/29/09
+	 */
+	public function createImages ($seconds = 5) {
+		if (!preg_match('/^video\//', $this->getMimeType()))
+			throw new InvalidArgumentException("Cannot generate thumbnails for non-video files.");
+		
+		$timecodes = array($seconds);
+		if ($seconds > 5)
+			$timecodes[] = 5;
+		if ($seconds > 2)
+			$timecodes[] = 2;
+		
+		// Try several time-codes and see if we can get an image out.
+		while (!isset($thumbnail) && current($timecodes)) {
+			try {
+				$thumbnail = $this->createThumbnail($seconds);
+			} catch (OperationFailedException $e) {
+				next($timecodes);
+			}
+		}
+		
+		// if we still don't have an image, copy in our default one.
+		if (!isset($thumbnail)) {
+			if (!defined('MIDDMEDIA_DEFAULT_THUMB_PATH'))
+				throw new ConfigurationErrorException('MIDDMEDIA_DEFAULT_THUMB_PATH is not defined');
+			if (!copy(MIDDMEDIA_DEFAULT_THUMB_PATH, $this->getThumbImagePath()))
+				throw new OperationFailedException('Could not copy default thumbnail image');
+			
+			$thumbnail = new Harmoni_Filing_FileSystemFile($this->getThumbImagePath());
+		}
+			
+		// Generate the splash image from the thumbnail
+		$splashImage = $this->createSplashImage($thumbnail);
+	}
+	
+	/**
+	 * Create a set of thumbnail images from the video file at the time-code specified.
+	 *
+	 * Throws:
+	 *		InvalidArgumentException on invalid time-code
+	 *		PermissionDeniedException on read/write failure.
+	 *		ConfigurationErrorException on invalid configuration
+	 *		OperationFailedException on image extraction failure.
+	 * 
+	 * @param optional float $seconds Time-offset at which to grab the frame.
+	 * @return Harmoni_Filing_File the thumbnail file
+	 * @access protected
+	 * @since 1/29/09
+	 */
+	protected function createThumbnail ($seconds = 5) {
+		$seconds = floatval($seconds);
+		if ($seconds <= 0)
+			throw new InvalidArgumentException('$seconds must be a float greater than zero. '.$seconds.' is invalid.');
+		
+		if (!$this->isReadable())
+			throw new PermissionDeniedException('Video file is not readable: '.$this->directory->getBaseName().'/'.$this->getBaseName());
+		
+		$thumbsDir = dirname($this->getThumbImagePath());
+		
+		if (!file_exists($thumbsDir)) {
+			if (!mkdir($thumbsDir, 0775))
+				throw new PermissionDeniedException('Could not create thumbs dir: '.$this->directory->getBaseName().'/thumbs');
+		}
+		
+		if (!is_writable($thumbsDir))
+			throw new PermissionDeniedException('Thumbs dir is not writable: '.$this->directory->getBaseName().'/thumbs');
+		
+		if (!defined('FFMPEG_PATH'))
+			throw new ConfigurationErrorException('FFMPEG_PATH is not defined');
+		
+		// Try to create the thumbnail
+		$destImage = $this->getThumbImagePath();
+		$command = FFMPEG_PATH.' -vframes 1 -ss '.$seconds.' -i '.escapeshellarg($this->getFsPath()).'  -vcodec mjpeg '.escapeshellarg($destImage);
+		$lastLine = exec($command, $output, $return_var);
+		if ($return_var) {
+			throw new OperationFailedException("Thumbnail generation failed with code $return_var: $lastLine");
+		}
+		
+		if (!file_exists($destImage))
+			throw new OperaionFailedException('Thumbnail was not generated: '.$this->directory->getBaseName().'/thumbs/'.$parts['basename'].'.jpg');
+		
+		return new Harmoni_Filing_FileSystemFile($destImage);
+	}
+	
+	/**
+	 * Create a splash image from a thumbnail image file
+	 * 
+	 * @param Harmoni_Filing_File $thumbnail
+	 * @return Harmoni_Filing_File The splash image file
+	 * @access protected
+	 * @since 1/29/09
+	 */
+	protected function createSplashImage (Harmoni_Filing_File $thumbnail) {
+		if (!$thumbnail->isReadable())
+			throw new PermissionDeniedException('Thumbnail file is not readable: '.$this->directory->getBaseName().'/thumbs/'.$thumbnail->getBaseName());
+		
+		// Set up the Splash Image directory
+		$splashDir = dirname($this->getSplashImagePath());
+		
+		if (!file_exists($splashDir)) {
+			if (!mkdir($splashDir, 0775))
+				throw new PermissionDeniedException('Could not create splash dir: '.$this->directory->getBaseName().'/splash');
+		}
+		
+		if (!is_writable($splashDir))
+			throw new PermissionDeniedException('Splash dir is not writable: '.$this->directory->getBaseName().'/splash');
+		
+		if (!defined('IMAGE_MAGICK_PATH'))
+			throw new ConfigurationErrorException('IMAGE_MAGICK_PATH is not defined');
+		
+		if (!defined('MIDDMEDIA_SPLASH_OVERLAY'))
+			throw new ConfigurationErrorException('MIDDMEDIA_SPLASH_OVERLAY is not defined');
+		
+		if (!is_readable(MIDDMEDIA_SPLASH_OVERLAY))
+			throw new PermissionDeniedException('MIDDMEDIA_SPLASH_OVERLAY is not readable');
+		
+		$destImage = $this->getSplashImagePath();
+		$command = IMAGE_MAGICK_COMPOSITE_PATH.' -gravity center '.escapeshellarg(MIDDMEDIA_SPLASH_OVERLAY).' '.escapeshellarg($thumbnail->getFsPath()).' '.escapeshellarg($destImage);
+		$lastLine = exec($command, $output, $return_var);
+		if ($return_var) {
+			throw new OperationFailedException("Splash-Image generation failed with code $return_var: $lastLine");
+		}
+		
+		if (!file_exists($destImage))
+			throw new OperaionFailedException('Splash-Image was not generated: '.$this->directory->getBaseName().'/splash/'.$parts['basename'].'.jpg');
+		
+		return new Harmoni_Filing_FileSystemFile($destImage);
+	}
+	
+	/**
+	 * Answer the file path that the thumbnail image should have
+	 * 
+	 * @return string
+	 * @access private
+	 * @since 1/29/09
+	 */
+	private function getThumbImagePath () {
+		$parts = pathinfo($this->getBaseName());
+		return $this->directory->getFsPath().'/thumbs/'.$parts['basename'].'.jpg';
+	}
+	
+	/**
+	 * Answer the file path that the splash image should have
+	 * 
+	 * @return string
+	 * @access private
+	 * @since 1/29/09
+	 */
+	private function getSplashImagePath () {
+		$parts = pathinfo($this->getBaseName());
+		return $this->directory->getFsPath().'/splash/'.$parts['basename'].'.jpg';
+	}
 }
 
 ?>
