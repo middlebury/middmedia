@@ -68,7 +68,7 @@ class uploadAction
 			6=>"Missing a temporary folder"
 		);
 		$extension_whitelist = explode(", ", MIDDMEDIA_ALLOWED_FILE_TYPES);	// Allowed file extensions
-		$valid_chars_regex = '.A-Z0-9_ !@#$%^&()+={}\[\]\',~`-';				// Characters allowed in the file name (in a Regular Expression format)
+		$valid_chars_regex = '.a-zA-Z0-9_ !@#$%^&()+={}\[\]\',~`-';				// Characters allowed in the file name (in a Regular Expression format)
 		$upload_name = "Filedata";
 		$MAX_FILENAME_LENGTH = 260;
 		
@@ -91,11 +91,11 @@ class uploadAction
 		// Validate file name (for our purposes we'll just remove invalid characters)
 		$file_name = preg_replace('/[^'.$valid_chars_regex.']|\.+$/i', "", basename($_FILES[$upload_name]['name']));
 		if (strlen($file_name) == 0 || strlen($file_name) > $MAX_FILENAME_LENGTH) {
-			$this->error("Invalid file name");
+			$this->error("Invalid file name, '".$file_name."'");
 		}
 		
 		if (!MiddMedia_File::nameValid($file_name)) {
-			$this->error("Invalid file name");
+			$this->error("Invalid file name, '".$file_name."'");
 		}
 		
 		// Validate file extension

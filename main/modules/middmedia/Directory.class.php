@@ -189,7 +189,7 @@ class MiddMedia_Directory {
 	 */
 	public function fileExists ($name) {
 		if (!MiddMedia_File::nameValid($name))
-			throw new InvalidArgumentException('Invalid file name '.$name);
+			throw new InvalidArgumentException('Invalid file name \''.$name.'\'');
 		return file_exists($this->getFsPath().'/'.$name);
 	}
 	
@@ -361,7 +361,7 @@ class MiddMedia_Directory {
 	 */
 	public function createFile ($name) {
 		if (!MiddMedia_File::nameValid($name))
-			throw new InvalidArgumentException("Invalid file name");
+			throw new InvalidArgumentException("Invalid file name '$name'.");
 		if ($this->fileExists($name))
 			throw new OperationFailedException("File already exists.");
 		

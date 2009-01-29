@@ -36,7 +36,7 @@ class MiddMedia_File
 	 * @static
 	 */
 	public static function nameValid ($name) {
-		return preg_match('/^[a-z0-9_+=,.?#@%^!~\'"&\[\]{}()<> -]+$/i', $name);
+		return preg_match('/^[a-z0-9_+=,.?#@%^!~\'&\[\]{}()<>\s-]+$/i', $name);
 	}
 	
 	/**
@@ -51,7 +51,7 @@ class MiddMedia_File
 	public function __construct (MiddMedia_Directory $directory, $basename) {
 		$this->directory = $directory;
 		if (!self::nameValid($basename))
-			throw new InvalidArgumentException('Invalid file name '.$basename);
+			throw new InvalidArgumentException('Invalid file name \''.$basename.'\'');
 
 		parent::__construct($directory->getFSPath().'/'.$basename);
 	}
