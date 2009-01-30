@@ -594,7 +594,20 @@ class browseAction
 			print "\n\t\t\t\t<input type='checkbox' name='media_files' value=\"".$file->getBaseName()."\"/>";
 			print "</td>";
 			
-			print "\n\t\t\t<td class='name'>".$file->getBaseName()."</td>";
+			print "\n\t\t\t<td class='name'>";
+			print $file->getBaseName();
+			if (preg_match('/^video\//', $file->getMimeType())) {
+			try {
+				$thumbnail = $file->getThumbnailImage();
+				print "\n\t\t\t\t<br/>\n\t\t\t\t";
+				print "<img src=\"".$thumbnail->getUrl()."\" class='media_thumbnail'/>";
+			} catch (OperationFailedException $e) {
+				// Only ignore if reporting that the file doesn't exist.
+				if ($e->getCode() != 897345)
+					throw $e;
+			}
+			}
+			print "\n\t\t\t</td>";
 			
 			print "\n\t\t\t<td class='type'>".$file->getMimeType()."</td>";
 			

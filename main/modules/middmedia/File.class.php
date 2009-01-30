@@ -10,6 +10,7 @@
  */ 
 
 require_once(HARMONI.'/utilities/Filing/FileSystemFile.class.php');
+require_once(dirname(__FILE__).'/ImageFile.class.php');
 
 /**
  * This class is a basic wrapper around a file
@@ -212,10 +213,13 @@ class MiddMedia_File
 			try {
 				$this->createImages();
 			} catch (InvalidArgumentException $e) {
-				throw new OperationFailedException("Thumbnal image does not exist");
+				if ($e->getCode() == 4321)
+					throw new OperationFailedException("Thumbnail image does not exist", 897345);
+				else
+					throw $e;
 			}
 		}
-		return new MiddMedia_ImageFile($this->getThumbImagePath());
+		return new MiddMedia_ImageFile($this->directory, $this, 'thumb');
 	}
 	
 	/**
@@ -230,10 +234,13 @@ class MiddMedia_File
 			try {
 				$this->createImages();
 			} catch (InvalidArgumentException $e) {
-				throw new OperationFailedException("Thumbnal image does not exist");
+				if ($e->getCode() == 4321)
+					throw new OperationFailedException("Splash image does not exist", 897345);
+				else
+					throw $e;
 			}
 		}
-		return new MiddMedia_ImageFile($this->getSplashImagePath());
+		return new MiddMedia_ImageFile($this->directory, $this, 'splash');
 	}
 	
 	/**
@@ -248,7 +255,7 @@ class MiddMedia_File
 	 */
 	public function createImages ($seconds = 5) {
 		if (!preg_match('/^video\//', $this->getMimeType()))
-			throw new InvalidArgumentException("Cannot generate thumbnails for non-video files.");
+			throw new InvalidArgumentException("Cannot generate thumbnails for non-video files.", 4321);
 		
 		$timecodes = array($seconds);
 		if ($seconds > 5)
@@ -272,7 +279,7 @@ class MiddMedia_File
 			if (!copy(MIDDMEDIA_DEFAULT_THUMB_PATH, $this->getThumbImagePath()))
 				throw new OperationFailedException('Could not copy default thumbnail image');
 			
-			$thumbnail = new Harmoni_Filing_FileSystemFile($this->getThumbImagePath());
+			$thumbnail = new MiddMedia_ImageFile($this->directory, $this, 'thumb');
 		}
 			
 		// Generate the splash image from the thumbnail
@@ -305,11 +312,11 @@ class MiddMedia_File
 		
 		if (!file_exists($thumbsDir)) {
 			if (!mkdir($thumbsDir, 0775))
-				throw new PermissionDeniedException('Could not create thumbs dir: '.$this->directory->getBaseName().'/thumbs');
+				throw new PermissionDeniedException('Could not create thumbs dir: '.$this->directory->getBaseName().'/thumb');
 		}
 		
 		if (!is_writable($thumbsDir))
-			throw new PermissionDeniedException('Thumbs dir is not writable: '.$this->directory->getBaseName().'/thumbs');
+			throw new PermissionDeniedException('Thumbs dir is not writable: '.$this->directory->getBaseName().'/thumb');
 		
 		if (!defined('FFMPEG_PATH'))
 			throw new ConfigurationErrorException('FFMPEG_PATH is not defined');
@@ -323,22 +330,22 @@ class MiddMedia_File
 		}
 		
 		if (!file_exists($destImage))
-			throw new OperaionFailedException('Thumbnail was not generated: '.$this->directory->getBaseName().'/thumbs/'.$parts['basename'].'.jpg');
+			throw new OperaionFailedException('Thumbnail was not generated: '.$this->directory->getBaseName().'/thumb/'.$parts['filename'].'.jpg');
 		
-		return new Harmoni_Filing_FileSystemFile($destImage);
+		return new MiddMedia_ImageFile($this->directory, $this, 'thumb');
 	}
 	
 	/**
 	 * Create a splash image from a thumbnail image file
 	 * 
 	 * @param Harmoni_Filing_File $thumbnail
-	 * @return Harmoni_Filing_File The splash image file
+	 * @return Harmoni_Filing_FileInterface The splash image file
 	 * @access protected
 	 * @since 1/29/09
 	 */
-	protected function createSplashImage (Harmoni_Filing_File $thumbnail) {
+	protected function createSplashImage (Harmoni_Filing_FileInterface $thumbnail) {
 		if (!$thumbnail->isReadable())
-			throw new PermissionDeniedException('Thumbnail file is not readable: '.$this->directory->getBaseName().'/thumbs/'.$thumbnail->getBaseName());
+			throw new PermissionDeniedException('Thumbnail file is not readable: '.$this->directory->getBaseName().'/thumb/'.$thumbnail->getBaseName());
 		
 		// Set up the Splash Image directory
 		$splashDir = dirname($this->getSplashImagePath());
@@ -351,8 +358,8 @@ class MiddMedia_File
 		if (!is_writable($splashDir))
 			throw new PermissionDeniedException('Splash dir is not writable: '.$this->directory->getBaseName().'/splash');
 		
-		if (!defined('IMAGE_MAGICK_PATH'))
-			throw new ConfigurationErrorException('IMAGE_MAGICK_PATH is not defined');
+		if (!defined('IMAGE_MAGICK_COMPOSITE_PATH'))
+			throw new ConfigurationErrorException('IMAGE_MAGICK_COMPOSITE_PATH is not defined');
 		
 		if (!defined('MIDDMEDIA_SPLASH_OVERLAY'))
 			throw new ConfigurationErrorException('MIDDMEDIA_SPLASH_OVERLAY is not defined');
@@ -368,9 +375,9 @@ class MiddMedia_File
 		}
 		
 		if (!file_exists($destImage))
-			throw new OperaionFailedException('Splash-Image was not generated: '.$this->directory->getBaseName().'/splash/'.$parts['basename'].'.jpg');
+			throw new OperaionFailedException('Splash-Image was not generated: '.$this->directory->getBaseName().'/splash/'.$parts['filename'].'.jpg');
 		
-		return new Harmoni_Filing_FileSystemFile($destImage);
+		return new MiddMedia_ImageFile($this->directory, $this, 'splash');
 	}
 	
 	/**
@@ -381,8 +388,7 @@ class MiddMedia_File
 	 * @since 1/29/09
 	 */
 	private function getThumbImagePath () {
-		$parts = pathinfo($this->getBaseName());
-		return $this->directory->getFsPath().'/thumbs/'.$parts['basename'].'.jpg';
+		return MiddMedia_ImageFile::getFsPathForImage($this->directory, $this, 'thumb');
 	}
 	
 	/**
@@ -393,8 +399,7 @@ class MiddMedia_File
 	 * @since 1/29/09
 	 */
 	private function getSplashImagePath () {
-		$parts = pathinfo($this->getBaseName());
-		return $this->directory->getFsPath().'/splash/'.$parts['basename'].'.jpg';
+		return MiddMedia_ImageFile::getFsPathForImage($this->directory, $this, 'splash');
 	}
 }
 

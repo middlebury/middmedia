@@ -159,7 +159,7 @@ class MiddMedia_Directory {
 	public function getFiles () {
 		$files = array();
 		foreach (scandir($this->getFsPath()) as $fname) {
-			if ($fname != '.' && $fname != '..')
+			if (!is_dir($this->getFsPath().'/'.$fname))
 				$files[] = new MiddMedia_File($this, $fname);
 		}
 		return $files;
