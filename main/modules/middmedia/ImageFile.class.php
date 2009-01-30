@@ -38,7 +38,7 @@ class MiddMedia_ImageFile
 	 * @static
 	 */
 	public static function getFsPathForImage (MiddMedia_Directory $directory, MiddMedia_File $file, $type) {
-		if ($type != 'thumb' && $type != 'splash')
+		if ($type != 'thumb' && $type != 'splash' && $type != 'full_frame')
 			throw new InvalidArgumentException("Unknown image type, $type");
 		$parts = pathinfo($file->getBaseName());
 		return $directory->getFSPath().'/'.$type.'/'.$parts['filename'].'.jpg';
