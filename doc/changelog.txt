@@ -2,6 +2,22 @@
 MiddMedia Change Log
 
 
+v. 0.2.1 (2009-01-30)
+----------------------------------------------------
+
+		
+		
+	* Bug Fix: 
+		Fixed a usage of pathinfo() to be compatible with PHP < 5.2.
+		(2009-01-30 - Adam Franco)
+		
+	* Bug Fix: 
+		New uploads now display thumbnails and proper embed code.
+		(2009-01-30 - Adam Franco)
+	
+
+
+
 v. 0.2.0 (2009-01-30)
 ----------------------------------------------------
 This release adds support for the extraction of frames from video and the generation

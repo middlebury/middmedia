@@ -142,6 +142,18 @@ class uploadAction
 		} catch (UnimplementedException $e) {
 		}
 		
+		try {
+			print "\n\t\t\tthumb_url=\"".$file->getThumbnailImage()->getUrl()."\"";
+		} catch (Exception $e) {
+			print "\n\t\t\tthumb_url=\"\"";
+		}
+		
+		try {
+			print "\n\t\t\tsplash_url=\"".$file->getSplashImage()->getUrl()."\"";
+		} catch (Exception $e) {
+			print "\n\t\t\tsplash_url=\"\"";
+		}
+		
 		// As an example, lets include the content of text-files.
 // 		if ($file->getMimeType() == 'text/plain') {
 // 			print "><![CDATA[";

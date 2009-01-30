@@ -144,9 +144,37 @@ class browseAction
 			box.name = 'media_files';
 			box.value = file.getAttribute('name');
 			
+			var pathInfo = file.getAttribute('name').match(/(.+)\.([a-zA-Z0-9]+)/);
+			var type = null;
+			var extension = pathInfo[2].toLowerCase();
+			switch(extension) {
+				case 'flv':
+					type = 'video';
+					var myId = file.getAttribute('directory') + '/' + pathInfo[1];
+					break;
+				case 'mp3':
+					type = 'audio';
+				default:
+					if (!type)
+						type = 'video';
+					var myId = extension + ':' + file.getAttribute('directory') + '/' + file.getAttribute('name');
+			}
+			
 			var td = row.appendChild(document.createElement('td'));
 			td.className = 'name';
-			td.innerHTML = file.getAttribute('name');
+			var link = td.appendChild(document.createElement('a'));
+			link.innerHTML = file.getAttribute('name');
+			link.href = '#';
+			link.onclick = function () {
+				displayMedia(this, type, myId, file.getAttribute('http_url'), file.getAttribute('rtmp_url'), file.getAttribute('splash_url')); 
+				return false;
+			}
+			if (file.getAttribute('thumb_url')) {
+				link.appendChild(document.createElement('br'));
+				var thumb = link.appendChild(document.createElement('img'));
+				thumb.className = 'media_thumbnail';
+				thumb.src = file.getAttribute('thumb_url');
+			}
 			
 			var td = row.appendChild(document.createElement('td'));
 			td.className = 'type';
@@ -175,25 +203,8 @@ class browseAction
 			var link = td.appendChild(document.createElement('a'));
 			link.innerHTML = 'Embed Code &amp; URLs';
 			link.href = '#';
-						
-			var pathInfo = file.getAttribute('name').match(/(.+)\.([a-zA-Z0-9]+)/);
-			var type = null;
-			var extension = pathInfo[2].toLowerCase();
-			switch(extension) {
-				case 'flv':
-					type = 'video';
-					var myId = file.getAttribute('directory') + '/' + pathInfo[1];
-					break;
-				case 'mp3':
-					type = 'audio';
-				default:
-					if (!type)
-						type = 'video';
-					var myId = extension + ':' + file.getAttribute('directory') + '/' + file.getAttribute('name');
-			}
-			
 			link.onclick = function() {
-				displayEmbedCode(this, type, myId, file.getAttribute('http_url'), file.getAttribute('rtmp_url')); 
+				displayEmbedCode(this, type, myId, file.getAttribute('http_url'), file.getAttribute('rtmp_url'), file.getAttribute('splash_url')); 
 				return false;
 			}
 		}

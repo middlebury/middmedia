@@ -10,12 +10,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
-	<version number="0.2.1" date="The Future">
+	<version number="0.2.1" date="2009-01-30">
 		<releaseNotes>
 			
 		</releaseNotes>
 		<fix author='adam' date='2009-01-30' ref='' reftype='bug'  reporter=''>
-			Fixed a usage of pathinfo() to be compatible with PHP < 5.2.
+			Fixed a usage of pathinfo() to be compatible with PHP &lt; 5.2.
+		</fix>
+		<fix author='adam' date='2009-01-30' ref='' reftype='bug'  reporter=''>
+			New uploads now display thumbnails and proper embed code.
 		</fix>
 	</version>
 	<version number="0.2.0" date="2009-01-30">
