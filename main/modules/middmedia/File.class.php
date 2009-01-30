@@ -101,6 +101,27 @@ class MiddMedia_File
 	}
 	
 	/**
+	 * Set the contents of the file
+	 * 
+	 * @param string $contents
+	 * @return null
+	 * @access public
+	 * @since 5/6/08
+	 */
+	public function setContents ($contents) {
+		parent::setContents($contents);
+		
+		try {
+			$this->deleteImages();
+			$this->createImages();
+		} catch (InvalidArgumentException $e) {
+			// Only ignore if reporting that the we can't generate images for the file-type.
+			if ($e->getCode() != 4321)
+				throw $e;
+		}
+	}
+	
+	/**
 	 * Move an uploaded file into this file.
 	 * 
 	 * @param string $tempName
@@ -110,6 +131,15 @@ class MiddMedia_File
 	 */
 	public function moveInUploadedFile ($tempName) {
 		move_uploaded_file($tempName, $this->getFsPath());
+		
+		try {
+			$this->deleteImages();
+			$this->createImages();
+		} catch (InvalidArgumentException $e) {
+			// Only ignore if reporting that the we can't generate images for the file-type.
+			if ($e->getCode() != 4321)
+				throw $e;
+		}
 	}
 	
 	/**
