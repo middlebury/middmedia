@@ -129,6 +129,8 @@ class MiddMedia_File
 		
 		$dbMgr = Services::getService("DatabaseManager");
 		$dbMgr->query($query, HARMONI_DB_INDEX);
+		
+		$this->deleteImages();
 	}
 	
 	/**
@@ -309,6 +311,27 @@ class MiddMedia_File
 		
 		// Generate the thumbnail from the full-frame
 		$thumbnail = $this->createThumbnailImage($fullFrame);
+	}
+	
+	/**
+	 * Delete our image files
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 1/30/09
+	 */
+	public function deleteImages () {
+		$types = array('full_frame', 'thumb', 'splash');
+		
+		foreach ($types as $type) {
+			try {
+				$image = new MiddMedia_ImageFile($this->directory, $this, $type);
+				$image->delete();
+			} catch (InvalidArgumentException $e) {
+				if ($e->getCode() != 78345)
+					throw $e;
+			}
+		}
 	}
 	
 	/**
