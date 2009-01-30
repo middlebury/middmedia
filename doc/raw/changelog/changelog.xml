@@ -10,6 +10,14 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
+	<version number="0.2.1" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2009-01-30' ref='' reftype='bug'  reporter=''>
+			Fixed a usage of pathinfo() to be compatible with PHP < 5.2.
+		</fix>
+	</version>
 	<version number="0.2.0" date="2009-01-30">
 		<releaseNotes>
 			This release adds support for the extraction of frames from video and

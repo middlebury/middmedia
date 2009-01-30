@@ -41,6 +41,11 @@ class MiddMedia_ImageFile
 		if ($type != 'thumb' && $type != 'splash' && $type != 'full_frame')
 			throw new InvalidArgumentException("Unknown image type, $type");
 		$parts = pathinfo($file->getBaseName());
+		// PHP < 5.2.0 doesn't have 'filename'
+		if (!isset($parts['filename'])) {
+			preg_match('/(.+)\.[a-z0-9]+/i', $file->getBasename(), $matches);
+			$parts['filename'] = $matches[1];
+		}
 		return $directory->getFSPath().'/'.$type.'/'.$parts['filename'].'.jpg';
 	}
 	
