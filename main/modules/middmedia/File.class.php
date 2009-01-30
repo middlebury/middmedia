@@ -297,16 +297,60 @@ class MiddMedia_File
 	}
 	
 	/**
+	 * Answer embed code that can be used for this file. 
+	 * This is an example, other players will work as well.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 1/30/09
+	 */
+	public function getEmbedCode () {
+		$parts = pathinfo($this->getBasename());
+		// PHP < 5.2.0 doesn't have 'filename'
+		if (!isset($parts['filename'])) {
+			preg_match('/(.+)\.[a-z0-9]+/i', $this->getBasename(), $matches);
+			$parts['filename'] = $matches[1];
+		}
+		
+		switch (strtolower($parts['extension'])) {
+			case 'flv':
+				$code = MIDDMEDIA_VIDEO_EMBED_CODE;
+				$myId = $this->directory->getBaseName().'/'.$parts['filename'];
+				break;
+			case 'mp3':
+				$code = MIDDMEDIA_AUDIO_EMBED_CODE;
+			default:
+				if (!isset($code))
+					$code = MIDDMEDIA_VIDEO_EMBED_CODE;
+				$myId = strtolower($parts['extension']).':'.$this->directory->getBaseName().'/'.$parts['filename'].'.'.$parts['extension'];
+		}
+		
+		try {
+			$splashUrl = $this->getSplashImage()->getUrl();
+		} catch (Exception $e) {
+			$splashUrl = '';
+		}
+		
+		$code = str_replace('###ID###', $myId, $code);
+		$code = str_replace('###HTML_ID###', 'media_'.preg_replace('/[^a-z0-9_-]/i', '', $myId), $code);
+		$code = str_replace('###HTTP_URL###', $this->getHttpUrl(), $code);
+		$code = str_replace('###RTMP_URL###', $this->getRtmpUrl(), $code);
+		$code = str_replace('###SPLASH_URL###', $splashUrl, $code);
+		
+		return $code;
+	}
+	
+	/**
 	 * Create a set of thumbnail images from the video file at the time-code specified.
 	 * - If the time-code is out of range, alternate time-codes will be tried.
 	 * - If no thumbnail images can be generated, default images will be used.
 	 * 
 	 * @param optional float $seconds Time-offset at which to grab the frame.
 	 * @return void
-	 * @access public
+	 * @access protected
 	 * @since 1/29/09
 	 */
-	public function createImages ($seconds = 5) {
+	protected function createImages ($seconds = 5) {
 		if (!preg_match('/^video\//', $this->getMimeType()))
 			throw new InvalidArgumentException("Cannot generate thumbnails for non-video files.", 4321);
 		
@@ -347,10 +391,10 @@ class MiddMedia_File
 	 * Delete our image files
 	 * 
 	 * @return void
-	 * @access public
+	 * @access protected
 	 * @since 1/30/09
 	 */
-	public function deleteImages () {
+	protected function deleteImages () {
 		$types = array('full_frame', 'thumb', 'splash');
 		
 		foreach ($types as $type) {

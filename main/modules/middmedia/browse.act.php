@@ -317,8 +317,8 @@ class browseAction
 			
 		}
 		
-		var videoEmbedCode = '".MIDDMEDIA_VIDEO_EMBED_CODE."';
-		var audioEmbedCode = '".MIDDMEDIA_AUDIO_EMBED_CODE."';
+		var videoEmbedCode = '".str_replace("</script>", "<' + '/script>", MIDDMEDIA_VIDEO_EMBED_CODE)."';
+		var audioEmbedCode = '".str_replace("</script>", "<' + '/script>", MIDDMEDIA_AUDIO_EMBED_CODE)."';
 		
 		function getEmbedCode(type, fileId, httpUrl, rtmpUrl, splashUrl) {
 			if (type == 'video')
@@ -329,7 +329,7 @@ class browseAction
 				throw 'Unknow media type: ' + type;
 				
 			code = code.replace('###ID###', fileId);
-			code = code.replace('###HTML_ID###', 'media_' + fileId.replaceAll(/[^a-z0-9]/, ''));
+			code = code.replace('###HTML_ID###', 'media_' + fileId.replaceAll(/[^a-z0-9_-]/, ''));
 			code = code.replace('###HTTP_URL###', httpUrl);
 			code = code.replace('###RTMP_URL###', rtmpUrl);
 			code = code.replace('###SPLASH_URL###', splashUrl);
@@ -694,8 +694,7 @@ class browseAction
 
 			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".$type."', '".rawurlencode($myId)."', '".$file->getHttpUrl()."', '".$file->getRtmpUrl()."', '".$splashUrl."'); return false;\">Embed Code &amp; URLs</a>";
 			
-			print "</td>";
-			
+			print "</td>";			
 			print "\n\t\t</tr>";
 		}
 		
