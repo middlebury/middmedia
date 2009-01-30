@@ -235,6 +235,8 @@ function doGetVideos(MiddMediaManager $manager, $directory) {
 			$video["splashurl"] = null;
 		}
 		
+		$video["embedcode"] = $file->getEmbedCode();
+		
 		$videos[] = $video;
 	}
 	
@@ -324,6 +326,8 @@ function doGetVideo(MiddMediaManager $manager, $directory, $file) {
 		$video["thumburl"] = null;
 		$video["splashurl"] = null;
 	}
+	
+	$video["embedcode"] = $file->getEmbedCode();
 	
 	return $video;
 }
@@ -417,6 +421,8 @@ function doAddVideo(MiddMediaManager $manager, $directory, $file, $filename, $fi
 		$video["thumburl"] = null;
 		$video["splashurl"] = null;
 	}
+	
+	$video["embedcode"] = $file->getEmbedCode();
 
 	return $video;
 }

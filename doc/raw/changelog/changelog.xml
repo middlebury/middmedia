@@ -42,6 +42,9 @@
 		<new author='adam' date='2009-01-30' ref='' reftype='fr'  reporter=''>
 			Media browsing now can display a preview of the media embedded in the page.
 		</new>
+		<new author='adam' date='2009-01-30' ref='' reftype='fr'  reporter=''>
+			SOAP: Files now also reply with embed code that can be used for the file if desired.
+		</new>
 	</version>
 	<version number="0.1.3" date="2009-01-26">
 		<releaseNotes>

@@ -1,5 +1,5 @@
 
-MiddMedia v.  (2009-01-26)
+MiddMedia v. 0.2.0 (2009-01-30)
 =================================
 
 What is MiddMedia?
@@ -10,11 +10,20 @@ Flash Media Server (FMS) to deliver user-created videos.
 
 Current Version Notes
 ---------------------
-This release now supports audio embed code. 
+This release adds support for the extraction of frames from video and the generation
+of thumbnail and splash images from those frames.
+
+Every video file will have a matching image with the '.jpg' extension in each of
+the three subdirectories below that in which the video is located: full_frame/,
+thumb/, splash/. The full-frame is the same dimensions as the video file. The
+splash-image is the full-frame image with a 'play' icon overlayed. The thumbnail is
+a maximum of 200x200 pixels.
+
+This release also fixes a few other bugs. See the change-log for details. 
 
 ----
 
- This release of MiddMedia uses Harmoni 1.9.1 and Polyphony 1.4.9.
+ This release of MiddMedia uses Harmoni 1.9.3 and Polyphony 1.4.10.
 
 
 Downloads
@@ -56,7 +65,26 @@ http://bugs.example.com/12345/
 ===================================================================
 
 
-v.  (2009-01-26)
+v. 0.2.0 (2009-01-30)
+----------------------------------------------------
+This release adds support for the extraction of frames from video and the generation
+of thumbnail and splash images from those frames.
+
+Every video file will have a matching image with the '.jpg' extension in each of
+the three subdirectories below that in which the video is located: full_frame/,
+thumb/, splash/. The full-frame is the same dimensions as the video file. The
+splash-image is the full-frame image with a 'play' icon overlayed. The thumbnail is
+a maximum of 200x200 pixels.
+
+This release also fixes a few other bugs. See the change-log for details. 
+
+----
+
+ This release of MiddMedia uses Harmoni 1.9.3 and Polyphony 1.4.10.
+
+
+
+v. 0.1.3 (2009-01-26)
 ----------------------------------------------------
 This release now supports audio embed code. 
 
@@ -79,7 +107,7 @@ URLs to media
 
 v. 0.1.1 (2009-01-23)
 ----------------------------------------------------
-This release includes updates to Harmoni and the MiddMedia codebases needed to get
+This release includes updates to Harmoni and the MiddMedia code-bases needed to get
 this system running under PHP 5.1 
 
 ----

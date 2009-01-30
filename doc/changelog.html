@@ -23,7 +23,33 @@
 </head>
 <body>
 <h1>MiddMedia Change Log</h1>
-<h2>Version </h2>
+<h2>Version 0.2.0</h2>
+<h3>2009-01-30</h3>
+<p>This release adds support for the extraction of frames from video and the generation of thumbnail and splash images from those frames.
+<br>
+<br>Every video file will have a matching image with the '.jpg' extension in each of the three subdirectories below that in which the video is located: full_frame/, thumb/, splash/. The full-frame is the same dimensions as the video file. The splash-image is the full-frame image with a 'play' icon overlayed. The thumbnail is a maximum of 200x200 pixels.
+<br>
+<br>This release also fixes a few other bugs. See the change-log for details. 
+<br>
+<br>----
+<br>
+<br> This release of MiddMedia uses Harmoni 1.9.3 and Polyphony 1.4.10.</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b> SOAP: Fixed WSDL to remove extra slash in soap URI. (<em>2009-01-27 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Browsing: New uploads now get the new embed-code panel. (<em>2009-01-27 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> Invalid file-name messages are now more intuitive. (<em>2009-01-29 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> Now generates full-frame images, splash-images, and thumbnails for video. (<em>2009-01-30 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> Media browsing now can display a preview of the media embedded in the page. (<em>2009-01-30 - Adam Franco</em>)</li>
+		<li>
+<b>New feature:</b> SOAP: Files now also reply with embed code that can be used for the file if desired. (<em>2009-01-30 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 0.1.3</h2>
 <h3>2009-01-26</h3>
 <p>This release now supports audio embed code. 
 <br>
@@ -55,7 +81,7 @@
 	</ul>
 <br><h2>Version 0.1.1</h2>
 <h3>2009-01-23</h3>
-<p>This release includes updates to Harmoni and the MiddMedia codebases needed to get this system running under PHP 5.1 
+<p>This release includes updates to Harmoni and the MiddMedia code-bases needed to get this system running under PHP 5.1 
 <br>
 <br>----
 <br>
