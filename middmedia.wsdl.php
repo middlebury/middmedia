@@ -38,6 +38,9 @@ print '<'.'?xml version="1.0" encoding="ISO-8859-1"?'.'>';
 					<xsd:element name="size" type="xsd:positiveInteger" />
 					<xsd:element name="date" type="xsd:dateTime" />
 					<xsd:element name="creator" type="xsd:string" />
+					<xsd:element name="fullframeurl" type="xsd:string" />
+					<xsd:element name="thumburl" type="xsd:string" />
+					<xsd:element name="splashurl" type="xsd:string" />
 				</xsd:sequence>
 			</xsd:complexType>
 			<xsd:complexType name="videos">

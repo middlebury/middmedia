@@ -225,6 +225,16 @@ function doGetVideos(MiddMediaManager $manager, $directory) {
 			return new SoapFault("Server", $ex->getMessage());
 		}
 		
+		try {
+			$video["fullframeurl"] = $file->getFullFrameImage()->getUrl();
+			$video["thumburl"] = $file->getThumbnailImage()->getUrl();
+			$video["splashurl"] = $file->getSplashImage()->getUrl();
+		} catch (OperationFailedException $e) {
+			$video["fullframeurl"] = null;
+			$video["thumburl"] = null;
+			$video["splashurl"] = null;
+		}
+		
 		$videos[] = $video;
 	}
 	
@@ -303,6 +313,16 @@ function doGetVideo(MiddMediaManager $manager, $directory, $file) {
 		$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
 	} catch(Exception $ex) {
 		return new SoapFault("Server", $ex->getMessage());
+	}
+	
+	try {
+		$video["fullframeurl"] = $file->getFullFrameImage()->getUrl();
+		$video["thumburl"] = $file->getThumbnailImage()->getUrl();
+		$video["splashurl"] = $file->getSplashImage()->getUrl();
+	} catch (OperationFailedException $e) {
+		$video["fullframeurl"] = null;
+		$video["thumburl"] = null;
+		$video["splashurl"] = null;
 	}
 	
 	return $video;
@@ -386,6 +406,16 @@ function doAddVideo(MiddMediaManager $manager, $directory, $file, $filename, $fi
 		$video["creator"] = $newfile->getCreatorUsername();
 	} catch (OperationFailedException $e) {
 		$video["creator"] = null;
+	}
+	
+	try {
+		$video["fullframeurl"] = $file->getFullFrameImage()->getUrl();
+		$video["thumburl"] = $file->getThumbnailImage()->getUrl();
+		$video["splashurl"] = $file->getSplashImage()->getUrl();
+	} catch (OperationFailedException $e) {
+		$video["fullframeurl"] = null;
+		$video["thumburl"] = null;
+		$video["splashurl"] = null;
 	}
 
 	return $video;

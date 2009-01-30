@@ -10,7 +10,7 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
-	<version number="0.1.4" date="The Future">
+	<version number="0.2.0" date="The Future">
 		<releaseNotes>
 			
 		</releaseNotes>
@@ -23,6 +23,9 @@
 		<fix author='adam' date='2009-01-29' ref='' reftype='bug'  reporter=''>
 			Invalid file-name messages are now more intuitive.
 		</fix>
+		<new author='adam' date='2009-01-30' ref='' reftype='fr'  reporter=''>
+			Now generates full-frame images, splash-images, and thumbnails for video.
+		</new>
 	</version>
 	<version number="0.1.3" date="2009-01-26">
 		<releaseNotes>
