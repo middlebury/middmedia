@@ -320,24 +320,50 @@ class browseAction
 		var videoEmbedCode = '".MIDDMEDIA_VIDEO_EMBED_CODE."';
 		var audioEmbedCode = '".MIDDMEDIA_AUDIO_EMBED_CODE."';
 		
-		function displayEmbedCode(link, type, fileId, httpUrl, rtmpUrl) {
+		function getEmbedCode(type, fileId, httpUrl, rtmpUrl, splashUrl) {
+			if (type == 'video')
+				var code = videoEmbedCode;
+			else if (type == 'audio')
+				var code = audioEmbedCode;
+			else
+				throw 'Unknow media type: ' + type;
+				
+			code = code.replace('###ID###', fileId);
+			code = code.replace('###HTML_ID###', 'media_' + fileId.replaceAll(/[^a-z0-9]/, ''));
+			code = code.replace('###HTTP_URL###', httpUrl);
+			code = code.replace('###RTMP_URL###', rtmpUrl);
+			code = code.replace('###SPLASH_URL###', splashUrl);
+			
+			return code;
+		}
+		
+		function displayMedia(link, type, fileId, httpUrl, rtmpUrl, splashUrl) {
+			if (link.panel) {
+				link.panel.open();
+			} else {
+				var panel = new CenteredPanel('Viewing Media', 400, 500, link);
+				panel.contentElement.style.textAlign = 'center';
+				
+				var mediaContainer = panel.contentElement.appendChild(document.createElement('p'));
+				mediaContainer.innerHTML = getEmbedCode(type, fileId, httpUrl, rtmpUrl, splashUrl);
+				
+				
+				var linkContainer = panel.contentElement.appendChild(document.createElement('p'));
+				var embedLink = linkContainer.appendChild(document.createElement('a'));
+				embedLink.href = '#';
+				embedLink.innerHTML = 'Embed Code &amp; URLs';
+				embedLink.onclick = function () {
+					displayEmbedCode(this, type, fileId, httpUrl, rtmpUrl);
+					return false;
+				}
+			}
+		}
+		
+		function displayEmbedCode(link, type, fileId, httpUrl, rtmpUrl, splashUrl) {
 			if (link.panel) {
 				link.panel.open();
 			} else {
 				var panel = new CenteredPanel('Embed Code and URLs', 400, 600, link);
-				
-				if (type == 'video')
-					var code = videoEmbedCode;
-				else if (type == 'audio')
-					var code = audioEmbedCode;
-				else
-					throw 'Unknow media type: ' + type;
-					
-				code = code.replace('###ID###', fileId);
-				code = code.replace('###HTML_ID###', 'media_' + fileId.replaceAll(/[^a-z0-9]/, ''));
-				code = code.replace('###HTTP_URL###', httpUrl);
-				code = code.replace('###RTMP_URL###', rtmpUrl);
-				
 				
 				var heading = panel.contentElement.appendChild(document.createElement('h4'));
 				heading.innerHTML = 'Embed Code';
@@ -348,7 +374,7 @@ class browseAction
 				var text = panel.contentElement.appendChild(document.createElement('textarea'));
 				text.cols = 70;
 				text.rows = 8;
-				text.value = code;
+				text.value = getEmbedCode(type, fileId, httpUrl, rtmpUrl, splashUrl);
 				text.readOnly = true;
 				
 				
@@ -588,6 +614,36 @@ class browseAction
 		foreach ($dir->getFiles() as $file) {
 			$fileId = md5($dir->getBaseName().'/'.$file->getBaseName());
 			
+			
+			// Get the type and Id for use by JS functions
+			$parts = pathinfo($file->getBasename());
+			// PHP < 5.2.0 doesn't have 'filename'
+			if (!isset($parts['filename'])) {
+				preg_match('/(.+)\.[a-z0-9]+/i', $file->getBasename(), $matches);
+				$parts['filename'] = $matches[1];
+			}
+			unset($type);
+			switch (strtolower($parts['extension'])) {
+				case 'flv':
+					$type = 'video';
+					$myId = $dir->getBaseName().'/'.$parts['filename'];
+					break;
+				case 'mp3':
+					$type = 'audio';
+				default:
+					if (!isset($type))
+						$type = 'video';
+					$myId = strtolower($parts['extension']).':'.$dir->getBaseName().'/'.$parts['filename'].'.'.$parts['extension'];
+			}
+			
+			try {
+				$splashUrl = $file->getSplashImage()->getUrl();
+			} catch (OperationFailedException $e) {
+				$splashUrl = '';
+			}
+			
+			
+			
 			print "\n\t\t<tr id=\"row-".$fileId."\">";
 			
 			print "\n\t\t\t<td>";
@@ -595,8 +651,8 @@ class browseAction
 			print "</td>";
 			
 			print "\n\t\t\t<td class='name'>";
+			print "\n\t\t\t\t<a href='#' onclick=\"displayMedia(this, '".$type."', '".rawurlencode($myId)."', '".$file->getHttpUrl()."', '".$file->getRtmpUrl()."', '".$splashUrl."'); return false;\">";
 			print $file->getBaseName();
-			if (preg_match('/^video\//', $file->getMimeType())) {
 			try {
 				$thumbnail = $file->getThumbnailImage();
 				print "\n\t\t\t\t<br/>\n\t\t\t\t";
@@ -606,7 +662,7 @@ class browseAction
 				if ($e->getCode() != 897345)
 					throw $e;
 			}
-			}
+			print "\n\t\t\t\t</a>";
 			print "\n\t\t\t</td>";
 			
 			print "\n\t\t\t<td class='type'>".$file->getMimeType()."</td>";
@@ -635,28 +691,8 @@ class browseAction
 			
 			print "\n\t\t\t<td class='access'>";
 			
-			$parts = pathinfo($file->getBasename());
-			
-			// PHP < 5.2.0 doesn't have 'filename'
-			if (!isset($parts['filename'])) {
-				preg_match('/(.+)\.[a-z0-9]+/i', $file->getBasename(), $matches);
-				$parts['filename'] = $matches[1];
-			}
-			
-			unset($type);
-			switch (strtolower($parts['extension'])) {
-				case 'flv':
-					$type = 'video';
-					$myId = $dir->getBaseName().'/'.$parts['filename'];
-					break;
-				case 'mp3':
-					$type = 'audio';
-				default:
-					if (!isset($type))
-						$type = 'video';
-					$myId = strtolower($parts['extension']).':'.$dir->getBaseName().'/'.$parts['filename'].'.'.$parts['extension'];
-			}
-			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".$type."', '".rawurlencode($myId)."', '".$file->getHttpUrl()."', '".$file->getRtmpUrl()."'); return false;\">Embed Code &amp; URLs</a>";
+
+			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".$type."', '".rawurlencode($myId)."', '".$file->getHttpUrl()."', '".$file->getRtmpUrl()."', '".$splashUrl."'); return false;\">Embed Code &amp; URLs</a>";
 			
 			print "</td>";
 			

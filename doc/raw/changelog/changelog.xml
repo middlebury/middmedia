@@ -26,6 +26,9 @@
 		<new author='adam' date='2009-01-30' ref='' reftype='fr'  reporter=''>
 			Now generates full-frame images, splash-images, and thumbnails for video.
 		</new>
+		<new author='adam' date='2009-01-30' ref='' reftype='fr'  reporter=''>
+			Media browsing now can display a preview of the media embedded in the page.
+		</new>
 	</version>
 	<version number="0.1.3" date="2009-01-26">
 		<releaseNotes>
