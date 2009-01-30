@@ -10,9 +10,22 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
-	<version number="0.2.0" date="The Future">
+	<version number="0.2.0" date="2009-01-30">
 		<releaseNotes>
+			This release adds support for the extraction of frames from video and
+			the generation of thumbnail and splash images from those frames.
 			
+			Every video file will have a matching image with the '.jpg' extension
+			in each of the three subdirectories below that in which the video is located:
+			full_frame/, thumb/, splash/. The full-frame is the same dimensions as 
+			the video file. The splash-image is the full-frame image with a 'play'
+			icon overlayed. The thumbnail is a maximum of 200x200 pixels.
+			
+			This release also fixes a few other bugs. See the change-log for details.
+			
+			----
+			
+			This release of MiddMedia uses Harmoni 1.9.3 and Polyphony 1.4.10.
 		</releaseNotes>
 		<fix author='adam' date='2009-01-27' ref='' reftype='bug'  reporter=''>
 			SOAP: Fixed WSDL to remove extra slash in soap URI.
