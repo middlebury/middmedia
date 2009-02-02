@@ -26,7 +26,7 @@ define("MYPATH", $protocol."://".$_SERVER['HTTP_HOST'].str_replace(
 												dirname($_SERVER['PHP_SELF'])));
 define("MYURL", MYPATH."/index.php");
 
-define("WSDL", MYPATH."/middmedia.wsdl");
+define("WSDL", MYPATH."/middmedia.wsdl.php");
 
 require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
 require_once(dirname(__FILE__)."/main/include/setup.inc.php");

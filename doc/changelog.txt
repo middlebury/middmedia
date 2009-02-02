@@ -2,6 +2,22 @@
 MiddMedia Change Log
 
 
+v. 0.2.3 (2009-02-02)
+----------------------------------------------------
+This release fixes a bug in the WSDL path. 
+
+----
+
+ This release of MiddMedia uses Harmoni 1.9.3 and Polyphony 1.4.11.
+		
+		
+	* Bug Fix: 
+		SOAP: WSDL path now includes the .php extension.
+		(2009-02-02 - Adam Franco)
+	
+
+
+
 v. 0.2.2 (2009-02-02)
 ----------------------------------------------------
 This release fixes a few bugs and adds links to help documentation. 

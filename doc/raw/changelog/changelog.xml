@@ -10,6 +10,18 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
+	<version number="0.2.3" date="2009-02-02">
+		<releaseNotes>
+			This release fixes a bug in the WSDL path.
+			
+			----
+			
+			This release of MiddMedia uses Harmoni 1.9.3 and Polyphony 1.4.11.
+		</releaseNotes>
+		<fix author='adam' date='2009-02-02' ref='' reftype='bug'  reporter=''>
+			SOAP: WSDL path now includes the .php extension.
+		</fix>
+	</version>
 	<version number="0.2.2" date="2009-02-02">
 		<releaseNotes>
 			This release fixes a few bugs and adds links to help documentation.
