@@ -593,6 +593,14 @@ class browseAction
 		print "\n\t<legend>"._("Upload Queue")."</legend>";
 		print "\n</fieldset>";
 // 		print "\n<div class='status' id='status-".$dirId."'>"._("0 Files Uploaded")."</div>";
+		print "\n<div class='upload_help'>";
+		print "\n\tThe follow media types are allowed:";
+		$mimeMgr = Services::getService("MIME");
+		foreach(explode(',', MIDDMEDIA_ALLOWED_FILE_TYPES) as $type) {
+			print "<br/>&nbsp;&nbsp;&nbsp;&nbsp;.".trim($type)." (".$mimeMgr->getMIMETypeForExtension(trim($type)).")";
+		}
+		print "<br/>See <a href='https://mediawiki.middlebury.edu/wiki/LIS/MiddMedia' target='_blank'>MiddMedia Help</a> for more information.";
+		print "\n</div>";
 		print "\n</div>";
 		
 		/*********************************************************

@@ -183,12 +183,7 @@ class displayAction
 		
 	// :: Footer ::
 		$footer = new Container (new XLayout, BLANK, 1);
-		
-		if ($harmoni->getData('help_topic'))
-			$helpLink = Help::link($harmoni->getData('help_topic'));
-		else
-			$helpLink = Help::link();
-		$footer->add(new UnstyledBlock($helpLink), "50%", null, LEFT, BOTTOM);
+		$footer->add(new UnstyledBlock("<a href='https://mediawiki.middlebury.edu/wiki/LIS/MiddMedia' target='_blank'>"._("Help")."</a>"), "50%", null, LEFT, BOTTOM);
 		
 		
 		$footer->add(new UnstyledBlock(self::getVersionText()), "50%", null, RIGHT, BOTTOM);
