@@ -2,6 +2,35 @@
 MiddMedia Change Log
 
 
+v. 0.2.2 (2009-02-02)
+----------------------------------------------------
+This release fixes a few bugs and adds links to help documentation. 
+
+----
+
+ This release of MiddMedia uses Harmoni 1.9.3 and Polyphony 1.4.10.
+		
+		
+	* Bug Fix: 
+		Added links to help documentation. Now lists allowed media types.
+		(2009-02-02 - Adam Franco)
+		
+	* Change: 
+		Upload form now reads allowed types from the MIDDMEDIA_ALLOWED_FILE_TYPES
+		constant. 
+		(2009-02-02 - Adam Franco)
+		
+	* Bug Fix: 
+		SOAP: Fixed error in addVideo() response.
+		(2009-02-02 - Adam Franco)
+		
+	* New feature: 
+		All file create and delete actions are now logged.
+		(2009-02-02 - Adam Franco)
+	
+
+
+
 v. 0.2.1 (2009-01-30)
 ----------------------------------------------------
 
