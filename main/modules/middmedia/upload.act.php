@@ -162,20 +162,7 @@ class uploadAction
 // 		} else {
 			print "/>";
 // 		}
-		
-		// Log the success
-		if (Services::serviceRunning("Logging")) {
-			$loggingManager = Services::getService("Logging");
-			$log = $loggingManager->getLogForWriting("MiddMedia");
-			$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
-							"A format in which the acting Agent[s] and the target nodes affected are specified.");
-			$priorityType = new Type("logging", "edu.middlebury", "Error",
-							"Error events.");
-			
-			$item = new AgentNodeEntryItem("Upload Success", "File '".$dir->getFsPath().'/'.$file_name."' uploaded.");
-			
-			$log->appendLogWithTypes($item,	$formatType, $priorityType);
-		}
+
 		exit;
 	}
 	
@@ -232,6 +219,10 @@ class uploadAction
 							"Error events.");
 			
 			$item = new AgentNodeEntryItem($this->getErrorName(), $this->getErrorPrefix().$errorString);
+			
+			$idManager = Services::getService("Id");
+							
+			$item->addNodeId($idManager->getId('middmedia:'.$this->getDirectory()->getBaseName().'/'));
 			
 			$log->appendLogWithTypes($item,	$formatType, $priorityType);
 		}

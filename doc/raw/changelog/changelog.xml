@@ -23,6 +23,9 @@
 		<fix author='adam' date='2009-02-02' ref='' reftype='bug'  reporter=''>
 			SOAP: Fixed error in addVideo() response.
 		</fix>
+		<new author='adam' date='2009-02-02' ref='' reftype='fr'  reporter=''>
+			All file create and delete actions are now logged.
+		</new>
 	</version>
 	<version number="0.2.1" date="2009-01-30">
 		<releaseNotes>

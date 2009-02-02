@@ -119,6 +119,8 @@ class MiddMedia_File
 			if ($e->getCode() != 4321)
 				throw $e;
 		}
+		
+		$this->logAction('upload');
 	}
 	
 	/**
@@ -140,6 +142,8 @@ class MiddMedia_File
 			if ($e->getCode() != 4321)
 				throw $e;
 		}
+		
+		$this->logAction('upload');
 	}
 	
 	/**
@@ -161,6 +165,8 @@ class MiddMedia_File
 		$dbMgr->query($query, HARMONI_DB_INDEX);
 		
 		$this->deleteImages();
+		
+		$this->logAction('delete');
 	}
 	
 	/**
@@ -573,6 +579,51 @@ class MiddMedia_File
 	 */
 	private function getSplashImagePath () {
 		return MiddMedia_ImageFile::getFsPathForImage($this->directory, $this, 'splash');
+	}
+	
+	/**
+	 * Log actions about this file
+	 * 
+	 * @param string $category
+	 * @return void
+	 * @access private
+	 * @since 2/2/09
+	 */
+	private function logAction ($category) {
+		switch ($category) {
+			case 'upload':
+				$category = 'Upload';
+				$description = "File uploaded: ".$this->directory->getBaseName()."/".$this->getBaseName();
+				$type = 'Event_Notice';
+				break;
+			case 'delete':
+				$category = 'Delete';
+				$description = "File deleted: ".$this->directory->getBaseName()."/".$this->getBaseName();
+				$type = 'Event_Notice';
+				break;
+			default:
+				throw new InvalidArgumentException("Unknown category: $category");
+		}
+		
+		if (Services::serviceRunning("Logging")) {
+			$loggingManager = Services::getService("Logging");
+			$log = $loggingManager->getLogForWriting("MiddMedia");
+			$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
+							"A format in which the acting Agent[s] and the target nodes affected are specified.");
+			$priorityType = new Type("logging", "edu.middlebury", $type,
+							"Normal events.");
+			
+			$item = new AgentNodeEntryItem($category, $description);
+			$item->addAgentId($this->directory->getManager()->getAgent()->getId());
+			
+			
+			$idManager = Services::getService("Id");
+			
+			$item->addNodeId($idManager->getId('middmedia:'.$this->directory->getBaseName().'/'));
+			$item->addNodeId($idManager->getId('middmedia:'.$this->directory->getBaseName().'/'.$this->getBaseName()));
+			
+			$log->appendLogWithTypes($item,	$formatType, $priorityType);
+		}
 	}
 }
 

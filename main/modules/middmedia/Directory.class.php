@@ -340,8 +340,8 @@ class MiddMedia_Directory {
 			throw new OperationFailedException("File already exists.");
 		
 		$newFile = new MiddMedia_File($this, $file->getBaseName());
-		$newFile->putContents($file->getContents());
 		$newFile->setCreator($this->manager->getAgent());
+		$newFile->putContents($file->getContents());
 		
 		return $newFile;
 	}
@@ -403,6 +403,19 @@ class MiddMedia_Directory {
 	 */
 	public function isExecutable () {
 		return is_executable($this->getFsPath());
+	}
+	
+	/**
+	 * Answer the current Manager.
+	 * 
+	 * WARNING: This method should only be used by the File object in this package.
+	 * 
+	 * @return MiddMediaManager $manager
+	 * @access public
+	 * @since 2/2/09
+	 */
+	public function getManager () {
+		return $this->manager;
 	}
 }
 
