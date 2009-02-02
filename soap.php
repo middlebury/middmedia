@@ -413,16 +413,16 @@ function doAddVideo(MiddMediaManager $manager, $directory, $file, $filename, $fi
 	}
 	
 	try {
-		$video["fullframeurl"] = $file->getFullFrameImage()->getUrl();
-		$video["thumburl"] = $file->getThumbnailImage()->getUrl();
-		$video["splashurl"] = $file->getSplashImage()->getUrl();
+		$video["fullframeurl"] = $newfile->getFullFrameImage()->getUrl();
+		$video["thumburl"] = $newfile->getThumbnailImage()->getUrl();
+		$video["splashurl"] = $newfile->getSplashImage()->getUrl();
 	} catch (OperationFailedException $e) {
 		$video["fullframeurl"] = null;
 		$video["thumburl"] = null;
 		$video["splashurl"] = null;
 	}
 	
-	$video["embedcode"] = $file->getEmbedCode();
+	$video["embedcode"] = $newfile->getEmbedCode();
 
 	return $video;
 }

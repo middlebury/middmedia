@@ -20,6 +20,9 @@
 		<change author='adam' date='2009-02-02' ref='' reftype='fr'  reporter=''>
 			Upload form now reads allowed types from the MIDDMEDIA_ALLOWED_FILE_TYPES constant.
 		</change>
+		<fix author='adam' date='2009-02-02' ref='' reftype='bug'  reporter=''>
+			SOAP: Fixed error in addVideo() response.
+		</fix>
 	</version>
 	<version number="0.2.1" date="2009-01-30">
 		<releaseNotes>
