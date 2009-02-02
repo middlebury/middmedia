@@ -531,6 +531,11 @@ class browseAction
 		/*********************************************************
 		 * Upload Form
 		 *********************************************************/
+		$mediaTypes = explode(',', MIDDMEDIA_ALLOWED_FILE_TYPES);
+		foreach ($mediaTypes as $key => $type) {
+			$mediaTypes[$key] = '*.'.trim($type);
+		}
+		$mediaTypes = implode(';', $mediaTypes);
 		
 		$this->addToHead(
 			"
@@ -543,7 +548,7 @@ class browseAction
 					flash_url : '".MYPATH."/javascript/SWFUpload/swfupload.swf', 
 					post_params: {'".session_name()."' : '".session_id()."'},
 					file_size_limit : '".ByteSize::withValue($this->getFileSizeLimit())->asString()."',
-					file_types : '*.flv;*.mp4;*.mp3',
+					file_types : '".$mediaTypes."',
 					file_types_description : 'Flash Video, H264 Video, and MP3 Audio',
 					file_upload_limit : 100,
 					file_queue_limit : 0,

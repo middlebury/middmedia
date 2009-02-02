@@ -17,6 +17,9 @@
 		<fix author='adam' date='2009-02-02' ref='' reftype='bug'  reporter=''>
 			Added links to help documentation. Now lists allowed media types.
 		</fix>
+		<change author='adam' date='2009-02-02' ref='' reftype='fr'  reporter=''>
+			Upload form now reads allowed types from the MIDDMEDIA_ALLOWED_FILE_TYPES constant.
+		</change>
 	</version>
 	<version number="0.2.1" date="2009-01-30">
 		<releaseNotes>
