@@ -10,6 +10,14 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
+	<version number="0.2.4" date="The Future">
+		<releaseNotes>
+			
+		</releaseNotes>
+		<fix author='adam' date='2009-02-04' ref='' reftype='bug'  reporter=''>
+			Logging: Deleting a single file no longer makes a log entry titled "Upload Success".
+		</fix>
+	</version>
 	<version number="0.2.3" date="2009-02-02">
 		<releaseNotes>
 			This release fixes a bug in the WSDL path.

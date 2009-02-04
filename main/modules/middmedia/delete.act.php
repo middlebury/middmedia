@@ -52,20 +52,6 @@ class deleteAction
 		// Return output to the browser (only supported by SWFUpload for Flash Player 9)
 		header("HTTP/1.1 200 OK");
 		echo "File Deleted";
-		
-		// Log the success
-		if (Services::serviceRunning("Logging")) {
-			$loggingManager = Services::getService("Logging");
-			$log = $loggingManager->getLogForWriting("MiddMedia");
-			$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
-							"A format in which the acting Agent[s] and the target nodes affected are specified.");
-			$priorityType = new Type("logging", "edu.middlebury", "Error",
-							"Error events.");
-			
-			$item = new AgentNodeEntryItem("Upload Success", "File '".$dir->getFsPath().'/'.$file_name."' uploaded.");
-			
-			$log->appendLogWithTypes($item,	$formatType, $priorityType);
-		}
 		exit;
 	}
 	
