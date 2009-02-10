@@ -17,6 +17,9 @@
 		<fix author='adam' date='2009-02-04' ref='' reftype='bug'  reporter=''>
 			Logging: Deleting a single file no longer makes a log entry titled "Upload Success".
 		</fix>
+		<fix author='adam' date='2009-02-10' ref='' reftype='bug'  reporter=''>
+			Uploader: Fixed Javascript error in IE.
+		</fix>
 	</version>
 	<version number="0.2.3" date="2009-02-02">
 		<releaseNotes>

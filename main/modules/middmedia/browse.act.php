@@ -577,8 +577,7 @@ class browseAction
 					upload_progress_handler : uploadProgress,
 					upload_error_handler : uploadError,
 					upload_success_handler : middmediaUploadSuccess,
-					upload_complete_handler : uploadComplete,
-// 					queue_complete_handler : queueComplete	// Queue plugin event
+					upload_complete_handler : uploadComplete
 					
 				}); 
 			document.get_element_by_id('cancel-".$dirId."').onclick = function () {
