@@ -1,5 +1,5 @@
 body {
-	width: 930px;
+	width: 970px;
 }
 
 .program_logo {
@@ -10,7 +10,7 @@ body {
  * MiddMedia Styles
  *********************************************************/
 table.file_listing_table {
-	width: 600px;
+	width: 630px;
 	border: 1px solid #777;
 }
 
