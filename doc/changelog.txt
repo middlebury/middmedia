@@ -2,6 +2,32 @@
 MiddMedia Change Log
 
 
+v. 0.2.4 (2009-03-30)
+----------------------------------------------------
+This release fixes a few bugs that were affecting Internet Explorer. 
+
+----
+
+ This release of MiddMedia uses Harmoni 1.9.3 and Polyphony 1.4.11.
+		
+		
+	* Bug Fix: 
+		Logging: Deleting a single file no longer makes a log entry titled "Upload
+		Success". 
+		(2009-02-04 - Adam Franco)
+		
+	* Bug Fix: 
+		Uploader: Fixed Javascript error in IE.
+		(2009-02-10 - Adam Franco)
+		
+	* Bug Fix: 
+		Corrected JavaScript error in Internet Explorer by adding quotes to assigned
+		value. 
+		(2009-03-30 - Ian McBride)
+	
+
+
+
 v. 0.2.3 (2009-02-02)
 ----------------------------------------------------
 This release fixes a bug in the WSDL path. 

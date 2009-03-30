@@ -1,5 +1,5 @@
 
-MiddMedia v. 0.2.3 (2009-02-02)
+MiddMedia v. 0.2.4 (2009-03-30)
 =================================
 
 What is MiddMedia?
@@ -10,7 +10,7 @@ Flash Media Server (FMS) to deliver user-created videos.
 
 Current Version Notes
 ---------------------
-This release fixes a bug in the WSDL path. 
+This release fixes a few bugs that were affecting Internet Explorer. 
 
 ----
 
@@ -54,6 +54,16 @@ http://bugs.example.com/12345/
 | Prior MiddMedia Release Notes
 | (See the MiddMedia change log for more details)
 ===================================================================
+
+
+v. 0.2.4 (2009-03-30)
+----------------------------------------------------
+This release fixes a few bugs that were affecting Internet Explorer. 
+
+----
+
+ This release of MiddMedia uses Harmoni 1.9.3 and Polyphony 1.4.11.
+
 
 
 v. 0.2.3 (2009-02-02)

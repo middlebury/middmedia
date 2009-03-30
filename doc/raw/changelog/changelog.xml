@@ -10,15 +10,22 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
-	<version number="0.2.4" date="The Future">
+	<version number="0.2.4" date="2009-03-30">
 		<releaseNotes>
+			This release fixes a few bugs that were affecting Internet Explorer.
 			
+			----
+			
+			This release of MiddMedia uses Harmoni 1.9.3 and Polyphony 1.4.11.
 		</releaseNotes>
 		<fix author='adam' date='2009-02-04' ref='' reftype='bug'  reporter=''>
 			Logging: Deleting a single file no longer makes a log entry titled "Upload Success".
 		</fix>
 		<fix author='adam' date='2009-02-10' ref='' reftype='bug'  reporter=''>
 			Uploader: Fixed Javascript error in IE.
+		</fix>
+		<fix author='ian' date='2009-03-30' ref='' reftype='bug'  reporter=''>
+			Corrected JavaScript error in Internet Explorer by adding quotes to assigned value.
 		</fix>
 	</version>
 	<version number="0.2.3" date="2009-02-02">
