@@ -400,7 +400,7 @@ class browseAction
 				desc.innerHTML = 'Make a link to the following URL to allow downloads of this file. ';
 				
 				var text = panel.contentElement.appendChild(document.createElement('input'));
-				text.type = text;
+				text.type = 'text';
 				text.size = 80;
 				text.value = httpUrl;
 				text.readOnly = true;
@@ -414,7 +414,7 @@ class browseAction
 				desc.innerHTML = 'The following URL may be used in custom Flash video players to stream this video.';
 				
 				var text = panel.contentElement.appendChild(document.createElement('input'));
-				text.type = text;
+				text.type = 'text';
 				text.size = 80;
 				text.value = rtmpUrl;
 				text.readOnly = true;
