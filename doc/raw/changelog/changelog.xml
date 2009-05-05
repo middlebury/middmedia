@@ -10,6 +10,14 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
+	<version number="0.2.5" date="2009-05-05">
+		<releaseNotes>
+			This release fixes a minor bug in group naming restrictions.
+		</releaseNotes>
+		<fix author='adam' date='2009-05-05' ref='' reftype='bug'  reporter=''>
+			Now allowing periods in the directory name as long as they aren't the first character.
+		</fix>
+	</version>
 	<version number="0.2.4" date="2009-03-30">
 		<releaseNotes>
 			This release fixes a few bugs that were affecting Internet Explorer.

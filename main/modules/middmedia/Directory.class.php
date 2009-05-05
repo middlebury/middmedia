@@ -76,7 +76,7 @@ class MiddMedia_Directory {
 	 * @since 10/24/08
 	 */
 	private function __construct (MiddMediaManager $manager, $name) {
-		ArgumentValidator::validate($name, RegexValidatorRule::getRule('^[a-zA-Z0-9_&-]+$'));
+		ArgumentValidator::validate($name, RegexValidatorRule::getRule('^[a-zA-Z0-9_&-]+[a-zA-Z0-9_\.&-]*$'));
 		
 		if (!file_exists(MIDDMEDIA_FS_BASE_DIR))
 			throw new ConfigurationErrorException("MIDDMEDIA_FS_BASE_DIR does not exist.");
