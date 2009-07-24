@@ -113,6 +113,10 @@ print '<'.'?xml version="1.0" encoding="ISO-8859-1"?'.'>';
 	<message name="getVideosResponse">
 		<part name="videos" type="videos" />
 	</message>
+	<message name="getVideoAnonRequest">
+		<part name="directory" type="xsd:string" />
+		<part name="file" type="xsd:string" />
+	</message>
 	<message name="getVideoRequest">
 		<part name="username" type="xsd:string" />
 		<part name="password" type="xsd:string" />
@@ -168,6 +172,13 @@ print '<'.'?xml version="1.0" encoding="ISO-8859-1"?'.'>';
 		<part name="result" type="xsd:boolean" />
 	</message>
 	<portType name="MiddMediaPortType">
+		<operation name="getVideoAnon">
+			<documentation>
+				Get video information for a single video anonymously.
+			</documentation>
+			<input message="tns:getVideoAnonRequest" />
+			<output message="tns:getVideoResponse" />
+		</operation>
 		<operation name="getTypes">
 			<documentation>
 				Get a list of allowed file type extensions.
@@ -195,7 +206,6 @@ print '<'.'?xml version="1.0" encoding="ISO-8859-1"?'.'>';
 			</documentation>
 			<input message="tns:getVideoRequest" />
 			<output message="tns:getVideoResponse" />
-
 		</operation>
 		<operation name="addVideo">
 			<documentation>
@@ -257,6 +267,15 @@ print '<'.'?xml version="1.0" encoding="ISO-8859-1"?'.'>';
 	</portType>
 	<binding name="MiddMediaBinding" type="tns:MiddMediaPortType">
 		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="getVideoAnon">
+			<soap:operation soapAction="urn:MiddMedia#getVideoAnon" style="rpc" />
+			<input>
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</input>
+			<output>
+				<soap:body use="encoded" namespace="urn:MiddMedia" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+			</output>
+		</operation>
 		<operation name="getTypes">
 			<soap:operation soapAction="urn:MiddMedia#getTypes" style="rpc" />
 			<input>

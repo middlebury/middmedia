@@ -244,6 +244,24 @@ function doGetVideos(MiddMediaManager $manager, $directory) {
 }
 
 /**
+ * Return information about a specific video anonymously
+ *
+ * @access	public
+ * @param	string	$directory	User or Group name.
+ * @param	string	$file		Name of the video file.
+ * @return	array			Video information.
+ * @since	Dec 08
+ */
+function getVideoAnon($directory, $file) {
+	try {
+		$manager = UnauthenticatedMiddMediaManager::instance();
+		return doGetVideo($manager, $directory, $file);
+	} catch(Exception $ex) {
+		return new SoapFault("server", $ex->getMessage());
+	}
+}
+
+/**
  * Return information about a specific video in the user or group directory.
  *
  * @access	public
@@ -489,6 +507,7 @@ $server = new SoapServer(WSDL);
 
 $server->addFunction(
 	array(
+		"getVideoAnon",
 		"getTypes",
 		"getDirs",
 		"getVideos",
