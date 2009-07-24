@@ -13,25 +13,6 @@
 /*********************************************************
  * Setup stuff.
  *********************************************************/
-
-define("MYDIR",dirname(__FILE__));
-
-if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
-	$protocol = 'https';
-else
-	$protocol = 'http';
-
-define("MYPATH", $protocol."://".$_SERVER['HTTP_HOST'].str_replace(
-												"\\", "/", 
-												dirname($_SERVER['PHP_SELF'])));
-define("MYURL", MYPATH."/index.php");
-
-define("WSDL", MYPATH."/middmedia.wsdl.php");
-
-require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
-require_once(dirname(__FILE__)."/main/include/setup.inc.php");
-
-
 try {
 	
 	if (!$_GET['directory'])
@@ -39,10 +20,45 @@ try {
 	if (!$_GET['file'])
 		throw new NullArgumentException("The 'file' parameter must be specified.");
 	
+	// Load from cache if possible
+	if (function_exists('apc_fetch')) {
+		$embedCode = apc_fetch('embed-'.$_GET['directory'].'/'.$_GET['file']);
+		if ($embedCode !== FALSE) {
+			print $embedCode;
+			exit;
+		}
+	}
+	
+	// Setup
+	define("MYDIR",dirname(__FILE__));
+	
+	if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
+		$protocol = 'https';
+	else
+		$protocol = 'http';
+	
+	define("MYPATH", $protocol."://".$_SERVER['HTTP_HOST'].str_replace(
+													"\\", "/", 
+													dirname($_SERVER['PHP_SELF'])));
+	define("MYURL", MYPATH."/index.php");
+		
+	require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
+	require_once(dirname(__FILE__)."/main/include/setup.inc.php");
+	
+	
+	// Execution
 	$manager = UnauthenticatedMiddMediaManager::instance();
 	$directory = $manager->getDirectory($_GET['directory']);
 	$file = $directory->getFile($_GET['file']);
-	print $file->getEmbedCode();
+	$embedCode = $file->getEmbedCode();
+	print $embedCode;
+	
+	
+	// Save to cache if possible
+	if (function_exists('apc_store')) {
+		apc_store('embed-'.$_GET['directory'].'/'.$_GET['file'], $embedCode, 21600);
+	}
+	
 	
 // Handle certain types of uncaught exceptions specially. In particular,
 // Send back HTTP Headers indicating that an error has ocurred to help prevent
