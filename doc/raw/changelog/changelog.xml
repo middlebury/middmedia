@@ -10,6 +10,25 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
+	<version number="0.3.0" date="2009-07-24">
+		<releaseNotes>
+			This release adds two new web-service methods that allow for accessing
+			embed code for files anonymously. These methods support APC caching to
+			provide very high-performance for this light-weight read-only usage, 
+			allowing client services to rely on these methods for render-time access
+			to embed-code.
+		</releaseNotes>
+		<new author='adam' date='2009-07-24' ref='' reftype='fr'  reporter=''>
+			SOAP: New soap method getVideoAnon(directory, file). This method has 
+			the same return value as getVideo(username, password, directory, file),
+			but does not require a username and password.
+		</new>
+		<new author='adam' date='2009-07-24' ref='' reftype='fr'  reporter=''>
+			New RESTful service point at middmedia/getEmbedCode.php?directory=xxx&amp;file=yyy.
+			A simple GET request will return the embed-code string to clients or
+			an HTTP error code on failure.
+		</new>
+	</version>
 	<version number="0.2.5" date="2009-05-05">
 		<releaseNotes>
 			This release fixes a minor bug in group naming restrictions.
