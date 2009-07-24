@@ -13,7 +13,6 @@
 /*********************************************************
  * Setup stuff.
  *********************************************************/
-
 define("MYDIR",dirname(__FILE__));
 
 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
@@ -27,9 +26,11 @@ define("MYPATH", $protocol."://".$_SERVER['HTTP_HOST'].str_replace(
 define("MYURL", MYPATH."/index.php");
 
 define("WSDL", MYPATH."/middmedia.wsdl.php");
-
-require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
-require_once(dirname(__FILE__)."/main/include/setup.inc.php");
+	
+function setup() {
+	require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
+	require_once(dirname(__FILE__)."/main/include/setup.inc.php");
+}
 
 /**
  * Return a list of allowed file type extensions.
@@ -41,6 +42,7 @@ require_once(dirname(__FILE__)."/main/include/setup.inc.php");
  * @since	Jan 09
  */
 function getTypes($username, $password) {
+	setup();
 	try {
 		$manager = MiddMediaManager::forUsernamePassword($username, $password);
 		return doGetTypes($manager);
@@ -60,6 +62,7 @@ function getTypes($username, $password) {
  * @since	Jan 09
  */
 function serviceGetTypes($username, $serviceId, $serviceKey) {
+	setup();
 	try {
 		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doGetTypes($manager);
@@ -90,6 +93,7 @@ function doGetTypes($manager) {
  * @since	Dec 08
  */
 function getDirs($username, $password) {
+	setup();
 	try {
 		$manager = MiddMediaManager::forUsernamePassword($username, $password);
 		return doGetDirs($manager);
@@ -109,6 +113,7 @@ function getDirs($username, $password) {
  * @since	Dec 08
  */
 function serviceGetDirs($username, $serviceId, $serviceKey) {
+	setup();
 	try {
 		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doGetDirs($manager);
@@ -164,6 +169,7 @@ function doGetDirs (MiddMediaManager $manager) {
  * @since	Dec 08
  */
 function getVideos($username, $password, $directory) {
+	setup();
 	try {
 		$manager = MiddMediaManager::forUsernamePassword($username, $password);
 		return doGetVideos($manager, $directory);
@@ -184,6 +190,7 @@ function getVideos($username, $password, $directory) {
  * @since	Dec 08
  */
 function serviceGetVideos($username, $serviceId, $serviceKey, $directory) {
+	setup();
 	try {
 		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doGetVideos($manager, $directory);
@@ -253,9 +260,25 @@ function doGetVideos(MiddMediaManager $manager, $directory) {
  * @since	Dec 08
  */
 function getVideoAnon($directory, $file) {
+	// Load from cache if possible
+	if (function_exists('apc_fetch')) {
+		$video = apc_fetch('getVideoAnon-'.$directory.'/'.$file);
+		if ($video !== FALSE) {
+			return $video;
+		}
+	}
+	
+	setup();
 	try {
 		$manager = UnauthenticatedMiddMediaManager::instance();
-		return doGetVideo($manager, $directory, $file);
+		$video = doGetVideo($manager, $directory, $file);
+		
+		// Try to save in the cache if possible
+		if (function_exists('apc_store')) {
+			apc_store('getVideoAnon-'.$directory.'/'.$file, $video, 21600);
+		}
+		
+		return $video;
 	} catch(Exception $ex) {
 		return new SoapFault("server", $ex->getMessage());
 	}
@@ -273,6 +296,7 @@ function getVideoAnon($directory, $file) {
  * @since	Dec 08
  */
 function getVideo($username, $password, $directory, $file) {
+	setup();
 	try {
 		$manager = MiddMediaManager::forUsernamePassword($username, $password);
 		return doGetVideo($manager, $directory, $file);
@@ -294,6 +318,7 @@ function getVideo($username, $password, $directory, $file) {
  * @since	Dec 08
  */
 function serviceGetVideo($username, $serviceId, $serviceKey, $directory, $file) {
+	setup();
 	try {
 		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doGetVideo($manager, $directory, $file);
@@ -365,6 +390,7 @@ function doGetVideo(MiddMediaManager $manager, $directory, $file) {
  * @since	Dec 08
  */
 function addVideo($username, $password, $directory, $file, $filename, $filetype, $filesize) {
+	setup();
 	try {
 		$manager = MiddMediaManager::forUsernamePassword($username, $password);
 		return doAddVideo($manager, $directory, $file, $filename, $filetype, $filesize);
@@ -389,6 +415,7 @@ function addVideo($username, $password, $directory, $file, $filename, $filetype,
  * @since	Dec 08
  */
 function serviceAddVideo($username, $serviceId, $serviceKey, $directory, $file, $filename, $filetype, $filesize) {
+	setup();
 	try {
 		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doAddVideo($manager, $directory, $file, $filename, $filetype, $filesize);
@@ -456,6 +483,7 @@ function doAddVideo(MiddMediaManager $manager, $directory, $file, $filename, $fi
  * @since	Dec 08
  */
 function delVideo($username, $password, $directory, $filename) {
+	setup();
 	try {
 		$manager = MiddMediaManager::forUsernamePassword($username, $password);
 		return doDelVideo($manager, $directory, $filename);
@@ -476,6 +504,7 @@ function delVideo($username, $password, $directory, $filename) {
  * @since	Dec 08
  */
 function serviceDelVideo($username, $serviceId, $serviceKey, $directory, $filename) {
+	setup();
 	try {
 		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doDelVideo($manager, $directory, $filename);
