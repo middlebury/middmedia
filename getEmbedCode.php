@@ -13,37 +13,42 @@
 /*********************************************************
  * Setup stuff.
  *********************************************************/
+// Setup
+define("MYDIR",dirname(__FILE__));
+
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
+$protocol = 'https';
+else
+$protocol = 'http';
+
+define("MYPATH", $protocol."://".$_SERVER['HTTP_HOST'].str_replace(
+                                            "\\", "/", 
+                                            dirname($_SERVER['PHP_SELF'])));
+define("MYURL", MYPATH."/index.php");
+
 try {
-	
-	if (!$_GET['directory'])
-		throw new NullArgumentException("The 'directory' parameter must be specified.");
-	if (!$_GET['file'])
-		throw new NullArgumentException("The 'file' parameter must be specified.");
-	
-	// Load from cache if possible
-	if (function_exists('apc_fetch')) {
-		$embedCode = apc_fetch('embed-'.$_GET['directory'].'/'.$_GET['file']);
-		if ($embedCode !== FALSE) {
-			print $embedCode;
-			exit;
-		}
-	}
-	
-	// Setup
-	define("MYDIR",dirname(__FILE__));
-	
-	if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
-		$protocol = 'https';
-	else
-		$protocol = 'http';
-	
-	define("MYPATH", $protocol."://".$_SERVER['HTTP_HOST'].str_replace(
-													"\\", "/", 
-													dirname($_SERVER['PHP_SELF'])));
-	define("MYURL", MYPATH."/index.php");
-		
-	require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
-	require_once(dirname(__FILE__)."/main/include/setup.inc.php");
+                 
+    if (!isset($_GET['directory']) || !$_GET['directory']) {
+        require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
+        throw new NullArgumentException("The 'directory' parameter must be specified.");
+    }  
+    if (!isset($_GET['file']) || !$_GET['file']) {
+        require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
+        throw new NullArgumentException("The 'file' parameter must be specified.");
+    }
+
+    // Load from cache if possible
+    if (function_exists('apc_fetch')) {
+        $embedCode = apc_fetch('embed-'.$_GET['directory'].'/'.$_GET['file']);
+        if ($embedCode !== FALSE) {
+            print $embedCode;
+            exit;
+        }
+    }
+    
+        
+    require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
+    require_once(dirname(__FILE__)."/main/include/setup.inc.php");
 	
 	
 	// Execution
