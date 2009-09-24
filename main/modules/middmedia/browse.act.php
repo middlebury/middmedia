@@ -547,7 +547,7 @@ class browseAction
 					upload_url : '".str_replace('&amp;', '&', $harmoni->request->quickURL('middmedia', 'upload', array('directory' => $dir->getBaseName())))."', 
 					flash_url : '".MYPATH."/javascript/SWFUpload/swfupload.swf', 
 					post_params: {'".session_name()."' : '".session_id()."'},
-					file_size_limit : '".ByteSize::withValue($this->getFileSizeLimit())->asString()."',
+					file_size_limit : '".ByteSize::withValue($this->getFileSizeLimit())->asMBString()."',
 					file_types : '".$mediaTypes."',
 					file_types_description : 'Flash Video, H264 Video, and MP3 Audio',
 					file_upload_limit : 100,
