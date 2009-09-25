@@ -100,18 +100,18 @@ class MiddMedia_File
 		$lastLine = exec($command, $output, $return_var);
 		$output = implode("\n", $output);
 		
-		if (!preg_match('/Stream #[^:]+: Video: ([^,]+), ([^,]+), ([0-9]+)x([0-9]+), ([0-9\.]+) tbr,/', $output, $matches))
-			throw new OperationFailedException("Could not determine video properties from: $output");
+		if (!preg_match('/Stream #[^:]+: Video: ([^,]+), (?:([^,]+), )?([0-9]+)x([0-9]+), ([0-9\.]+) (?:tbr|kb\/s),/', $output, $matches))
+			throw new OperationFailedException("Could not determine video properties from: <pre>\n$output\n</pre>\n");
 		$info['codec'] = $matches[1];
 		$info['colorspace'] = $matches[2];
-		$info['width'] = $matches[3];
-		$info['height'] = $matches[4];
-		$info['framerate'] = $matches[5];
+		$info['width'] = intval($matches[3]);
+		$info['height'] = intval($matches[4]);
+		$info['framerate'] = floatval($matches[5]);
 		
 		if (preg_match('/Stream #[^:]+: Audio: ([^,]+), ([0-9]+) Hz, ([0-9]+) channels/', $output, $matches)) {
 			$info['audio_codec'] = $matches[1];
-			$info['audio_samplerate'] = $matches[2];
-			$info['audio_channels'] = $matches[3];
+			$info['audio_samplerate'] = intval($matches[2]);
+			$info['audio_channels'] = intval($matches[3]);
 		}
 		return $info;
 	}
@@ -481,11 +481,23 @@ class MiddMedia_File
 			$width = round($width/2) * 2;
 			$height = round($height/2) * 2;
 			
+			// Some audio sample rates die, so force to the closest of 44100, 22050, 11025
+			$sampleRate = $info['audio_samplerate'];
+			if (!in_array($sampleRate, array(44100, 22050, 11025))) {
+				if ($sampleRate < 16538)
+					$sampleRate = 11025;
+				else if ($sampleRate < 33075)
+					$sampleRate = 22050;
+				else
+					$sampleRate = 44100;
+			}
+			
 			// Convert the video
 			$command = FFMPEG_PATH
 				.' -i '
 				.escapeshellarg($tmpFile)
 				.' -vcodec libx264 -vpre normal -b 500k -bt 500k '
+				.' -ar '.$sampleRate.' '
 				.' -s '.$width.'x'.$height.' '
 				.escapeshellarg($outFile).' 2>&1';
 			$lastLine = exec($command, $output, $return_var);
@@ -494,7 +506,7 @@ class MiddMedia_File
 			if ($return_var) {
 				$this->deleteTempFiles();
 				$this->putContents(file_get_contents(MYDIR.'/images/VideoConversionFailed.mp4'));
-				throw new OperationFailedException("Video encoding failed with error $return_var and output: $output");
+				throw new OperationFailedException("Video encoding failed with error $return_var and output: \n<pre>\n$output\n</pre>\n");
 			}
 			
 			// Move into position
