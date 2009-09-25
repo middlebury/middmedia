@@ -117,6 +117,87 @@ class MiddMedia_File
 	}
 	
 	/**
+	 * Check the queue for items to process and start processing if needed.
+	 * 
+	 * @param object MiddMediaManagerMiddMediaManager $manager
+	 * @return void
+	 * @access public
+	 * @since 9/25/09
+	 * @static
+	 */
+	public static function checkQueue (MiddMediaManager $manager) {
+		$dbMgr = Services::getService("DatabaseManager");
+		
+		// Check to see if there are any items currently processing. If so, don't process more.
+		$query = new SelectQuery;
+		$query->addTable('middmedia_queue');
+		$query->addColumn('*');
+		$query->addWhereEqual('processing', '1');
+		$results = $dbMgr->query($query, HARMONI_DB_INDEX);
+		
+		while ($results->hasNext()) {
+			$row = $results->next();
+			
+			// Clean out any really old jobs
+			$startTStamp = $dbMgr->fromDBDate($row['processing_start'], HARMONI_DB_INDEX);
+			if ($startTStamp < (time() - (3 * 60 * 60))) {
+				$dir = $manager->getDirectory($row['directory']);
+				$file = $dir->getFile($row['file']);
+				
+				// Ensure that the file is in an error state.
+				$file->putContents(file_get_contents(MYDIR.'/images/VideoConversionFailed.mp4'));
+				$file->deleteTempFiles();
+				$file->removeFromQueue();
+			} 
+			// We have a current job
+			else {
+				$results->free();
+				return;
+			}
+		}
+		$results->free();
+		
+		// Look for new jobs
+		$query = new SelectQuery;
+		$query->addTable('middmedia_queue');
+		$query->addColumn('*');
+		$query->addOrderBy('upload_time', ASCENDING);
+		$query->limitNumberOfRows(1);
+		$results = $dbMgr->query($query, HARMONI_DB_INDEX);
+		
+		// Start a new job if we have one.
+		if ($results->hasNext()) {
+			$row = $results->next();
+			$results->free();
+			
+			try {
+				$dir = $manager->getDirectory($row['directory']);
+				$file = $dir->getFile($row['file']);
+				
+				// Update the DB to indicate a job start.
+				$query = new UpdateQuery;
+				$query->setTable('middmedia_queue');
+				$query->addValue('processing', '1');
+				$query->addRawValue('processing_start', 'NOW()');
+				$query->addWhereEqual('directory', $file->directory->getBaseName());
+				$query->addWhereEqual('file', $file->getBaseName());
+				$dbMgr->query($query, HARMONI_DB_INDEX);
+				
+				try {
+					$file->process();
+				} catch (OperationFailedException $e) {
+					$file->removeFromQueue();
+					throw $e;
+				}
+				$file->removeFromQueue();
+			} catch (UnknownIdException $e) {
+				$file->removeFromQueue();
+				throw $e;
+			}
+		}
+	}
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @param object MiddMedia_Directory $directory
@@ -142,6 +223,23 @@ class MiddMedia_File
 	 */
 	public function getFsPath () {
 		return $this->getPath();
+	}
+	
+	/**
+	 * Answer the size (bytes) of the file
+	 * 
+	 * @return int
+	 * @access public
+	 * @since 5/6/08
+	 */
+	public function getSize () {
+		// Add any temporary file size so that users can queue up more files than
+		// they have space for.
+		$tmpFile = $this->directory->getFsPath().'/queue/'.$this->getBaseName().'-tmp';
+		if (file_exists($tmpFile))
+			return filesize($tmpFile) + parent::getSize();
+		else
+			return parent::getSize();
 	}
 	
 	/**
@@ -223,6 +321,29 @@ class MiddMedia_File
 	}
 	
 	/**
+	 * Move a file into this file.
+	 * 
+	 * @param string $sourcePath
+	 * @return void
+	 * @access public
+	 * @since 11/21/08
+	 */
+	public function moveInFile ($sourcePath) {
+		rename($sourcePath, $this->getFsPath());
+		
+		try {
+			$this->deleteImages();
+			$this->createImages();
+		} catch (InvalidArgumentException $e) {
+			// Only ignore if reporting that the we can't generate images for the file-type.
+			if ($e->getCode() != 4321)
+				throw $e;
+		}
+		
+		$this->logAction('changed');
+	}
+	
+	/**
 	 * Move an uploaded file into our file and hand any conversion if needed.
 	 * 
 	 * @param string $tempName
@@ -245,6 +366,8 @@ class MiddMedia_File
 		else {
 			$this->moveInUploadedFile($tempName);
 		}
+		
+		$this->logAction('upload');
 	}
 	
 	/**
@@ -269,8 +392,135 @@ class MiddMedia_File
 	 * @since 9/24/09
 	 */
 	public function queueForProcessing ($tempName) {
-		// for now just delete the file.
-		unlink($tempName);
+		$queueDir = $this->directory->getFsPath().'/queue';
+		if (!file_exists($queueDir)) {
+			if (!mkdir($queueDir, 0775))
+				throw new PermissionDeniedException('Could not create queue dir: '.$queueDir);
+		}
+		
+		// Move the file out of the uploads directory to a temporary hold place.
+		move_uploaded_file($tempName, $queueDir.'/'.$this->getBaseName().'-tmp');
+		
+		// Add an entry to our encoding queue.
+		$query = new InsertQuery;
+		$query->setTable('middmedia_queue');
+		$query->addValue('directory', $this->directory->getBaseName());
+		$query->addValue('file', $this->getBaseName());
+		
+		$dbMgr = Services::getService("DatabaseManager");
+		try {
+			$dbMgr->query($query, HARMONI_DB_INDEX);
+		} catch (DuplicateKeyDatabaseException $e) {
+			// If the file was re-uploaded, update the the timestamp.
+			$query = new UpdateQuery;
+			$query->setTable('middmedia_queue');
+			$query->addRawValue('upload_time', 'NOW()');
+			$query->addWhereEqual('directory', $this->directory->getBaseName());
+			$query->addWhereEqual('file', $this->getBaseName());
+			$dbMgr->query($query, HARMONI_DB_INDEX);
+		}
+	}
+	
+	/**
+	 * Remove this file from the processing queue
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 9/25/09
+	 */
+	public function removeFromQueue () {
+		$dbMgr = Services::getService("DatabaseManager");
+		
+		// Remove from the queue
+		$query = new DeleteQuery;
+		$query->setTable('middmedia_queue');
+		$query->addWhereEqual('directory', $this->directory->getBaseName());
+		$query->addWhereEqual('file', $this->getBaseName());
+		$dbMgr->query($query, HARMONI_DB_INDEX);
+	}
+	
+	/**
+	 * Process any uploaded versions of this file.
+	 * This method does no locking. Clients must handle locking to prevent multiple
+	 * processing threads from clobbering each other's results
+	 * 
+	 * Exceptions:
+	 *		OperationFailedException - Processing has failed.
+	 *		ConfigurationErrorException - FFMPEG_PATH is not defined.
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 9/25/09
+	 */
+	public function process () {
+		$tmpFile = $this->directory->getFsPath().'/queue/'.$this->getBaseName().'-tmp';
+		$outFile = $this->directory->getFsPath().'/queue/'.$this->getBaseName();
+		if (file_exists($tmpFile)) {
+			if (!defined('FFMPEG_PATH'))
+				throw new ConfigurationErrorException('FFMPEG_PATH is not defined');
+			if (!defined('MIDDMEDIA_CONVERT_MAX_WIDTH'))
+				throw new ConfigurationErrorException('MIDDMEDIA_CONVERT_MAX_WIDTH is not defined');
+			if (!defined('MIDDMEDIA_CONVERT_MAX_HEIGHT'))
+				throw new ConfigurationErrorException('MIDDMEDIA_CONVERT_MAX_HEIGHT is not defined');
+			
+			// Determine the output size base on our maximums.
+			$info = self::getVideoInfo($tmpFile);
+			$width = $info['width'];
+			$height = $info['height'];
+			
+			if ($width > MIDDMEDIA_CONVERT_MAX_WIDTH) {
+				$ratio = MIDDMEDIA_CONVERT_MAX_WIDTH / $width;
+				$width = MIDDMEDIA_CONVERT_MAX_WIDTH;
+				// Round to the nearest multiple of 2 as this is required for frame sizes.
+				$height = round(($ratio * $height)/2) * 2;
+			}
+			
+			if ($height > MIDDMEDIA_CONVERT_MAX_HEIGHT) {
+				$ratio = MIDDMEDIA_CONVERT_MAX_HEIGHT / $height;
+				// Round to the nearest multiple of 2 as this is required for frame sizes.
+				$width = round(($ratio * $width)/2) * 2;
+				$height = MIDDMEDIA_CONVERT_MAX_HEIGHT;
+			}
+			
+			// Convert the video
+			$command = FFMPEG_PATH
+				.' -i '
+				.escapeshellarg($tmpFile)
+				.' -vcodec libx264 -vpre normal -b 500k -bt 500k '
+				.' -s '.$width.'x'.$height.' '
+				.escapeshellarg($outFile).' 2>&1';
+			$lastLine = exec($command, $output, $return_var);
+			$output = implode("\n", $output);
+			
+			if ($return_var) {
+				$this->deleteTempFiles();
+				$this->putContents(file_get_contents(MYDIR.'/images/VideoConversionFailed.mp4'));
+				throw new OperationFailedException("Video encoding failed with error $return_var and output: $output");
+			}
+			
+			// Move into position
+			$this->moveInFile($outFile);
+			$this->deleteTempFiles();
+		}
+		
+		$this->logAction('processed');
+	}
+	
+	/**
+	 * Delete any temporary or working files
+	 * 
+	 * @return void
+	 * @access public
+	 * @since 9/25/09
+	 */
+	public function deleteTempFiles () {
+		$tmpFile = $this->directory->getFsPath().'/queue/'.$this->getBaseName().'-tmp';
+		$outFile = $this->directory->getFsPath().'/queue/'.$this->getBaseName();
+		
+		if (file_exists($tmpFile))
+			unlink($tmpFile);
+		if (file_exists($outFile))
+			unlink($outFile);
 	}
 	
 	/**
@@ -292,6 +542,8 @@ class MiddMedia_File
 		$dbMgr->query($query, HARMONI_DB_INDEX);
 		
 		$this->deleteImages();
+		$this->deleteTempFiles();
+		$this->removeFromQueue();
 		
 		$this->logAction('delete');
 	}
@@ -726,6 +978,16 @@ class MiddMedia_File
 			case 'delete':
 				$category = 'Delete';
 				$description = "File deleted: ".$this->directory->getBaseName()."/".$this->getBaseName();
+				$type = 'Event_Notice';
+				break;
+			case 'processed':
+				$category = 'Video Processed';
+				$description = "Video converted to mp4: ".$this->directory->getBaseName()."/".$this->getBaseName();
+				$type = 'Event_Notice';
+				break;
+			case 'changed':
+				$category = 'Contents Changed';
+				$description = "File contents changed: ".$this->directory->getBaseName()."/".$this->getBaseName();
 				$type = 'Event_Notice';
 				break;
 			default:

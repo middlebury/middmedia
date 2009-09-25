@@ -11,12 +11,14 @@ define('MIDDMEDIA_VIDEO_EMBED_CODE', '<embed src="http://middmedia.middlebury.ed
 define('MIDDMEDIA_AUDIO_EMBED_CODE', '<script type="text/javascript" src="http://middmedia.middlebury.edu/AudioPlayer/audio-player.js"></script><object width="290" height="24" id="###HTML_ID###" data="http://middmedia.middlebury.edu/AudioPlayer/player.swf" type="application/x-shockwave-flash"><param value="http://middmedia.middlebury.edu/AudioPlayer/player.swf" name="movie" /><param value="high" name="quality" /><param value="false" name="menu" /><param value="transparent" name="wmode" /><param value="soundFile=###HTTP_URL###" name="FlashVars" /></object>');
 
 define('MIDDMEDIA_FS_BASE_DIR', '/home/afranco/public_html/middmedia_data');
-define('MIDDMEDIA_HTTP_BASE_URL', 'http://termite.middlebury.edu/~afranco/middmedia_data');
-define('MIDDMEDIA_RTMP_BASE_URL', 'rtmp://termite.middlebury.edu/fms');
+define('MIDDMEDIA_HTTP_BASE_URL', 'http://chisel.middlebury.edu/~afranco/middmedia_data');
+define('MIDDMEDIA_RTMP_BASE_URL', 'rtmp://chisel.middlebury.edu/fms');
 
 define('MIDDMEDIA_GROUP_DIRNAME_PROPERTY', 'mail nickname');
 
-define('MIDDMEDIA_ALLOWED_FILE_TYPES', 'mp4, flv, mp3');
+define('MIDDMEDIA_ALLOWED_FILE_TYPES', 'mp3, mp4, flv, avi, asf, dv, m4v, mj2, mjp, mjpg, mkv, mov, mpeg, mpg, ogv, qt, rv, swf, wm, wmv');
+define('MIDDMEDIA_CONVERT_MAX_HEIGHT', 480);
+define('MIDDMEDIA_CONVERT_MAX_WIDTH', 720);
 
 MiddMediaManager::addPersonalDirectoryGroup('CN=All Faculty,OU=General,OU=Groups,DC=middlebury,DC=edu');
 MiddMediaManager::addPersonalDirectoryGroup('CN=All Staff,OU=General,OU=Groups,DC=middlebury,DC=edu');

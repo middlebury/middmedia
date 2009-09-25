@@ -54,6 +54,17 @@ class AdminMiddMediaManager
 	}
 	
 	/**
+	 * Create a new manager for the system user. (for use in cron jobs)
+	 * 
+	 * @return object MiddMediaManager
+	 * @access public
+	 * @since 9/25/09
+	 */
+	public static function forSystemUser () {
+		return new AdminMiddMediaManager(new AnonymousAgent);
+	}
+	
+	/**
 	 * Answer an array of all directories
 	 * 
 	 * @return array of MiddMedia_Directory objects

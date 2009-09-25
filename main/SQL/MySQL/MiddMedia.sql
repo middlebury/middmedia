@@ -11,3 +11,10 @@ CREATE TABLE IF NOT EXISTS `middmedia_quotas` (
   `quota` bigint(16) NOT NULL,
   PRIMARY KEY  (`directory`)
 ) ENGINE=InnoDB;
+
+CREATE TABLE `afranco_middmedia`.`middmedia_queue` (
+`directory` VARCHAR( 50 ) NOT NULL ,
+`file` VARCHAR( 75 ) NOT NULL ,
+`upload_time` TIMESTAMP( 14 ) NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+PRIMARY KEY ( `directory` , `file` )
+) ENGINE = InnoDB COMMENT = 'A queue for file uploads that need conversion.';
