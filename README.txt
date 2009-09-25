@@ -54,6 +54,11 @@ http://bugs.example.com/12345/
 | (See the MiddMedia change log for more details)
 ===================================================================
 
+v. 0.4.0 (2009-09-25)
+----------------------------------------------------
+This release add support for server-side transcoding.
+This requires that ffmpeg be installed with support for the libx264 codec.
+As well, a cron job to run middmedia/cli/checkQueue.php is needed to initiate conversion.
 
 v. 0.3.0 (2009-07-24)
 ----------------------------------------------------
