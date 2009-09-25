@@ -67,11 +67,9 @@ class uploadAction
 			4=>"No file was uploaded",
 			6=>"Missing a temporary folder"
 		);
-		$extension_whitelist = explode(", ", MIDDMEDIA_ALLOWED_FILE_TYPES);	// Allowed file extensions
-		$valid_chars_regex = '.a-zA-Z0-9_ !@#$%^&()+={}\[\]\',~`-';				// Characters allowed in the file name (in a Regular Expression format)
-		$upload_name = "Filedata";
-		$MAX_FILENAME_LENGTH = 260;
 		
+		$upload_name = "Filedata";
+				
 		
 		$dir = $this->getDirectory();
 		
@@ -79,53 +77,15 @@ class uploadAction
 		if (!isset($_FILES[$upload_name]))
 			$this->error('No file uploaded');
 		
-		if ($_FILES[$upload_name]['error'])
-			$this->error('An error occurred with the file upload: '.$uploadErrors[$_FILES[$upload_name]['error']]);
-			
-		if (!$_FILES[$upload_name]['size'])
-			$this->error('Uploaded file is empty');
-		
-		if ($_FILES[$upload_name]['size'] > ($dir->getBytesAvailable()))
-			$this->error('File upload exceeds quota.');
-		
-		// Validate file name (for our purposes we'll just remove invalid characters)
-		$file_name = preg_replace('/[^'.$valid_chars_regex.']|\.+$/i', "", basename($_FILES[$upload_name]['name']));
-		if (strlen($file_name) == 0 || strlen($file_name) > $MAX_FILENAME_LENGTH) {
-			$this->error("Invalid file name, '".$file_name."'");
-		}
-		
-		if (!MiddMedia_File::nameValid($file_name)) {
-			$this->error("Invalid file name, '".$file_name."'");
-		}
-		
-		// Validate file extension
-		$path_info = pathinfo($_FILES[$upload_name]['name']);
-		$file_extension = $path_info["extension"];
-		$is_valid_extension = false;
-		foreach ($extension_whitelist as $extension) {
-			if (strcasecmp($file_extension, $extension) == 0) {
-				$is_valid_extension = true;
-				break;
-			}
-		}
-		if (!$is_valid_extension) {
-			$this->error("Invalid file extension");
-		}
-		
-		// Validate that the file doesn't already exist.
-		if ($dir->fileExists($file_name))
-			$this->error("File '$file_name' already exists.");
-		
 		try {
-			$file = $dir->createFile($file_name);
-// 			$file->putContents(file_get_contents($_FILES[$upload_name]["tmp_name"]));
-			$file->moveInUploadedFile($_FILES[$upload_name]["tmp_name"]);
+			$file = $dir->createFileFromUpload($_FILES[$upload_name]);
 		} catch (Exception $e) {
 			$this->error("File could not be saved to '".$dir->getBaseName().'/'.$file_name."'. ".$e->getMessage());
 		}
 				
 		// Return output to the browser (only supported by SWFUpload for Flash Player 9)
 		header("HTTP/1.1 200 OK");
+		header("Content-type: text/xml");
 		print '<'.'?xml version="1.0" encoding="utf-8"?'.'>';
 		print "\n\t\t<file
 				name=\"".str_replace('&', '&amp;', $file->getBaseName())."\"

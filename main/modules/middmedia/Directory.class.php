@@ -373,6 +373,58 @@ class MiddMedia_Directory {
 	}
 	
 	/**
+	 * Create a file in this directory from an upload. Similar to move_uploaded_file().
+	 * 
+	 * @param array $fileArray The element of the $_FILES superglobal for this file.
+	 * @return object MiddMediaFile The new file
+	 * @access public
+	 * @since 9/24/09
+	 */
+	public function createFileFromUpload (array $fileArray) {
+		$uploadErrors = array(
+			0=>"There is no error, the file uploaded with success",
+			1=>"The uploaded file exceeds the upload_max_filesize directive in php.ini",
+			2=>"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form",
+			3=>"The uploaded file was only partially uploaded",
+			4=>"No file was uploaded",
+			6=>"Missing a temporary folder"
+		);
+		
+		if (!isset($fileArray['tmp_name']) || !strlen($fileArray['tmp_name'])) 
+			throw new InvalidArgumentException('Invalid file upload.');
+		if (!isset($fileArray['name']) || !strlen($fileArray['name'])) 
+			throw new InvalidArgumentException('Invalid file upload.');
+		if (!isset($fileArray['size']) || !$fileArray['size']) 
+			throw new InvalidArgumentException('Uploaded file is empty.');
+		if ($fileArray['size'] > ($this->getBytesAvailable()))
+			throw new InvalidArgumentException('File upload exceeds quota.');
+		if (!isset($fileArray['error']) || $fileArray['error']) 
+			throw new InvalidArgumentException('An error occurred with the file upload: '.$uploadErrors[$fileArray['error']]);
+		
+		$pathInfo = pathinfo($fileArray['name']);
+		// PHP < 5.2.0 doesn't have 'filename'
+		if (!isset($pathInfo['filename'])) {
+			preg_match('/(.+)\.[a-z0-9]+/i', basename($fileArray['name']), $matches);
+			$pathInfo['filename'] = $matches[1];
+		}
+		
+		$valid_chars_regex = '.a-zA-Z0-9_ !@#$%^&()+={}\[\]\',~`-';	// Characters allowed in the file name (in a Regular Expression format)
+		$basename = preg_replace('/[^'.$valid_chars_regex.']|\.+$/i', "", $pathInfo['filename']);
+		$extension = strtolower(preg_replace('/[^'.$valid_chars_regex.']|\.+$/i', "", $pathInfo['extension']));
+		$targetExtension = MiddMedia_File::getTargetExtension($extension);
+		
+		$MAX_FILENAME_LENGTH = 260;
+		if (strlen($basename) == 0 || strlen($basename) > $MAX_FILENAME_LENGTH) {
+			throw new InvalidArgumentException("Invalid file name, '".$basename."'");
+		}
+		
+		$file = $this->createFile($basename.'.'.$targetExtension);
+		$file->moveInUploadedFileForProcessing($fileArray['tmp_name']);
+		
+		return $file;
+	}
+	
+	/**
 	 * Answer true if the file is readable
 	 * 
 	 * @return boolean

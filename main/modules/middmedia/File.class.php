@@ -41,6 +41,82 @@ class MiddMedia_File
 	}
 	
 	/**
+	 * Answer a target file-extension given an input extension.
+	 * 
+	 * Exceptions:
+	 *		InvalidArgumentException - No extension argument supplied.
+	 *		OperationFailedException - No mapping supported.
+	 * 
+	 * @param string $extension 'mp4', 'mov', etc
+	 * @return string 
+	 * @access public
+	 * @since 9/24/09
+	 * @static
+	 */
+	public static function getTargetExtension ($extension) {
+		if (!preg_match('/^[a-z0-9]{2,4}$/i', $extension))
+			throw new InvalidArgumentException("Invalid extension '$extension'.");
+		
+		$extension = strtolower($extension);
+		$nonCoverting = array('mp4', 'flv', 'mp3');
+		if (in_array($extension, $nonCoverting))
+			return $extension;
+		else
+			return 'mp4';
+	}
+	
+	/**
+	 * Answer an array of allowed extensions
+	 * 
+	 * @return array
+	 * @access public
+	 * @since 9/24/09
+	 * @static
+	 */
+	public static function getAllowedVideoTypes () {
+		$types = explode(",", MIDDMEDIA_ALLOWED_FILE_TYPES);
+		array_walk($types, 'trim');
+		array_walk($types, 'strtolower');
+		return $types;
+	}
+	
+	/**
+	 * Answer video information
+	 * 
+	 * @param string $filePath
+	 * @return array
+	 * @access public
+	 * @since 9/24/09
+	 * @static
+	 */
+	public static function getVideoInfo ($filePath) {
+		if (!file_exists($filePath))
+			throw new OperationFailedException("File doesn't exist.");
+		
+		if (!defined('FFMPEG_PATH'))
+			throw new ConfigurationErrorException('FFMPEG_PATH is not defined');
+		
+		$command = FFMPEG_PATH.' -i '.escapeshellarg($filePath).' 2>&1';
+		$lastLine = exec($command, $output, $return_var);
+		$output = implode("\n", $output);
+		
+		if (!preg_match('/Stream #[^:]+: Video: ([^,]+), ([^,]+), ([0-9]+)x([0-9]+), ([0-9\.]+) tbr,/', $output, $matches))
+			throw new OperationFailedException("Could not determine video properties from: $output");
+		$info['codec'] = $matches[1];
+		$info['colorspace'] = $matches[2];
+		$info['width'] = $matches[3];
+		$info['height'] = $matches[4];
+		$info['framerate'] = $matches[5];
+		
+		if (preg_match('/Stream #[^:]+: Audio: ([^,]+), ([0-9]+) Hz, ([0-9]+) channels/', $output, $matches)) {
+			$info['audio_codec'] = $matches[1];
+			$info['audio_samplerate'] = $matches[2];
+			$info['audio_channels'] = $matches[3];
+		}
+		return $info;
+	}
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @param object MiddMedia_Directory $directory
@@ -144,6 +220,57 @@ class MiddMedia_File
 		}
 		
 		$this->logAction('upload');
+	}
+	
+	/**
+	 * Move an uploaded file into our file and hand any conversion if needed.
+	 * 
+	 * @param string $tempName
+	 * @return void
+	 * @access public
+	 * @since 9/24/09
+	 */
+	public function moveInUploadedFileForProcessing ($tempName) {
+		if ($this->getExtension() == 'flv' || $this->getExtension() == 'mp3') {
+			$this->moveInUploadedFile($tempName);
+			return;
+		}
+			
+		// If conversion is needed, put in our placeholder video and queue for conversion.
+		if ($this->needsConversion($tempName)) {
+			$this->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.mp4'));
+			$this->queueForProcessing($tempName);
+		}
+		// Otherwise move the video to its final location.
+		else {
+			$this->moveInUploadedFile($tempName);
+		}
+	}
+	
+	/**
+	 * Answer true if a file needs conversion to mp4.
+	 * 
+	 * @param string $tempName
+	 * @return boolean
+	 * @access public
+	 * @since 9/24/09
+	 */
+	public function needsConversion ($tempName) {
+		$info = self::getVideoInfo($tempName);
+		return (strtolower($info['codec']) != 'h264');
+	}
+	
+	/**
+	 * Queue a file for conversion to mp4.
+	 * 
+	 * @param string $tempName
+	 * @return void
+	 * @access public
+	 * @since 9/24/09
+	 */
+	public function queueForProcessing ($tempName) {
+		// for now just delete the file.
+		unlink($tempName);
 	}
 	
 	/**
