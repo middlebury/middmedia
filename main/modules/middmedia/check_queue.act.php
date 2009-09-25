@@ -48,7 +48,7 @@ class check_queueAction
 		try {
 			$manager = AdminMiddMediaManager::forSystemUser();
 			MiddMedia_File::checkQueue($manager);
-			print "Done";
+			print "Done\n";
 			exit;
 		} catch (Exception $e) {
 			throw $e;

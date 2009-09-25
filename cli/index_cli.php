@@ -1,10 +1,10 @@
 <?php
 /**
- * This is the main control script for the application.
+ * This is a command-line entry point to concerto that allows execution of actions
  *
  * @package concerto
  * 
- * @copyright Copyright &copy; 2005, Middlebury College
+ * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id$
@@ -14,43 +14,39 @@
  * Define a Constant reference to this application directory.
  *********************************************************/
 
-define("MYDIR",dirname(__FILE__));
+if (!defined('MYDIR')) 
+	define("MYDIR",realpath(dirname(__FILE__)."/../"));
 
-if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
-	$protocol = 'https';
-else
-	$protocol = 'http';
+if (!defined('MYPATH')) 
+	define("MYPATH", MYDIR);
 
-if ($_SERVER['SCRIPT_NAME'])
-	$scriptPath = $_SERVER['SCRIPT_NAME'];
-else
-	$scriptPath = $_SERVER['PHP_SELF'];
-	
-define("MYPATH", $protocol."://".$_SERVER['HTTP_HOST'].str_replace(
-												"\\", "/", 
-												dirname($scriptPath)));
+if (!defined('MYURL')) 
+	define("MYURL", MYPATH."/bin/index_cli.php");
 
-// The following lines set the MYURL constant.
-if (file_exists(MYDIR.'/config/url.conf.php'))
-	include_once (MYDIR.'/config/url.conf.php');
-else
-	include_once (MYDIR.'/config/url_default.conf.php');
+if (!defined('LOAD_GUI')) 
+	define("LOAD_GUI", true);
 
-if (!defined("MYURL"))
-	define("MYURL", trim(MYPATH, '/')."/index.php");
+if (!defined('HELP_TEXT')) 
+	define("HELP_TEXT", "
+This is a command line entry point to Concerto. You must specify a module and
+action. Additional parameters can be specified using the following format:
+	--<parameter_name>='<parameter_value>'
+    
+Usage:
 
+	".$_SERVER['argv'][0]." --module=<module_name> --action=<action_name> [parameters]
 
-define("LOAD_GUI", true);
+");
 
 /*********************************************************
  * Include our libraries
  *********************************************************/
-require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
+require_once(MYDIR."/main/include/libraries.inc.php");
 
 /*********************************************************
  * Include our configuration and setup scripts
  *********************************************************/
-require_once(dirname(__FILE__)."/main/include/setup.inc.php");
+require_once(MYDIR."/main/include/setup.inc.php");
 
 /*********************************************************
  * Execute our actions
@@ -61,7 +57,19 @@ if (defined('ENABLE_TIMERS') && ENABLE_TIMERS) {
 	$execTimer->start();
 }
 
-$harmoni->execute();
+require_once(HARMONI."architecture/output/CommandLineOutputHandler.class.php");
+$harmoni->attachOutputHandler(new CommandLineOutputHandler);
+
+require_once(HARMONI."architecture/request/CommandLineRequestHandler.class.php");
+$harmoni->request->assignRequestHandler(new CommandLineRequestHandler($_SERVER['argv']));
+
+try {
+	$harmoni->execute();
+} catch (UnknownActionException $e) {
+	print HELP_TEXT;
+} catch (HelpRequestedException $e) {
+	print $e->getMessage();
+}
 
 if (defined('ENABLE_TIMERS') && ENABLE_TIMERS) {
 	$execTimer->end();
