@@ -12,9 +12,11 @@ CREATE TABLE IF NOT EXISTS `middmedia_quotas` (
   PRIMARY KEY  (`directory`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE `afranco_middmedia`.`middmedia_queue` (
-`directory` VARCHAR( 50 ) NOT NULL ,
-`file` VARCHAR( 75 ) NOT NULL ,
-`upload_time` TIMESTAMP( 14 ) NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-PRIMARY KEY ( `directory` , `file` )
-) ENGINE = InnoDB COMMENT = 'A queue for file uploads that need conversion.';
+CREATE TABLE IF NOT EXISTS `middmedia_queue` (
+  `directory` varchar(50) collate utf8_bin NOT NULL,
+  `file` varchar(75) collate utf8_bin NOT NULL,
+  `upload_time` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `processing` tinyint(1) NOT NULL default '0',
+  `processing_start` timestamp NULL default NULL,
+  PRIMARY KEY  (`directory`,`file`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='A queue for file uploads that need conversion.';
