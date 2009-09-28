@@ -100,7 +100,7 @@ class MiddMedia_File
 		$lastLine = exec($command, $output, $return_var);
 		$output = implode("\n", $output);
 		
-		if (!preg_match('/Stream #[^:]+: Video: ([^,]+), (?:([^,]+), )?([0-9]+)x([0-9]+), ([0-9\.]+) (?:tbr|kb\/s),/', $output, $matches))
+		if (!preg_match('/Stream #[^:]+: Video: ([^,]+), (?:([^,]+), )?([0-9]+)x([0-9]+)[^,]*, ([0-9\.]+) (?:tbr|kb\/s),/', $output, $matches))
 			throw new OperationFailedException("Could not determine video properties from: <pre>\n$output\n</pre>\n");
 		$info['codec'] = $matches[1];
 		$info['colorspace'] = $matches[2];
