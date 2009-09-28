@@ -441,8 +441,7 @@ function doAddVideo(MiddMediaManager $manager, $directory, $file, $filename, $fi
 	$video = array();
 
 	$directory = MiddMedia_Directory::getIfExists($manager, $directory);
-	$newfile = $directory->createFile($filename);
-	$newfile->putContents(base64_decode($file));
+	$newfile = $directory->createFileFromData($filename, base64_decode($file));
 	
 	$video["name"] = $newfile->getBaseName();
 	$video["httpurl"] = $newfile->getHttpUrl();

@@ -19,6 +19,7 @@ define('MIDDMEDIA_GROUP_DIRNAME_PROPERTY', 'mail nickname');
 define('MIDDMEDIA_ALLOWED_FILE_TYPES', 'mp3, mp4, flv, avi, asf, dv, m4v, mj2, mjp, mjpg, mkv, mov, mpeg, mpg, ogv, qt, rv, swf, wm, wmv');
 define('MIDDMEDIA_CONVERT_MAX_HEIGHT', 480);
 define('MIDDMEDIA_CONVERT_MAX_WIDTH', 720);
+define('MIDDMEDIA_TMP_DIR', '/tmp');
 
 MiddMediaManager::addPersonalDirectoryGroup('CN=All Faculty,OU=General,OU=Groups,DC=middlebury,DC=edu');
 MiddMediaManager::addPersonalDirectoryGroup('CN=All Staff,OU=General,OU=Groups,DC=middlebury,DC=edu');

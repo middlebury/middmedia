@@ -306,7 +306,12 @@ class MiddMedia_File
 	 * @since 11/21/08
 	 */
 	public function moveInUploadedFile ($tempName) {
-		move_uploaded_file($tempName, $this->getFsPath());
+		if (is_uploaded_file($tempName))
+			move_uploaded_file($tempName, $this->getFsPath());
+		else if (dirname($tempName) == MIDDMEDIA_TMP_DIR)
+			rename($tempName, $this->getFsPath());
+		else
+			throw new PermissionDeniedException("Temporary file was not uploaded and not in our temp dir.");
 		
 		try {
 			$this->deleteImages();
@@ -399,7 +404,12 @@ class MiddMedia_File
 		}
 		
 		// Move the file out of the uploads directory to a temporary hold place.
-		move_uploaded_file($tempName, $queueDir.'/'.$this->getBaseName().'-tmp');
+		if (is_uploaded_file($tempName))
+			move_uploaded_file($tempName, $queueDir.'/'.$this->getBaseName().'-tmp');
+		else if (dirname($tempName) == MIDDMEDIA_TMP_DIR)
+			rename($tempName, $queueDir.'/'.$this->getBaseName().'-tmp');
+		else
+			throw new PermissionDeniedException("Temporary file was not uploaded and not in our temp dir.");
 		
 		// Add an entry to our encoding queue.
 		$query = new InsertQuery;

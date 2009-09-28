@@ -373,6 +373,36 @@ class MiddMedia_Directory {
 	}
 	
 	/**
+	 * Create a file with content (and handle any conversion if necessary).
+	 * 
+	 * @param string $name
+	 * @param string $content
+	 * @return object MiddMediaFile The new file
+	 * @access public
+	 * @since 9/28/09
+	 */
+	public function createFileFromData ($name, $content) {
+		if (!defined('MIDDMEDIA_TMP_DIR'))
+			throw new ConfigurationErrorException('MIDDMEDIA_TMP_DIR is not defined');
+		if (!is_dir(MIDDMEDIA_TMP_DIR))
+			throw new ConfigurationErrorException('MIDDMEDIA_TMP_DIR does not exist.');
+		if (!is_writable(MIDDMEDIA_TMP_DIR))
+			throw new ConfigurationErrorException('MIDDMEDIA_TMP_DIR is not writable.');
+			
+		$tmpfile = tempnam(MIDDMEDIA_TMP_DIR, 'middmedia_soap_');
+		file_put_contents($tmpfile, $content);
+		
+		$fileArray = array(
+			'tmp_name'	=> $tmpfile,
+			'name'		=> $name,
+			'size'		=> filesize($tmpfile),
+			'error'		=> 0,
+		);
+		return $this->createFileFromUpload($fileArray);
+	}
+	
+	
+	/**
 	 * Create a file in this directory from an upload. Similar to move_uploaded_file().
 	 * 
 	 * @param array $fileArray The element of the $_FILES superglobal for this file.
