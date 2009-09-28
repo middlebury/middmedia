@@ -2,6 +2,39 @@
 MiddMedia Change Log
 
 
+v. 0.4.1 (2009-09-28)
+----------------------------------------------------
+This update adds support for server-side transcoding from uploads made via the SOAP
+API. 
+		
+		
+	* Bug Fix: 
+		Server-side transcoding now works for SOAP uploads.
+		(2009-09-28 - Adam Franco)
+		
+	* Bug Fix: 
+		The video-info regular expression is now more lenient about the input data.
+		(2009-09-28 - Adam Franco)
+	
+
+
+
+v. 0.4.0 (2009-09-25)
+----------------------------------------------------
+This release adds support for server-side transcoding.
+
+A new requirement is that ffmpeg be installed with support for the libx264 codec.
+As well, a cron job to run middmedia/cli/checkQueue.php is needed to initiate
+conversion. 
+		
+		
+	* New feature: 
+		Support for server-side transcoding added.
+		(2009-09-28 - Adam Franco)
+	
+
+
+
 v. 0.3.0 (2009-07-24)
 ----------------------------------------------------
 This release adds two new web-service methods that allow for accessing embed code

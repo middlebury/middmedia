@@ -23,7 +23,27 @@
 </head>
 <body>
 <h1>MiddMedia Change Log</h1>
-<h2>Version 0.3.0</h2>
+<h2>Version 0.4.1</h2>
+<h3>2009-09-28</h3>
+<p>This update adds support for server-side transcoding from uploads made via the SOAP API.</p>
+<ul>
+		
+		<li>
+<b>Bug Fix:</b> Server-side transcoding now works for SOAP uploads. (<em>2009-09-28 - Adam Franco</em>)</li>
+		<li>
+<b>Bug Fix:</b> The video-info regular expression is now more lenient about the input data. (<em>2009-09-28 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 0.4.0</h2>
+<h3>2009-09-25</h3>
+<p>This release adds support for server-side transcoding.
+<br>
+<br>A new requirement is that ffmpeg be installed with support for the libx264 codec. As well, a cron job to run middmedia/cli/checkQueue.php is needed to initiate conversion.</p>
+<ul>
+		
+		<li>
+<b>New feature:</b> Support for server-side transcoding added. (<em>2009-09-28 - Adam Franco</em>)</li>
+	</ul>
+<br><h2>Version 0.3.0</h2>
 <h3>2009-07-24</h3>
 <p>This release adds two new web-service methods that allow for accessing embed code for files anonymously. These methods support APC caching to provide very high-performance for this light-weight read-only usage, allowing client services to rely on these methods for render-time access to embed-code.</p>
 <ul>
