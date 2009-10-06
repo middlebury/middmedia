@@ -14,7 +14,27 @@ define('MIDDMEDIA_FS_BASE_DIR', '/home/afranco/public_html/middmedia_data');
 define('MIDDMEDIA_HTTP_BASE_URL', 'http://chisel.middlebury.edu/~afranco/middmedia_data');
 define('MIDDMEDIA_RTMP_BASE_URL', 'rtmp://chisel.middlebury.edu/fms');
 
-define('MIDDMEDIA_GROUP_DIRNAME_PROPERTY', 'mail nickname');
+
+/*********************************************************
+ * If a single valued property can be used for the directory name, specify it here.
+ *********************************************************/
+// define('MIDDMEDIA_GROUP_DIRNAME_PROPERTY', 'mail nickname');
+
+/*********************************************************
+ * Alternatively, specify a callback function which takes a group.
+ *********************************************************/
+define('MIDDMEDIA_GROUP_DIRNAME_CALLBACK', 'getGroupDirname');
+function getGroupDirname(Group $group) {
+	$propertiesIterator = $group->getProperties();
+	while ($propertiesIterator->hasNext()) {
+		$properties = $propertiesIterator->next();
+		if ($properties->getProperty('EMail')) {
+			return substr($properties->getProperty('EMail'), 0, strpos($properties->getProperty('EMail'), '@'));
+		}
+	}
+	throw new OperationFailedException('Could not find an EMail property for group '.$group->getId()->getIdString());	
+}
+
 
 define('MIDDMEDIA_ALLOWED_FILE_TYPES', 'mp3, mp4, flv, avi, asf, dv, m4v, mj2, mjp, mjpg, mkv, mov, mpeg, mpg, ogv, qt, rv, swf, wm, wmv');
 define('MIDDMEDIA_CONVERT_MAX_HEIGHT', 480);

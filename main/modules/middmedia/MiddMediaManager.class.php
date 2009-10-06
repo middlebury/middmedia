@@ -276,22 +276,9 @@ class MiddMediaManager {
 		while ($containingGroups->hasNext()) {
 			$group = $containingGroups->next();
 			try {
-				$propertiesIterator = $group->getProperties();
-				$dirname = null;
-				while (!$dirname && $propertiesIterator->hasNext()) {
-					$properties = $propertiesIterator->next();
-					try {
-						$dirname = $properties->getProperty(MIDDMEDIA_GROUP_DIRNAME_PROPERTY);
-					} catch(UnknownIdException $e) {
-					}
-				}
-				if ($dirname) {
-					try {
-						$sharedDirs[] = MiddMedia_Directory::getIfExists($this, $dirname);
-					} catch(UnknownIdException $e) {
-					} catch(InvalidArgumentException $e) {
-					}
-				}
+				$sharedDirs[] = MiddMedia_Directory::getIfExists($this, $this->getGroupDirectoryName($group));
+			} catch(UnknownIdException $e) {
+			} catch(InvalidArgumentException $e) {
 			} catch (OperationFailedException $e) {
 // 				printpre($e->getMessage());
 			}
@@ -373,26 +360,46 @@ class MiddMediaManager {
 		$groups = $agentManager->getGroupsBySearch($string, $searchType);
 		
 		while ($groups->hasNext()) {
-			$group = $groups->next();
-			
-			// Pull out the directory name property
 			try {
-				$propertiesIterator = $group->getProperties();
-				while ($propertiesIterator->hasNext()) {
-					$properties = $propertiesIterator->next();
-					try {
-						if ($properties->getProperty(MIDDMEDIA_GROUP_DIRNAME_PROPERTY)) {
-							$results[] = $properties->getProperty(MIDDMEDIA_GROUP_DIRNAME_PROPERTY);
-							break;
-						}
-					} catch (Exception $e) {
-					}
-				}
+				$results[] = $this->getGroupDirectoryName($groups->next());
 			} catch (Exception $e) {
 			}
 		}
 		
 		return $results;
+	}
+	
+	/**
+	 * Answer a directory name for a group
+	 * 
+	 * @param Group $group
+	 * @return string
+	 * @access protected
+	 * @since 10/6/09
+	 */
+	protected function getGroupDirectoryName (Group $group) {
+		// Pull out the directory name property
+		if (defined('MIDDMEDIA_GROUP_DIRNAME_PROPERTY')) {
+			$propertiesIterator = $group->getProperties();
+			while ($propertiesIterator->hasNext()) {
+				$properties = $propertiesIterator->next();
+				try {
+					if ($properties->getProperty(MIDDMEDIA_GROUP_DIRNAME_PROPERTY)) {
+						return $properties->getProperty(MIDDMEDIA_GROUP_DIRNAME_PROPERTY);
+					}
+				} catch (Exception $e) {
+				}
+			}
+			throw new OperationFailedException('Could not find group dirname property '.MIDDMEDIA_GROUP_DIRNAME_PROPERTY.' for group '.$group->getId()->getIdString());
+		} 
+		// Use the callback to extract a directory name
+		else if (defined('MIDDMEDIA_GROUP_DIRNAME_CALLBACK')) {
+			if (!function_exists(MIDDMEDIA_GROUP_DIRNAME_CALLBACK))
+				throw new ConfigurationErrorException('Funcion '.MIDDMEDIA_GROUP_DIRNAME_CALLBACK.' is not defined.');
+			return call_user_func(MIDDMEDIA_GROUP_DIRNAME_CALLBACK, $group);
+		} else {
+			throw new ConfigurationErrorException('MIDDMEDIA_GROUP_DIRNAME_PROPERTY or MIDDMEDIA_GROUP_DIRNAME_CALLBACK must be configured.');
+		}
 	}
 	
 	/**
