@@ -478,14 +478,17 @@ class MiddMediaManager {
 	 * @since 8/22/07
 	 */
 	private function getPersonalShortname () {
-		$properties = $this->_agent->getProperties();		
+		$allProperties = $this->_agent->getProperties();		
 		$email = null;
-		while ($properties->hasNext() && !$email) {
-			$email = $properties->next()->getProperty("email");
+		while ($allProperties->hasNext() && !$email) {
+			$properties = $allProperties->next();
+			$email = $properties->getProperty("email");
+			if (!$email)
+				$email = $properties->getProperty("EMail");
 		}
 		
 		if (!$email)
-			throw new OperationFailedException("No email found for agentId, '$agentId'.");
+			throw new OperationFailedException("No email found for agentId, '".$this->_agent->getId()->getIdString()."'.");
 		
 		return substr($email, 0, strpos($email, '@'));
 	}
