@@ -305,24 +305,28 @@ class displayAction
 			print " | <a href='".$harmoni->request->quickURL("auth",
 				"logout")."'>"._("Log Out")."</a>";
 		} else {
-			$harmoni->history->markReturnURL("polyphony/login_fail",
-				$harmoni->request->quickURL("user", "main", array('login_failed' => 'true')));
-
-			$harmoni->request->startNamespace("harmoni-authentication");
-			$usernameField = $harmoni->request->getName("username");
-			$passwordField = $harmoni->request->getName("password");
-			$harmoni->request->endNamespace();
-			$harmoni->request->startNamespace("polyphony");
-			print "\n<form action='".
-				$harmoni->request->quickURL("auth", "login").
-				"' style='text-align: right' method='post'><small>".
-				"\n\t"._("Username/email:")." <input class='small' type='text' size='8' 
-					name='$usernameField'/>".
-				"\n\t"._("Password:")." <input class='small' type='password' size ='8' 
-					name='$passwordField'/>".
-				"\n\t <input class='button small' type='submit' value='Log in' />".
-				"\n</small></form>";
-			$harmoni->request->endNamespace();
+			if (defined('LOGIN_FORM_CALLBACK')) {
+				print call_user_func(LOGIN_FORM_CALLBACK);
+			} else {
+				$harmoni->history->markReturnURL("polyphony/login_fail",
+					$harmoni->request->quickURL("user", "main", array('login_failed' => 'true')));
+	
+				$harmoni->request->startNamespace("harmoni-authentication");
+				$usernameField = $harmoni->request->getName("username");
+				$passwordField = $harmoni->request->getName("password");
+				$harmoni->request->endNamespace();
+				$harmoni->request->startNamespace("polyphony");
+				print "\n<form action='".
+					$harmoni->request->quickURL("auth", "login").
+					"' style='text-align: right' method='post'><small>".
+					"\n\t"._("Username/email:")." <input class='small' type='text' size='8' 
+						name='$usernameField'/>".
+					"\n\t"._("Password:")." <input class='small' type='password' size ='8' 
+						name='$passwordField'/>".
+					"\n\t <input class='button small' type='submit' value='Log in' />".
+					"\n</small></form>";
+				$harmoni->request->endNamespace();
+			}
 		}		
 		
 		// Visitor Registration Link

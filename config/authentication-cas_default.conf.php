@@ -63,4 +63,18 @@ require_once(HARMONI."/oki2/authentication/CasTokenCollector.class.php");
 	$authenticationMethodManagerConfiguration->addProperty($type, $authNMethod);
 	// Assign a token-collector for this method
 	$tokenCollectors[serialize($type)] = new CasTokenCollector();
+	
+/*********************************************************
+ * Replace the username/password form in the head with a CAS link
+ *********************************************************/
+define('LOGIN_FORM_CALLBACK', 'getCasLoginLink');
+function getCasLoginLink () {
+	$type = new Type ("Authentication", "edu.middlebury.harmoni", "CAS");
+	$harmoni = Harmoni::instance();
+	$harmoni->request->startNamespace("polyphony");
+	$url = "<a href='".$harmoni->request->quickURL('auth', 'login_type', array('type' => $type->asString()))."'>Log In</a>";
+	$harmoni->request->endNamespace();
+	return $url;
+}
+
 
