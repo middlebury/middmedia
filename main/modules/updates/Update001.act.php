@@ -174,6 +174,8 @@ class Update001Action
 		$authNMethodManager = Services::getService("AuthNMethodManager");
 		$casAuthNMethod = $authNMethodManager->getAuthNMethodForType($update001CasType);
 		
+		$existing = array();
+		
 		foreach ($update001Types as $num => $source) {
 			$authNMethod = $authNMethodManager->getAuthNMethodForType($source['type']);
 			$mappings = $mappingManager->getMappingsByType($source['type']);
@@ -188,18 +190,20 @@ class Update001Action
 					} else {
 						$casTokens = $casAuthNMethod->createTokensForIdentifier($casId);
 						if ($mappingManager->mappingExists($agentId, $casTokens, $update001CasType)) {
-							print "Mapping already exists for ".$casId." (Agent = ".$mapping->getAgentId()->getIdString().") <br/>\n";
+							$existing[] = "Mapping already exists for ".$casId." (Agent = ".$mapping->getAgentId()->getIdString().") <br/>\n";
 						} else {
 							$mappingManager->createMapping($agentId, $casTokens, $update001CasType);
 							print "Mapping created for ".$casId." (Agent = ".$mapping->getAgentId()->getIdString().") <br/>\n";
 						}
 					}
 					
-				} catch (sdfsdfsdf $e) {
+				} catch (LDAPException $e) {
 					print "No user found in source for ".$mapping->getTokens()->getIdentifier()." (Agent = ".$mapping->getAgentId()->getIdString().") <br/>\n";
 				}
 			}
 		}
+		
+		print "\n<hr/>\n".implode($existing);
 		
 		return true;
 	}
