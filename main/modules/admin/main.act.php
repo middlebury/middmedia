@@ -138,7 +138,7 @@ class mainAction
 			{
 				print "\n\t<li><a href='".$harmoni->request->quickURL("updates", 
 					"list")."'>";
-				print _("Segue Updates");
+				print _("MiddMedia Updates");
 				print "</a></li>";
 				
 				print "\n\t<li><a href='".$harmoni->request->quickURL("plugin_manager", 

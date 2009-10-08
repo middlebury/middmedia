@@ -78,3 +78,17 @@ function getCasLoginLink () {
 }
 
 
+/*********************************************************
+ * Uncomment and customize to enable a mapping update script
+ * to associate LDAP logins with CAS logins
+ *********************************************************/
+// global $update001Types, $update001CasType;
+// 
+// $update001Types[] = array(
+// 	'type' => new Type ("Authentication", "edu.middlebury.harmoni", "LDAP"),
+// 	'cas_id_property' => 'middleburycollegeuid'
+// );
+// 
+// $update001CasType = new Type ("Authentication", "edu.middlebury.harmoni", "CAS");
+
+
