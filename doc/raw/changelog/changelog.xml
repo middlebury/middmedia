@@ -10,6 +10,45 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
+	<version number="0.5.0" date="2009-10-09">
+		<releaseNotes>
+			This release adds support for CAS authentication.
+			
+			If going to CAS authentication from LDAP, enable both authentication methods,
+			then run the updater under Admin Tools --> MiddMedia Updates to map LDAP ids
+			to CAS ids.
+			
+			From there both authentication methods can be left enabled or the LDAP method
+			can be disabled.
+			
+			Authentication configuration has changed to support the reworked 
+			admin-act-as-user authentication method.
+			
+			----
+			
+			This release of MiddMedia uses Harmoni 1.10.0 and Polyphony 1.5.3.
+		</releaseNotes>
+		<new author='adam' date='2009-10-09' ref='' reftype='fr'  reporter=''>
+			Added support for CAS authentication.
+		</new>
+		<new author='adam' date='2009-10-09' ref='' reftype='fr'  reporter=''>
+			Added updater to map LDAP ids to CAS ids.
+		</new>
+		<change author='adam' date='2009-10-09' ref='' reftype='fr'  reporter=''>
+			Authentication configuration has changed to support the reworked 
+			admin-act-as-user authentication method.
+		</change>
+		<change author='adam' date='2009-10-09' ref='' reftype='fr'  reporter=''>
+			Shared directory naming can now be optionally configured using a callback
+			function rather than specifying a single property name to use.
+		</change>
+		<fix author='adam' date='2009-10-09' ref='' reftype='bug'  reporter=''>
+			SoapFaults are now created with the correct number of parameters.
+		</fix>
+		<change author='adam' date='2009-10-09' ref='' reftype='fr'  reporter=''>
+			The login form in the header is now configurable via a callback function.
+		</change>
+	</version>
 	<version number="0.4.1" date="2009-09-28">
 		<releaseNotes>
 			This update adds support for server-side transcoding from uploads made

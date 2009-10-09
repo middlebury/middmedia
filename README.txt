@@ -1,5 +1,5 @@
 
-MiddMedia v. 0.4.1 (2009-09-28)
+MiddMedia v. 0.5.0 (2009-10-09)
 =================================
 
 What is MiddMedia?
@@ -10,8 +10,20 @@ Flash Media Server (FMS) to deliver user-created videos.
 
 Current Version Notes
 ---------------------
-This update adds support for server-side transcoding from uploads made via the SOAP
-API. 
+This release adds support for CAS authentication.
+
+If going to CAS authentication from LDAP, enable both authentication methods, then
+run the updater under Admin Tools --> MiddMedia Updates to map LDAP ids to CAS ids.
+
+From there both authentication methods can be left enabled or the LDAP method can
+be disabled.
+
+Authentication configuration has changed to support the reworked admin-act-as-user
+authentication method. 
+
+----
+
+ This release of MiddMedia uses Harmoni 1.10.0 and Polyphony 1.5.3.
 
 
 Downloads
@@ -51,6 +63,25 @@ http://www.assembla.com/spaces/MiddMedia/tickets/
 | Prior MiddMedia Release Notes
 | (See the MiddMedia change log for more details)
 ===================================================================
+
+
+v. 0.5.0 (2009-10-09)
+----------------------------------------------------
+This release adds support for CAS authentication.
+
+If going to CAS authentication from LDAP, enable both authentication methods, then
+run the updater under Admin Tools --> MiddMedia Updates to map LDAP ids to CAS ids.
+
+From there both authentication methods can be left enabled or the LDAP method can
+be disabled.
+
+Authentication configuration has changed to support the reworked admin-act-as-user
+authentication method. 
+
+----
+
+ This release of MiddMedia uses Harmoni 1.10.0 and Polyphony 1.5.3.
+
 
 
 v. 0.4.1 (2009-09-28)
