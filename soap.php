@@ -47,7 +47,7 @@ function getTypes($username, $password) {
 		$manager = MiddMediaManager::forUsernamePassword($username, $password);
 		return doGetTypes($manager);
 	} catch(Exception $ex) {
-		return new SoapFault($ex->getMessage());
+		return new SoapFault($ex->getMessage(), $ex->getCode());
 	}
 }
 
@@ -67,7 +67,7 @@ function serviceGetTypes($username, $serviceId, $serviceKey) {
 		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doGetTypes($manager);
 	} catch(Exception $ex) {
-		return new SoapFault($ex->getMessage());
+		return new SoapFault($ex->getMessage(), $ex->getCode());
 	}
 }
 
@@ -98,7 +98,7 @@ function getDirs($username, $password) {
 		$manager = MiddMediaManager::forUsernamePassword($username, $password);
 		return doGetDirs($manager);
 	} catch(Exception $ex) {
-		return new SoapFault($ex->getMessage());
+		return new SoapFault($ex->getMessage(), $ex->getCode());
 	}
 }
 
@@ -118,7 +118,7 @@ function serviceGetDirs($username, $serviceId, $serviceKey) {
 		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doGetDirs($manager);
 	} catch(Exception $ex) {
-		return new SoapFault($ex->getMessage());
+		return new SoapFault($ex->getMessage(), $ex->getCode());
 	}
 }
 
@@ -174,7 +174,7 @@ function getVideos($username, $password, $directory) {
 		$manager = MiddMediaManager::forUsernamePassword($username, $password);
 		return doGetVideos($manager, $directory);
 	} catch(Exception $ex) {
-		return new SoapFault($ex->getMessage());
+		return new SoapFault($ex->getMessage(), $ex->getCode());
 	}
 }
 
@@ -195,7 +195,7 @@ function serviceGetVideos($username, $serviceId, $serviceKey, $directory) {
 		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doGetVideos($manager, $directory);
 	} catch(Exception $ex) {
-		return new SoapFault($ex->getMessage());
+		return new SoapFault($ex->getMessage(), $ex->getCode());
 	}
 }
 
