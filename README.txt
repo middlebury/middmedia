@@ -1,5 +1,5 @@
 
-MiddMedia v. 0.4.1 (2009-09-28)
+MiddMedia v. 0.4.2 (2009-10-09)
 =================================
 
 What is MiddMedia?
@@ -10,8 +10,7 @@ Flash Media Server (FMS) to deliver user-created videos.
 
 Current Version Notes
 ---------------------
-This update adds support for server-side transcoding from uploads made via the SOAP
-API. 
+This update fixes some errors in the soap web-service execution
 
 
 Downloads
@@ -51,6 +50,12 @@ http://www.assembla.com/spaces/MiddMedia/tickets/
 | Prior MiddMedia Release Notes
 | (See the MiddMedia change log for more details)
 ===================================================================
+
+
+v. 0.4.2 (2009-10-09)
+----------------------------------------------------
+This update fixes some errors in the soap web-service execution
+
 
 
 v. 0.4.1 (2009-09-28)

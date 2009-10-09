@@ -10,6 +10,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
+	<version number="0.4.2" date="2009-10-09">
+		<releaseNotes>
+			This update fixes some errors in the soap web-service execution
+		</releaseNotes>
+		<fix author='adam' date='2009-10-09' ref='' reftype='bug'  reporter=''>
+			SoapFaults are now created with the correct number of parameters.
+			Backport of commit e0f647706a97e816b271416bb511d3ffc9971a6e
+		</fix>
+	</version>
 	<version number="0.4.1" date="2009-09-28">
 		<releaseNotes>
 			This update adds support for server-side transcoding from uploads made
