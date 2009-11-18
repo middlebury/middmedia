@@ -2,6 +2,26 @@
 MiddMedia Change Log
 
 
+v. 0.6.0 (2009-11-18)
+----------------------------------------------------
+This release changes support for group-directory naming to allow multiple directory
+definitions per group. This change will allow directories to be created based on
+multiple criteria, not just a single property.
+		
+		
+	* Change: 
+		Changed group-name callbacks to return an array of names for a group rather
+		than a single string.
+		(2009-11-18 - Adam Franco)
+		
+	* Bug Fix: 
+		Fix for CAS authentication redirects to return users to their previous
+		location after login.
+		(2009-11-18 - Adam Franco)
+	
+
+
+
 v. 0.5.0 (2009-10-09)
 ----------------------------------------------------
 This release adds support for CAS authentication.

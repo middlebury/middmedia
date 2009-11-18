@@ -1,5 +1,5 @@
 
-MiddMedia v. 0.5.0 (2009-10-09)
+MiddMedia v. 0.6.0 (2009-11-18)
 =================================
 
 What is MiddMedia?
@@ -10,20 +10,9 @@ Flash Media Server (FMS) to deliver user-created videos.
 
 Current Version Notes
 ---------------------
-This release adds support for CAS authentication.
-
-If going to CAS authentication from LDAP, enable both authentication methods, then
-run the updater under Admin Tools --> MiddMedia Updates to map LDAP ids to CAS ids.
-
-From there both authentication methods can be left enabled or the LDAP method can
-be disabled.
-
-Authentication configuration has changed to support the reworked admin-act-as-user
-authentication method. 
-
-----
-
- This release of MiddMedia uses Harmoni 1.10.0 and Polyphony 1.5.3.
+This release changes support for group-directory naming to allow multiple directory
+definitions per group. This change will allow directories to be created based on
+multiple criteria, not just a single property.
 
 
 Downloads
@@ -63,6 +52,14 @@ http://www.assembla.com/spaces/MiddMedia/tickets/
 | Prior MiddMedia Release Notes
 | (See the MiddMedia change log for more details)
 ===================================================================
+
+
+v. 0.6.0 (2009-11-18)
+----------------------------------------------------
+This release changes support for group-directory naming to allow multiple directory
+definitions per group. This change will allow directories to be created based on
+multiple criteria, not just a single property.
+
 
 
 v. 0.5.0 (2009-10-09)

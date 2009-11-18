@@ -10,6 +10,21 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
+	<version number="0.6.0" date="2009-11-18">
+		<releaseNotes>
+			This release changes support for group-directory naming to allow
+			multiple directory definitions per group. This change will allow directories
+			to be created based on multiple criteria, not just a single property.
+		</releaseNotes>
+		<change author='adam' date='2009-11-18' ref='' reftype='fr'  reporter=''>
+			Changed group-name callbacks to return an array of names for a group
+			rather than a single string.
+		</change>
+		<fix author='adam' date='2009-11-18' ref='' reftype='bug'  reporter=''>
+			Fix for CAS authentication redirects to return users to their previous location
+			after login.
+		</fix>
+	</version>
 	<version number="0.5.0" date="2009-10-09">
 		<releaseNotes>
 			This release adds support for CAS authentication.
