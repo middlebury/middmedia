@@ -273,14 +273,21 @@ class MiddMediaManager {
 		$containingGroups = $agentManager->getGroupsBySearch(
 								$this->_agent->getId(), $ancestorSearchType);
 		
+		$sharedNames = array();
 		while ($containingGroups->hasNext()) {
 			$group = $containingGroups->next();
 			try {
-				$sharedDirs[] = MiddMedia_Directory::getIfExists($this, $this->getGroupDirectoryName($group));
-			} catch(UnknownIdException $e) {
-			} catch(InvalidArgumentException $e) {
+				$sharedNames = array_merge($sharedNames, $this->getGroupDirectoryNames($group));
 			} catch (OperationFailedException $e) {
 // 				printpre($e->getMessage());
+			}
+		}
+		
+		foreach ($sharedNames as $name) {
+			try {
+				$sharedDirs[] = MiddMedia_Directory::getIfExists($this, $name);
+			} catch(UnknownIdException $e) {
+			} catch(InvalidArgumentException $e) {
 			}
 		}
 		
@@ -361,7 +368,7 @@ class MiddMediaManager {
 		
 		while ($groups->hasNext()) {
 			try {
-				$results[] = $this->getGroupDirectoryName($groups->next());
+				$results = array_merge($results, $this->getGroupDirectoryNames($groups->next()));
 			} catch (Exception $e) {
 			}
 		}
@@ -370,14 +377,14 @@ class MiddMediaManager {
 	}
 	
 	/**
-	 * Answer a directory name for a group
+	 * Answer an array of possible directory name strings for a group
 	 * 
 	 * @param Group $group
-	 * @return string
+	 * @return array of strings
 	 * @access protected
 	 * @since 10/6/09
 	 */
-	protected function getGroupDirectoryName (Group $group) {
+	protected function getGroupDirectoryNames (Group $group) {
 		// Pull out the directory name property
 		if (defined('MIDDMEDIA_GROUP_DIRNAME_PROPERTY')) {
 			$propertiesIterator = $group->getProperties();
@@ -385,7 +392,7 @@ class MiddMediaManager {
 				$properties = $propertiesIterator->next();
 				try {
 					if ($properties->getProperty(MIDDMEDIA_GROUP_DIRNAME_PROPERTY)) {
-						return $properties->getProperty(MIDDMEDIA_GROUP_DIRNAME_PROPERTY);
+						return array($properties->getProperty(MIDDMEDIA_GROUP_DIRNAME_PROPERTY));
 					}
 				} catch (Exception $e) {
 				}

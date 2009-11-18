@@ -104,10 +104,6 @@ class AdminMiddMediaManager
 		} catch (UnknownIdException $e) {
 		}
 		
-		// Verify that the name specified is a valid group name.
-		if (!$this->isValidGroupName($name))
-			throw new InvalidArgumentException("'$name' is not a valid group name.");
-		
 		// Create the directory.
 		return MiddMedia_Directory::getAlways($this, $name);
 	}

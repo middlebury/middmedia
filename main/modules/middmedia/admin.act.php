@@ -193,7 +193,7 @@ class adminAction
 		
 	<form action="'.$harmoni->request->quickURL('middmedia', 'create_shared_dir').'" method="post">
 		
-		<input type="text" id="autocomplete" name="group"/>
+		<input type="text" id="autocomplete" name="group" size="60"/>
 		<span id="indicator1" style="display: none">
 			<img src="'.MYPATH.'/images/loading.gif" alt="Working..." />
 		</span>

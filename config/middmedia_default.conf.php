@@ -23,16 +23,25 @@ define('MIDDMEDIA_RTMP_BASE_URL', 'rtmp://chisel.middlebury.edu/fms');
 /*********************************************************
  * Alternatively, specify a callback function which takes a group.
  *********************************************************/
-define('MIDDMEDIA_GROUP_DIRNAME_CALLBACK', 'getGroupDirname');
-function getGroupDirname(Group $group) {
+define('MIDDMEDIA_GROUP_DIRNAME_CALLBACK', 'getGroupDirnames');
+function getGroupDirnames(Group $group) {
+	$names = array();
+	$names[] = getGroupIdAsDirname($group->getId());
 	$propertiesIterator = $group->getProperties();
 	while ($propertiesIterator->hasNext()) {
 		$properties = $propertiesIterator->next();
 		if ($properties->getProperty('EMail')) {
-			return substr($properties->getProperty('EMail'), 0, strpos($properties->getProperty('EMail'), '@'));
+			$names[] = substr($properties->getProperty('EMail'), 0, strpos($properties->getProperty('EMail'), '@'));
 		}
 	}
-	throw new OperationFailedException('Could not find an EMail property for group '.$group->getId()->getIdString());	
+	return array_reverse($names);
+}
+function getGroupIdAsDirname (Id $id) {
+	$name = preg_replace('/(CN|OU|DC)=/i', '', $id->getIdString());
+	$name = preg_replace('/,/i', '-', $name);
+	$name = preg_replace('/[^a-z0-9-]+/i', '_', $name);
+	$name = trim($name, '_-');
+	return $name;
 }
 
 
