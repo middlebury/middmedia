@@ -8,7 +8,7 @@
  * @version $Id: welcome.act.php,v 1.7 2008/02/19 17:25:28 adamfranco Exp $
  */ 
 
-require_once(POLYPHONY."/main/library/AbstractActions/MainWindowAction.class.php");
+require_once(dirname(__FILE__).'/AbstractAction.class.php');
 
 /**
  * 
@@ -21,7 +21,7 @@ require_once(POLYPHONY."/main/library/AbstractActions/MainWindowAction.class.php
  * @version $Id: welcome.act.php,v 1.7 2008/02/19 17:25:28 adamfranco Exp $
  */
 class browseAction 
-	extends MainWindowAction
+	extends MiddMedia_AbstractAction
 {
 	/**
 	 * Check Authorizations
@@ -511,22 +511,7 @@ class browseAction
 		/*********************************************************
 		 * Quota bar
 		 *********************************************************/
-		
-		print "\n<div class='quota_bar' id='quota_bar-".$dirId."'>";
-		print "\n\t<div class='quota_ammount' id='quota_ammount-".$dirId."'>".$dir->getQuota()."</div>";
-		print "\n\t<div class='quota_ammount_used' id='quota_ammount_used-".$dirId."'>".$dir->getBytesUsed()."</div>";
-		
-		$percent = ceil(100 * ($dir->getBytesUsed() / $dir->getQuota()));
-		print "\n\t<div class='used' style='width: ".$percent."%;' id='quota_used-".$dirId."'>&nbsp;</div>";
-		$size = ByteSize::withValue($dir->getBytesUsed());
-		print "\n\t<div class='used_label' id='quota_used_label-".$dirId."'>"._("Used: ").$size->asString()."</div>";
-		
-		$percent = floor(100 * ($dir->getBytesAvailable() / $dir->getQuota()));
-		print "\n\t<div class='free' style='width: ".$percent."%;' id='quota_free-".$dirId."'>&nbsp;</div>";
-		$size = ByteSize::withValue($dir->getBytesAvailable());
-		print "\n\t<div class='free_label' id='quota_free_label-".$dirId."'>"._("Free: ").$size->asString()."</div>";
-		
-		print "\n</div>";
+		print $this->getQuotaBar($dir);
 		
 		/*********************************************************
 		 * Upload Form
@@ -547,7 +532,7 @@ class browseAction
 					upload_url : '".str_replace('&amp;', '&', $harmoni->request->quickURL('middmedia', 'upload', array('directory' => $dir->getBaseName())))."', 
 					flash_url : '".MYPATH."/javascript/SWFUpload/swfupload.swf', 
 					post_params: {'".session_name()."' : '".session_id()."'},
-					file_size_limit : '".ByteSize::withValue($this->getFileSizeLimit())->asMBString()."',
+					file_size_limit : '".ByteSize::withValue($this->getSystemUploadLimit())->asMBString()."',
 					file_types : '".$mediaTypes."',
 					file_types_description : 'Flash Video, H264 Video, and MP3 Audio',
 					file_upload_limit : 100,
@@ -597,14 +582,8 @@ class browseAction
 		print "\n\t<legend>"._("Upload Queue")."</legend>";
 		print "\n</fieldset>";
 // 		print "\n<div class='status' id='status-".$dirId."'>"._("0 Files Uploaded")."</div>";
-		print "\n<div class='upload_help'>";
-		print "\n\tThe follow media types are allowed:";
-		$mimeMgr = Services::getService("MIME");
-		foreach(explode(',', MIDDMEDIA_ALLOWED_FILE_TYPES) as $type) {
-			print "<br/>&nbsp;&nbsp;&nbsp;&nbsp;.".trim($type)." (".$mimeMgr->getMIMETypeForExtension(trim($type)).")";
-		}
-		print "<br/>See <a href='https://mediawiki.middlebury.edu/wiki/LIS/MiddMedia' target='_blank'>MiddMedia Help</a> for more information.";
-		print "\n</div>";
+		print $this->getUploadHelp();
+		print "<p><a href='".$harmoni->request->quickUrl('middmedia', 'upload_form', array('directory' => $dir->getBaseName()))."'>Alternate (non-Flash) upload form</a></p>";
 		print "\n</div>";
 		
 		/*********************************************************
@@ -724,21 +703,6 @@ class browseAction
 		print "\n\t</tbody>";
 		print "\n\t</table>";
 		return ob_get_clean();
-	}
-	
-	/**
-	 * Answer the file size limit
-	 * 
-	 * @return int
-	 * @access protected
-	 * @since 11/13/08
-	 */
-	protected function getFileSizeLimit () {
-		return min(
-					ByteSize::fromString(ini_get('post_max_size'))->value(),
-					ByteSize::fromString(ini_get('upload_max_filesize'))->value(),
-					ByteSize::fromString(ini_get('memory_limit'))->value()
-				);
 	}
 }
 

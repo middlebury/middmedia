@@ -9,7 +9,7 @@
  * @version $Id$
  */ 
 
-require_once(POLYPHONY."/main/library/AbstractActions/Action.class.php");
+require_once(dirname(__FILE__).'/AbstractAction.class.php');
 
 
 /**
@@ -24,7 +24,7 @@ require_once(POLYPHONY."/main/library/AbstractActions/Action.class.php");
  * @version $Id$
  */
 class upload_formAction
-	extends Action
+	extends MiddMedia_AbstractAction
 {
 		
 	/**
@@ -55,23 +55,50 @@ class upload_formAction
 	 * @access public
 	 * @since 11/13/08
 	 */
-	public function execute () {		
-		if (!$this->isAuthorizedToExecute())
-			return "Permission denied";
+	function buildContent () {
+		$actionRows = $this->getActionRows();
 		
 		ob_start();
 		$harmoni = Harmoni::instance();
 		
 		$dir = $this->getDirectory();
 		
-		print "\n<form action='".$harmoni->request->quickURL('middmedia', 'upload', array('directory' => $dir->getBaseName()))."' method='post' enctype='multipart/form-data'>";
+		$actionRows->add(
+				new Heading('Upload to: '.$dir->getBaseName(), 2), 
+				"100%", 
+				null, 
+				CENTER, 
+				CENTER);
 		
+		print $this->getQuotaBar($dir);
+		
+		print "\n<div class='note'>";
+		print "Maximum upload size: ";
+		print ByteSize::withValue($this->getDirectoryUploadLimit($dir))->asString();
+		print " (".$this->getDirectoryUploadLimit($dir)." bytes)";
+		print "\n</div>";
+
+		print "\n<div class=' upload_form_help'>";
+		print $this->getUploadHelp();
+		print "\n</div>";
+
+		print "\n<form action='".$harmoni->request->quickURL('middmedia', 'upload_form_result', array('directory' => $dir->getBaseName()))."' method='post' enctype='multipart/form-data'>";
+		
+		print "\n\t<input type='hidden' name='MAX_FILE_SIZE' value='".$this->getDirectoryUploadLimit($dir)."'/>";
 		print "\n\t<input type='file' name='Filedata' size='40'/>";
 		print "\n\t<br/><input type='submit' value='upload'/>";
 		
 		print "\n</form>";
 		
-		return ob_get_clean();
+		
+		print "\n<p><a href='".$harmoni->request->quickURL('middmedia', 'browse')."'>&laquo; Return to browsing</a></p>";
+		
+		$actionRows->add(
+				new Block(ob_get_clean(), STANDARD_BLOCK), 
+				"100%", 
+				null, 
+				CENTER, 
+				CENTER);
 	}
 	
 	/**
@@ -91,37 +118,11 @@ class upload_formAction
 	}
 	
 	/**
-	 * Answer the manager to use
-	 * 
-	 * @return MiddMediaManager
-	 * @access protected
-	 * @since 12/10/08
-	 */
-	protected function getManager () {
-		return MiddMediaManager::forCurrentUser();
-	}
-	
-	/**
 	 * @var object MiddMedia_Directory $directory;  
 	 * @access private
 	 * @since 11/19/08
 	 */
 	private $directory;
-	
-	/**
-	 * Answer the file size limit
-	 * 
-	 * @return int
-	 * @access protected
-	 * @since 11/13/08
-	 */
-	protected function getFileSizeLimit () {
-		return min(
-					ByteSize::fromString(ini_get('post_max_size'))->value(),
-					ByteSize::fromString(ini_get('upload_max_filesize'))->value(),
-					ByteSize::fromString(ini_get('memory_limit'))->value()
-				);
-	}
 	
 }
 

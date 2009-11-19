@@ -2,6 +2,19 @@
 MiddMedia Change Log
 
 
+v. 0.6.1 (2009-11-19)
+----------------------------------------------------
+This release adds an alternate non-Flash upload form for compatability.
+		
+		
+	* New feature: 
+		Alternate upload form that uses basic HTML rather than Flash controls.
+		http://chisel.middlebury.edu/pool/show_bug.cgi?id=36 
+		(2009-11-19 - Adam Franco)
+	
+
+
+
 v. 0.6.0 (2009-11-18)
 ----------------------------------------------------
 This release changes support for group-directory naming to allow multiple directory

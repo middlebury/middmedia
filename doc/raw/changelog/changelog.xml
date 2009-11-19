@@ -10,6 +10,15 @@
 <!DOCTYPE changelog SYSTEM "../dtds/changelog.dtd">
 
 <changelog name="MiddMedia">
+	<version number="0.6.1" date="2009-11-19">
+		<releaseNotes>
+			This release adds an alternate non-Flash upload form for compatability.
+		</releaseNotes>
+		<new author='adam' date='2009-11-19' ref='' reftype='fr'  reporter=''>
+			Alternate upload form that uses basic HTML rather than Flash controls.
+			http://chisel.middlebury.edu/pool/show_bug.cgi?id=36
+		</new>
+	</version>
 	<version number="0.6.0" date="2009-11-18">
 		<releaseNotes>
 			This release changes support for group-directory naming to allow

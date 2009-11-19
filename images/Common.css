@@ -112,6 +112,10 @@ img.media_thumbnail {
 	border: 0px;
 }
 
+.upload_form_help {
+	float: right;
+}
+
 
 /*********************************************************
  * Help

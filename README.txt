@@ -1,5 +1,5 @@
 
-MiddMedia v. 0.6.0 (2009-11-18)
+MiddMedia v. 0.6.1 (2009-11-19)
 =================================
 
 What is MiddMedia?
@@ -10,9 +10,7 @@ Flash Media Server (FMS) to deliver user-created videos.
 
 Current Version Notes
 ---------------------
-This release changes support for group-directory naming to allow multiple directory
-definitions per group. This change will allow directories to be created based on
-multiple criteria, not just a single property.
+This release adds an alternate non-Flash upload form for compatability.
 
 
 Downloads
@@ -52,6 +50,12 @@ http://www.assembla.com/spaces/MiddMedia/tickets/
 | Prior MiddMedia Release Notes
 | (See the MiddMedia change log for more details)
 ===================================================================
+
+
+v. 0.6.1 (2009-11-19)
+----------------------------------------------------
+This release adds an alternate non-Flash upload form for compatability.
+
 
 
 v. 0.6.0 (2009-11-18)

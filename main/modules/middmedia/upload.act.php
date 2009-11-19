@@ -79,10 +79,22 @@ class uploadAction
 		
 		try {
 			$file = $dir->createFileFromUpload($_FILES[$upload_name]);
+			return $this->success($dir, $file);
 		} catch (Exception $e) {
-			$this->error("File could not be saved to '".$dir->getBaseName().'/'.$file_name."'. ".$e->getMessage());
+			return $this->error("File could not be saved to '".$dir->getBaseName().'/'.$_FILES[$upload_name]['name']."'. ".$e->getMessage());
 		}
-				
+	}
+	
+	/**
+	 * Answer a success message and file info if needed
+	 * 
+	 * @param MiddMedia_Directory $dir
+	 * @param MiddMedia_File $file
+	 * @return mixed
+	 * @access protected
+	 * @since 11/19/09
+	 */
+	protected function success (MiddMedia_Directory $dir, MiddMedia_File $file) {
 		// Return output to the browser (only supported by SWFUpload for Flash Player 9)
 		header("HTTP/1.1 200 OK");
 		header("Content-type: text/xml");
@@ -169,6 +181,22 @@ class uploadAction
 	 * @since 11/13/08
 	 */
 	protected function error ($errorString) {
+		$this->logError($errorString);
+		
+		header("HTTP/1.1 500 Internal Server Error");
+		echo $errorString;
+		exit;
+	}
+	
+	/**
+	 * Log an error
+	 * 
+	 * @param string $errorString
+	 * @return void
+	 * @access public
+	 * @since 11/19/09
+	 */
+	public function logError ($errorString) {
 		// Log the success or failure
 		if (Services::serviceRunning("Logging")) {
 			$loggingManager = Services::getService("Logging");
@@ -186,10 +214,6 @@ class uploadAction
 			
 			$log->appendLogWithTypes($item,	$formatType, $priorityType);
 		}
-		
-		header("HTTP/1.1 500 Internal Server Error");
-		echo $errorString;
-		exit;
 	}
 	
 	/**
