@@ -1,0 +1,18 @@
+[submodule "main/PHP_JPEG_Metadata_Toolkit"]
+	path = main/PHP_JPEG_Metadata_Toolkit
+	url = http://community.middlebury.edu/~afranco/git/external/PHP_JPEG_Metadata_Toolkit.git
+[submodule "main/harmoni"]
+	path = main/harmoni
+	url = git://github.com/adamfranco/harmoni.git
+[submodule "main/polyphony"]
+	path = main/polyphony
+	url = git://github.com/adamfranco/polyphony.git
+[submodule "main/jpgraph"]
+	path = main/jpgraph
+	url = http://community.middlebury.edu/~afranco/git/external/jpgraph.git
+[submodule "main/domit"]
+	path = main/domit
+	url = http://community.middlebury.edu/~afranco/git/external/domit.git
+[submodule "javascript/scriptaculous-js"]
+	path = javascript/scriptaculous-js
+	url = git://github.com/madrobby/scriptaculous.git
