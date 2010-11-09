@@ -10,7 +10,9 @@ body {
  * MiddMedia Styles
  *********************************************************/
 table.file_listing_table {
-	width: 630px;
+	/* max-width: 630px; 
+	width: 630px; */
+	max-width: 600px;
 	border: 1px solid #777;
 }
 
@@ -24,13 +26,13 @@ table.file_listing_table td {
 }
 
 table.file_listing_table td.size {
-	white-space: nowrap;
+	/*white-space: nowrap;*/
 }
 table.file_listing_table td.date {
-	white-space: nowrap;
+	/*white-space: nowrap;*/
 }
 table.file_listing_table td.access {
-	white-space: nowrap;
+	/*white-space: nowrap;*/
 }
 
 .quota_bar {
@@ -82,6 +84,18 @@ table.file_listing_table td.access {
 .middmedia_quota_edit {
 	display: block;
 	float: right;
+}
+
+.midd_logo {
+	width: 210px;
+	height: 40px;
+	background-image: url('http://www.middlebury.edu/sites/all/themes/midd/images/design/logo.gif');
+	background-repeat: no-repeat;
+	margin-bottom: 68px;
+	margin-top: 30px;
+	display: block;
+	margin-left: auto;
+  margin-right: auto;
 }
 
 /**** Autocomplete ****/
@@ -147,9 +161,23 @@ img.media_thumbnail {
 	
 	.login {
 		text-align: right; 
-		margin-right: 25px; 
-		margin-bottom: 3px;
 		font-size: 10px;
+		display: block;
+		background-color: #eee;
+		padding: 4px;
+		float: right;
+		border: 1px solid black;
+		text-align: center;
+		font-weight: bold;
+	}
+
+	.login:hover {
+		background-color: #888;
+	}
+
+	.login a:hover {
+		color: #ccc;
+		text-decoration: none;
 	}
 	
 	.login .visitor_reg_link {

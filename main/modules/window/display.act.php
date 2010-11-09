@@ -66,9 +66,7 @@ class displayAction
 		$mainScreen = new Container($yLayout, BLANK, 1);
 
 		// :: login, links and commands
-		$this->headRow = $mainScreen->add(
-			new Container($xLayout, BLANK, 1), 
-			"100%", null, CENTER, TOP);
+		$this->headRow = new Container($xLayout, BLANK, 1);
 		
 		// Admin Links
 		ob_start();
@@ -101,9 +99,17 @@ class displayAction
 		$rightHeadColumn->add($this->getLoginComponent(), 
 				null, null, RIGHT, TOP);
 		
+		// The middlebury logo
+		$middlogo = new Component("\n<a class='midd_logo' href=\"http://www.middlebury.edu\"></a>", BLANK, 1);
+		$mainScreen->add($middlogo, '100%', null, CENTER, TOP);
+		
 
 	// BACKGROUND
 		$backgroundContainer = $mainScreen->add(new Container($yLayout, BLOCK, BACKGROUND_BLOCK));
+		
+		// Add the previously created headRow to background
+		$backgroundContainer->add($this->headRow, '100%', null, CENTER, TOP);
+		
 	// :: Top Row ::
 		// The top row for the logo and status bar.
 		$headRow = new Container($xLayout, HEADER, 1);
@@ -114,7 +120,7 @@ class displayAction
 		$headRow->add($logo, null, null, LEFT, TOP);
 		
 		// Language Bar
-		$harmoni->history->markReturnURL("polyphony/language/change");
+		/*$harmoni->history->markReturnURL("polyphony/language/change");
 		$languageText = "\n<form action='".$harmoni->request->quickURL("language", "change")."' method='post'>";
 			
 		$harmoni->request->startNamespace("polyphony");
@@ -137,7 +143,7 @@ class displayAction
 		$languageText .= "\n\t</div>\n</form>";
 		
 		$languageBar = new Component($languageText, BLANK, 1);
-		$headRow->add($languageBar, null, null, LEFT,BOTTOM);
+		$headRow->add($languageBar, null, null, LEFT,BOTTOM);*/
 		
 		// Pretty Login Box
 // 		$loginRow = new Container($yLayout, OTHER, 1);
@@ -183,10 +189,15 @@ class displayAction
 		
 	// :: Footer ::
 		$footer = new Container (new XLayout, BLANK, 1);
-		$footer->add(new UnstyledBlock("<a href='https://mediawiki.middlebury.edu/wiki/LIS/MiddMedia' target='_blank'>"._("Help")."</a>"), "50%", null, LEFT, BOTTOM);
 		
+		// The middlebury logo
+		$footerwrapper = new Container (new XLayout, BLANK, 1);
 		
-		$footer->add(new UnstyledBlock(self::getVersionText()), "50%", null, RIGHT, BOTTOM);
+		$footerwrapper->add(new UnstyledBlock("<a href='https://mediawiki.middlebury.edu/wiki/LIS/MiddMedia' target='_blank'>"._("Help")."</a>"), "50%", null, LEFT, BOTTOM);
+		
+		$footerwrapper->add(new UnstyledBlock(self::getVersionText()), "50%", null, RIGHT, BOTTOM);
+		
+		$footer->add($footerwrapper, "100%", null, RIGHT, BOTTOM);
 		
 		$mainScreen->add($footer, "100%", null, RIGHT, BOTTOM);
 
