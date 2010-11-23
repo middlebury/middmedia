@@ -58,6 +58,7 @@ class browseAction
 	function buildContent () {
 		$actionRows = $this->getActionRows();
 		
+		$this->addToHead("\n\t\t<script type='text/javascript' src='http://chisel.middlebury.edu/~lafrance/middmedia/javascript/jquery.min.js'></script>");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload/swfupload.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload_Samples/handlers.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload_Samples/fileprogress.js'></script> ");
@@ -71,6 +72,27 @@ class browseAction
 		
 		$this->addToHead("
 		<script type='text/javascript'>
+		
+		// Create embed code for MiddTube
+		$(document).ready(function() {
+			// Bind this function to all inputs
+			$(\"input\").bind('click', function(){
+			  var inputs = $('input');
+				var embeds = [ ];
+				for (var i = 0; i < inputs.length; i++) {
+					// Only proceed if we're dealing with a 'media file' checkbox
+					if (inputs[i].name == 'media_files' && inputs[i].checked) {
+						var file_name = inputs[i].value;
+						// Create the embed code. We make some characters around
+						//file_name to make it easier to access later.
+						embeds[i] = '[middmedia ##user## `!~' + file_name + '~!` width:400 height:300]';
+					}
+				}
+				// Add this to the Add to MiddTube form
+				$('input.checked_files_middtube_embed').attr('value', embeds);
+		  });
+		}); //end Create embed code for MiddTube
+		
 		// <![CDATA[
 		
 		function deleteFile (directory, file, row) {
@@ -386,9 +408,8 @@ class browseAction
 				text.cols = 70;
 				text.rows = 8;
 				text.value = getEmbedCode(type, fileId, httpUrl, rtmpUrl, splashUrl);
+				text.value = text.value + '</br /><div style=\'width:400px;text-align:center;\'><a style=\'margin:auto;\' href=' + httpUrl + '>Download Video</a></div>';
 				text.readOnly = true;
-				
-				
 				
 				var heading = panel.contentElement.appendChild(document.createElement('h4'));
 				heading.innerHTML = 'HTTP (Download) URL';
@@ -421,7 +442,6 @@ class browseAction
 				
 			}
 		}
-		
 		
 		// ]]>
 		</script> ");
@@ -587,11 +607,124 @@ class browseAction
 		print "\n</div>";
 		
 		/*********************************************************
-		 * Delete Controls
+		 * Add to MiddTube
 		 *********************************************************/
+		// Add the IXR class for XML-RPC with Wordpress
+		require_once('main/modules/middmedia/includes/class-IXR.php');
+		// Establish a connection to MiddTube
+		$client = new IXR_Client(MIDDTUBE_URL."/xmlrpc.php");
+		
+		// Do the following on normal page load
+		if (!isset($_POST['middtubeclicked'])){
+		
+		/*********************************************************
+		* Delete Controls (We only want this when we're not processing an addition to Middtube)
+		*********************************************************/
 		print "\n<div class='middmedia_delete'>";
 		print "\n\t<input type='button' onclick=\"deleteChecked('".$dir->getBaseName()."');\" value='Delete Checked Files'/>";
-		print "\n</div>";
+		print "\n</div>";	
+		
+		?>
+		<!-- Add a form for Add to MiddTube --> 
+		<form action='index.php?module=middmedia&action=browse' method='post'>
+			<!-- Lets us know that Add to MiddTube has been clicked on submission -->
+			<input name='middtubeclicked' type='hidden' value='TRUE' />
+			<!-- This is where the embed code the JS got is placed -->
+			<input class='checked_files_middtube_embed' name='checked_files_middtube_embed' type='hidden' />
+			<input type='submit' value='Add Checked Files to Middtube'/>
+		</form>
+		<?php
+		// If Add to MiddTube has been clicked we want to show a different form
+		} else {
+		?>
+		<form action='index.php?module=middmedia&action=browse' method='post'>
+			<!-- Pass on the embed code the JS got last time. We'll need that -->
+			<input name='checked_files_middtube_embed' type='hidden' value='<?php print $_POST['checked_files_middtube_embed']; ?>'/>
+			<!-- This is a flag for this stage of the form -->
+			<input name='filenamesset' type='hidden' value='TRUE' />
+			<p id="Titles_for_Posts_on_MiddTube_explanation">Choose the category and add a title for each file you are adding to <a href="http://blogs.middlebury.edu/middtube/">MiddTube</a>.</p>
+		<?php
+			// Finally we use those embed codes, split them into an array
+			$embeds = explode(',', $_POST['checked_files_middtube_embed']);
+			$i = 0;
+			// For each embed code
+			foreach($embeds as $middtube_embed) {
+				// We only care about the actual embed codes
+				if ($middtube_embed != '') {
+					// Get the name of the file from the embed code
+					preg_match('/`!~.*~!`/',$middtube_embed, $title);
+					$title = str_replace('`!~','',$title);
+					$title = str_replace('~!`','',$title);
+					// Make a select list for the categories
+					print '<select name="categories'.$i.'">';
+					// Make sure we can connect and get the categories
+					if (!$client->query('wp.getCategories','', 'admin','testpassword')) {
+						die('An error occurred - '.$client->getErrorCode().":".$client->getErrorMessage());
+					}
+					$response = $client->getResponse();
+					// Make the select list options (the categories from MiddTube we just got)
+					foreach($response as $category) {
+						print "<option value='".$category['categoryName']."'>".$category['categoryName']."</option>";
+					}
+					print '</select>';
+					// Show the name of the file so we know what file we're choosing a
+					//category for and giving a name to. 
+					print "<input name='title".$i."' type='text' /> ".$title[0]."<br />";
+					$i++;
+				} // end if ($middtube_embed != '') {
+			} // end foreach($embeds as $middtube_embed) {
+			?>
+			<input type='submit' value='Submit to Middtube!'/>
+		</form>
+		<?php
+		} //end else {
+		// Now we do this when the second part of the form has been completed
+		// (The categories have been selected and the names entered). Here we
+		// want to actually add the posts to MiddTube
+		if (isset($_POST['filenamesset'])) {
+			// We need those embed codes again
+			$embeds = explode(',', $_POST['checked_files_middtube_embed']);
+			$i = 0;
+			// For each embed code
+			foreach($embeds as $middtube_embed) {
+				// Only if there is a code
+				if ($middtube_embed != '') {
+					// Get the name of the file from the embed code
+					preg_match('/`!~.*~!`/',$middtube_embed, $filename);
+					$filename = str_replace('`!~','',$filename);
+					$filename = str_replace('~!`','',$filename);
+					// Now swap in the real user name for the placeholder
+					$middtube_embed = str_replace('##user##', $dir->getBaseName() . ' ' .$dir->getBaseName() ,$middtube_embed);
+					// Also replace the wrapper around the file name.
+					// We don't need that in the actual embed code
+					$middtube_embed = str_replace('`!~', '',$middtube_embed);
+					$middtube_embed = str_replace('~!`', '',$middtube_embed);
+					// We use these to increment the $_POST values we're passing to Wordpress
+					$title = 'title' . $i;
+					$categories = 'categories' . $i;
+					// Here is the actual content	we're passing
+					$content['title'] = $_POST[$title];
+					$content['categories'] = array($_POST[$categories]);
+					$content['description'] = $middtube_embed;
+					// Make the post!
+					if (!$client->query('metaWeblog.newPost','', 'admin','testpassword', $content, true)) {
+  					die('An error occurred - '.$client->getErrorCode().":".$client->getErrorMessage());
+					}
+					// Also get the most recent post. We want the post ID so we can use
+					// it to make some nice links to these new post(s) we just made.
+					if (!$client->query('metaWeblog.getRecentPosts','', 'admin','testpassword', 1)) {
+  					die('An error occurred - '.$client->getErrorCode().":".$client->getErrorMessage());
+					}
+					$response = $client->getResponse();
+					// This is UGLY but it's just a line that tells us the name of the
+					// post we made, the file that was posted, and an "edit" and "view" link.
+					print "<p id='posted_to_middtube_success_message'><span class='b'><a target='_blank' href='".MIDDTUBE_URL."/?p=".($response[0]['postid']+$i)."'>".$_POST[$title]."</a> (".$filename[0].") posted to <a href='http://blogs.middlebury.edu/middtube/'>MiddTube</a> Successfully! <a target='_blank' href='".MIDDTUBE_URL."/wp-admin/post.php?post=".($response[0]['postid']+$i)."&action=edit'>Edit</a> or <a target='_blank' href='".MIDDTUBE_URL."/?p=".($response[0]['postid']+$i)."'>View</a> this post.</p>";
+					$i++;
+				}
+			}
+			// Clear $_POST
+			unset($_POST);
+		}
 		
 		/*********************************************************
 		 * File Listing

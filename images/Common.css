@@ -73,7 +73,8 @@ table.file_listing_table td.access {
 
 
 .middmedia_delete {
-/*	float: right;*/
+	float: left;
+        margin-right: 10px;
 }
 
 .middmedia_upload {
