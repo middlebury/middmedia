@@ -91,7 +91,38 @@ class browseAction
 				// Add this to the Add to MiddTube form
 				$('input.checked_files_middtube_embed').attr('value', embeds);
 		  });
-		}); //end Create embed code for MiddTube
+		  
+		  // Validation for first step of form
+		  $('#add_to_middtube').bind('click', function(){
+			  var inputs = $('input');
+			  var something_checked = false;
+				for (var i = 0; i < inputs.length; i++) {
+					if (inputs[i].name == 'media_files' && inputs[i].checked) {
+						something_checked = true;
+					}
+				}
+				if (!something_checked) {
+					return false;
+				}
+		  });
+		  
+		  // Validation for second step of form
+		  $('#submit_to_middtube').bind('click', function(){
+		  	var valid = true;
+		  	$('.post_title_input').each(function(){
+		  		if ($(this).val().match(/[^A-Za-z0-9-_\?\/\.%:',\(\)\u00A1-\u00FF]/) || !$(this).val()) {
+		  			valid = false;
+		  		}
+				});
+				if (!valid) {
+						alert('Invalid Characters. You must enter a title for each post. Only letters, numbers, and basic punctuation allowed.')
+						return false;
+				}
+		  });
+		  
+		}); //end (document).ready(function() {
+		
+		
 		
 		// <![CDATA[
 		
@@ -631,7 +662,7 @@ class browseAction
 			<input name='middtubeclicked' type='hidden' value='TRUE' />
 			<!-- This is where the embed code the JS got is placed -->
 			<input class='checked_files_middtube_embed' name='checked_files_middtube_embed' type='hidden' />
-			<input type='submit' value='Add Checked Files to Middtube'/>
+			<input type='submit' id='add_to_middtube' name='add_to_middtube' value='Add Checked Files to Middtube'/> What is <a href="http://blogs.middlebury.edu/middtube/">Middtube</a>?
 		</form>
 		<?php
 		// If Add to MiddTube has been clicked we want to show a different form
@@ -669,12 +700,12 @@ class browseAction
 					print '</select>';
 					// Show the name of the file so we know what file we're choosing a
 					//category for and giving a name to. 
-					print "<input name='title".$i."' type='text' /> ".$title[0]."<br />";
+					print "<input class='post_title_input' name='title".$i."' type='text' /> ".$title[0]."<br />";
 					$i++;
 				} // end if ($middtube_embed != '') {
 			} // end foreach($embeds as $middtube_embed) {
 			?>
-			<input type='submit' value='Submit to Middtube!'/>
+			<input id='submit_to_middtube' type='submit' value='Submit to Middtube!'/>
 		</form>
 		<?php
 		} //end else {
