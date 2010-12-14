@@ -645,11 +645,12 @@ class browseAction
 		/*********************************************************
 		 * Add to MiddTube
 		 *********************************************************/
-		// Establish a connection to MiddTube
-		$client = new IXR_Client(MIDDTUBE_URL."/xmlrpc.php");
-		
+		if (defined('MIDDTUBE_URL') && MIDDTUBE_URL != '') {
+			// Establish a connection to MiddTube
+			$client = new IXR_Client(MIDDTUBE_URL."/xmlrpc.php");
+		}
 		// Do the following on normal page load
-		if (!isset($_POST['middtubeclicked'])){
+		if (!isset($_POST['middtubeclicked']) && defined('MIDDTUBE_URL') && MIDDTUBE_URL != ''){
 		
 		/*********************************************************
 		* Delete Controls (We only want this when we're not processing an addition to Middtube)
@@ -669,7 +670,7 @@ class browseAction
 		</form>
 		<?php
 		// If Add to MiddTube has been clicked we want to show a different form
-		} else {
+		} elseif (defined('MIDDTUBE_URL') && MIDDTUBE_URL != '') {
 		?>
 		<form action='index.php?module=middmedia&action=browse' method='post'>
 			<!-- Pass on the embed code the JS got last time. We'll need that -->
@@ -715,7 +716,7 @@ class browseAction
 		// Now we do this when the second part of the form has been completed
 		// (The categories have been selected and the names entered). Here we
 		// want to actually add the posts to MiddTube
-		if (isset($_POST['filenamesset'])) {
+		if (isset($_POST['filenamesset']) && defined('MIDDTUBE_URL') && MIDDTUBE_URL != '') {
 			// We need those embed codes again
 			$embeds = explode(',', $_POST['checked_files_middtube_embed']);
 			$i = 0;
