@@ -13,6 +13,7 @@ define('MIDDMEDIA_AUDIO_EMBED_CODE', '<script type="text/javascript" src="http:/
 define('MIDDMEDIA_FS_BASE_DIR', '/home/afranco/public_html/middmedia_data');
 define('MIDDMEDIA_HTTP_BASE_URL', 'http://chisel.middlebury.edu/~afranco/middmedia_data');
 define('MIDDMEDIA_RTMP_BASE_URL', 'rtmp://chisel.middlebury.edu/fms');
+define('MIDDTUBE_URL', 'http://blogs.middlebury.edu/middtube/');
 
 
 /*********************************************************
