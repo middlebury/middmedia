@@ -22,7 +22,7 @@
  	$configuration = new ConfigurationProperties;
  	$configuration->addProperty('database_index', HARMONI_DB_INDEX);
  	$configuration->addProperty('database_name', HARMONI_DB_NAME);
- 	$configuration->addProperty('default_theme', 'RoundedBox2');
+ 	$configuration->addProperty('default_theme', 'Midd');
  	$configuration->addProperty('character_set', 'utf-8');
  	$configuration->addProperty('document_type', 'text/html');
  	$configuration->addProperty('document_type_definition', '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">');

@@ -1,0 +1,76 @@
+/*********************************************************
+ * Heading 4
+ *********************************************************/
+
+*.Heading_Sidebar {
+    padding: 1px;
+    border: 0px;
+}
+*.Heading_Sidebar .Content {
+    background-color: [[HEADER_BG_COLOR]];
+    padding: 1px;
+    padding-left: 5px;
+    text-align: left;
+    font-size: 100%;
+    margin-top: -4px;
+    margin-bottom: -4px;
+}
+
+.Heading_Sidebar .BorderTL {
+    background: url('./images/[[IMAGE_DIR]]/header_TL.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 6px;
+    height: 6px;
+}
+
+.Heading_Sidebar .Top {
+    border-top: 1px solid [[BORDER_COLOR]];
+    background-color: [[HEADER_BG_COLOR]];
+}
+
+.Heading_Sidebar .BorderTR {
+    background: url('./images/[[IMAGE_DIR]]/header_TR.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 6px;
+    height: 6px;
+}
+
+
+.Heading_Sidebar .Right {
+    background-color: [[HEADER_BG_COLOR]];
+    border-right: 1px solid [[BORDER_COLOR]];
+    width: 5px;
+
+}
+
+.Heading_Sidebar .Left {
+    background-color: [[HEADER_BG_COLOR]];
+    border-left: 1px solid [[BORDER_COLOR]];
+    width: 5px;
+}
+
+
+.Heading_Sidebar .BorderBL {
+    background: url('./images/[[IMAGE_DIR]]/header_BL.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 6px;
+    height: 6px;
+}
+
+.Heading_Sidebar .Bottom {
+    border-bottom: 1px solid [[BORDER_COLOR]];
+    background-color: [[HEADER_BG_COLOR]];
+}
+
+.Heading_Sidebar .BorderBR {
+    background: url('./images/[[IMAGE_DIR]]/header_BR.gif') no-repeat;
+    background-color: [[HEADER_BG_COLOR]];
+    width: 6px;
+    height: 6px;
+}
+
+.corner {
+    width: 6px;
+    height: 6px;
+    border: 0px solid gray;
+}

@@ -1,0 +1,76 @@
+/*********************************************************
+ * Block 4 - Alert
+ *********************************************************/
+
+*.block4 {
+    padding: 1px;
+    border: 0px;
+}
+
+.block4 .Content {    
+    background-color: [[ALERT_COLOR]];
+    padding: 10px;
+    text-align: left;
+    margin: 0px;
+}
+
+.block4 .BorderTL {
+    background: url('./images/[[IMAGE_DIR]]/blockgrad_left.jpg') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 6px;
+
+}
+
+.block4 .Top {
+    border: 0px;
+    background: url('./images/[[IMAGE_DIR]]/blockgrad_center.jpg') repeat-x;
+    background-color: [[FG_COLOR]];
+
+ }
+
+.block4 .BorderTR {
+    background: url('./images/[[IMAGE_DIR]]/blockgrad_right.jpg') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 6px;
+
+}
+
+
+.block4 .Right {
+    background-color: [[FG_COLOR]];
+    border-right: 1px solid [[BORDER_COLOR]];
+    width: 5px;
+
+}
+
+.block4 .Left {
+    background-color: [[FG_COLOR]];
+    border-left: 1px solid [[BORDER_COLOR]];
+    width: 5px;
+}
+
+
+.block4 .BorderBL {
+    background: url('./images/[[IMAGE_DIR]]/header_BL.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 6px;
+    height: 6px;
+}
+
+.block4 .Bottom {
+    border-bottom: 1px solid [[BORDER_COLOR]];
+    background-color: [[FG_COLOR]];
+}
+
+.block4 .BorderBR {
+    background: url('./images/[[IMAGE_DIR]]/header_BR.gif') no-repeat;
+    background-color: [[FG_COLOR]];
+    width: 6px;
+    height: 6px;
+}
+
+.corner {
+    width: 6px;
+    height: 6px;
+    border: 0px solid gray;
+}

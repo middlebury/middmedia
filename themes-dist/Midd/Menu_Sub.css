@@ -1,0 +1,7 @@
+.Menu_Sub {
+    margin-left: 17px;
+}
+
+.Menu_Sub a {
+    font-size: [[MENU_FONT_SIZE]];
+}

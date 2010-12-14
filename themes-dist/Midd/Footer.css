@@ -1,0 +1,17 @@
+/*********************************************************
+ * Footer 1
+ *********************************************************/
+
+*.Footer {
+    padding: 1px;
+    border: 0px;
+}
+
+*.Footer .Content {
+    background-color: [[FG_COLOR]];
+    padding: 10px;
+    text-align: left;
+    margin: 0px;
+    font-size: 75%;
+}
+
