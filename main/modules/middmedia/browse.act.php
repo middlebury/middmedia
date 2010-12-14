@@ -58,7 +58,7 @@ class browseAction
 	function buildContent () {
 		$actionRows = $this->getActionRows();
 		
-		$this->addToHead("\n\t\t<script type='text/javascript' src='http://chisel.middlebury.edu/~lafrance/middmedia/javascript/jquery.min.js'></script>");
+		$this->addToHead("\n\t\t<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload/swfupload.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload_Samples/handlers.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload_Samples/fileprogress.js'></script> ");
