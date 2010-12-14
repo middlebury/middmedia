@@ -9,6 +9,11 @@
  */ 
 
 require_once(dirname(__FILE__).'/AbstractAction.class.php');
+/*********************************************************
+ * Add to MiddTube
+ *********************************************************/
+// Add the IXR class for XML-RPC with Wordpress
+require_once(dirname(__FILE__).'/includes/class-IXR.php');
 
 /**
  * 
@@ -640,8 +645,6 @@ class browseAction
 		/*********************************************************
 		 * Add to MiddTube
 		 *********************************************************/
-		// Add the IXR class for XML-RPC with Wordpress
-		require_once('main/modules/middmedia/includes/class-IXR.php');
 		// Establish a connection to MiddTube
 		$client = new IXR_Client(MIDDTUBE_URL."/xmlrpc.php");
 		
