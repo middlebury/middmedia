@@ -693,7 +693,7 @@ class browseAction
 					// Make a select list for the categories
 					print '<select name="categories'.$i.'">';
 					// Make sure we can connect and get the categories
-					if (!$client->query('wp.getCategories','', 'admin','b5ad94ba689b')) {
+					if (!$client->query('wp.getCategories','', WP_USER, WP_PASS)) {
 						die('An error occurred - '.$client->getErrorCode().":".$client->getErrorMessage());
 					}
 					$response = $client->getResponse();
@@ -742,12 +742,12 @@ class browseAction
 					$content['categories'] = array($_POST[$categories]);
 					$content['description'] = $middtube_embed;
 					// Make the post!
-					if (!$client->query('metaWeblog.newPost','', 'admin','b5ad94ba689b', $content, true)) {
+					if (!$client->query('metaWeblog.newPost','', WP_USER, WP_PASS, $content, true)) {
   					die('An error occurred - '.$client->getErrorCode().":".$client->getErrorMessage());
 					}
 					// Also get the most recent post. We want the post ID so we can use
 					// it to make some nice links to these new post(s) we just made.
-					if (!$client->query('metaWeblog.getRecentPosts','', 'admin','b5ad94ba689b', 1)) {
+					if (!$client->query('metaWeblog.getRecentPosts','', WP_USER, WP_PASS, 1)) {
   					die('An error occurred - '.$client->getErrorCode().":".$client->getErrorMessage());
 					}
 					$response = $client->getResponse();
