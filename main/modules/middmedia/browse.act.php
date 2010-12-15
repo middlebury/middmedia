@@ -115,7 +115,7 @@ class browseAction
 		  $('#submit_to_middtube').bind('click', function(){
 		  	var valid = true;
 		  	$('.post_title_input').each(function(){
-		  		if ($(this).val().match(/[^A-Za-z0-9-_\?\/\.%:',\(\)\u00A1-\u00FF]/) || !$(this).val()) {
+		  		if ($(this).val().match(/[^A-Za-z0-9-_\?\/\.%:' ,\(\)\u00A1-\u00FF]/) || !$(this).val()) {
 		  			valid = false;
 		  		}
 				});
@@ -694,7 +694,7 @@ class browseAction
 					print '<select name="categories'.$i.'">';
 					// Make sure we can connect and get the categories
 					if (!$client->query('wp.getCategories','', WP_USER, WP_PASS)) {
-						die('An error occurred - '.$client->getErrorCode().":".$client->getErrorMessage());
+						die('An error occurred - '.$client->getErrorCode().':'.$client->getErrorMessage());
 					}
 					$response = $client->getResponse();
 					// Make the select list options (the categories from MiddTube we just got)
@@ -753,7 +753,7 @@ class browseAction
 					$response = $client->getResponse();
 					// This is UGLY but it's just a line that tells us the name of the
 					// post we made, the file that was posted, and an "edit" and "view" link.
-					print "<p id='posted_to_middtube_success_message'><span class='b'><a target='_blank' href='".MIDDTUBE_URL."/?p=".($response[0]['postid']+$i)."'>".$_POST[$title]."</a> (".$filename[0].") posted to <a href='http://blogs.middlebury.edu/middtube/'>MiddTube</a> Successfully! <a target='_blank' href='".MIDDTUBE_URL."/wp-admin/post.php?post=".($response[0]['postid']+$i)."&action=edit'>Edit</a> or <a target='_blank' href='".MIDDTUBE_URL."/?p=".($response[0]['postid']+$i)."'>View</a> this post.</p>";
+					print "<p id='posted_to_middtube_success_message'><span class='b'><a target='_blank' href='".MIDDTUBE_URL."/?p=".($response[0]['postid']+$i)."'>".$_POST[$title]."</a> (".$filename[0].") posted to <a href='http://blogs.middlebury.edu/middtube/'>MiddTube</a> Successfully! <a target='_blank' href='".MIDDTUBE_URL."/wp-admin/post.php?post=".(htmlentities($response[0]['postid'])+$i)."&action=edit'>Edit</a> or <a target='_blank' href='".MIDDTUBE_URL."/?p=".htmlentities(($response[0]['postid'])+$i)."'>View</a> this post.</p>";
 					$i++;
 				}
 			}
