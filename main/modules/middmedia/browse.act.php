@@ -115,7 +115,7 @@ class browseAction
 		  $('#submit_to_middtube').bind('click', function(){
 		  	var valid = true;
 		  	$('.post_title_input').each(function(){
-		  		if ($(this).val().match(/[^A-Za-z0-9-_\?\/\.%:' ,\(\)\u00A1-\u00FF]/) || !$(this).val()) {
+		  		if ($(this).val().match(/[^A-Za-z0-9-_\?\/\.%:' !,\(\)\u00A1-\u00FF]/) || !$(this).val()) {
 		  			valid = false;
 		  		}
 				});
@@ -661,7 +661,7 @@ class browseAction
 		
 		?>
 		<!-- Add a form for Add to MiddTube --> 
-		<form action='index.php?module=middmedia&action=browse' method='post'>
+		<form action='<?php $harmoni->request->quickURL('middmedia', 'browse'); ?>' method='post'>
 			<!-- Lets us know that Add to MiddTube has been clicked on submission -->
 			<input name='middtubeclicked' type='hidden' value='TRUE' />
 			<!-- This is where the embed code the JS got is placed -->
@@ -672,7 +672,7 @@ class browseAction
 		// If Add to MiddTube has been clicked we want to show a different form
 		} elseif (defined('MIDDTUBE_URL') && MIDDTUBE_URL != '') {
 		?>
-		<form action='index.php?module=middmedia&action=browse' method='post'>
+		<form action='<?php $harmoni->request->quickURL('middmedia', 'browse'); ?>' method='post'>
 			<!-- Pass on the embed code the JS got last time. We'll need that -->
 			<input name='checked_files_middtube_embed' type='hidden' value='<?php print $_POST['checked_files_middtube_embed']; ?>'/>
 			<!-- This is a flag for this stage of the form -->
@@ -694,7 +694,7 @@ class browseAction
 					print '<select name="categories'.$i.'">';
 					// Make sure we can connect and get the categories
 					if (!$client->query('wp.getCategories','', WP_USER, WP_PASS)) {
-						die('An error occurred - '.$client->getErrorCode().':'.$client->getErrorMessage());
+						die('An error occurred - '.$client->getErrorCode().":".$client->getErrorMessage());
 					}
 					$response = $client->getResponse();
 					// Make the select list options (the categories from MiddTube we just got)
