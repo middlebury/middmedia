@@ -712,9 +712,10 @@ class browseAction
 				if ($middtube_embed != '') {
 					// Get the name of the file from the embed code
 					preg_match('/`!~.*~!`/',$middtube_embed, $filename);
+					$embed_filename = str_replace(' ','%20',$filename); 
+					$middtube_embed = str_replace($filename,$embed_filename,$middtube_embed);
 					$filename = str_replace('`!~','',$filename);
 					$filename = str_replace('~!`','',$filename);
-					$filename = str_replace(' ','%20',$filename);
 					// Now swap in the real user name for the placeholder
 					$middtube_embed = str_replace('##user##', $dir->getBaseName() . ' ' .$dir->getBaseName() ,$middtube_embed);
 					// Also replace the wrapper around the file name.
