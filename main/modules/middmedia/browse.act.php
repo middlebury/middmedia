@@ -111,20 +111,6 @@ class browseAction
 				}
 		  });
 		  
-		  // Validation for second step of form
-		  $('#submit_to_middtube').bind('click', function(){
-		  	var valid = true;
-		  	$('.post_title_input').each(function(){
-		  		if ($(this).val().match(/[^A-Za-z0-9-_\?\/\.%:' !,\(\)\u00A1-\u00FF]/) || !$(this).val()) {
-		  			valid = false;
-		  		}
-				});
-				if (!valid) {
-						alert('Invalid Characters. You must enter a title for each post. Only letters, numbers, and basic punctuation allowed.')
-						return false;
-				}
-		  });
-		  
 		}); //end (document).ready(function() {
 		
 		
@@ -728,6 +714,7 @@ class browseAction
 					preg_match('/`!~.*~!`/',$middtube_embed, $filename);
 					$filename = str_replace('`!~','',$filename);
 					$filename = str_replace('~!`','',$filename);
+					$filename = str_replace(' ','%20',$filename);
 					// Now swap in the real user name for the placeholder
 					$middtube_embed = str_replace('##user##', $dir->getBaseName() . ' ' .$dir->getBaseName() ,$middtube_embed);
 					// Also replace the wrapper around the file name.
@@ -738,7 +725,7 @@ class browseAction
 					$title = 'title' . $i;
 					$categories = 'categories' . $i;
 					// Here is the actual content	we're passing
-					$content['title'] = $_POST[$title];
+					$content['title'] = strip_tags($_POST[$title]);
 					$content['categories'] = array($_POST[$categories]);
 					$content['description'] = $middtube_embed;
 					// Make the post!
@@ -753,7 +740,7 @@ class browseAction
 					$response = $client->getResponse();
 					// This is UGLY but it's just a line that tells us the name of the
 					// post we made, the file that was posted, and an "edit" and "view" link.
-					print "<p id='posted_to_middtube_success_message'><span class='b'><a target='_blank' href='".MIDDTUBE_URL."/?p=".($response[0]['postid']+$i)."'>".$_POST[$title]."</a> (".$filename[0].") posted to <a href='http://blogs.middlebury.edu/middtube/'>MiddTube</a> Successfully! <a target='_blank' href='".MIDDTUBE_URL."/wp-admin/post.php?post=".(htmlentities($response[0]['postid'])+$i)."&action=edit'>Edit</a> or <a target='_blank' href='".MIDDTUBE_URL."/?p=".htmlentities(($response[0]['postid'])+$i)."'>View</a> this post.</p>";
+					print "<p id='posted_to_middtube_success_message'><span class='b'><a target='_blank' href='".MIDDTUBE_URL."/?p=".($response[0]['postid']+$i)."'>".strip_tags($_POST[$title])."</a> (".$filename[0].") posted to <a href='http://blogs.middlebury.edu/middtube/'>MiddTube</a> Successfully! <a target='_blank' href='".MIDDTUBE_URL."/wp-admin/post.php?post=".(htmlentities($response[0]['postid'])+$i)."&action=edit'>Edit</a> or <a target='_blank' href='".MIDDTUBE_URL."/?p=".htmlentities(($response[0]['postid'])+$i)."'>View</a> this post.</p>";
 					$i++;
 				}
 			}
