@@ -462,6 +462,20 @@ class browseAction
 				text.value = rtmpUrl;
 				text.readOnly = true;
 				
+				
+				
+				var heading = panel.contentElement.appendChild(document.createElement('h4'));
+				heading.innerHTML = 'Main Site Embed';
+				
+				var desc = panel.contentElement.appendChild(document.createElement('p'));
+				desc.innerHTML = 'The syntax for inserting videos is:[video:URL width:value height:value align:value autoplay:value autorewind:value loop:value image:URL]. The video URL is the address of the site you found the video on. Accepted values for width and height are numbers. Accepted values for align are left and right. Accepted values for autoplay, autorewind and loop are 0 (false) and 1 (true). The image URL is used to change the \"splash image\" or the image show in the player when the video is not playing. Other than the video URL, all attributes are optional.';
+				
+				var text = panel.contentElement.appendChild(document.createElement('input'));
+				text.type = 'text';
+				text.size = 80;
+				text.value = '[video:' + httpUrl + ']';
+				text.readOnly = true;
+				
 			}
 		}
 		
