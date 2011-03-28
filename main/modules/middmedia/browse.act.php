@@ -61,6 +61,14 @@ class browseAction
 	 * @since 4/26/05
 	 */
 	function buildContent () {
+		
+		//testing embedplugins stuff
+		//$plugins = EmbedPlugins::GetPlugins();
+		//$obj = $p[0];
+		$plugins2 = EmbedPlugins::instance();
+		//$p = $plugins2->GetPlugins();
+		//print $p[0]->GetMarkup();
+		
 		$actionRows = $this->getActionRows();
 		
 		$this->addToHead("\n\t\t<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>");
@@ -75,8 +83,32 @@ class browseAction
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".POLYPHONY_PATH."/javascript/Panel.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".POLYPHONY_PATH."/javascript/CenteredPanel.js'></script> ");
 		
-		$this->addToHead("
+		ob_start();
+		print "
 		<script type='text/javascript'>
+		
+		var meh = new Array(1,2,3);
+		alert(meh);
+		alert('ghj');
+		
+
+		";
+		$embed = array();
+		foreach ($plugins2->getPlugins() as $plugin) {
+			$embed[] = array(
+				"title" => $plugin->getTitle(),
+				"markup" => $plugin->getMarkup(),
+			);
+		}
+		print "var embedPlugins = ".json_encode($embed).";";
+		print "
+		//var obj = new EmbedPlugin_Drupal();
+		//alert(obj.title);
+		console.log(embedPlugins);
+		
+		for(var hello in embedplugins) {
+			alert(hello.title);
+		}
 		
 		// Create embed code for MiddTube
 		$(document).ready(function() {
@@ -480,7 +512,8 @@ class browseAction
 		}
 		
 		// ]]>
-		</script> ");
+		</script> ";
+		$this->addToHead(ob_get_clean());
 		
 		$manager = $this->getManager();
 		
