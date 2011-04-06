@@ -1,5 +1,12 @@
 <?php
 
+/******************
+*
+* Class for the embed code used for
+* showing the RTMP link to the video. 
+*
+*******************/
+
 class EmbedPlugin_RTMP implements EmbedPlugin {
 	
 	private $title;

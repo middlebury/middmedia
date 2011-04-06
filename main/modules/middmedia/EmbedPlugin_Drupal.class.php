@@ -1,5 +1,11 @@
 <?php
 
+/******************
+*
+* Class for the short embed code used on the Drupal site. 
+*
+*******************/
+
 class EmbedPlugin_Drupal implements EmbedPlugin {
 	
 	private $title;

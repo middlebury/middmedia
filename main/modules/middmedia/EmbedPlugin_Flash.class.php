@@ -1,5 +1,12 @@
 <?php
 
+/******************
+*
+* Class for the embed code used for the files
+* that stream from the Flash Media Server. 
+*
+*******************/
+
 class EmbedPlugin_Flash implements EmbedPlugin {
 	
 	private $title;

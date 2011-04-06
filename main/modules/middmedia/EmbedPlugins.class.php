@@ -1,5 +1,12 @@
 <?php
 
+/******************
+*
+* This is a singleton class for holding instances of the
+* embed codes for the video files on Middmedia 
+*
+*******************/
+
 class EmbedPlugins {
 	
 	private static $instance;

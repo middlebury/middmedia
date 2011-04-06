@@ -1,5 +1,12 @@
 <?php
 
+/******************
+*
+* Class for the embed code used for
+* showing the HTTP link to the video. 
+*
+*******************/
+
 class EmbedPlugin_HTTP implements EmbedPlugin {
 	
 	private $title;
