@@ -76,7 +76,7 @@ class browseAction
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".POLYPHONY_PATH."/javascript/Panel.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".POLYPHONY_PATH."/javascript/CenteredPanel.js'></script> ");
 		
-		print "
+		$this->addToHead("
 		<script type='text/javascript'>
 		
 		// Create embed code for MiddTube
@@ -451,7 +451,7 @@ class browseAction
 		}
 		
 		// ]]>
-		</script> ";
+		</script> ");
 		
 		$manager = $this->getManager();
 		
