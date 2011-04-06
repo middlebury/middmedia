@@ -62,13 +62,6 @@ class browseAction
 	 */
 	function buildContent () {
 		
-		//testing embedplugins stuff
-		//$plugins = EmbedPlugins::GetPlugins();
-		//$obj = $p[0];
-		$plugins2 = EmbedPlugins::instance();
-		//$p = $plugins2->GetPlugins();
-		//print $p[0]->GetMarkup();
-		
 		$actionRows = $this->getActionRows();
 		
 		$this->addToHead("\n\t\t<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>");
@@ -83,32 +76,8 @@ class browseAction
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".POLYPHONY_PATH."/javascript/Panel.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".POLYPHONY_PATH."/javascript/CenteredPanel.js'></script> ");
 		
-		ob_start();
 		print "
 		<script type='text/javascript'>
-		
-		var meh = new Array(1,2,3);
-		alert(meh);
-		alert('ghj');
-		
-
-		";
-		$embed = array();
-		foreach ($plugins2->getPlugins() as $plugin) {
-			$embed[] = array(
-				"title" => $plugin->getTitle(),
-				"markup" => $plugin->getMarkup(),
-			);
-		}
-		print "var embedPlugins = ".json_encode($embed).";";
-		print "
-		//var obj = new EmbedPlugin_Drupal();
-		//alert(obj.title);
-		console.log(embedPlugins);
-		
-		for(var hello in embedplugins) {
-			alert(hello.title);
-		}
 		
 		// Create embed code for MiddTube
 		$(document).ready(function() {
@@ -446,74 +415,43 @@ class browseAction
 			}
 		}
 		
-		function displayEmbedCode(link, type, fileId, httpUrl, rtmpUrl, splashUrl) {
+		function displayEmbedCode(link, type, fileId, dir, file, splashUrl) {
 			if (link.panel) {
 				link.panel.open();
 			} else {
-				var panel = new CenteredPanel('Embed Code and URLs', 400, 600, link);
+			
+			var panel = new CenteredPanel('Embed Code and URLs', 400, 700, link);
 				
-				var heading = panel.contentElement.appendChild(document.createElement('h4'));
-				heading.innerHTML = 'Embed Code';
-				
-				var desc = panel.contentElement.appendChild(document.createElement('p'));
-				desc.innerHTML = 'The following code can be pasted into web sites to display this video in-line. Please note that some services may not allow the embedding of videos.';
-				
-				var text = panel.contentElement.appendChild(document.createElement('textarea'));
-				text.cols = 70;
-				text.rows = 8;
-				text.value = getEmbedCode(type, fileId, httpUrl, rtmpUrl, splashUrl);
-				text.value = text.value + '</br /><div style=\'width:400px;text-align:center;\'><a style=\'margin:auto;\' href=' + httpUrl + '>Download Video</a></div>';
-				text.readOnly = true;
-				
-				var heading = panel.contentElement.appendChild(document.createElement('h4'));
-				heading.innerHTML = 'HTTP (Download) URL';
-				
-				var desc = panel.contentElement.appendChild(document.createElement('p'));
-				desc.innerHTML = '<a href=\"' + httpUrl  + '\" target=\"_blank\">Click here to download this file.</a>';
-				
-				var desc = panel.contentElement.appendChild(document.createElement('p'));
-				desc.innerHTML = 'Make a link to the following URL to allow downloads of this file. ';
-				
-				var text = panel.contentElement.appendChild(document.createElement('input'));
-				text.type = 'text';
-				text.size = 80;
-				text.value = httpUrl;
-				text.readOnly = true;
-				
-				
-				
-				var heading = panel.contentElement.appendChild(document.createElement('h4'));
-				heading.innerHTML = 'RTMP (Streaming) URL';
-				
-				var desc = panel.contentElement.appendChild(document.createElement('p'));
-				desc.innerHTML = 'The following URL may be used in custom Flash video players to stream this video.';
-				
-				var text = panel.contentElement.appendChild(document.createElement('input'));
-				text.type = 'text';
-				text.size = 80;
-				text.value = rtmpUrl;
-				text.readOnly = true;
-				
-				
-				
-				var heading = panel.contentElement.appendChild(document.createElement('h4'));
-				heading.innerHTML = 'Main Site Embed';
-				
-				var desc = panel.contentElement.appendChild(document.createElement('p'));
-				desc.innerHTML = 'The syntax for inserting videos is:[video:URL width:value height:value align:value autoplay:value autorewind:value loop:value image:URL]. The video URL is the address of the site you found the video on. Accepted values for width and height are numbers. Accepted values for align are left and right. Accepted values for autoplay, autorewind and loop are 0 (false) and 1 (true). The image URL is used to change the \"splash image\" or the image show in the player when the video is not playing. Other than the video URL, all attributes are optional.';
-				
-				var text = panel.contentElement.appendChild(document.createElement('input'));
-				text.type = 'text';
-				text.size = 80;
-				text.value = '[video:' + httpUrl + ']';
-				text.readOnly = true;
+			var req = Harmoni.createRequest();
+			if (!req) {
+				alert('Your browser does not support AJAX, please upgrade.');
+				return;
+			}
+			
+			req.onreadystatechange = function () {
+				// only if req shows 'loaded'
+				if (req.readyState == 4) {
+					// only if we get a good load should we continue.
+					if (req.status == 200 && req.responseText) {
+						
+						var desc = panel.contentElement.appendChild(document.createElement('p'));
+						desc.innerHTML = req.responseText;
+						
+					} else {
+						alert(req.responseText);
+					}
+				}
+			}
+			
+			req.open('GET', Harmoni.quickUrl('middmedia', 'embed', {'directory':dir,'file':file,'id':fileId}), true);
+			req.send(null);
 				
 			}
+			
 		}
 		
 		// ]]>
 		</script> ";
-		$this->addToHead(ob_get_clean());
 		
 		$manager = $this->getManager();
 		
@@ -896,8 +834,7 @@ class browseAction
 			
 			print "\n\t\t\t<td class='access'>";
 			
-
-			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".$type."', '".rawurlencode($myId)."', '".$file->getHttpUrl()."', '".$file->getRtmpUrl()."', '".$splashUrl."'); return false;\">Embed Code &amp; URLs</a>";
+			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".$type."', '".rawurlencode($myId)."', '".$file->directory->getBaseName()."', '".$file->getBaseName()."', '".$splashUrl."'); return false;\">Embed Code &amp; URLs</a>";
 			
 			print "</td>";			
 			print "\n\t\t</tr>";

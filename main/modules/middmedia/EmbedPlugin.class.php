@@ -3,6 +3,7 @@
 interface EmbedPlugin {
 	
 	function GetTitle();
-	function GetMarkup();
+	function GetDesc($file);
+	function GetMarkup($file);
 	
 }

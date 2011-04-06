@@ -1,34 +1,28 @@
 <?php
 
-class EmbedPlugin_Drupal extends EmbedPlugin_Abstract implements EmbedPlugin {
+class EmbedPlugin_Drupal /*extends EmbedPlugin_Abstract*/ implements EmbedPlugin {
 	
 	private $title;
+	private $desc;
 	private $markup;
 	
 	function __construct() {
-		$this->title = 'Drupal Embed Code';
-		$this->markup = 'Here is code or something.';
+		$this->title = 'Drupal Page Embed Code';
+		$this->desc = '<p>The syntax for inserting videos is:[video:URL width:value height:value align:value autoplay:value autorewind:value loop:value image:URL]. The video URL is the address of the site you found the video on. Accepted values for width and height are numbers. Accepted values for align are left and right. Accepted values for autoplay, autorewind and loop are 0 (false) and 1 (true). The image URL is used to change the \"splash image\" or the image show in the player when the video is not playing. Other than the video URL, all attributes are optional.</p>';
+		//$this->markup = 'Here is code or something.';
 	}
 	
 	function GetTitle() {
 		return $this->title;
 	}
 	
-	function GetMarkup() {
-		return $this->markup;
+	function GetDesc($file) {
+		return $this->desc;
 	}
 	
-	public function make_js_obj () {
-		
-      $classname = get_class($this);
-      $string = "\nfunction $classname() " . "{\n";
-      $cvars = get_object_vars($this);
-      foreach ($cvars as $k=>$v)
-      {
-       $string = $string . "\tthis.$k = '$v';\n";
-      }
-      $string = $string . "}\n\n";
-      return $string;
-  }
+	function GetMarkup($file) {
+		$this->markup = '<input type="text" size="110" value="[video:' . $file->getHttpUrl() . ']" />';
+		return $this->markup;
+	}
 	
 }
