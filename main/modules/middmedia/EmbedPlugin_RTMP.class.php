@@ -1,6 +1,6 @@
 <?php
 
-class EmbedPlugin_RTMP /*extends EmbedPlugin_Abstract*/ implements EmbedPlugin {
+class EmbedPlugin_RTMP implements EmbedPlugin {
 	
 	private $title;
 	private $desc;

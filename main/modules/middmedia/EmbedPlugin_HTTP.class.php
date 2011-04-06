@@ -1,6 +1,6 @@
 <?php
 
-class EmbedPlugin_HTTP /*extends EmbedPlugin_Abstract*/ implements EmbedPlugin {
+class EmbedPlugin_HTTP implements EmbedPlugin {
 	
 	private $title;
 	private $desc;

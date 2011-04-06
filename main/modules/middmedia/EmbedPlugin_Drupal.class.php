@@ -1,6 +1,6 @@
 <?php
 
-class EmbedPlugin_Drupal /*extends EmbedPlugin_Abstract*/ implements EmbedPlugin {
+class EmbedPlugin_Drupal implements EmbedPlugin {
 	
 	private $title;
 	private $desc;
@@ -9,7 +9,6 @@ class EmbedPlugin_Drupal /*extends EmbedPlugin_Abstract*/ implements EmbedPlugin
 	function __construct() {
 		$this->title = 'Drupal Page Embed Code';
 		$this->desc = '<p>The syntax for inserting videos is:[video:URL width:value height:value align:value autoplay:value autorewind:value loop:value image:URL]. The video URL is the address of the site you found the video on. Accepted values for width and height are numbers. Accepted values for align are left and right. Accepted values for autoplay, autorewind and loop are 0 (false) and 1 (true). The image URL is used to change the \"splash image\" or the image show in the player when the video is not playing. Other than the video URL, all attributes are optional.</p>';
-		//$this->markup = 'Here is code or something.';
 	}
 	
 	function GetTitle() {

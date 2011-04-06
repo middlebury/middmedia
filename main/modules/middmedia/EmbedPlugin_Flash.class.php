@@ -1,6 +1,6 @@
 <?php
 
-class EmbedPlugin_Flash /*extends EmbedPlugin_Abstract*/ implements EmbedPlugin {
+class EmbedPlugin_Flash implements EmbedPlugin {
 	
 	private $title;
 	private $desc;
