@@ -61,14 +61,10 @@ class embedAction
 		
 		$file = $dir->getFile(RequestContext::value('file'));
 		
-		$httpUrl = $file->getHttpUrl();
-		$rtmpUrl = $file->getRtmpUrl();
-		$splashImage = $file->getSplashImage();
-		
 		$plugins = EmbedPlugins::instance();
 		
 		foreach ($plugins->getPlugins() as $embed) {
-			print '<h3>'.$embed->GetTitle().'</h3>';
+			print "\n<h3>".$embed->GetTitle()."</h3>";
 			print $embed->GetDesc($file);
 			print $embed->GetMarkup($file);	
 		}
@@ -102,94 +98,6 @@ class embedAction
 	 */
 	protected function getManager () {
 		return MiddMediaManager::forCurrentUser();
-	}
-	
-	/**
-	 * @var object MiddMedia_Directory $directory;  
-	 * @access private
-	 * @since 11/19/08
-	 */
-	private $directory;
-	
-	/**
-	 * Send an error header and string.
-	 * 
-	 * @param string $errorString
-	 * @return void
-	 * @access protected
-	 * @since 11/13/08
-	 */
-	protected function error ($errorString) {
-		$this->logError($errorString);
-		
-		header("HTTP/1.1 500 Internal Server Error");
-		echo $errorString;
-		exit;
-	}
-	
-	/**
-	 * Log an error
-	 * 
-	 * @param string $errorString
-	 * @return void
-	 * @access public
-	 * @since 11/19/09
-	 */
-	public function logError ($errorString) {
-		// Log the success or failure
-		if (Services::serviceRunning("Logging")) {
-			$loggingManager = Services::getService("Logging");
-			$log = $loggingManager->getLogForWriting("MiddMedia");
-			$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
-							"A format in which the acting Agent[s] and the target nodes affected are specified.");
-			$priorityType = new Type("logging", "edu.middlebury", "Error",
-							"Error events.");
-			
-			$item = new AgentNodeEntryItem($this->getErrorName(), $this->getErrorPrefix().$errorString);
-			
-			$idManager = Services::getService("Id");
-							
-			$item->addNodeId($idManager->getId('middmedia:'.$this->getDirectory()->getBaseName().'/'));
-			
-			$log->appendLogWithTypes($item,	$formatType, $priorityType);
-		}
-	}
-	
-	/**
-	 * Answer and error name
-	 * 
-	 * @return string
-	 * @access protected
-	 * @since 12/10/08
-	 */
-	protected function getErrorName () {
-		return "Upload Failed";
-	}
-	
-	/**
-	 * Answer and error prefix
-	 * 
-	 * @return string
-	 * @access protected
-	 * @since 12/10/08
-	 */
-	protected function getErrorPrefix () {
-		return "File upload failed with message: ";
-	}
-	
-	/**
-	 * Answer the file size limit
-	 * 
-	 * @return int
-	 * @access protected
-	 * @since 11/13/08
-	 */
-	protected function getFileSizeLimit () {
-		return min(
-					ByteSize::fromString(ini_get('post_max_size'))->value(),
-					ByteSize::fromString(ini_get('upload_max_filesize'))->value(),
-					ByteSize::fromString(ini_get('memory_limit'))->value()
-				);
 	}
 	
 }
