@@ -58,7 +58,7 @@ class upload_form_resultAction
 	 * @access protected
 	 * @since 11/19/09
 	 */
-	protected function success (MiddMedia_Directory $dir, MiddMedia_File $file) {
+	protected function success (MiddMedia_Directory $dir, MiddMedia_File_Media $file) {
 		ob_start();
 		
 		print $file->getBaseName().' successfully uploaded to '.$dir->getBaseName();

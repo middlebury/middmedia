@@ -94,7 +94,7 @@ class uploadAction
 	 * @access protected
 	 * @since 11/19/09
 	 */
-	protected function success (MiddMedia_Directory $dir, MiddMedia_File $file) {
+	protected function success (MiddMedia_Directory $dir, MiddMedia_File_Media $file) {
 		// Return output to the browser (only supported by SWFUpload for Flash Player 9)
 		header("HTTP/1.1 200 OK");
 		header("Content-type: text/xml");
@@ -115,13 +115,15 @@ class uploadAction
 		}
 		
 		try {
-			print "\n\t\t\tthumb_url=\"".$file->getThumbnailImage()->getUrl()."\"";
+			$format = $file->getFormat('thumb');
+			print "\n\t\t\tthumb_url=\"".$format->getHttpUrl()."\"";
 		} catch (Exception $e) {
 			print "\n\t\t\tthumb_url=\"\"";
 		}
 		
 		try {
-			print "\n\t\t\tsplash_url=\"".$file->getSplashImage()->getUrl()."\"";
+			$format = $file->getFormat('splash');
+			print "\n\t\t\tsplash_url=\"".$format->getHttpUrl()."\"";
 		} catch (Exception $e) {
 			print "\n\t\t\tsplash_url=\"\"";
 		}

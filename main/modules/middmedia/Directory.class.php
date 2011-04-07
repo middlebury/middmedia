@@ -9,7 +9,7 @@
  * @version $Id$
  */ 
 
-require_once(dirname(__FILE__).'/File.class.php');
+require_once(dirname(__FILE__).'/model/File/Media.class.php');
 
 /**
  * This class is a simple directory-access wrapper.
@@ -152,7 +152,7 @@ class MiddMedia_Directory {
 	/**
 	 * Answer an array of the files in this directory.
 	 * 
-	 * @return array of MiddMediaFile objects
+	 * @return array of MiddMedia_File_Media objects
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -160,7 +160,7 @@ class MiddMedia_Directory {
 		$files = array();
 		foreach (scandir($this->getFsPath()) as $fname) {
 			if (!is_dir($this->getFsPath().'/'.$fname))
-				$files[] = new MiddMedia_File($this, $fname);
+				$files[] = MiddMedia_File_Media::get($this, $fname);
 		}
 		return $files;
 	}
@@ -169,14 +169,14 @@ class MiddMedia_Directory {
 	 * Answer a single file by name
 	 * 
 	 * @param string $name
-	 * @return object MiddMedia_File
+	 * @return object MiddMedia_File_Media
 	 * @access public
 	 * @since 11/13/08
 	 */
 	public function getFile ($name) {
 		if (!$this->fileExists($name))
 			throw new UnknownIdException("File '$name' does not exist.");
-		return new MiddMedia_File($this, $name);
+		return MiddMedia_File_Media::get($this, $name);
 	}
 	
 	/**
@@ -188,7 +188,7 @@ class MiddMedia_Directory {
 	 * @since 11/13/08
 	 */
 	public function fileExists ($name) {
-		if (!MiddMedia_File::nameValid($name))
+		if (!MiddMedia_File_Media::nameValid($name))
 			throw new InvalidArgumentException('Invalid file name \''.$name.'\'');
 		return file_exists($this->getFsPath().'/'.$name);
 	}
@@ -339,8 +339,7 @@ class MiddMedia_Directory {
 		if (file_exists($this->getFsPath().'/'.$file->getBaseName()))
 			throw new OperationFailedException("File already exists.");
 		
-		$newFile = new MiddMedia_File($this, $file->getBaseName());
-		$newFile->setCreator($this->manager->getAgent());
+		$newFile = $this->createFile($file->getBaseName());
 		$newFile->putContents($file->getContents());
 		
 		return $newFile;
@@ -360,16 +359,10 @@ class MiddMedia_Directory {
 	 * @since 11/21/08
 	 */
 	public function createFile ($name) {
-		if (!MiddMedia_File::nameValid($name))
-			throw new InvalidArgumentException("Invalid file name '$name'.");
 		if ($this->fileExists($name))
 			throw new OperationFailedException("File already exists.");
 		
-		touch($this->getFsPath().'/'.$name);
-		$newFile = new MiddMedia_File($this, $name);
-		$newFile->setCreator($this->manager->getAgent());
-		
-		return $newFile;
+		return MiddMedia_File_Media::create($this, $name);
 	}
 	
 	/**
@@ -431,27 +424,10 @@ class MiddMedia_Directory {
 		if (!isset($fileArray['error']) || $fileArray['error']) 
 			throw new InvalidArgumentException('An error occurred with the file upload: '.$uploadErrors[$fileArray['error']]);
 		
-		$pathInfo = pathinfo($fileArray['name']);
-		// PHP < 5.2.0 doesn't have 'filename'
-		if (!isset($pathInfo['filename'])) {
-			preg_match('/(.+)\.[a-z0-9]+/i', basename($fileArray['name']), $matches);
-			$pathInfo['filename'] = $matches[1];
-		}
+		$mediaFile = $this->createFile($fileArray['name']);
+		$mediaFile->moveInUploadedFile($fileArray['tmp_name']);
 		
-		$valid_chars_regex = '.a-zA-Z0-9_ !@#$%^&()+={}\[\]\',~`-';	// Characters allowed in the file name (in a Regular Expression format)
-		$basename = preg_replace('/[^'.$valid_chars_regex.']|\.+$/i', "", $pathInfo['filename']);
-		$extension = strtolower(preg_replace('/[^'.$valid_chars_regex.']|\.+$/i', "", $pathInfo['extension']));
-		$targetExtension = MiddMedia_File::getTargetExtension($extension);
-		
-		$MAX_FILENAME_LENGTH = 260;
-		if (strlen($basename) == 0 || strlen($basename) > $MAX_FILENAME_LENGTH) {
-			throw new InvalidArgumentException("Invalid file name, '".$basename."'");
-		}
-		
-		$file = $this->createFile($basename.'.'.$targetExtension);
-		$file->moveInUploadedFileForProcessing($fileArray['tmp_name']);
-		
-		return $file;
+		return $mediaFile;
 	}
 	
 	/**
