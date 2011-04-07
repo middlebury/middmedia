@@ -14,6 +14,9 @@ require_once(dirname(__FILE__).'/Format/Image/FullFrame.class.php');
 require_once(dirname(__FILE__).'/Format/Image/Thumbnail.class.php');
 require_once(dirname(__FILE__).'/Format/Image/Splash.class.php');
 
+if (version_compare(PHP_VERSION, '5.2.0', '<'))
+	throw new Exception('MiddMedia Requires PHP >= 5.2.0');
+
 /**
  * A Media file is a link to the default version of an audio or video file as well
  * as a collection for accessing all versions of the the media.
