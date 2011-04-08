@@ -790,9 +790,13 @@ class browseAction
 			}
 			
 			try {
-				$splashUrl = $file->getSplashImage()->getUrl();
-			} catch (OperationFailedException $e) {
-				$splashUrl = '';
+				$splashUrl = $file->getFormat('splash')->getHttpUrl();
+			} catch (InvalidArgumentException $e) {
+				// Only ignore if reporting that the file doesn't exist.
+				if ($e->getCode() != 78345)
+					throw $e;
+				else
+					$splashUrl = '';
 			}
 			
 			
@@ -813,15 +817,16 @@ class browseAction
 				$rtmpUrl = $primaryFormat->getRtmpUrl();
 			else
 				$rtmpUrl = '';
+			
 			print "\n\t\t\t\t<a href='#' onclick=\"displayMedia(this, '".$type."', '".rawurlencode($myId)."', '".$httpUrl."', '".$rtmpUrl."', '".$splashUrl."'); return false;\">";
 			print $file->getBaseName();
 			try {
-				$thumbnail = $file->getThumbnailImage();
+				$thumbUrl = $file->getFormat('thumb')->getHttpUrl();
 				print "\n\t\t\t\t<br/>\n\t\t\t\t";
-				print "<img src=\"".$thumbnail->getUrl()."\" class='media_thumbnail'/>";
-			} catch (OperationFailedException $e) {
+				print "<img src=\"".$thumbUrl."\" class='media_thumbnail'/>";
+			} catch (InvalidArgumentException $e) {
 				// Only ignore if reporting that the file doesn't exist.
-				if ($e->getCode() != 897345)
+				if ($e->getCode() != 78345)
 					throw $e;
 			}
 			print "\n\t\t\t\t</a>";
@@ -854,7 +859,7 @@ class browseAction
 			print "\n\t\t\t<td class='access'>";
 			
 
-			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".$type."', '".rawurlencode($myId)."', '".$file->getHttpUrl()."', '".$file->getRtmpUrl()."', '".$splashUrl."'); return false;\">Embed Code &amp; URLs</a>";
+			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".$type."', '".rawurlencode($myId)."', '".$httpUrl."', '".$rtmpUrl."', '".$splashUrl."'); return false;\">Embed Code &amp; URLs</a>";
 			
 			print "</td>";			
 			print "\n\t\t</tr>";
