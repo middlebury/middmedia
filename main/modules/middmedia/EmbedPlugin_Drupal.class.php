@@ -41,4 +41,8 @@ class EmbedPlugin_Drupal implements EmbedPlugin {
 		return "\n<input type='text' size='110' value='[video:" . $file->getHttpUrl() . "]' />";
 	}
 	
+	function isSupported(MiddMedia_File $file) {
+		return true;
+	}
+	
 }
