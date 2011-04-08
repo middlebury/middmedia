@@ -10,6 +10,7 @@ require_once(HARMONI.'/utilities/Filing/FileSystemFile.class.php');
 require_once(dirname(__FILE__).'/Media.interface.php');
 require_once(dirname(__FILE__).'/Format/Video/Source.class.php');
 require_once(dirname(__FILE__).'/Format/Video/Mp4.class.php');
+require_once(dirname(__FILE__).'/Format/Audio/Mp3.class.php');
 require_once(dirname(__FILE__).'/Format/Image/FullFrame.class.php');
 require_once(dirname(__FILE__).'/Format/Image/Thumbnail.class.php');
 require_once(dirname(__FILE__).'/Format/Image/Splash.class.php');
@@ -409,6 +410,8 @@ class MiddMedia_File_Media
 				return MiddMedia_File_Format_Video_Mp4::get($this);
 			case 'webm':
 				return MiddMedia_File_Format_Video_WebM::get($this);
+			case 'mp3':
+				return MiddMedia_File_Format_Audio_Mp3::get($this);
 			case 'thumb':
 				return MiddMedia_File_Format_Image_Thumbnail::get($this);
 			case 'splash':
