@@ -4,6 +4,8 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
+include_once MYDIR . '/main/modules/middmedia/EmbedPlugin.class.php';
+
 /**
  * Class for the short embed code used on the Middlebury and MIIS Drupal sites.
  *
