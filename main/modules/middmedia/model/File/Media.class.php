@@ -174,7 +174,7 @@ class MiddMedia_File_Media
 	public function moveInUploadedFile ($tempName) {
 		// MP3 audio only has a single version, so just store it.
 		if ($this->getExtension() == 'mp3') {
-			$mp3Format = $media->setPrimaryFormat(MiddMedia_File_Format_Audio_Mp3::create($this));
+			$mp3Format = $this->setPrimaryFormat(MiddMedia_File_Format_Audio_Mp3::create($this));
 			$mp3Format->moveInUploadedFile($tempName);
 			return;
 		}
@@ -211,6 +211,7 @@ class MiddMedia_File_Media
 	protected function setPrimaryFormat (MiddMedia_File_FormatInterface $formatFile) {
 		unlink($this->getPath());
 		symlink($formatFile->getPath(), $this->getPath());
+		return $formatFile;
 	}
 	
 	/**
