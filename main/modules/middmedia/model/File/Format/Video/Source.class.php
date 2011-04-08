@@ -66,7 +66,7 @@ class MiddMedia_File_Format_Video_Source
 	 * @return object MiddMedia_File_FormatInterface The new file
 	 */
 	public static function get (MiddMedia_File_MediaInterface $mediaFile) {
-		return new MiddMedia_File_Format_Video_Source($directory, $name);
+		return new MiddMedia_File_Format_Video_Source($mediaFile);
 	}
 	
 	/*********************************************************
