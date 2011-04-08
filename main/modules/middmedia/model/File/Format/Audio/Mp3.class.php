@@ -155,7 +155,14 @@ class MiddMedia_File_Format_Audio_Mp3
 		throw new UnimplementedException();
 	}
 
-	
+	/**
+	 * Clean up our temporary files.
+	 * 
+	 * @return void
+	 */
+	public function cleanup () {
+		// Do nothing since we don't process anything.
+	}	
 }
 
 ?>

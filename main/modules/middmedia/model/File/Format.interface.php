@@ -106,6 +106,13 @@ interface MiddMedia_File_FormatInterface
 	 */
 	public function process (Harmoni_Filing_FileInterface $source);
 	
+	/**
+	 * Clean up our temporary files.
+	 * 
+	 * @return void
+	 */
+	public function cleanup ();
+	
 }
 
 ?>

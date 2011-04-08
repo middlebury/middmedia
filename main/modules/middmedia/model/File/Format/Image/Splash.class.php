@@ -151,11 +151,58 @@ class MiddMedia_File_Format_Image_Splash
 	 * @param Harmoni_Filing_FileInterface $source
 	 * @return void
 	 */
-	public function process (Harmoni_Filing_FileInterface $source) {
-		throw new UnimplementedException();
+	public function process (Harmoni_Filing_FileInterface $fullFrame) {
+		if (!preg_match('/^image\/.+$/', $fullFrame->getMimeType()))
+			throw new InvalidArgumentException("Unsupported image type, ".$fullFrame->getMimeType());
+		
+		if (!$fullFrame->isReadable())
+			throw new PermissionDeniedException('Full-frame file is not readable: '.$this->media->getDirectory()->getBaseName().'/'.basename(dirname($fullFrame->getPath())).'/'.$fullFrame->getBaseName());
+		
+		// Set up the Splash Image directory
+		$thumbDir = basename($this->getPath());
+		
+		if (!file_exists($splashDir)) {
+			if (!mkdir($splashDir, 0775))
+				throw new PermissionDeniedException('Could not create splash dir: '.$this->media->getDirectory()->getBaseName().'/splash');
+		}
+		
+		if (!is_writable($splashDir))
+			throw new PermissionDeniedException('Splash dir is not writable: '.$this->media->getDirectory()->getBaseName().'/splash');
+		
+		if (!defined('IMAGE_MAGICK_COMPOSITE_PATH'))
+			throw new ConfigurationErrorException('IMAGE_MAGICK_COMPOSITE_PATH is not defined');
+		
+		if (!defined('MIDDMEDIA_SPLASH_OVERLAY'))
+			throw new ConfigurationErrorException('MIDDMEDIA_SPLASH_OVERLAY is not defined');
+		
+		if (!is_readable(MIDDMEDIA_SPLASH_OVERLAY))
+			throw new PermissionDeniedException('MIDDMEDIA_SPLASH_OVERLAY is not readable');
+		
+		$destImage = $this->getPath().'-tmp';
+		$command = IMAGE_MAGICK_COMPOSITE_PATH.' -gravity center '.escapeshellarg(MIDDMEDIA_SPLASH_OVERLAY).' '.escapeshellarg($fullFrame->getPath()).' '.escapeshellarg($destImage);
+		$lastLine = exec($command, $output, $return_var);
+		if ($return_var) {
+			throw new OperationFailedException("Splash-Image generation failed with code $return_var: $lastLine");
+		}
+		
+		if (!file_exists($destImage))
+			throw new OperaionFailedException('Splash-Image was not generated: '.$this->media->getDirectory()->getBaseName().'/splash/'.$parts['filename'].'.jpg');
+		
+		$this->moveInUploadedFile($destImage);
+		$this->cleanup();
 	}
 
-	
+	/**
+	 * Clean up our temporary files.
+	 * 
+	 * @return void
+	 */
+	public function cleanup () {
+		$outFile = $this->getPath().'-tmp';
+		if (file_exists($outFile))
+			unlink($outFile);
+		
+		if (file_exists($outFile))
+			throw new OperationFailedException("Could not delete $outFile");
+	}
 }
-
-?>

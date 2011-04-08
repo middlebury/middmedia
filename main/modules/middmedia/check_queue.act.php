@@ -47,7 +47,7 @@ class check_queueAction
 	public function buildContent () {
 		try {
 			$manager = AdminMiddMediaManager::forSystemUser();
-			MiddMedia_File::checkQueue($manager);
+			MiddMedia_File_Media::checkQueue($manager);
 			print "Done\n";
 			exit;
 		} catch (Exception $e) {

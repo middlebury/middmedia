@@ -152,10 +152,95 @@ class MiddMedia_File_Format_Image_FullFrame
 	 * @return void
 	 */
 	public function process (Harmoni_Filing_FileInterface $source) {
-		throw new UnimplementedException();
+		$timecodes = array($seconds);
+		if ($seconds > 5)
+			$timecodes[] = 5;
+		if ($seconds > 2)
+			$timecodes[] = 2;
+		
+		// Try several time-codes and see if we can get an image out.
+		while (!isset($fullFrame) && current($timecodes)) {
+			$seconds = current($timecodes);
+			try {
+				$this->createFullFrame($source, $seconds);
+				return;
+			} catch (OperationFailedException $e) {
+				next($timecodes);
+			}
+		}
+		
+		// if we still don't have an image, copy in our default one.
+		if (!defined('MIDDMEDIA_DEFAULT_FRAME_PATH'))
+			throw new ConfigurationErrorException('MIDDMEDIA_DEFAULT_FRAME_PATH is not defined');
+		if (!copy(MIDDMEDIA_DEFAULT_FRAME_PATH, $this->getPath()))
+			throw new OperationFailedException('Could not copy default full-frame image');
+	}
+	
+	
+	/**
+	 * Create a full-frame image from the video file at the time-code specified.
+	 *
+	 * Throws:
+	 *		InvalidArgumentException on invalid time-code
+	 *		PermissionDeniedException on read/write failure.
+	 *		ConfigurationErrorException on invalid configuration
+	 *		OperationFailedException on image extraction failure.
+	 * 
+	 * @param Harmoni_Filing_FileInterface $source
+	 * @param optional float $seconds Time-offset at which to grab the frame.
+	 * @return MiddMedia_ImageFile the full-frame image file
+	 * @access protected
+	 * @since 1/29/09
+	 */
+	protected function createFullFrame (Harmoni_Filing_FileInterface $source, $seconds = 5) {
+		$seconds = floatval($seconds);
+		if ($seconds <= 0)
+			throw new InvalidArgumentException('$seconds must be a float greater than zero. '.$seconds.' is invalid.');
+		
+		if (!$source->isReadable())
+			throw new PermissionDeniedException('Video file is not readable: '.$this->media->getDirectory()->getBaseName().'/'.basename(dirname($source->getPath())).'/'.$source->getBaseName());
+		
+		$fullFramesDir = $this->media->getDirectory()->getFsPath().'/full_frame';
+		
+		if (!file_exists($fullFramesDir)) {
+			if (!mkdir($fullFramesDir, 0775))
+				throw new PermissionDeniedException('Could not create full-frames dir: '.$this->media->getDirectory()->getBaseName().'/full_frame');
+		}
+		
+		if (!is_writable($fullFramesDir))
+			throw new PermissionDeniedException('Full-Frames dir is not writable: '.$this->media->getDirectory()->getBaseName().'/full_frame');
+		
+		if (!defined('FFMPEG_PATH'))
+			throw new ConfigurationErrorException('FFMPEG_PATH is not defined');
+		
+		// Try to create the full-frame
+		$destImage = $this->getPath().'-tmp';
+		$command = FFMPEG_PATH.' -vframes 1 -ss '.$seconds.' -i '.escapeshellarg($this->getFsPath()).'  -vcodec mjpeg '.escapeshellarg($destImage).'  2>&1';
+		$lastLine = exec($command, $output, $return_var);
+		if ($return_var) {
+			throw new OperationFailedException("Full-frame generation failed with code $return_var: $lastLine");
+		}
+		
+		if (!file_exists($destImage))
+			throw new OperationFailedException('Full-frame was not generated: '.$this->media->getDirectory()->getBaseName().'/full_frame/'.basename($destImage));
+		
+		$this->moveInUploadedFile($destImage);
+		$this->cleanup();
 	}
 
-	
+	/**
+	 * Clean up our temporary files.
+	 * 
+	 * @return void
+	 */
+	public function cleanup () {
+		$outFile = $this->getPath().'-tmp';
+		if (file_exists($outFile))
+			unlink($outFile);
+		
+		if (file_exists($outFile))
+			throw new OperationFailedException("Could not delete $outFile");
+	}
 }
 
 ?>

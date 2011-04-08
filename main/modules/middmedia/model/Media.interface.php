@@ -50,6 +50,17 @@ interface MiddMedia_File_MediaInterface
 	 */
 	public static function getVideoInfo ($filePath);
 	
+	/**
+	 * Check the queue for items to process and start processing if needed.
+	 * 
+	 * @param object MiddMediaManagerMiddMediaManager $manager
+	 * @return void
+	 * @access public
+	 * @since 9/25/09
+	 * @static
+	 */
+	public static function checkQueue (MiddMediaManager $manager);
+	
 	/*********************************************************
 	 * Instance creation methods.
 	 *********************************************************/

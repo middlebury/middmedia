@@ -97,6 +97,94 @@ class MiddMedia_File_Media
 	}
 	
 	/**
+	 * Check the queue for items to process and start processing if needed.
+	 * 
+	 * @param object MiddMediaManagerMiddMediaManager $manager
+	 * @return void
+	 * @access public
+	 * @since 9/25/09
+	 * @static
+	 */
+	public static function checkQueue (MiddMediaManager $manager) {
+		$dbMgr = Services::getService("DatabaseManager");
+		
+		// Check to see if there are any items currently processing. If so, don't process more.
+		$query = new SelectQuery;
+		$query->addTable('middmedia_queue');
+		$query->addColumn('*');
+		$query->addWhereEqual('processing', '1');
+		$results = $dbMgr->query($query, HARMONI_DB_INDEX);
+		
+		while ($results->hasNext()) {
+			$row = $results->next();
+			
+			// Clean out any really old jobs
+			$startTStamp = $dbMgr->fromDBDate($row['processing_start'], HARMONI_DB_INDEX);
+			if ($startTStamp->isLessThan(DateAndTime::now()->minus(Duration::withHours(3)))) {
+				$dir = $manager->getDirectory($row['directory']);
+				$file = $dir->getFile($row['file']);
+				
+				// Ensure that the file is in an error state.
+				$file->getFormat('mp4')->putContents(file_get_contents(MYDIR.'/images/VideoConversionFailed.mp4'));
+				$file->getFormat('thumb')->putContents(file_get_contents(MYDIR.'/images/VideoConversionFailed.jpg'));
+				$file->getFormat('full_frame')->putContents(file_get_contents(MYDIR.'/images/VideoConversionFailed.jpg'));
+				$file->getFormat('splash')->putContents(file_get_contents(MYDIR.'/images/VideoConversionFailed.jpg'));
+				
+				$file->removeFromQueue();
+			} 
+			// We have a current job
+			else {
+				$results->free();
+				return;
+			}
+		}
+		$results->free();
+		
+		// Look for new jobs
+		$query = new SelectQuery;
+		$query->addTable('middmedia_queue');
+		$query->addColumn('*');
+		$query->addOrderBy('upload_time', ASCENDING);
+		$query->limitNumberOfRows(1);
+		$results = $dbMgr->query($query, HARMONI_DB_INDEX);
+		
+		// Start a new job if we have one.
+		if ($results->hasNext()) {
+			$row = $results->next();
+			$results->free();
+			
+			try {
+				$dir = $manager->getDirectory($row['directory']);
+				$file = $dir->getFile($row['file']);
+				
+				// Update the DB to indicate a job start.
+				$query = new UpdateQuery;
+				$query->setTable('middmedia_queue');
+				$query->addValue('processing', '1');
+				$query->addRawValue('processing_start', 'NOW()');
+				$query->addWhereEqual('directory', $file->directory->getBaseName());
+				$query->addWhereEqual('file', $file->getBaseName());
+				$dbMgr->query($query, HARMONI_DB_INDEX);
+				
+				try {
+					$file->process();
+				} catch (OperationFailedException $e) {
+					$file->removeFromQueue();
+					throw $e;
+				}
+				$file->removeFromQueue();
+			} catch (UnknownIdException $e) {
+				$file->removeFromQueue();
+				throw $e;
+			}
+		}
+	}
+	
+	/*********************************************************
+	 * Instance Creation Methods
+	 *********************************************************/
+	
+	/**
 	 * Create a new empty file in this directory. Similar to touch().
 	 * 
 	 * This method throws the following exceptions:
@@ -249,6 +337,14 @@ class MiddMedia_File_Media
 	protected function removeFromQueue () {
 		$dbMgr = Services::getService("DatabaseManager");
 		
+		// Delete any temporary files
+		foreach ($this->getFormats() as $format) {
+			$format->cleanup();
+// 			$format->makeError();
+		}
+		// Delete the source file
+		$this->getFormat('source')->delete();
+		
 		// Remove from the queue
 		$query = new DeleteQuery;
 		$query->setTable('middmedia_queue');
@@ -301,6 +397,9 @@ class MiddMedia_File_Media
 	 * @since 5/6/08
 	 */
 	public function delete () {
+		foreach ($this->getFormats() as $format) {
+			$format->delete();
+		}
 		parent::delete();
 		
 		$query = new DeleteQuery;
@@ -310,10 +409,6 @@ class MiddMedia_File_Media
 		
 		$dbMgr = Services::getService("DatabaseManager");
 		$dbMgr->query($query, HARMONI_DB_INDEX);
-		
-		foreach ($this->getFormats() as $format) {
-			$format->delete();
-		}
 		
 		$this->logAction('delete');
 	}
@@ -422,6 +517,23 @@ class MiddMedia_File_Media
 			default:
 				throw new InvalidArgumentException("Unsupported format '$format'.");			
 		}
+	}
+	
+	/**
+	 * Answer all of our formats.
+	 * 
+	 * @return array of MiddMedia_File_FormatInterface
+	 */
+	protected function getFormats () {
+		$formatIds = array('source', 'mp4', 'mp3', 'thumb', 'splash', 'full_frame');
+		$formats = array();
+		foreach ($formatIds as $id) {
+			try {
+				$formats[] = $this->getFormat($id);
+			} catch (InvalidArgumentException $e) {
+			}
+		}
+		return $formats;
 	}
 	
 	/**

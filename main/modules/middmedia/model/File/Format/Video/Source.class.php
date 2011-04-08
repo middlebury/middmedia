@@ -155,7 +155,14 @@ class MiddMedia_File_Format_Video_Source
 		throw new OperationFailedException("Source files can't process other inputs");
 	}
 
-	
+	/**
+	 * Clean up our temporary files.
+	 * 
+	 * @return void
+	 */
+	public function cleanup () {
+		// Do nothing since we don't process anything.
+	}
 }
 
 ?>
