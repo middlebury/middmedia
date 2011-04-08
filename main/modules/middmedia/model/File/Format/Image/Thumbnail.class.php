@@ -107,7 +107,7 @@ class MiddMedia_File_Format_Image_Thumbnail
 	 * @since 10/24/08
 	 */
 	public function getHttpUrl () {
-		return $this->mediaFile->getDirectory->getHttpUrl().'/thumb/'.$this->getBaseName();
+		return $this->mediaFile->getDirectory()->getHttpUrl().'/thumb/'.$this->getBaseName();
 	}
 
 	/**

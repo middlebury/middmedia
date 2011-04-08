@@ -107,7 +107,7 @@ class MiddMedia_File_Format_Video_Mp4
 	 * @since 10/24/08
 	 */
 	public function getHttpUrl () {
-		return $this->mediaFile->getDirectory->getHttpUrl().'/mp4/'.$this->getBaseName();
+		return $this->mediaFile->getDirectory()->getHttpUrl().'/mp4/'.$this->getBaseName();
 	}
 
 	/**
@@ -127,7 +127,7 @@ class MiddMedia_File_Format_Video_Mp4
 	 * @since 10/24/08
 	 */
 	public function getRtmpUrl () {
-		return $this->mediaFile->getDirectory->getRtmpUrl().'/mp4/'.$this->getBaseName();
+		return $this->mediaFile->getDirectory()->getRtmpUrl().'/mp4/'.$this->getBaseName();
 	}
 	
 	/**
