@@ -424,6 +424,20 @@ class MiddMedia_File_Media
 	}
 	
 	/**
+	 * Answer the primary format of this media file
+	 * 
+	 * @return MiddMedia_File_FormatInterface
+	 */
+	public function getPrimaryFormat () {
+		if (!is_link($this->getPath()))
+			throw new Exception("Expecting a link at ".$this->getDirectory()->getBaseName().'/'.$this->getBaseName());
+		
+		$target = readlink($this->getPath());
+		$format = basename(dirname($target));
+		return $this->getFormat($format);
+	}
+	
+	/**
 	 * Log actions about this file
 	 * 
 	 * @param string $category

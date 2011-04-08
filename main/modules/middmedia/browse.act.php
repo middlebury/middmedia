@@ -804,7 +804,16 @@ class browseAction
 			print "</td>";
 			
 			print "\n\t\t\t<td class='name'>";
-			print "\n\t\t\t\t<a href='#' onclick=\"displayMedia(this, '".$type."', '".rawurlencode($myId)."', '".$file->getHttpUrl()."', '".$file->getRtmpUrl()."', '".$splashUrl."'); return false;\">";
+			$primaryFormat = $file->getPrimaryFormat();
+			if ($primaryFormat->supportsHttp())
+				$httpUrl = $primaryFormat->getHttpUrl();
+			else
+				$httpUrl = '';
+			if ($primaryFormat->supportsRtmp())
+				$rtmpUrl = $primaryFormat->getRtmpUrl();
+			else
+				$rtmpUrl = '';
+			print "\n\t\t\t\t<a href='#' onclick=\"displayMedia(this, '".$type."', '".rawurlencode($myId)."', '".$httpUrl."', '".$rtmpUrl."', '".$splashUrl."'); return false;\">";
 			print $file->getBaseName();
 			try {
 				$thumbnail = $file->getThumbnailImage();

@@ -99,11 +99,20 @@ class uploadAction
 		header("HTTP/1.1 200 OK");
 		header("Content-type: text/xml");
 		print '<'.'?xml version="1.0" encoding="utf-8"?'.'>';
+		$primaryFormat = $file->getPrimaryFormat();
+		if ($primaryFormat->supportsHttp())
+			$httpUrl = $primaryFormat->getHttpUrl();
+		else
+			$httpUrl = '';
+		if ($primaryFormat->supportsRtmp())
+			$rtmpUrl = $primaryFormat->getRtmpUrl();
+		else
+			$rtmpUrl = '';
 		print "\n\t\t<file
 				name=\"".str_replace('&', '&amp;', $file->getBaseName())."\"
 				directory=\"".$dir->getBaseName()."\"
-				http_url=\"".$file->getHttpUrl()."\"
-				rtmp_url=\"".$file->getRtmpUrl()."\"
+				http_url=\"".$httpUrl."\"
+				rtmp_url=\"".$rtmpUrl."\"
 				mime_type=\"".$file->getMimeType()."\"
 				size=\"".$file->getSize()."\"
 				modification_date=\"".$file->getModificationDate()->asLocal()->asString()."\"";

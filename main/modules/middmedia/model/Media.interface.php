@@ -142,6 +142,13 @@ interface MiddMedia_File_MediaInterface
 	 */
 	public function getFormat ($format);
 	
+	/**
+	 * Answer the primary format of this media file
+	 * 
+	 * @return MiddMedia_File_FormatInterface
+	 */
+	public function getPrimaryFormat ();
+	
 }
 
 ?>
