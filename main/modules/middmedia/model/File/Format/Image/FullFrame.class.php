@@ -210,8 +210,8 @@ class MiddMedia_File_Format_Image_FullFrame
 			throw new ConfigurationErrorException('FFMPEG_PATH is not defined');
 		
 		// Try to create the full-frame
-		$destImage = $this->getPath().'-tmp';
-		$command = FFMPEG_PATH.' -vframes 1 -ss '.$seconds.' -i '.escapeshellarg($this->getPath()).'  -vcodec mjpeg '.escapeshellarg($destImage).'  2>&1';
+		$destImage = dirname($this->getPath()).'/tmp-'.basename($this->getPath());
+		$command = FFMPEG_PATH.' -vframes 1 -ss '.$seconds.' -i '.escapeshellarg($source->getPath()).'  -vcodec mjpeg '.escapeshellarg($destImage).'  2>&1';
 		$lastLine = exec($command, $output, $return_var);
 		if ($return_var) {
 			throw new OperationFailedException("Full-frame generation failed with code $return_var: $lastLine");
@@ -230,7 +230,7 @@ class MiddMedia_File_Format_Image_FullFrame
 	 * @return void
 	 */
 	public function cleanup () {
-		$outFile = $this->getPath().'-tmp';
+		$outFile = dirname($this->getPath()).'/tmp-'.basename($this->getPath());
 		if (file_exists($outFile))
 			unlink($outFile);
 		
