@@ -9,7 +9,7 @@
  * @version $Id$
  */ 
 
-require_once(dirname(__FILE__).'/model/File/Media.class.php');
+require_once(dirname(__FILE__).'/File/Media.class.php');
 
 /**
  * This class is a simple directory-access wrapper.

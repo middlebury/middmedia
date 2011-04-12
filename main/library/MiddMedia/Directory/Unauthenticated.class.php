@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/model/File/UnauthenticatedMedia.class.php');
+require_once(dirname(__FILE__).'/../File/UnauthenticatedMedia.class.php');
 
 /**
  * The unauthenticated directory allows direct access to files if the name is known

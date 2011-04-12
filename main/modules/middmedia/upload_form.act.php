@@ -9,9 +9,6 @@
  * @version $Id$
  */ 
 
-require_once(dirname(__FILE__).'/AbstractAction.class.php');
-
-
 /**
  * HTML form for file upload
  * 
