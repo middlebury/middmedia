@@ -208,7 +208,7 @@ class MiddMedia_File_Format_Video_Mp4
 		}
 		
 		// Move into position
-		$this->moveInFile($outFile);
+		$this->moveInUploadedFile($outFile);
 		$this->cleanup();
 	}
 

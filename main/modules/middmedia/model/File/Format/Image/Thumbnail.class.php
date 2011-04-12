@@ -137,7 +137,7 @@ class MiddMedia_File_Format_Image_Thumbnail
 	 * @return void
 	 */
 	public function moveInUploadedFile ($tempName) {
-		throw new UnimplementedException();
+		rename($tempName, $this->getPath());
 	}
 	
 	/**
