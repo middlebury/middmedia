@@ -50,7 +50,7 @@ class admin_browseAction
 	 * @since 12/10/08
 	 */
 	protected function getManager () {
-		return AdminMiddMediaManager::forCurrentUser();
+		return MiddMedia_Manager_Admin::forCurrentUser();
 	}
 	
 }

@@ -20,8 +20,8 @@
  *
  * @version $Id$
  */
-class AdminMiddMediaManager
-	extends MiddMediaManager
+class MiddMedia_Manager_Admin
+	extends MiddMedia_Manager
 {
 		
 	/**
@@ -31,7 +31,7 @@ class AdminMiddMediaManager
 	 *		OperationFailedException 	- If there is no user authenticated.
 	 *		PermissionDeniedException 	- If the user is unauthorized to manage media.
 	 * 
-	 * @return object MiddMediaManager
+	 * @return object MiddMedia_Manager
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -50,18 +50,18 @@ class AdminMiddMediaManager
 				$idMgr->getId('edu.middlebury.authorization.root')))
 			throw new PermissionDeniedException('Unauthorized to manage this system.');
 		
-		return new AdminMiddMediaManager($agentMgr->getAgent($authN->getFirstUserId()));
+		return new MiddMedia_Manager_Admin($agentMgr->getAgent($authN->getFirstUserId()));
 	}
 	
 	/**
 	 * Create a new manager for the system user. (for use in cron jobs)
 	 * 
-	 * @return object MiddMediaManager
+	 * @return object MiddMedia_Manager
 	 * @access public
 	 * @since 9/25/09
 	 */
 	public static function forSystemUser () {
-		return new AdminMiddMediaManager(new AnonymousAgent);
+		return new MiddMedia_Manager_Admin(new AnonymousAgent);
 	}
 	
 	/**

@@ -9,7 +9,7 @@
  * @version $Id$
  */ 
 
-require_once(dirname(__FILE__).'/model/File/Media.class.php');
+require_once(dirname(__FILE__).'/File/Media.class.php');
 
 /**
  * This class is a simple directory-access wrapper.
@@ -27,14 +27,14 @@ class MiddMedia_Directory {
 	/**
 	 * Answer the directory if it exists. Throw an UnknownIdException if it doesn't.
 	 * 
-	 * @param object MiddMediaManagerMiddMediaManager $manager
+	 * @param object MiddMedia_Manager $manager
 	 * @param string $name
 	 * @return object MiddMedia_Directory
 	 * @access public
 	 * @since 11/13/08
 	 * @static
 	 */
-	public static function getIfExists (MiddMediaManager $manager, $name) {
+	public static function getIfExists (MiddMedia_Manager $manager, $name) {
 		$dir = new MiddMedia_Directory($manager, $name);
 		
 		if (!file_exists($dir->getFSPath())) {
@@ -47,14 +47,14 @@ class MiddMedia_Directory {
 	/**
 	 * Answer the directory, creating if needed.
 	 * 
-	 * @param object MiddMediaManagerMiddMediaManager $manager
+	 * @param object MiddMedia_Manager $manager
 	 * @param string $name
 	 * @return ovject MiddMedia_Directory
 	 * @access public
 	 * @since 11/13/08
 	 * @static
 	 */
-	public static function getAlways (MiddMediaManager $manager, $name) {
+	public static function getAlways (MiddMedia_Manager $manager, $name) {
 		$dir = new MiddMedia_Directory($manager, $name);
 		
 		if (!file_exists($dir->getFSPath())) {
@@ -69,13 +69,13 @@ class MiddMedia_Directory {
 	/**
 	 * Constructor
 	 * 
-	 * @param object MiddMediaManagerMiddMediaManager $manager
+	 * @param object MiddMedia_Manager $manager
 	 * @param string $name
 	 * @return void
 	 * @access protected
 	 * @since 10/24/08
 	 */
-	protected function __construct (MiddMediaManager $manager, $name) {
+	protected function __construct (MiddMedia_Manager $manager, $name) {
 		ArgumentValidator::validate($name, RegexValidatorRule::getRule('^[a-zA-Z0-9_&-]+[a-zA-Z0-9_\.&-]*$'));
 		
 		if (!file_exists(MIDDMEDIA_FS_BASE_DIR))
@@ -92,7 +92,7 @@ class MiddMedia_Directory {
 	}
 	
 	/**
-	 * @var object MiddMediaManager $manager;  
+	 * @var object MiddMedia_Manager $manager;  
 	 * @access private
 	 * @since 11/21/08
 	 */
@@ -468,7 +468,7 @@ class MiddMedia_Directory {
 	 * 
 	 * WARNING: This method should only be used by the File object in this package.
 	 * 
-	 * @return MiddMediaManager $manager
+	 * @return MiddMedia_Manager $manager
 	 * @access public
 	 * @since 2/2/09
 	 */

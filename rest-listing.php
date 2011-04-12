@@ -55,7 +55,7 @@ print "<response>";
 
 try {
 	// Create a new manager for a username/password combo (username/shared key not yet implemented)
-	$manager = MiddMediaManager::forUsernamePassword($user, $pass);
+	$manager = MiddMedia_Manager::forUsernamePassword($user, $pass);
 	
 	// Get the personal directory
 	try {

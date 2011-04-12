@@ -18,19 +18,19 @@ require_once(POLYPHONY."/main/library/AbstractActions/MainWindowAction.class.php
  * @copyright Copyright &copy; 2009, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-abstract class MiddMedia_AbstractAction
+abstract class MiddMedia_Action_Abstract
 	extends MainWindowAction
 {
 	
 	/**
 	 * Answer the manager to use
 	 * 
-	 * @return MiddMediaManager
+	 * @return MiddMedia_Manager
 	 * @access protected
 	 * @since 12/10/08
 	 */
 	protected function getManager () {
-		return MiddMediaManager::forCurrentUser();
+		return MiddMedia_Manager::forCurrentUser();
 	}
 	
 	/**

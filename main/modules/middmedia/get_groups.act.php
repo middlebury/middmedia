@@ -58,7 +58,7 @@ class get_groupsAction
 		
 		
 		print "<ul>";
-		$manager = AdminMiddMediaManager::forCurrentUser();
+		$manager = MiddMedia_Manager_Admin::forCurrentUser();
 		
 		foreach ($manager->getGroupNamesBySearch(RequestContext::value('group')) as $group) {
 			print "\n\t<li>".$group."</li>";

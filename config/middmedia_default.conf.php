@@ -52,8 +52,8 @@ define('MIDDMEDIA_CONVERT_MAX_HEIGHT', 480);
 define('MIDDMEDIA_CONVERT_MAX_WIDTH', 720);
 define('MIDDMEDIA_TMP_DIR', '/tmp');
 
-MiddMediaManager::addPersonalDirectoryGroup('CN=All Faculty,OU=General,OU=Groups,DC=middlebury,DC=edu');
-MiddMediaManager::addPersonalDirectoryGroup('CN=All Staff,OU=General,OU=Groups,DC=middlebury,DC=edu');
+MiddMedia_Manager::addPersonalDirectoryGroup('CN=All Faculty,OU=General,OU=Groups,DC=middlebury,DC=edu');
+MiddMedia_Manager::addPersonalDirectoryGroup('CN=All Staff,OU=General,OU=Groups,DC=middlebury,DC=edu');
 
-// MiddMediaManager::addTrustedServiceKey('blogs', '1234567890abcdefghijkl');	// Key for a remote service
-// MiddMediaManager::addTrustedServiceKey('wiki', 'abcdefghijklmnop');	// Key for a second remote service
+// MiddMedia_Manager::addTrustedServiceKey('blogs', '1234567890abcdefghijkl');	// Key for a remote service
+// MiddMedia_Manager::addTrustedServiceKey('wiki', 'abcdefghijklmnop');	// Key for a second remote service

@@ -52,7 +52,7 @@ try {
 	
 	
 	// Execution
-	$manager = UnauthenticatedMiddMediaManager::instance();
+	$manager = MiddMedia_Manager_Unauthenticated::instance();
 	$directory = $manager->getDirectory($_GET['directory']);
 	$file = $directory->getFile($_GET['file']);
 	$embedCode = $file->getEmbedCode();

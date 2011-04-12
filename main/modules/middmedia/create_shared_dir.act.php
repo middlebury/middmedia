@@ -52,7 +52,7 @@ class create_shared_dirAction
 		$harmoni = Harmoni::instance();
 		
 		try {
-			$manager = AdminMiddMediaManager::forCurrentUser();
+			$manager = MiddMedia_Manager_Admin::forCurrentUser();
 			$dir = $manager->createSharedDirectory(RequestContext::value('group'));
 		
 			RequestContext::sendTo($harmoni->request->quickURL('middmedia', 'admin'));

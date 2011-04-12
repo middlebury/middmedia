@@ -99,12 +99,12 @@ class update_quotaAction
 	/**
 	 * Answer the manager to use
 	 * 
-	 * @return MiddMediaManager
+	 * @return MiddMedia_Manager
 	 * @access protected
 	 * @since 12/10/08
 	 */
 	protected function getManager () {
-		return AdminMiddMediaManager::forCurrentUser();
+		return MiddMedia_Manager_Admin::forCurrentUser();
 	}
 	
 }

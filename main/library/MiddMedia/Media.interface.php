@@ -53,13 +53,13 @@ interface MiddMedia_File_MediaInterface
 	/**
 	 * Check the queue for items to process and start processing if needed.
 	 * 
-	 * @param object MiddMediaManagerMiddMediaManager $manager
+	 * @param object MiddMedia_Manager $manager
 	 * @return void
 	 * @access public
 	 * @since 9/25/09
 	 * @static
 	 */
-	public static function checkQueue (MiddMediaManager $manager);
+	public static function checkQueue (MiddMedia_Manager $manager);
 	
 	/*********************************************************
 	 * Instance creation methods.

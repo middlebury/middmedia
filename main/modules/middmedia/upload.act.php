@@ -168,12 +168,12 @@ class uploadAction
 	/**
 	 * Answer the manager to use
 	 * 
-	 * @return MiddMediaManager
+	 * @return MiddMedia_Manager
 	 * @access protected
 	 * @since 12/10/08
 	 */
 	protected function getManager () {
-		return MiddMediaManager::forCurrentUser();
+		return MiddMedia_Manager::forCurrentUser();
 	}
 	
 	/**
