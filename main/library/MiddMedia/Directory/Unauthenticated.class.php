@@ -19,7 +19,7 @@ require_once(dirname(__FILE__).'/../File/UnauthenticatedMedia.class.php');
  * @copyright Copyright &copy; 2009, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-class MiddMedia_UnauthenticatedDirectory
+class MiddMedia_Directory_Unauthenticated
 	extends MiddMedia_Directory
 {
 		
@@ -34,7 +34,7 @@ class MiddMedia_UnauthenticatedDirectory
 	 * @static
 	 */
 	public static function getIfExists (MiddMedia_Manager $manager, $name) {
-		$dir = new MiddMedia_UnauthenticatedDirectory($manager, $name);
+		$dir = new MiddMedia_Directory_Unauthenticated($manager, $name);
 		
 		if (!file_exists($dir->getFSPath())) {
 			throw new UnknownIdException("Directory does not exist");

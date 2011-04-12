@@ -155,7 +155,7 @@ class MiddMedia_Manager_Unauthenticated
 	 * @since 11/13/08
 	 */
 	public function getDirectory ($name) {
-		return MiddMedia_UnauthenticatedDirectory::getIfExists($this, $name);
+		return MiddMedia_Directory_Unauthenticated::getIfExists($this, $name);
 	}
 }
 
