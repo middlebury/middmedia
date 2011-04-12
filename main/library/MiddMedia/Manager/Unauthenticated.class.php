@@ -20,7 +20,7 @@ require_once(dirname(__FILE__).'/../Directory/Unauthenticated.class.php');
  * @copyright Copyright &copy; 2009, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-class UnauthenticatedMiddMediaManager
+class MiddMedia_Manager_Unauthenticated
 	extends MiddMedia_Manager
 {
 		
@@ -96,7 +96,7 @@ class UnauthenticatedMiddMediaManager
 	 */
 	public static function instance () {
 		if (!isset(self::$instance))
-			self::$instance = new UnauthenticatedMiddMediaManager;
+			self::$instance = new MiddMedia_Manager_Unauthenticated;
 		
 		return self::$instance;
 	}
