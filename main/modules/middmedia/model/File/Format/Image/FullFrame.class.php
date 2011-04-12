@@ -152,11 +152,7 @@ class MiddMedia_File_Format_Image_FullFrame
 	 * @return void
 	 */
 	public function process (Harmoni_Filing_FileInterface $source) {
-		$timecodes = array($seconds);
-		if ($seconds > 5)
-			$timecodes[] = 5;
-		if ($seconds > 2)
-			$timecodes[] = 2;
+		$timecodes = array(5, 2);
 		
 		// Try several time-codes and see if we can get an image out.
 		while (!isset($fullFrame) && current($timecodes)) {
