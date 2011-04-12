@@ -194,31 +194,31 @@ class MiddMedia_File_Format_Image_FullFrame
 			throw new InvalidArgumentException('$seconds must be a float greater than zero. '.$seconds.' is invalid.');
 		
 		if (!$source->isReadable())
-			throw new PermissionDeniedException('Video file is not readable: '.$this->media->getDirectory()->getBaseName().'/'.basename(dirname($source->getPath())).'/'.$source->getBaseName());
+			throw new PermissionDeniedException('Video file is not readable: '.$this->mediaFile->getDirectory()->getBaseName().'/'.basename(dirname($source->getPath())).'/'.$source->getBaseName());
 		
-		$fullFramesDir = $this->media->getDirectory()->getFsPath().'/full_frame';
+		$fullFramesDir = $this->mediaFile->getDirectory()->getFsPath().'/full_frame';
 		
 		if (!file_exists($fullFramesDir)) {
 			if (!mkdir($fullFramesDir, 0775))
-				throw new PermissionDeniedException('Could not create full-frames dir: '.$this->media->getDirectory()->getBaseName().'/full_frame');
+				throw new PermissionDeniedException('Could not create full-frames dir: '.$this->mediaFile->getDirectory()->getBaseName().'/full_frame');
 		}
 		
 		if (!is_writable($fullFramesDir))
-			throw new PermissionDeniedException('Full-Frames dir is not writable: '.$this->media->getDirectory()->getBaseName().'/full_frame');
+			throw new PermissionDeniedException('Full-Frames dir is not writable: '.$this->mediaFile->getDirectory()->getBaseName().'/full_frame');
 		
 		if (!defined('FFMPEG_PATH'))
 			throw new ConfigurationErrorException('FFMPEG_PATH is not defined');
 		
 		// Try to create the full-frame
 		$destImage = $this->getPath().'-tmp';
-		$command = FFMPEG_PATH.' -vframes 1 -ss '.$seconds.' -i '.escapeshellarg($this->getFsPath()).'  -vcodec mjpeg '.escapeshellarg($destImage).'  2>&1';
+		$command = FFMPEG_PATH.' -vframes 1 -ss '.$seconds.' -i '.escapeshellarg($this->getPath()).'  -vcodec mjpeg '.escapeshellarg($destImage).'  2>&1';
 		$lastLine = exec($command, $output, $return_var);
 		if ($return_var) {
 			throw new OperationFailedException("Full-frame generation failed with code $return_var: $lastLine");
 		}
 		
 		if (!file_exists($destImage))
-			throw new OperationFailedException('Full-frame was not generated: '.$this->media->getDirectory()->getBaseName().'/full_frame/'.basename($destImage));
+			throw new OperationFailedException('Full-frame was not generated: '.$this->mediaFile->getDirectory()->getBaseName().'/full_frame/'.basename($destImage));
 		
 		$this->moveInUploadedFile($destImage);
 		$this->cleanup();

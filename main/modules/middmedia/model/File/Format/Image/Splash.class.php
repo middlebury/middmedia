@@ -156,18 +156,18 @@ class MiddMedia_File_Format_Image_Splash
 			throw new InvalidArgumentException("Unsupported image type, ".$fullFrame->getMimeType());
 		
 		if (!$fullFrame->isReadable())
-			throw new PermissionDeniedException('Full-frame file is not readable: '.$this->media->getDirectory()->getBaseName().'/'.basename(dirname($fullFrame->getPath())).'/'.$fullFrame->getBaseName());
+			throw new PermissionDeniedException('Full-frame file is not readable: '.$this->mediaFile->getDirectory()->getBaseName().'/'.basename(dirname($fullFrame->getPath())).'/'.$fullFrame->getBaseName());
 		
 		// Set up the Splash Image directory
-		$thumbDir = basename($this->getPath());
+		$splashDir = $this->mediaFile->getDirectory()->getFsPath().'/splash';
 		
 		if (!file_exists($splashDir)) {
 			if (!mkdir($splashDir, 0775))
-				throw new PermissionDeniedException('Could not create splash dir: '.$this->media->getDirectory()->getBaseName().'/splash');
+				throw new PermissionDeniedException('Could not create splash dir: '.$this->mediaFile->getDirectory()->getBaseName().'/splash');
 		}
 		
 		if (!is_writable($splashDir))
-			throw new PermissionDeniedException('Splash dir is not writable: '.$this->media->getDirectory()->getBaseName().'/splash');
+			throw new PermissionDeniedException('Splash dir is not writable: '.$this->mediaFile->getDirectory()->getBaseName().'/splash');
 		
 		if (!defined('IMAGE_MAGICK_COMPOSITE_PATH'))
 			throw new ConfigurationErrorException('IMAGE_MAGICK_COMPOSITE_PATH is not defined');
@@ -186,7 +186,7 @@ class MiddMedia_File_Format_Image_Splash
 		}
 		
 		if (!file_exists($destImage))
-			throw new OperaionFailedException('Splash-Image was not generated: '.$this->media->getDirectory()->getBaseName().'/splash/'.$parts['filename'].'.jpg');
+			throw new OperaionFailedException('Splash-Image was not generated: '.$this->mediaFile->getDirectory()->getBaseName().'/splash/'.$parts['filename'].'.jpg');
 		
 		$this->moveInUploadedFile($destImage);
 		$this->cleanup();

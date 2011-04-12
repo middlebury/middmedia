@@ -156,18 +156,18 @@ class MiddMedia_File_Format_Image_Thumbnail
 			throw new InvalidArgumentException("Unsupported image type, ".$fullFrame->getMimeType());
 		
 		if (!$fullFrame->isReadable())
-			throw new PermissionDeniedException('Full-frame file is not readable: '.$this->media->getDirectory()->getBaseName().'/'.basename(dirname($fullFrame->getPath())).'/'.$fullFrame->getBaseName());
+			throw new PermissionDeniedException('Full-frame file is not readable: '.$this->mediaFile->getDirectory()->getBaseName().'/'.basename(dirname($fullFrame->getPath())).'/'.$fullFrame->getBaseName());
 		
 		// Set up the Thumbnail Image directory
-		$thumbDir = basename($this->getPath());
+		$thumbDir = $this->mediaFile->getDirectory()->getFsPath().'/thumb';
 		
 		if (!file_exists($thumbDir)) {
 			if (!mkdir($thumbDir, 0775))
-				throw new PermissionDeniedException('Could not create thumb dir: '.$this->media->getDirectory()->getBaseName().'/thumb');
+				throw new PermissionDeniedException('Could not create thumb dir: '.$this->mediaFile->getDirectory()->getBaseName().'/thumb');
 		}
 		
 		if (!is_writable($thumbDir))
-			throw new PermissionDeniedException('Thumb dir is not writable: '.$this->media->getDirectory()->getBaseName().'/thumb');
+			throw new PermissionDeniedException('Thumb dir is not writable: '.$this->mediaFile->getDirectory()->getBaseName().'/thumb');
 		
 		if (!defined('IMAGE_MAGICK_CONVERT_PATH'))
 			throw new ConfigurationErrorException('IMAGE_MAGICK_CONVERT_PATH is not defined');
@@ -181,7 +181,7 @@ class MiddMedia_File_Format_Image_Thumbnail
 		}
 		
 		if (!file_exists($destImage))
-			throw new OperaionFailedException('Thumbnail-Image was not generated: '.$this->media->getDirectory()->getBaseName().'/thumb/'.$parts['filename'].'.jpg');
+			throw new OperaionFailedException('Thumbnail-Image was not generated: '.$this->mediaFile->getDirectory()->getBaseName().'/thumb/'.$parts['filename'].'.jpg');
 		
 		$this->moveInUploadedFile($destImage);
 		$this->cleanup();
