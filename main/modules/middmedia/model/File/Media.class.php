@@ -168,7 +168,7 @@ class MiddMedia_File_Media
 				
 				try {
 					$file->process();
-				} catch (OperationFailedException $e) {
+				} catch (Exception $e) {
 					$file->removeFromQueue();
 					throw $e;
 				}
@@ -343,7 +343,13 @@ class MiddMedia_File_Media
 // 			$format->makeError();
 		}
 		// Delete the source file
-		$this->getFormat('source')->delete();
+		try {
+			$this->getFormat('source')->delete();
+		} catch (InvalidArgumentException $e) {
+			// Ignore if the file was already deleted (78345)
+			if ($e->getCode() != 78345)
+				throw $e;
+		}
 		
 		// Remove from the queue
 		$query = new DeleteQuery;
@@ -385,7 +391,6 @@ class MiddMedia_File_Media
 		
 		// Clean up
 		$source->delete();
-		$this->removeFromQueue();
 		$this->logAction('processed');
 	}
 	
