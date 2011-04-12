@@ -405,6 +405,7 @@ class MiddMedia_File_Media
 		foreach ($this->getFormats() as $format) {
 			$format->delete();
 		}
+		$this->removeFromQueue();
 		parent::delete();
 		
 		$query = new DeleteQuery;
