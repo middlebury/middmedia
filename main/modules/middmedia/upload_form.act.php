@@ -21,7 +21,7 @@
  * @version $Id$
  */
 class upload_formAction
-	extends MiddMedia_AbstractAction
+	extends MiddMedia_Action_Abstract
 {
 		
 	/**

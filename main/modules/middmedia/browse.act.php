@@ -25,7 +25,7 @@ require_once(dirname(__FILE__).'/includes/class-IXR.php');
  * @version $Id: welcome.act.php,v 1.7 2008/02/19 17:25:28 adamfranco Exp $
  */
 class browseAction 
-	extends MiddMedia_AbstractAction
+	extends MiddMedia_Action_Abstract
 {
 	/**
 	 * Check Authorizations
