@@ -104,7 +104,7 @@ class update_quotaAction
 	 * @since 12/10/08
 	 */
 	protected function getManager () {
-		return AdminMiddMediaManager::forCurrentUser();
+		return MiddMedia_Manager_Admin::forCurrentUser();
 	}
 	
 }

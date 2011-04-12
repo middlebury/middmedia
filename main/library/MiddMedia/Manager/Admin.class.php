@@ -20,7 +20,7 @@
  *
  * @version $Id$
  */
-class AdminMiddMediaManager
+class MiddMedia_Manager_Admin
 	extends MiddMedia_Manager
 {
 		
@@ -50,7 +50,7 @@ class AdminMiddMediaManager
 				$idMgr->getId('edu.middlebury.authorization.root')))
 			throw new PermissionDeniedException('Unauthorized to manage this system.');
 		
-		return new AdminMiddMediaManager($agentMgr->getAgent($authN->getFirstUserId()));
+		return new MiddMedia_Manager_Admin($agentMgr->getAgent($authN->getFirstUserId()));
 	}
 	
 	/**
@@ -61,7 +61,7 @@ class AdminMiddMediaManager
 	 * @since 9/25/09
 	 */
 	public static function forSystemUser () {
-		return new AdminMiddMediaManager(new AnonymousAgent);
+		return new MiddMedia_Manager_Admin(new AnonymousAgent);
 	}
 	
 	/**
