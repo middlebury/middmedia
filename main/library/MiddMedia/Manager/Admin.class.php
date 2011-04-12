@@ -21,7 +21,7 @@
  * @version $Id$
  */
 class AdminMiddMediaManager
-	extends MiddMediaManager
+	extends MiddMedia_Manager
 {
 		
 	/**
@@ -31,7 +31,7 @@ class AdminMiddMediaManager
 	 *		OperationFailedException 	- If there is no user authenticated.
 	 *		PermissionDeniedException 	- If the user is unauthorized to manage media.
 	 * 
-	 * @return object MiddMediaManager
+	 * @return object MiddMedia_Manager
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -56,7 +56,7 @@ class AdminMiddMediaManager
 	/**
 	 * Create a new manager for the system user. (for use in cron jobs)
 	 * 
-	 * @return object MiddMediaManager
+	 * @return object MiddMedia_Manager
 	 * @access public
 	 * @since 9/25/09
 	 */

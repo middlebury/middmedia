@@ -518,7 +518,7 @@ class browseAction
 	 * @since 12/10/08
 	 */
 	protected function getManager () {
-		return MiddMediaManager::forCurrentUser();
+		return MiddMedia_Manager::forCurrentUser();
 	}
 	
 	/**

@@ -99,13 +99,13 @@ class MiddMedia_File_Media
 	/**
 	 * Check the queue for items to process and start processing if needed.
 	 * 
-	 * @param object MiddMediaManagerMiddMediaManager $manager
+	 * @param object MiddMedia_Manager $manager
 	 * @return void
 	 * @access public
 	 * @since 9/25/09
 	 * @static
 	 */
-	public static function checkQueue (MiddMediaManager $manager) {
+	public static function checkQueue (MiddMedia_Manager $manager) {
 		$dbMgr = Services::getService("DatabaseManager");
 		
 		// Check to see if there are any items currently processing. If so, don't process more.

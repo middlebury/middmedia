@@ -21,7 +21,7 @@ require_once(dirname(__FILE__).'/../Directory/Unauthenticated.class.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
 class UnauthenticatedMiddMediaManager
-	extends MiddMediaManager
+	extends MiddMedia_Manager
 {
 		
 	/*********************************************************
@@ -39,7 +39,7 @@ class UnauthenticatedMiddMediaManager
 	 * 
 	 * @param string $username
 	 * @param string $password
-	 * @return object MiddMediaManager
+	 * @return object MiddMedia_Manager
 	 * @access public
 	 * @since 10/24/08
 	 * @static
@@ -63,7 +63,7 @@ class UnauthenticatedMiddMediaManager
 	 * @param string $username
 	 * @param string $serviceId
 	 * @param string $serviceKey
-	 * @return object MiddMediaManager
+	 * @return object MiddMedia_Manager
 	 * @access public
 	 * @since 12/10/08
 	 * @static
@@ -79,7 +79,7 @@ class UnauthenticatedMiddMediaManager
 	 *		OperationFailedException 	- If there is no user authenticated.
 	 *		PermissionDeniedException 	- If the user is unauthorized to manage media.
 	 * 
-	 * @return object MiddMediaManager
+	 * @return object MiddMedia_Manager
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -89,7 +89,7 @@ class UnauthenticatedMiddMediaManager
 	/**
 	 * Create a new Manager
 	 * 
-	 * @return object MiddMediaManager
+	 * @return object MiddMedia_Manager
 	 * @access public
 	 * @since 7/24/09
 	 * @static
