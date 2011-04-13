@@ -260,6 +260,45 @@ class MiddMedia_File_Media
 	 * @access public
 	 * @since 9/24/09
 	 */
+	public function moveInFile ($tempName) {
+		// MP3 audio only has a single version, so just store it.
+		if ($this->getExtension() == 'mp3') {
+			$mp3Format = $this->setPrimaryFormat(MiddMedia_File_Format_Audio_Mp3::create($this));
+			$mp3Format->moveInFile($tempName);
+			return;
+		}
+		
+		// Store the temporary file in a source format, then queue for processing.
+		$sourceFormat = MiddMedia_File_Format_Video_Source::create($this);
+		$sourceFormat->moveInFile($tempName);
+		
+		// Create our placeholder formats
+		$format = MiddMedia_File_Format_Video_Mp4::create($this);
+		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.mp4'));
+		$this->setPrimaryFormat($format);
+		
+		$format = MiddMedia_File_Format_Image_Thumbnail::create($this);
+		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
+		
+		$format = MiddMedia_File_Format_Image_FullFrame::create($this);
+		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
+		
+		$format = MiddMedia_File_Format_Image_Splash::create($this);
+		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
+		
+		$this->queueForProcessing();
+		
+		$this->logAction('upload');
+	}
+	
+	/**
+	 * Move an uploaded file into our file and hand any conversion if needed.
+	 * 
+	 * @param string $tempName
+	 * @return void
+	 * @access public
+	 * @since 9/24/09
+	 */
 	public function moveInUploadedFile ($tempName) {
 		// MP3 audio only has a single version, so just store it.
 		if ($this->getExtension() == 'mp3') {
@@ -612,6 +651,54 @@ class MiddMedia_File_Media
 		}
 	}
 	
+	/**
+	 * Answer embed code that can be used for this file. 
+	 * This is an example, other players will work as well.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 1/30/09
+	 */
+	public function getEmbedCode () {
+		$parts = pathinfo($this->getBasename());
+		// PHP < 5.2.0 doesn't have 'filename'
+		if (!isset($parts['filename'])) {
+			preg_match('/(.+)\.[a-z0-9]+/i', $this->getBasename(), $matches);
+			$parts['filename'] = $matches[1];
+		}
+		
+		switch (strtolower($parts['extension'])) {
+			case 'flv':
+				$code = MIDDMEDIA_VIDEO_EMBED_CODE;
+				$myId = $this->directory->getBaseName().'/'.$parts['filename'];
+				break;
+			case 'mp3':
+				$code = MIDDMEDIA_AUDIO_EMBED_CODE;
+			default:
+				if (!isset($code))
+					$code = MIDDMEDIA_VIDEO_EMBED_CODE;
+				$myId = strtolower($parts['extension']).':'.$this->directory->getBaseName().'/'.$parts['filename'].'.'.$parts['extension'];
+		}
+		
+		try {
+			$splashUrl = $this->getFormat('splash')->getHttpUrl();
+		} catch (Exception $e) {
+			$splashUrl = '';
+		}
+		
+		$primaryFormat = $this->getPrimaryFormat();
+		
+		$code = str_replace('###ID###', $myId, $code);
+		$code = str_replace('###HTML_ID###', 'media_'.preg_replace('/[^a-z0-9_-]/i', '', $myId), $code);-
+		$code = str_replace('###HTTP_URL###', $primaryFormat->getHttpUrl(), $code);
+		if ($primaryFormat->supportsRtmp())
+			$code = str_replace('###RTMP_URL###', $primaryFormat->getRtmpUrl(), $code);
+		else
+			$code = str_replace('###RTMP_URL###', '', $code);
+		$code = str_replace('###SPLASH_URL###', $splashUrl, $code);
+		
+		return $code;
+	}
 }
 
 ?>

@@ -214,11 +214,21 @@ function doGetVideos(MiddMedia_Manager $manager, $directory) {
 	foreach($manager->getDirectory($directory)->getFiles() as $file) {
 		$video = array();
 		
+		$primaryFormat = $file->getPrimaryFormat();
+		if ($primaryFormat->supportsHttp())
+			$httpUrl = $primaryFormat->getHttpUrl();
+		else
+			$httpUrl = '';
+		if ($primaryFormat->supportsRtmp())
+			$rtmpUrl = $primaryFormat->getRtmpUrl();
+		else
+			$rtmpUrl = '';
+		
 		$video["name"] = $file->getBaseName();
-		$video["httpurl"] = $file->getHttpUrl();
-		$video["rtmpurl"] = $file->getRtmpUrl();
-		$video["mimetype"] = $file->getMimeType();
-		$video["size"] = $file->getSize();
+		$video["httpurl"] = $httpUrl;
+		$video["rtmpurl"] = $rtmpUrl;
+		$video["mimetype"] = $primaryFormat->getMimeType();
+		$video["size"] = $primaryFormat->getSize();
 		try {
 			$video["creator"] = $file->getCreatorUsername();
 		} catch (OperationFailedException $e) {
@@ -233,10 +243,10 @@ function doGetVideos(MiddMedia_Manager $manager, $directory) {
 		}
 		
 		try {
-			$video["fullframeurl"] = $file->getFullFrameImage()->getUrl();
-			$video["thumburl"] = $file->getThumbnailImage()->getUrl();
-			$video["splashurl"] = $file->getSplashImage()->getUrl();
-		} catch (OperationFailedException $e) {
+			$video["fullframeurl"] = $file->getFormat('full_frame')->getHttpUrl();
+			$video["thumburl"] = $file->getFormat('thumb')->getHttpUrl();
+			$video["splashurl"] = $file->getFormat('splash')->getHttpUrl();
+		} catch (Exception $e) {
 			$video["fullframeurl"] = null;
 			$video["thumburl"] = null;
 			$video["splashurl"] = null;
@@ -343,10 +353,13 @@ function doGetVideo(MiddMedia_Manager $manager, $directory, $file) {
 	$file = $manager->getDirectory($directory)->getFile($file);
 	
 	$video["name"] = $file->getBaseName();
-	$video["httpurl"] = $file->getHttpUrl();
-	$video["rtmpurl"] = $file->getRtmpUrl();
-	$video["mimetype"] = $file->getMimeType();
-	$video["size"] = $file->getSize();
+	$video["httpurl"] = $file->getPrimaryFormat()->getHttpUrl();
+	if ($file->getPrimaryFormat()->supportsRtmp())
+		$video["rtmpurl"] = $file->getPrimaryFormat()->getRtmpUrl();
+	else
+		$video["rtmpurl"] = null;
+	$video["mimetype"] = $file->getPrimaryFormat()->getMimeType();
+	$video["size"] = $file->getPrimaryFormat()->getSize();
 	try {
 		$video["creator"] = $file->getCreatorUsername();
 	} catch (OperationFailedException $e) {
@@ -361,10 +374,10 @@ function doGetVideo(MiddMedia_Manager $manager, $directory, $file) {
 	}
 	
 	try {
-		$video["fullframeurl"] = $file->getFullFrameImage()->getUrl();
-		$video["thumburl"] = $file->getThumbnailImage()->getUrl();
-		$video["splashurl"] = $file->getSplashImage()->getUrl();
-	} catch (OperationFailedException $e) {
+		$video["fullframeurl"] = $file->getFormat('full_frame')->getHttpUrl();
+		$video["thumburl"] = $file->getFormat('thumb')->getHttpUrl();
+		$video["splashurl"] = $file->getFormat('splash')->getHttpUrl();
+	} catch (Exception $e) {
 		$video["fullframeurl"] = null;
 		$video["thumburl"] = null;
 		$video["splashurl"] = null;
@@ -429,7 +442,7 @@ function serviceAddVideo($username, $serviceId, $serviceKey, $directory, $file, 
  *
  * @access	public
  * @param 	MiddMedia_Manager	$manager	The manager to use in this request.
- * @param	string		$directory	User or Group name.
+ * @param	string		$directoryName	User or Group name.
  * @param	string		$file		base64string of file data.
  * @param	string		$filename	Name of the video.
  * @param	string		$filetype	MIME type of the video.
@@ -437,38 +450,13 @@ function serviceAddVideo($username, $serviceId, $serviceKey, $directory, $file, 
  * @return	array				Video information.
  * @since	Dec 08
  */
-function doAddVideo(MiddMedia_Manager $manager, $directory, $file, $filename, $filetype, $filesize) {
+function doAddVideo(MiddMedia_Manager $manager, $directoryName, $file, $filename, $filetype, $filesize) {
 	$video = array();
 
-	$directory = MiddMedia_Directory::getIfExists($manager, $directory);
+	$directory = MiddMedia_Directory::getIfExists($manager, $directoryName);
 	$newfile = $directory->createFileFromData($filename, base64_decode($file));
 	
-	$video["name"] = $newfile->getBaseName();
-	$video["httpurl"] = $newfile->getHttpUrl();
-	$video["rtmpurl"] = $newfile->getRtmpUrl();
-	$video["mimetype"] = $newfile->getMimeType();
-	$video["size"] = $newfile->getSize();
-	$moddate = $newfile->getModificationDate();
-	$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
-	try {
-		$video["creator"] = $newfile->getCreatorUsername();
-	} catch (OperationFailedException $e) {
-		$video["creator"] = null;
-	}
-	
-	try {
-		$video["fullframeurl"] = $newfile->getFullFrameImage()->getUrl();
-		$video["thumburl"] = $newfile->getThumbnailImage()->getUrl();
-		$video["splashurl"] = $newfile->getSplashImage()->getUrl();
-	} catch (OperationFailedException $e) {
-		$video["fullframeurl"] = null;
-		$video["thumburl"] = null;
-		$video["splashurl"] = null;
-	}
-	
-	$video["embedcode"] = $newfile->getEmbedCode();
-
-	return $video;
+	return doGetVideo($manager, $directoryName, $filename);
 }
 
 /**
