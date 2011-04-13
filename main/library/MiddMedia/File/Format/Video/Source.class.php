@@ -82,16 +82,6 @@ class MiddMedia_File_Format_Video_Source
 	}
 	
 	/**
-	 * Move an uploaded file into our file.
-	 * 
-	 * @param string $tempName
-	 * @return void
-	 */
-	public function moveInUploadedFile ($tempName) {
-		rename($tempName, $this->getPath());
-	}
-	
-	/**
 	 * Convert the source file into our format and make our content the result.
 	 *
 	 * This method throws the following exceptions:

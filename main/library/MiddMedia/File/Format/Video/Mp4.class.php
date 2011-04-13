@@ -83,16 +83,6 @@ class MiddMedia_File_Format_Video_Mp4
 	}
 	
 	/**
-	 * Move an uploaded file into our file.
-	 * 
-	 * @param string $tempName
-	 * @return void
-	 */
-	public function moveInUploadedFile ($tempName) {
-		rename($tempName, $this->getPath());
-	}
-	
-	/**
 	 * Convert the source file into our format and make our content the result.
 	 *
 	 * This method throws the following exceptions:
@@ -160,7 +150,7 @@ class MiddMedia_File_Format_Video_Mp4
 		}
 		
 		// Move into position
-		$this->moveInUploadedFile($outFile);
+		$this->moveInFile($outFile);
 		$this->cleanup();
 	}
 

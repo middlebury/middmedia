@@ -72,12 +72,28 @@ interface MiddMedia_File_FormatInterface
 	public function getRtmpUrl ();
 	
 	/**
-	 * Move an uploaded file into our file.
+	 * Move an uploaded file into our path.
 	 * 
-	 * @param string $tempName
+	 * @param string $sourcePath
 	 * @return void
 	 */
-	public function moveInUploadedFile ($tempName);
+	public function moveInUploadedFile ($sourcePath);
+	
+	/**
+	 * Move a file into our path.
+	 * 
+	 * @param string $sourcePath
+	 * @return void
+	 */
+	public function moveInFile ($sourcePath);
+	
+	/**
+	 * Copy a file into our path.
+	 * 
+	 * @param string $sourcePath
+	 * @return void
+	 */
+	public function copyInFile ($sourcePath);
 	
 	/**
 	 * Convert the source file into our format and make our content the result.

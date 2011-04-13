@@ -125,6 +125,39 @@ abstract class MiddMedia_File_Format_Abstract
 		
 		return $this->mediaFile->getDirectory()->getRtmpUrl().'/'.$this->getTargetSubdir().'/'.$this->getBaseName();
 	}
+	
+	/**
+	 * Move an uploaded file into our path.
+	 * 
+	 * @param string $sourcePath
+	 * @return void
+	 */
+	public function moveInUploadedFile ($sourcePath) {
+		if(!move_uploaded_file($sourcePath, $this->getPath()))
+			throw new OperationFailedException("Could not move uploaded file $sourcePath to ".$this->getPath());
+	}
+	
+	/**
+	 * Move a file into our path.
+	 * 
+	 * @param string $sourcePath
+	 * @return void
+	 */
+	public function moveInFile ($sourcePath) {
+		if(!rename($sourcePath, $this->getPath()))
+			throw new OperationFailedException("Could not move $sourcePath to ".$this->getPath());
+	}
+	
+	/**
+	 * Copy a file into our path.
+	 * 
+	 * @param string $sourcePath
+	 * @return void
+	 */
+	public function copyInFile ($sourcePath) {
+		if(!copy($sourcePath, $this->getPath()))
+			throw new OperationFailedException("Could not copy $sourcePath to ".$this->getPath());
+	}
 }
 
 ?>

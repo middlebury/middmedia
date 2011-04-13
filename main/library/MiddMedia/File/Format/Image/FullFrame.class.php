@@ -82,16 +82,6 @@ class MiddMedia_File_Format_Image_FullFrame
 	}
 	
 	/**
-	 * Move an uploaded file into our file.
-	 * 
-	 * @param string $tempName
-	 * @return void
-	 */
-	public function moveInUploadedFile ($tempName) {
-		rename($tempName, $this->getPath());
-	}
-	
-	/**
 	 * Convert the source file into our format and make our content the result.
 	 *
 	 * This method throws the following exceptions:
@@ -171,7 +161,7 @@ class MiddMedia_File_Format_Image_FullFrame
 		if (!file_exists($destImage))
 			throw new OperationFailedException('Full-frame was not generated: '.$this->mediaFile->getDirectory()->getBaseName().'/full_frame/'.basename($destImage));
 		
-		$this->moveInUploadedFile($destImage);
+		$this->moveInFile($destImage);
 		$this->cleanup();
 	}
 

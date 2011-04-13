@@ -82,16 +82,6 @@ class MiddMedia_File_Format_Image_Thumbnail
 	}
 	
 	/**
-	 * Move an uploaded file into our file.
-	 * 
-	 * @param string $tempName
-	 * @return void
-	 */
-	public function moveInUploadedFile ($tempName) {
-		rename($tempName, $this->getPath());
-	}
-	
-	/**
 	 * Convert the source file into our format and make our content the result.
 	 *
 	 * This method throws the following exceptions:
@@ -134,7 +124,7 @@ class MiddMedia_File_Format_Image_Thumbnail
 		if (!file_exists($destImage))
 			throw new OperaionFailedException('Thumbnail-Image was not generated: '.$this->mediaFile->getDirectory()->getBaseName().'/thumb/'.$parts['filename'].'.jpg');
 		
-		$this->moveInUploadedFile($destImage);
+		$this->moveInFile($destImage);
 		$this->cleanup();
 	}
 
