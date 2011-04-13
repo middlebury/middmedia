@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/../../Format.interface.php');
+require_once(dirname(__FILE__).'/../Abstract.class.php');
 
 /**
  * Source video files are of arbitrary video type.
@@ -17,7 +17,7 @@ require_once(dirname(__FILE__).'/../../Format.interface.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
 class MiddMedia_File_Format_Image_FullFrame
-	extends Harmoni_Filing_FileSystemFile
+	extends MiddMedia_File_Format_Abstract
 	implements MiddMedia_File_FormatInterface
 {
 		
@@ -37,19 +37,7 @@ class MiddMedia_File_Format_Image_FullFrame
 	 * @return object MiddMedia_File_FormatInterface The new file
 	 */
 	public static function create (MiddMedia_File_MediaInterface $mediaFile) {
-		$directory = $mediaFile->getDirectory();
-		$dir = $directory->getFsPath().'/full_frame';
-		if (!file_exists($dir)) {
-			if (!is_writable($directory->getFsPath()))
-				throw new ConfigurationErrorException($directory->getBaseName()." is not writable.");
-			mkdir($dir);
-		}
-		
-		$pathInfo = pathinfo($mediaFile->getBaseName());
-		$extension = 'jpg';
-		$name = $pathInfo['filename'].'.'.$extension;
-		
-		touch($dir.'/'.$name);
+		self::touch($mediaFile, 'full_frame', 'jpg');
 		return new MiddMedia_File_Format_Image_FullFrame($mediaFile);
 	}
 	
