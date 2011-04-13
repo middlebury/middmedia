@@ -42,15 +42,6 @@ interface MiddMedia_File_MediaInterface
 	public static function getAllowedVideoTypes ();
 	
 	/**
-	 * Answer video information
-	 * 
-	 * @param string $filePath
-	 * @return array
-	 * @static
-	 */
-	public static function getVideoInfo ($filePath);
-	
-	/**
 	 * Check the queue for items to process and start processing if needed.
 	 * 
 	 * @param object MiddMedia_Manager $manager

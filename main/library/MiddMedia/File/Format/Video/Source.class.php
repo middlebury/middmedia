@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/../Abstract.class.php');
+require_once(dirname(__FILE__).'/Abstract.class.php');
+require_once(dirname(__FILE__).'/Info.interface.php');
 
 /**
  * Source video files are of arbitrary video type.
@@ -17,8 +18,8 @@ require_once(dirname(__FILE__).'/../Abstract.class.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
 class MiddMedia_File_Format_Video_Source
-	extends MiddMedia_File_Format_Abstract
-	implements MiddMedia_File_FormatInterface
+	extends MiddMedia_File_Format_Video_Abstract
+	implements MiddMedia_File_FormatInterface, MiddMedia_File_Format_Video_InfoInterface
 {
 		
 	/*********************************************************

@@ -6,7 +6,9 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/../Abstract.class.php');
+require_once(dirname(__FILE__).'/Abstract.class.php');
+require_once(dirname(__FILE__).'/Info.interface.php');
+
 
 /**
  * Source video files are of arbitrary video type.
@@ -17,8 +19,8 @@ require_once(dirname(__FILE__).'/../Abstract.class.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
 class MiddMedia_File_Format_Video_Mp4
-	extends MiddMedia_File_Format_Abstract
-	implements MiddMedia_File_FormatInterface
+	extends MiddMedia_File_Format_Video_Abstract
+	implements MiddMedia_File_FormatInterface, MiddMedia_File_Format_Video_InfoInterface
 {
 		
 	/*********************************************************
@@ -94,6 +96,9 @@ class MiddMedia_File_Format_Video_Mp4
 	 * @return void
 	 */
 	public function process (Harmoni_Filing_FileInterface $source) {
+		if (!$source instanceof MiddMedia_File_Format_Video_InfoInterface)
+			throw new InvalidArgumentException('$source must implement MiddMedia_File_Format_Video_InfoInterface');
+		
 		$outFile = $this->getPath().'-tmp.mp4';
 		
 		if (!defined('FFMPEG_PATH'))
@@ -104,9 +109,8 @@ class MiddMedia_File_Format_Video_Mp4
 			throw new ConfigurationErrorException('MIDDMEDIA_CONVERT_MAX_HEIGHT is not defined');
 			
 		// Determine the output size base on our maximums.
-		$info = MiddMedia_File_Media::getVideoInfo($source->getPath());
-		$width = $info['width'];
-		$height = $info['height'];
+		$width = $source->getWidth();
+		$height = $source->getHeight();
 		if ($width > MIDDMEDIA_CONVERT_MAX_WIDTH) {
 			$ratio = MIDDMEDIA_CONVERT_MAX_WIDTH / $width;
 			$width = MIDDMEDIA_CONVERT_MAX_WIDTH;
@@ -122,7 +126,7 @@ class MiddMedia_File_Format_Video_Mp4
 		$height = round($height/2) * 2;
 		
 		// Some audio sample rates die, so force to the closest of 44100, 22050, 11025
-		$sampleRate = $info['audio_samplerate'];
+		$sampleRate = $source->getAudioSampleRate();
 		if (!in_array($sampleRate, array(44100, 22050, 11025))) {
 			if ($sampleRate < 16538)
 				$sampleRate = 11025;
