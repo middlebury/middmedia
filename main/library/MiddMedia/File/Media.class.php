@@ -52,7 +52,7 @@ class MiddMedia_File_Media
 	public static function getAllowedVideoTypes () {
 		$types = explode(",", MIDDMEDIA_ALLOWED_FILE_TYPES);
 		array_walk($types, 'trim');
-		array_walk($types, 'strtolower');
+		$types = array_map('strtolower', $types);
 		return $types;
 	}
 	

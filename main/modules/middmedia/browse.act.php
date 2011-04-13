@@ -557,9 +557,9 @@ class browseAction
 		/*********************************************************
 		 * Upload Form
 		 *********************************************************/
-		$mediaTypes = explode(',', MIDDMEDIA_ALLOWED_FILE_TYPES);
+		$mediaTypes = MiddMedia_File_Media::getAllowedVideoTypes();
 		foreach ($mediaTypes as $key => $type) {
-			$mediaTypes[$key] = '*.'.trim($type);
+			$mediaTypes[$key] = '*.'.$type;
 		}
 		$mediaTypes = implode(';', $mediaTypes);
 		

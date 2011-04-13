@@ -80,7 +80,7 @@ function serviceGetTypes($username, $serviceId, $serviceKey) {
  * @since	Jan 09
  */
 function doGetTypes($manager) {
-	return explode(", ", MIDDMEDIA_ALLOWED_FILE_TYPES);
+	return MiddMedia_File_Media::getAllowedVideoTypes();
 }
 
 /**

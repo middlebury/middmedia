@@ -106,7 +106,7 @@ abstract class MiddMedia_Action_Abstract
 		print "\n<div class='upload_help'>";
 		print "\n\tThe follow media types are allowed:";
 		$mimeMgr = Services::getService("MIME");
-		foreach(explode(',', MIDDMEDIA_ALLOWED_FILE_TYPES) as $type) {
+		foreach(MiddMedia_File_Media::getAllowedVideoTypes() as $type) {
 			print "<br/>&nbsp;&nbsp;&nbsp;&nbsp;.".trim($type)." (".$mimeMgr->getMIMETypeForExtension(trim($type)).")";
 		}
 		print "<p>See <a href='https://mediawiki.middlebury.edu/wiki/LIS/MiddMedia' target='_blank'>MiddMedia Help</a> for more information.</p>";
