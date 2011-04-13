@@ -74,34 +74,12 @@ class MiddMedia_File_Format_Video_Mp4
 	}
 	
 	/**
-	 * Answer the full http path (URI) of this file.
-	 * 
-	 * @return string
-	 * @access public
-	 * @since 10/24/08
-	 */
-	public function getHttpUrl () {
-		return $this->mediaFile->getDirectory()->getHttpUrl().'/mp4/'.$this->getBaseName();
-	}
-
-	/**
 	 * Answer true if this file is accessible via RTMP.
 	 * 
 	 * @return boolean
 	 */
 	public function supportsRtmp () {
 		return true;
-	}
-	
-	/**
-	 * Answer the full RMTP path (URI) of this file
-	 * 
-	 * @return string
-	 * @access public
-	 * @since 10/24/08
-	 */
-	public function getRtmpUrl () {
-		return $this->mediaFile->getDirectory()->getRtmpUrl().'/mp4/'.$this->getBaseName();
 	}
 	
 	/**

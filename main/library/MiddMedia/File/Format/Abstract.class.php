@@ -97,6 +97,34 @@ abstract class MiddMedia_File_Format_Abstract
 		
 		parent::__construct($mediaFile->getDirectory()->getFSPath().'/'.$this->getTargetSubdir().'/'.$this->basename);
 	}
+	
+	/**
+	 * Answer the full http path (URI) of this file.
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 10/24/08
+	 */
+	public function getHttpUrl () {
+		if (!$this->supportsHttp())
+			throw new OperationFailedException('supportsHttp() is false');
+		
+		return $this->mediaFile->getDirectory()->getHttpUrl().'/'.$this->getTargetSubdir().'/'.$this->getBaseName();
+	}
+	
+	/**
+	 * Answer the full RMTP path (URI) of this file
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 10/24/08
+	 */
+	public function getRtmpUrl () {
+		if (!$this->supportsRtmp())
+			throw new OperationFailedException('supportsRtmp() is false');
+		
+		return $this->mediaFile->getDirectory()->getRtmpUrl().'/'.$this->getTargetSubdir().'/'.$this->getBaseName();
+	}
 }
 
 ?>

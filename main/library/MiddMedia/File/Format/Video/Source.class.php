@@ -73,34 +73,12 @@ class MiddMedia_File_Format_Video_Source
 	}
 	
 	/**
-	 * Answer the full http path (URI) of this file.
-	 * 
-	 * @return string
-	 * @access public
-	 * @since 10/24/08
-	 */
-	public function getHttpUrl () {
-		throw new OperationFailedException('supportsHttp() is false');
-	}
-
-	/**
 	 * Answer true if this file is accessible via RTMP.
 	 * 
 	 * @return boolean
 	 */
 	public function supportsRtmp () {
 		return false;
-	}
-	
-	/**
-	 * Answer the full RMTP path (URI) of this file
-	 * 
-	 * @return string
-	 * @access public
-	 * @since 10/24/08
-	 */
-	public function getRtmpUrl () {
-		throw new OperationFailedException('getRtmpUrl() is false');
 	}
 	
 	/**

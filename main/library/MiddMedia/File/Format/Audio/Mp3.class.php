@@ -71,17 +71,6 @@ class MiddMedia_File_Format_Audio_Mp3
 	public function supportsHttp () {
 		return true;
 	}
-	
-	/**
-	 * Answer the full http path (URI) of this file.
-	 * 
-	 * @return string
-	 * @access public
-	 * @since 10/24/08
-	 */
-	public function getHttpUrl () {
-		return $this->mediaFile->getDirectory()->getHttpUrl().'/mp3/'.$this->getBaseName();
-	}
 
 	/**
 	 * Answer true if this file is accessible via RTMP.
@@ -90,17 +79,6 @@ class MiddMedia_File_Format_Audio_Mp3
 	 */
 	public function supportsRtmp () {
 		return false;
-	}
-	
-	/**
-	 * Answer the full RMTP path (URI) of this file
-	 * 
-	 * @return string
-	 * @access public
-	 * @since 10/24/08
-	 */
-	public function getRtmpUrl () {
-		throw new OperationFailedException('getRtmpUrl() is false');
 	}
 	
 	/**
