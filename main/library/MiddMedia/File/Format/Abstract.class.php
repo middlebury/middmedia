@@ -40,9 +40,9 @@ abstract class MiddMedia_File_Format_Abstract
 	 */
 	protected static function touch (MiddMedia_File_MediaInterface $mediaFile, $subdirectory, $extension) {
 		$directory = $mediaFile->getDirectory();
-		$dir = $directory->getFsPath().'/'.$subdirectory;
+		$dir = $directory->getPath().'/'.$subdirectory;
 		if (!file_exists($dir)) {
-			if (!is_writable($directory->getFsPath()))
+			if (!is_writable($directory->getPath()))
 				throw new ConfigurationErrorException($directory->getBaseName()." is not writable.");
 			mkdir($dir);
 		}
@@ -95,7 +95,7 @@ abstract class MiddMedia_File_Format_Abstract
 		$pathInfo = pathinfo($mediaFile->getBaseName());
 		$this->basename = $pathInfo['filename'].'.'.$this->getTargetExtension();
 		
-		parent::__construct($mediaFile->getDirectory()->getFSPath().'/'.$this->getTargetSubdir().'/'.$this->basename);
+		parent::__construct($mediaFile->getDirectory()->getPath().'/'.$this->getTargetSubdir().'/'.$this->basename);
 	}
 	
 	/**

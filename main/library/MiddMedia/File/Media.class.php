@@ -192,10 +192,11 @@ class MiddMedia_File_Media
 	 *		OperationFailedException 	- If the file already exists.
 	 *		PermissionDeniedException 	- If the user is unauthorized to manage media here.
 	 * 
+	 * @param MiddMedia_DirectoryInterface $directory
 	 * @param string $name
 	 * @return object MiddMedia_File_MediaInterface The new file
 	 */
-	public static function create (MiddMedia_Directory $directory, $name) {
+	public static function create (MiddMedia_DirectoryInterface $directory, $name) {
 		if (!self::nameValid($name))
 			throw new InvalidArgumentException("Invalid file name '$name'.");
 		
@@ -213,7 +214,7 @@ class MiddMedia_File_Media
 			throw new OperationFailedException("File already exists.");
 		
 		// Create a placeholder file and set metadata
-		touch($directory->getFsPath().'/'.$basename);
+		touch($directory->getPath().'/'.$basename);
 		$media = new MiddMedia_File_Media($directory, $basename);
 		$media->setCreator($directory->getManager()->getAgent());
 		
@@ -228,27 +229,27 @@ class MiddMedia_File_Media
 	 *		OperationFailedException 	- If the file doesn't exist.
 	 *		PermissionDeniedException 	- If the user is unauthorized to manage media here.
 	 * 
-	 * @param MiddMedia_Directory $directory
+	 * @param MiddMedia_DirectoryInterface $directory
 	 * @param string $name
 	 * @return object MiddMedia_File_MediaInterface The new file
 	 */
-	public static function get (MiddMedia_Directory $directory, $name) {
+	public static function get (MiddMedia_DirectoryInterface $directory, $name) {
 		return new MiddMedia_File_Media($directory, $name);
 	}
 	
 	/**
 	 * Constructor.
 	 * 
-	 * @param object MiddMedia_Directory $directory
+	 * @param object MiddMedia_DirectoryInterface $directory
 	 * @param string $basename
 	 * @return void
 	 */
-	public function __construct (MiddMedia_Directory $directory, $basename) {
+	public function __construct (MiddMedia_DirectoryInterface $directory, $basename) {
 		$this->directory = $directory;
 		if (!self::nameValid($basename))
 			throw new InvalidArgumentException('Invalid file name \''.$basename.'\'');
 		
-		parent::__construct($directory->getFSPath().'/'.$basename);
+		parent::__construct($directory->getPath().'/'.$basename);
 	}
 	
 	/**
@@ -492,7 +493,7 @@ class MiddMedia_File_Media
 	/**
 	 * Answer our directory.
 	 * 
-	 * @return MiddMedia_Directory
+	 * @return MiddMedia_DirectoryInterface
 	 */
 	public function getDirectory () {
 		return $this->directory;

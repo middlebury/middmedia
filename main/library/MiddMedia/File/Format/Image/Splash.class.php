@@ -100,7 +100,7 @@ class MiddMedia_File_Format_Image_Splash
 			throw new PermissionDeniedException('Full-frame file is not readable: '.$this->mediaFile->getDirectory()->getBaseName().'/'.basename(dirname($fullFrame->getPath())).'/'.$fullFrame->getBaseName());
 		
 		// Set up the Splash Image directory
-		$splashDir = $this->mediaFile->getDirectory()->getFsPath().'/splash';
+		$splashDir = $this->mediaFile->getDirectory()->getPath().'/splash';
 		
 		if (!file_exists($splashDir)) {
 			if (!mkdir($splashDir, 0775))

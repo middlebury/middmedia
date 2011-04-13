@@ -137,7 +137,7 @@ class MiddMedia_File_Format_Image_FullFrame
 		if (!$source->isReadable())
 			throw new PermissionDeniedException('Video file is not readable: '.$this->mediaFile->getDirectory()->getBaseName().'/'.basename(dirname($source->getPath())).'/'.$source->getBaseName());
 		
-		$fullFramesDir = $this->mediaFile->getDirectory()->getFsPath().'/full_frame';
+		$fullFramesDir = $this->mediaFile->getDirectory()->getPath().'/full_frame';
 		
 		if (!file_exists($fullFramesDir)) {
 			if (!mkdir($fullFramesDir, 0775))

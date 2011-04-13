@@ -88,13 +88,13 @@ class uploadAction
 	/**
 	 * Answer a success message and file info if needed
 	 * 
-	 * @param MiddMedia_Directory $dir
+	 * @param MiddMedia_DirectoryInterface $dir
 	 * @param MiddMedia_File $file
 	 * @return mixed
 	 * @access protected
 	 * @since 11/19/09
 	 */
-	protected function success (MiddMedia_Directory $dir, MiddMedia_File_Media $file) {
+	protected function success (MiddMedia_DirectoryInterface $dir, MiddMedia_File_Media $file) {
 		// Return output to the browser (only supported by SWFUpload for Flash Player 9)
 		header("HTTP/1.1 200 OK");
 		header("Content-type: text/xml");
@@ -152,7 +152,7 @@ class uploadAction
 	/**
 	 * Answer the target directory object
 	 * 
-	 * @return object MiddMedia_Directory
+	 * @return object MiddMedia_DirectoryInterface
 	 * @access protected
 	 * @since 11/19/08
 	 */
@@ -177,7 +177,7 @@ class uploadAction
 	}
 	
 	/**
-	 * @var object MiddMedia_Directory $directory;  
+	 * @var object MiddMedia_DirectoryInterface $directory;  
 	 * @access private
 	 * @since 11/19/08
 	 */

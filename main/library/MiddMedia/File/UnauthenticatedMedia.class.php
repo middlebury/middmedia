@@ -30,7 +30,7 @@ class MiddMedia_File_UnauthenticatedMedia
 	 * @param string $name
 	 * @return object MiddMedia_MediaFile The new file
 	 */
-	public static function create (MiddMedia_Directory $directory, $name) {
+	public static function create (MiddMedia_DirectoryInterface $directory, $name) {
 		throw new PermissionDeniedException("The UnauthenticatedFiles cannot be changed.");
 	}
 		

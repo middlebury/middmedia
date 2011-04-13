@@ -28,7 +28,7 @@ class MiddMedia_Directory_Unauthenticated
 	 * 
 	 * @param object MiddMedia_Manager $manager
 	 * @param string $name
-	 * @return object MiddMedia_Directory
+	 * @return object MiddMedia_DirectoryInterface
 	 * @access public
 	 * @since 11/13/08
 	 * @static
@@ -36,7 +36,7 @@ class MiddMedia_Directory_Unauthenticated
 	public static function getIfExists (MiddMedia_Manager $manager, $name) {
 		$dir = new MiddMedia_Directory_Unauthenticated($manager, $name);
 		
-		if (!file_exists($dir->getFSPath())) {
+		if (!file_exists($dir->getPath())) {
 			throw new UnknownIdException("Directory does not exist");
 		}
 		
@@ -48,7 +48,7 @@ class MiddMedia_Directory_Unauthenticated
 	 * 
 	 * @param object MiddMedia_Manager $manager
 	 * @param string $name
-	 * @return ovject MiddMedia_Directory
+	 * @return object MiddMedia_DirectoryInterface
 	 * @access public
 	 * @since 11/13/08
 	 * @static

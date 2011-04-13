@@ -100,7 +100,7 @@ class MiddMedia_File_Format_Image_Thumbnail
 			throw new PermissionDeniedException('Full-frame file is not readable: '.$this->mediaFile->getDirectory()->getBaseName().'/'.basename(dirname($fullFrame->getPath())).'/'.$fullFrame->getBaseName());
 		
 		// Set up the Thumbnail Image directory
-		$thumbDir = $this->mediaFile->getDirectory()->getFsPath().'/thumb';
+		$thumbDir = $this->mediaFile->getDirectory()->getPath().'/thumb';
 		
 		if (!file_exists($thumbDir)) {
 			if (!mkdir($thumbDir, 0775))

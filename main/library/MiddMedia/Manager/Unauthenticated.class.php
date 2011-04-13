@@ -124,7 +124,7 @@ class MiddMedia_Manager_Unauthenticated
 	 * This method throws the following exceptions:
 	 *		PermissionDeniedException 	- If the user is unauthorized to have a personal directory.
 	 *
-	 * @return object MiddMedia_Directory
+	 * @return object MiddMedia_DirectoryInterface
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -135,7 +135,7 @@ class MiddMedia_Manager_Unauthenticated
 	/**
 	 * Answer an array of all shared directories the user can access.
 	 * 
-	 * @return array of MiddMedia_Directory objects
+	 * @return array of MiddMedia_DirectoryInterface objects
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -150,7 +150,7 @@ class MiddMedia_Manager_Unauthenticated
 	 *		PermissionDeniedException 	- If the user is unauthorized to access the directory.
 	 * 
 	 * @param string $name
-	 * @return object MiddMedia_Directory
+	 * @return object MiddMedia_DirectoryInterface
 	 * @access public
 	 * @since 11/13/08
 	 */

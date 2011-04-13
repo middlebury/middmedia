@@ -67,7 +67,7 @@ class MiddMedia_Manager_Admin
 	/**
 	 * Answer an array of all directories
 	 * 
-	 * @return array of MiddMedia_Directory objects
+	 * @return array of MiddMedia_DirectoryInterface objects
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -89,7 +89,7 @@ class MiddMedia_Manager_Admin
 	 * Create a new shared directory.
 	 * 
 	 * @param string $name
-	 * @return object MiddMedia_Directory
+	 * @return object MiddMedia_DirectoryInterface
 	 * @access public
 	 * @since 12/11/08
 	 */

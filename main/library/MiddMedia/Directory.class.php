@@ -1,43 +1,40 @@
 <?php
 /**
- * @since 10/24/08
  * @package middmedia
  * 
- * @copyright Copyright &copy; 2007, Middlebury College
+ * @copyright Copyright &copy; 2011, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- *
- * @version $Id$
  */ 
 
 require_once(dirname(__FILE__).'/File/Media.class.php');
+require_once(dirname(__FILE__).'/Directory.interface.php');
 
 /**
  * This class is a simple directory-access wrapper.
  * 
- * @since 10/24/08
  * @package middmedia
  * 
- * @copyright Copyright &copy; 2007, Middlebury College
+ * @copyright Copyright &copy; 2011, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
- *
- * @version $Id$
  */
-class MiddMedia_Directory {
+class MiddMedia_Directory 
+	implements MiddMedia_DirectoryInterface
+{
+	/*********************************************************
+	 * Static methods
+	 *********************************************************/
 
 	/**
 	 * Answer the directory if it exists. Throw an UnknownIdException if it doesn't.
 	 * 
 	 * @param object MiddMedia_Manager $manager
 	 * @param string $name
-	 * @return object MiddMedia_Directory
-	 * @access public
-	 * @since 11/13/08
-	 * @static
+	 * @return object MiddMedia_DirectoryInterface
 	 */
 	public static function getIfExists (MiddMedia_Manager $manager, $name) {
 		$dir = new MiddMedia_Directory($manager, $name);
 		
-		if (!file_exists($dir->getFSPath())) {
+		if (!file_exists($dir->getPath())) {
 			throw new UnknownIdException("Directory does not exist");
 		}
 		
@@ -50,17 +47,15 @@ class MiddMedia_Directory {
 	 * @param object MiddMedia_Manager $manager
 	 * @param string $name
 	 * @return ovject MiddMedia_Directory
-	 * @access public
-	 * @since 11/13/08
 	 * @static
 	 */
 	public static function getAlways (MiddMedia_Manager $manager, $name) {
 		$dir = new MiddMedia_Directory($manager, $name);
 		
-		if (!file_exists($dir->getFSPath())) {
+		if (!file_exists($dir->getPath())) {
 			if (!is_writable(MIDDMEDIA_FS_BASE_DIR))
 				throw new ConfigurationErrorException("MIDDMEDIA_FS_BASE_DIR is not writable.");
-			mkdir($dir->getFSPath());
+			mkdir($dir->getPath());
 		}
 		
 		return $dir;
@@ -109,30 +104,63 @@ class MiddMedia_Directory {
 	 * Answer the name of the directory
 	 * 
 	 * @return string
-	 * @access public
-	 * @since 10/24/08
 	 */
 	public function getBaseName () {
 		return $this->name;
 	}
 	
 	/**
+	 * [Re]Set the base name for the directory
+	 * 
+	 * @param string $baseName
+	 * @return null
+	 */
+	public function setBaseName ($baseName) {
+		throw new UnimplementedException();
+	}
+	
+	/**
 	 * Answer the full file-system path of this directory
 	 * 
 	 * @return string
-	 * @access public
-	 * @since 10/24/08
 	 */
-	public function getFsPath () {
+	public function getPath () {
 		return MIDDMEDIA_FS_BASE_DIR.'/'.$this->name;
+	}
+	
+	/**
+	 * [Re]Set a full path to the directory, including the directory name.
+	 * 
+	 * @param string $path
+	 * @return null
+	 */
+	public function setPath ($path) {
+		throw new UnimplementedException();
+	}
+	
+	/**
+	 * Delete the directory.
+	 * 
+	 * @param boolean $recursive
+	 * @return null
+	 */
+	public function delete ($recursive) {
+		throw new UnimplementedException();
+	}
+	
+	/**
+	 * Answer the modification date/time
+	 * 
+	 * @return object DateAndTime
+	 */
+	public function getModificationDate () {
+		throw new UnimplementedException();
 	}
 	
 	/**
 	 * Answer the full http path (URI) of this directory
 	 * 
 	 * @return string
-	 * @access public
-	 * @since 10/24/08
 	 */
 	public function getHttpUrl () {
 		return MIDDMEDIA_HTTP_BASE_URL.'/'.$this->name;
@@ -142,8 +170,6 @@ class MiddMedia_Directory {
 	 * Answer the full RMTP path (URI) of this directory
 	 * 
 	 * @return string
-	 * @access public
-	 * @since 10/24/08
 	 */
 	public function getRtmpUrl () {
 		return MIDDMEDIA_RTMP_BASE_URL.'/'.$this->name;
@@ -153,13 +179,11 @@ class MiddMedia_Directory {
 	 * Answer an array of the files in this directory.
 	 * 
 	 * @return array of MiddMedia_File_Media objects
-	 * @access public
-	 * @since 10/24/08
 	 */
 	public function getFiles () {
 		$files = array();
-		foreach (scandir($this->getFsPath()) as $fname) {
-			if (!is_dir($this->getFsPath().'/'.$fname))
+		foreach (scandir($this->getPath()) as $fname) {
+			if (!is_dir($this->getPath().'/'.$fname))
 				$files[] = MiddMedia_File_Media::get($this, $fname);
 		}
 		return $files;
@@ -170,8 +194,6 @@ class MiddMedia_Directory {
 	 * 
 	 * @param string $name
 	 * @return object MiddMedia_File_Media
-	 * @access public
-	 * @since 11/13/08
 	 */
 	public function getFile ($name) {
 		if (!$this->fileExists($name))
@@ -184,21 +206,17 @@ class MiddMedia_Directory {
 	 * 
 	 * @param string $name
 	 * @return boolean
-	 * @access public
-	 * @since 11/13/08
 	 */
 	public function fileExists ($name) {
 		if (!MiddMedia_File_Media::nameValid($name))
 			throw new InvalidArgumentException('Invalid file name \''.$name.'\'');
-		return file_exists($this->getFsPath().'/'.$name);
+		return file_exists($this->getPath().'/'.$name);
 	}
 	
 	/**
 	 * Answer the number of bytes used.
 	 * 
 	 * @return int
-	 * @access public
-	 * @since 10/24/08
 	 */
 	public function getBytesUsed () {
 		$used = 0;
@@ -211,8 +229,6 @@ class MiddMedia_Directory {
 	 * Answer the number of bytes availible before a quota is reached.
 	 * 
 	 * @return int
-	 * @access public
-	 * @since 10/24/08
 	 */
 	public function getBytesAvailable () {
 		return max(0, $this->getQuota() - $this->getBytesUsed());
@@ -222,8 +238,6 @@ class MiddMedia_Directory {
 	 * Answer the quota size in bytes
 	 * 
 	 * @return int
-	 * @access public
-	 * @since 10/24/08
 	 */
 	public function getQuota () {
 		if (!isset($this->quota)) {
@@ -254,8 +268,6 @@ class MiddMedia_Directory {
 	 * Answer true if this directory has a custom quota
 	 * 
 	 * @return boolean
-	 * @access public
-	 * @since 12/10/08
 	 */
 	public function hasCustomQuota () {
 		$this->getQuota();
@@ -267,8 +279,6 @@ class MiddMedia_Directory {
 	 * 
 	 * @param int $quota
 	 * @return void
-	 * @access public
-	 * @since 12/10/08
 	 */
 	public function setCustomQuota ($quota) {
 		ArgumentValidator::validate($quota, IntegerValidatorRule::getRule());
@@ -297,8 +307,6 @@ class MiddMedia_Directory {
 	 * Remove the custom quota
 	 * 
 	 * @return void
-	 * @access public
-	 * @since 12/10/08
 	 */
 	public function removeCustomQuota () {
 		$this->quota = null;
@@ -315,8 +323,6 @@ class MiddMedia_Directory {
 	 * Answer the default quota for this directory
 	 * 
 	 * @return int
-	 * @access public
-	 * @since 12/10/08
 	 */
 	public function getDefaultQuota () {
 		return $this->manager->getDefaultQuota();
@@ -332,11 +338,9 @@ class MiddMedia_Directory {
 	 * 
 	 * @param object Harmoni_Filing_FileInterface $file
 	 * @return object MiddMediaFile The new file
-	 * @access public
-	 * @since 10/24/08
 	 */
 	public function addFile (Harmoni_Filing_FileInterface $file) {
-		if (file_exists($this->getFsPath().'/'.$file->getBaseName()))
+		if (file_exists($this->getPath().'/'.$file->getBaseName()))
 			throw new OperationFailedException("File already exists.");
 		
 		$newFile = $this->createFile($file->getBaseName());
@@ -354,9 +358,7 @@ class MiddMedia_Directory {
 	 *		PermissionDeniedException 	- If the user is unauthorized to manage media here.
 	 * 
 	 * @param string $name
-	 * @return object MiddMediaFile The new file
-	 * @access public
-	 * @since 11/21/08
+	 * @return object Harmoni_Filing_FileInterface The new file
 	 */
 	public function createFile ($name) {
 		if ($this->fileExists($name))
@@ -370,9 +372,7 @@ class MiddMedia_Directory {
 	 * 
 	 * @param string $name
 	 * @param string $content
-	 * @return object MiddMediaFile The new file
-	 * @access public
-	 * @since 9/28/09
+	 * @return object MiddMedia_File_Media The new file
 	 */
 	public function createFileFromData ($name, $content) {
 		if (!defined('MIDDMEDIA_TMP_DIR'))
@@ -384,14 +384,20 @@ class MiddMedia_Directory {
 			
 		$tmpfile = tempnam(MIDDMEDIA_TMP_DIR, 'middmedia_soap_');
 		file_put_contents($tmpfile, $content);
+		$size = strlen($content);
+		unset($content);
 		
-		$fileArray = array(
-			'tmp_name'	=> $tmpfile,
-			'name'		=> $name,
-			'size'		=> filesize($tmpfile),
-			'error'		=> 0,
-		);
-		return $this->createFileFromUpload($fileArray);
+		if (!strlen($name)) 
+			throw new InvalidArgumentException('Invalid file upload.');
+		if (!$size) 
+			throw new InvalidArgumentException('Uploaded file is empty.');
+		if ($size > ($this->getBytesAvailable()))
+			throw new InvalidArgumentException('File upload exceeds quota.');
+		
+		$mediaFile = $this->createFile($name);
+		$mediaFile->moveInFile($tmpfile);
+		
+		return $mediaFile;
 	}
 	
 	
@@ -399,9 +405,7 @@ class MiddMedia_Directory {
 	 * Create a file in this directory from an upload. Similar to move_uploaded_file().
 	 * 
 	 * @param array $fileArray The element of the $_FILES superglobal for this file.
-	 * @return object MiddMediaFile The new file
-	 * @access public
-	 * @since 9/24/09
+	 * @return object MiddMedia_File_Media The new file
 	 */
 	public function createFileFromUpload (array $fileArray) {
 		$uploadErrors = array(
@@ -434,33 +438,27 @@ class MiddMedia_Directory {
 	 * Answer true if the file is readable
 	 * 
 	 * @return boolean
-	 * @access public
-	 * @since 11/19/08
 	 */
 	public function isReadable () {
-		return is_readable($this->getFsPath());
+		return is_readable($this->getPath());
 	}
 	
 	/**
 	 * Answer true if the file is writable
 	 * 
 	 * @return boolean
-	 * @access public
-	 * @since 11/19/08
 	 */
 	public function isWritable () {
-		return is_writeable($this->getFsPath());
+		return is_writeable($this->getPath());
 	}
 	
 	/**
 	 * Answer true if the file is executable
 	 * 
 	 * @return boolean
-	 * @access public
-	 * @since 11/19/08
 	 */
 	public function isExecutable () {
-		return is_executable($this->getFsPath());
+		return is_executable($this->getPath());
 	}
 	
 	/**
@@ -469,8 +467,6 @@ class MiddMedia_Directory {
 	 * WARNING: This method should only be used by the File object in this package.
 	 * 
 	 * @return MiddMedia_Manager $manager
-	 * @access public
-	 * @since 2/2/09
 	 */
 	public function getManager () {
 		return $this->manager;

@@ -67,7 +67,7 @@ class update_quotaAction
 			$priorityType = new Type("logging", "edu.middlebury", "Admin",
 							"Admin events.");
 			
-			$item = new AgentNodeEntryItem("Quota Changed", "Quota for '".$dir->getFsPath()."' changed to '".((isset($quota))?$quota->asString():'Default')."'.");
+			$item = new AgentNodeEntryItem("Quota Changed", "Quota for '".$dir->getPath()."' changed to '".((isset($quota))?$quota->asString():'Default')."'.");
 			
 			$log->appendLogWithTypes($item,	$formatType, $priorityType);
 		}

@@ -543,7 +543,7 @@ class browseAction
 	 * @access public
 	 * @since 10/24/08
 	 */
-	public function getDirectoryMarkup (MiddMedia_Directory $dir) {
+	public function getDirectoryMarkup (MiddMedia_DirectoryInterface $dir) {
 		ob_start();
 		$harmoni = Harmoni::instance();
 		

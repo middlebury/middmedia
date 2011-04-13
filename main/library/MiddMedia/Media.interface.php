@@ -76,7 +76,7 @@ interface MiddMedia_File_MediaInterface
 	 * @param string $name
 	 * @return object MiddMedia_File_MediaInterface The new file
 	 */
-	public static function create (MiddMedia_Directory $directory, $name);
+	public static function create (MiddMedia_DirectoryInterface $directory, $name);
 	
 	/**
 	 * Get an existing file in a directory.
@@ -86,11 +86,11 @@ interface MiddMedia_File_MediaInterface
 	 *		OperationFailedException 	- If the file doesn't exist.
 	 *		PermissionDeniedException 	- If the user is unauthorized to manage media here.
 	 * 
-	 * @param MiddMedia_Directory $directory
+	 * @param MiddMedia_DirectoryInterface $directory
 	 * @param string $name
 	 * @return object MiddMedia_File_MediaInterface The new file
 	 */
-	public static function get (MiddMedia_Directory $directory, $name);
+	public static function get (MiddMedia_DirectoryInterface $directory, $name);
 	
 	/*********************************************************
 	 * Instance Methods
@@ -141,7 +141,7 @@ interface MiddMedia_File_MediaInterface
 	/**
 	 * Answer our directory.
 	 * 
-	 * @return MiddMedia_Directory
+	 * @return MiddMedia_DirectoryInterface
 	 */
 	public function getDirectory ();
 	

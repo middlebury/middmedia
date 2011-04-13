@@ -52,12 +52,12 @@ abstract class MiddMedia_Action_Abstract
 	 * Answer the upload limit for a particular directory. This will take into account
 	 * directory quotas as well as system limits.
 	 * 
-	 * @param MiddMedia_Directory $directory
+	 * @param MiddMedia_DirectoryInterface $directory
 	 * @return int
 	 * @access protected
 	 * @since 11/19/09
 	 */
-	protected function getDirectoryUploadLimit (MiddMedia_Directory $directory) {
+	protected function getDirectoryUploadLimit (MiddMedia_DirectoryInterface $directory) {
 		return min($this->getSystemUploadLimit(), $directory->getBytesAvailable());
 					
 	}
@@ -65,12 +65,12 @@ abstract class MiddMedia_Action_Abstract
 	/**
 	 * Answer quota-bar html for a directory
 	 * 
-	 * @param MiddMedia_Directory $dir
+	 * @param MiddMedia_DirectoryInterface $dir
 	 * @return string
 	 * @access protected
 	 * @since 11/19/09
 	 */
-	protected function getQuotaBar (MiddMedia_Directory $dir) {
+	protected function getQuotaBar (MiddMedia_DirectoryInterface $dir) {
 		ob_start();
 		$dirId = md5($dir->getBaseName());
 		
