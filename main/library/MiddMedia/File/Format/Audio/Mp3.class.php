@@ -46,20 +46,21 @@ class MiddMedia_File_Format_Audio_Mp3
 	 *********************************************************/
 	
 	/**
-	 * Constructor.
-	 * 
-	 * @param MiddMedia_File_MediaInterface $mediaFile
-	 * @param string $basename
-	 * @return void
+	 * Answer the name of the subdirectory this format uses.
+	 *
+	 * @return string
 	 */
-	public function __construct (MiddMedia_File_MediaInterface $mediaFile) {
-		$this->mediaFile = $mediaFile;
-		
-		$pathInfo = pathinfo($mediaFile->getBaseName());
-		$extension = 'mp3';
-		$this->basename = $pathInfo['filename'].'.'.$extension;
-		
-		parent::__construct($mediaFile->getDirectory()->getFSPath().'/mp3/'.$this->basename);
+	protected function getTargetSubdir () {
+		return 'mp3';
+	}
+	
+	/**
+	 * Answer the extension to use for this format.
+	 *
+	 * @return string
+	 */
+	protected function getTargetExtension () {
+		return 'mp3';
 	}
 	
 	/**

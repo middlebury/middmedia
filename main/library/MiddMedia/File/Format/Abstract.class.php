@@ -54,6 +54,49 @@ abstract class MiddMedia_File_Format_Abstract
 		if (!file_exists($dir.'/'.$name))
 			throw new OperationFailedException("Could not create ".$directory->getBaseName()."/".$subdirectory."/".$name);
 	}
+	
+	/*********************************************************
+	 * Abstract methods
+	 *********************************************************/
+	
+	/**
+	 * Answer the name of the subdirectory this format uses.
+	 *
+	 * @return string
+	 */
+	abstract protected function getTargetSubdir ();
+	
+	/**
+	 * Answer the extension to use for this format.
+	 *
+	 * @return string
+	 */
+	abstract protected function getTargetExtension ();
+	
+	/*********************************************************
+	 * Instance methods
+	 *********************************************************/
+	 
+	/**
+	 * @var MiddMedia_File_MediaInterface $mediaFile;  
+	 */
+	protected $mediaFile;
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param MiddMedia_File_MediaInterface $mediaFile
+	 * @param string $basename
+	 * @return void
+	 */
+	public function __construct (MiddMedia_File_MediaInterface $mediaFile) {
+		$this->mediaFile = $mediaFile;
+		
+		$pathInfo = pathinfo($mediaFile->getBaseName());
+		$this->basename = $pathInfo['filename'].'.'.$this->getTargetExtension();
+		
+		parent::__construct($mediaFile->getDirectory()->getFSPath().'/'.$this->getTargetSubdir().'/'.$this->basename);
+	}
 }
 
 ?>

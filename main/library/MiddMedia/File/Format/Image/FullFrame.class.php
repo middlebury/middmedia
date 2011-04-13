@@ -46,20 +46,21 @@ class MiddMedia_File_Format_Image_FullFrame
 	 *********************************************************/
 	
 	/**
-	 * Constructor.
-	 * 
-	 * @param MiddMedia_File_MediaInterface $mediaFile
-	 * @param string $basename
-	 * @return void
+	 * Answer the name of the subdirectory this format uses.
+	 *
+	 * @return string
 	 */
-	public function __construct (MiddMedia_File_MediaInterface $mediaFile) {
-		$this->mediaFile = $mediaFile;
-		
-		$pathInfo = pathinfo($mediaFile->getBaseName());
-		$extension = 'jpg';
-		$this->basename = $pathInfo['filename'].'.'.$extension;
-		
-		parent::__construct($mediaFile->getDirectory()->getFSPath().'/full_frame/'.$this->basename);
+	protected function getTargetSubdir () {
+		return 'full_frame';
+	}
+	
+	/**
+	 * Answer the extension to use for this format.
+	 *
+	 * @return string
+	 */
+	protected function getTargetExtension () {
+		return 'jpg';
 	}
 	
 	/**
