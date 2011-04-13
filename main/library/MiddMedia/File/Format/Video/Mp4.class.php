@@ -53,22 +53,6 @@ class MiddMedia_File_Format_Video_Mp4
 		return new MiddMedia_File_Format_Video_Mp4($mediaFile);
 	}
 	
-	/**
-	 * Get an existing file in a subdirectory of the media file.
-	 * 
-	 * This method throws the following exceptions:
-	 *		InvalidArgumentException 	- If incorrect parameters are supplied
-	 *		OperationFailedException 	- If the file doesn't exist.
-	 *		PermissionDeniedException 	- If the user is unauthorized to manage media here.
-	 * 
-	 * @param MiddMedia_File_MediaInterface $mediaFile
-	 * @param string $name
-	 * @return object MiddMedia_File_FormatInterface The new file
-	 */
-	public static function get (MiddMedia_File_MediaInterface $mediaFile) {
-		return new MiddMedia_File_Format_Video_Mp4($mediaFile);
-	}
-	
 	/*********************************************************
 	 * Instance Methods
 	 *********************************************************/

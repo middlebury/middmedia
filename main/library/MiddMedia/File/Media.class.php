@@ -507,19 +507,19 @@ class MiddMedia_File_Media
 	public function getFormat ($format) {
 		switch ($format) {
 			case 'source':
-				return MiddMedia_File_Format_Video_Source::get($this);
+				return new MiddMedia_File_Format_Video_Source($this);
 			case 'mp4':
-				return MiddMedia_File_Format_Video_Mp4::get($this);
+				return new MiddMedia_File_Format_Video_Mp4($this);
 			case 'webm':
-				return MiddMedia_File_Format_Video_WebM::get($this);
+				return new MiddMedia_File_Format_Video_WebM($this);
 			case 'mp3':
-				return MiddMedia_File_Format_Audio_Mp3::get($this);
+				return new MiddMedia_File_Format_Audio_Mp3($this);
 			case 'thumb':
-				return MiddMedia_File_Format_Image_Thumbnail::get($this);
+				return new MiddMedia_File_Format_Image_Thumbnail($this);
 			case 'splash':
-				return MiddMedia_File_Format_Image_Splash::get($this);
+				return new MiddMedia_File_Format_Image_Splash($this);
 			case 'full_frame':
-				return MiddMedia_File_Format_Image_FullFrame::get($this);
+				return new MiddMedia_File_Format_Image_FullFrame($this);
 			default:
 				throw new InvalidArgumentException("Unsupported format '$format'.");			
 		}
