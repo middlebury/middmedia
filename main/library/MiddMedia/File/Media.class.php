@@ -37,8 +37,6 @@ class MiddMedia_File_Media
 	 * 
 	 * @param string $name
 	 * @return boolean
-	 * @access public
-	 * @since 11/19/08
 	 * @static
 	 */
 	public static function nameValid ($name) {
@@ -49,8 +47,6 @@ class MiddMedia_File_Media
 	 * Answer an array of allowed extensions
 	 * 
 	 * @return array
-	 * @access public
-	 * @since 9/24/09
 	 * @static
 	 */
 	public static function getAllowedVideoTypes () {
@@ -65,8 +61,6 @@ class MiddMedia_File_Media
 	 * 
 	 * @param string $filePath
 	 * @return array
-	 * @access public
-	 * @since 9/24/09
 	 * @static
 	 */
 	public static function getVideoInfo ($filePath) {
@@ -101,8 +95,6 @@ class MiddMedia_File_Media
 	 * 
 	 * @param object MiddMedia_Manager $manager
 	 * @return void
-	 * @access public
-	 * @since 9/25/09
 	 * @static
 	 */
 	public static function checkQueue (MiddMedia_Manager $manager) {
@@ -257,8 +249,6 @@ class MiddMedia_File_Media
 	 * 
 	 * @param string $tempName
 	 * @return void
-	 * @access public
-	 * @since 9/24/09
 	 */
 	public function moveInFile ($tempName) {
 		// MP3 audio only has a single version, so just store it.
@@ -282,8 +272,6 @@ class MiddMedia_File_Media
 	 * 
 	 * @param string $tempName
 	 * @return void
-	 * @access public
-	 * @since 9/24/09
 	 */
 	public function moveInUploadedFile ($tempName) {
 		// MP3 audio only has a single version, so just store it.
@@ -423,8 +411,6 @@ class MiddMedia_File_Media
 	 * Delete the file.
 	 * 
 	 * @return null
-	 * @access public
-	 * @since 5/6/08
 	 */
 	public function delete () {
 		foreach ($this->getFormats() as $format) {
@@ -452,8 +438,6 @@ class MiddMedia_File_Media
 	 *		UnimplementedException 		- If this method is not available yet.
 	 * 
 	 * @return object Agent
-	 * @access public
-	 * @since 10/24/08
 	 */
 	public function getCreator () {
 		if (!isset($this->creator)) {
@@ -480,8 +464,6 @@ class MiddMedia_File_Media
 	 * Answer the username of the creator
 	 * 
 	 * @return string
-	 * @access public
-	 * @since 1/14/09
 	 */
 	public function getCreatorUsername () {
 		$creator = $this->getCreator();
@@ -500,8 +482,6 @@ class MiddMedia_File_Media
 	 * 
 	 * @param object Agent $creator
 	 * @return void
-	 * @access public
-	 * @since 11/21/08
 	 */
 	public function setCreator (Agent $creator) {
 		$query = new InsertQuery;
@@ -641,8 +621,6 @@ class MiddMedia_File_Media
 	 * This is an example, other players will work as well.
 	 * 
 	 * @return string
-	 * @access public
-	 * @since 1/30/09
 	 */
 	public function getEmbedCode () {
 		$parts = pathinfo($this->getBasename());
