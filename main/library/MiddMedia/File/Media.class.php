@@ -179,21 +179,9 @@ class MiddMedia_File_Media
 		return $media;
 	}
 	
-	/**
-	 * Get an existing file in a directory.
-	 * 
-	 * This method throws the following exceptions:
-	 *		InvalidArgumentException 	- If incorrect parameters are supplied
-	 *		OperationFailedException 	- If the file doesn't exist.
-	 *		PermissionDeniedException 	- If the user is unauthorized to manage media here.
-	 * 
-	 * @param MiddMedia_DirectoryInterface $directory
-	 * @param string $name
-	 * @return object MiddMedia_File_MediaInterface The new file
-	 */
-	public static function get (MiddMedia_DirectoryInterface $directory, $name) {
-		return new MiddMedia_File_Media($directory, $name);
-	}
+	/*********************************************************
+	 * Instance Methods
+	 *********************************************************/
 	
 	/**
 	 * Constructor.

@@ -83,7 +83,7 @@ class MiddMedia_Directory_Unauthenticated
 	public function getFile ($name) {
 		if (!$this->fileExists($name))
 			throw new UnknownIdException("File '$name' does not exist.");
-		return MiddMedia_File_UnauthenticatedMedia::get($this, $name);
+		return new MiddMedia_File_UnauthenticatedMedia($this, $name);
 	}
 	
 	/**

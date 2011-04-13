@@ -184,7 +184,7 @@ class MiddMedia_Directory
 		$files = array();
 		foreach (scandir($this->getPath()) as $fname) {
 			if (!is_dir($this->getPath().'/'.$fname))
-				$files[] = MiddMedia_File_Media::get($this, $fname);
+				$files[] = new MiddMedia_File_Media($this, $fname);
 		}
 		return $files;
 	}
@@ -198,7 +198,7 @@ class MiddMedia_Directory
 	public function getFile ($name) {
 		if (!$this->fileExists($name))
 			throw new UnknownIdException("File '$name' does not exist.");
-		return MiddMedia_File_Media::get($this, $name);
+		return new MiddMedia_File_Media($this, $name);
 	}
 	
 	/**
