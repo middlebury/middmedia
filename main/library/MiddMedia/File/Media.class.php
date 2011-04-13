@@ -272,20 +272,6 @@ class MiddMedia_File_Media
 		$sourceFormat = MiddMedia_File_Format_Video_Source::create($this);
 		$sourceFormat->moveInFile($tempName);
 		
-		// Create our placeholder formats
-		$format = MiddMedia_File_Format_Video_Mp4::create($this);
-		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.mp4'));
-		$this->setPrimaryFormat($format);
-		
-		$format = MiddMedia_File_Format_Image_Thumbnail::create($this);
-		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
-		
-		$format = MiddMedia_File_Format_Image_FullFrame::create($this);
-		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
-		
-		$format = MiddMedia_File_Format_Image_Splash::create($this);
-		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
-		
 		$this->queueForProcessing();
 		
 		$this->logAction('upload');
@@ -311,20 +297,6 @@ class MiddMedia_File_Media
 		$sourceFormat = MiddMedia_File_Format_Video_Source::create($this);
 		$sourceFormat->moveInUploadedFile($tempName);
 		
-		// Create our placeholder formats
-		$format = MiddMedia_File_Format_Video_Mp4::create($this);
-		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.mp4'));
-		$this->setPrimaryFormat($format);
-		
-		$format = MiddMedia_File_Format_Image_Thumbnail::create($this);
-		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
-		
-		$format = MiddMedia_File_Format_Image_FullFrame::create($this);
-		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
-		
-		$format = MiddMedia_File_Format_Image_Splash::create($this);
-		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
-		
 		$this->queueForProcessing();
 		
 		$this->logAction('upload');
@@ -348,7 +320,20 @@ class MiddMedia_File_Media
 	 * @param string $tempName
 	 * @return void
 	 */
-	protected function queueForProcessing () {		
+	protected function queueForProcessing () {	
+		$format = MiddMedia_File_Format_Video_Mp4::create($this);
+		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.mp4'));
+		$this->setPrimaryFormat($format);
+		
+		$format = MiddMedia_File_Format_Image_Thumbnail::create($this);
+		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
+		
+		$format = MiddMedia_File_Format_Image_FullFrame::create($this);
+		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
+		
+		$format = MiddMedia_File_Format_Image_Splash::create($this);
+		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
+		
 		// Add an entry to our encoding queue.
 		$query = new InsertQuery;
 		$query->setTable('middmedia_queue');
