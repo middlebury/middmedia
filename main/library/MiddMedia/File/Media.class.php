@@ -291,6 +291,17 @@ class MiddMedia_File_Media
 	}
 	
 	/**
+	 * Copy a file into our path.
+	 * 
+	 * @param string $sourcePath
+	 * @return void
+	 */
+	public function copyInFile ($sourcePath) {
+		if(!copy($sourcePath, $this->getPath()))
+			throw new OperationFailedException("Could not copy $sourcePath to ".$this->getPath());
+	}
+	
+	/**
 	 * Add a new format for this media.
 	 * 
 	 * @param MiddMedia_File $formatFile

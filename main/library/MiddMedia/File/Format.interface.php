@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
+require_once(dirname(__FILE__).'/File.interface.php');
+
 /**
  * An interface for all middmedia files.
  * 
@@ -15,7 +17,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
 interface MiddMedia_File_FormatInterface
-	extends Harmoni_Filing_FileInterface
+	extends MiddMedia_File_FileInterface
 {
 	
 	/*********************************************************
@@ -70,30 +72,6 @@ interface MiddMedia_File_FormatInterface
 	 * @since 10/24/08
 	 */
 	public function getRtmpUrl ();
-	
-	/**
-	 * Move an uploaded file into our path.
-	 * 
-	 * @param string $sourcePath
-	 * @return void
-	 */
-	public function moveInUploadedFile ($sourcePath);
-	
-	/**
-	 * Move a file into our path.
-	 * 
-	 * @param string $sourcePath
-	 * @return void
-	 */
-	public function moveInFile ($sourcePath);
-	
-	/**
-	 * Copy a file into our path.
-	 * 
-	 * @param string $sourcePath
-	 * @return void
-	 */
-	public function copyInFile ($sourcePath);
 	
 	/**
 	 * Convert the source file into our format and make our content the result.
