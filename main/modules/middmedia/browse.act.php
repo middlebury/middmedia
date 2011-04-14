@@ -60,6 +60,7 @@ class browseAction
 	 * @since 4/26/05
 	 */
 	function buildContent () {
+		
 		$actionRows = $this->getActionRows();
 		
 		$this->addToHead("\n\t\t<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>");
@@ -413,55 +414,39 @@ class browseAction
 			}
 		}
 		
-		function displayEmbedCode(link, type, fileId, httpUrl, rtmpUrl, splashUrl) {
+		function displayEmbedCode(link, type, fileId, dir, file, splashUrl) {
 			if (link.panel) {
 				link.panel.open();
 			} else {
-				var panel = new CenteredPanel('Embed Code and URLs', 400, 600, link);
+			
+			var panel = new CenteredPanel('Embed Code and URLs', 400, 700, link);
 				
-				var heading = panel.contentElement.appendChild(document.createElement('h4'));
-				heading.innerHTML = 'Embed Code';
-				
-				var desc = panel.contentElement.appendChild(document.createElement('p'));
-				desc.innerHTML = 'The following code can be pasted into web sites to display this video in-line. Please note that some services may not allow the embedding of videos.';
-				
-				var text = panel.contentElement.appendChild(document.createElement('textarea'));
-				text.cols = 70;
-				text.rows = 8;
-				text.value = getEmbedCode(type, fileId, httpUrl, rtmpUrl, splashUrl);
-				text.value = text.value + '</br /><div style=\'width:400px;text-align:center;\'><a style=\'margin:auto;\' href=' + httpUrl + '>Download Video</a></div>';
-				text.readOnly = true;
-				
-				var heading = panel.contentElement.appendChild(document.createElement('h4'));
-				heading.innerHTML = 'HTTP (Download) URL';
-				
-				var desc = panel.contentElement.appendChild(document.createElement('p'));
-				desc.innerHTML = '<a href=\"' + httpUrl  + '\" target=\"_blank\">Click here to download this file.</a>';
-				
-				var desc = panel.contentElement.appendChild(document.createElement('p'));
-				desc.innerHTML = 'Make a link to the following URL to allow downloads of this file. ';
-				
-				var text = panel.contentElement.appendChild(document.createElement('input'));
-				text.type = 'text';
-				text.size = 80;
-				text.value = httpUrl;
-				text.readOnly = true;
-				
-				
-				
-				var heading = panel.contentElement.appendChild(document.createElement('h4'));
-				heading.innerHTML = 'RTMP (Streaming) URL';
-				
-				var desc = panel.contentElement.appendChild(document.createElement('p'));
-				desc.innerHTML = 'The following URL may be used in custom Flash video players to stream this video.';
-				
-				var text = panel.contentElement.appendChild(document.createElement('input'));
-				text.type = 'text';
-				text.size = 80;
-				text.value = rtmpUrl;
-				text.readOnly = true;
+			var req = Harmoni.createRequest();
+			if (!req) {
+				alert('Your browser does not support AJAX, please upgrade.');
+				return;
+			}
+			
+			req.onreadystatechange = function () {
+				// only if req shows 'loaded'
+				if (req.readyState == 4) {
+					// only if we get a good load should we continue.
+					if (req.status == 200 && req.responseText) {
+						
+						var desc = panel.contentElement.appendChild(document.createElement('p'));
+						desc.innerHTML = req.responseText;
+						
+					} else {
+						alert(req.responseText);
+					}
+				}
+			}
+			
+			req.open('GET', Harmoni.quickUrl('middmedia', 'embed', {'directory':dir,'file':file,'id':fileId}), true);
+			req.send(null);
 				
 			}
+			
 		}
 		
 		// ]]>
@@ -857,8 +842,7 @@ class browseAction
 			
 			print "\n\t\t\t<td class='access'>";
 			
-
-			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".$type."', '".rawurlencode($myId)."', '".$httpUrl."', '".$rtmpUrl."', '".$splashUrl."'); return false;\">Embed Code &amp; URLs</a>";
+			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".$type."', '".rawurlencode($myId)."', '".$file->directory->getBaseName()."', '".$file->getBaseName()."', '".$splashUrl."'); return false;\">Embed Code &amp; URLs</a>";
 			
 			print "</td>";			
 			print "\n\t\t</tr>";
