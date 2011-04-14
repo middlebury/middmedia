@@ -4,8 +4,6 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-include_once MYDIR . '/main/modules/middmedia/EmbedPlugin.class.php';
-
 /**
  * Class for the embed code used for the files
  * that stream from the Flash Media Server. 
@@ -13,7 +11,9 @@ include_once MYDIR . '/main/modules/middmedia/EmbedPlugin.class.php';
  * @copyright Copyright &copy; 2011, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-class EmbedPlugin_Flash implements EmbedPlugin {
+class MiddMedia_Embed_Plugin_Flash
+	implements MiddMedia_Embed_Plugin 
+{
   
  /**
    * Gets the title of the embed code

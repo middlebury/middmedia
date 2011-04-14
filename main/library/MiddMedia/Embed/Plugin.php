@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2011, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-interface EmbedPlugin {
+interface MiddMedia_Embed_Plugin {
   
  /**
    * Gets the title of the embed code

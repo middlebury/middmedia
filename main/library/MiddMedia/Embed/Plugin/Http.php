@@ -4,8 +4,6 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-include_once MYDIR . '/main/modules/middmedia/EmbedPlugin.class.php';
-
 /**
  * Class for the embed code used for
  * showing the HTTP link to the video.  
@@ -13,7 +11,9 @@ include_once MYDIR . '/main/modules/middmedia/EmbedPlugin.class.php';
  * @copyright Copyright &copy; 2011, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-class EmbedPlugin_HTTP implements EmbedPlugin {
+class MiddMedia_Embed_Plugin_Http 
+	implements MiddMedia_Embed_Plugin 
+{
   
  /**
    * Gets the title of the embed code

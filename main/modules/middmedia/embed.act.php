@@ -61,7 +61,7 @@ class embedAction
     
     $file = $dir->getFile(RequestContext::value('file'));
     
-    $plugins = EmbedPlugins::instance();
+    $plugins = MiddMedia_Embed_Plugins::instance();
     
     foreach ($plugins->getPlugins() as $embed) {
       if ($embed->isSupported($file)) {
@@ -99,7 +99,7 @@ class embedAction
    * @since 12/10/08
    */
   protected function getManager () {
-    return MiddMediaManager::forCurrentUser();
+    return MiddMedia_Manager::forCurrentUser();
   }
   
 }

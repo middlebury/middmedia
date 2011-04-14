@@ -11,7 +11,7 @@
  * @copyright Copyright &copy; 2011, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-class EmbedPlugins {
+class MiddMedia_Embed_Plugins {
   
   private static $instance;
   private $plugins;
@@ -19,14 +19,14 @@ class EmbedPlugins {
  /**
    * Make only one instance of the class
    * 
-   * @return EmbedPlugins
+   * @return MiddMedia_Embed_Plugins
    */
   public static function instance() {
     
     //ensures that a new one is not made if one
     //already exists.
     if (!isset(self::$instance)) {
-      self::$instance = new EmbedPlugins();
+      self::$instance = new MiddMedia_Embed_Plugins();
     }
     return self::$instance;
   }
@@ -43,17 +43,17 @@ class EmbedPlugins {
  /**
    * Add embed plugins to $plugins
    * 
-   * @param EmbedPlugin $p
+   * @param MiddMedia_Embed_Plugin $p
    * @return void
    */
-  public function addPlugin(EmbedPlugin $p) {
+  public function addPlugin(MiddMedia_Embed_Plugin $p) {
     $this->plugins[] = $p;
   }
   
  /**
    * Gets the array of plugins
    * 
-   * @return array
+   * @return array of MiddMedia_Embed_Plugin objects
    */
   public function getPlugins() {
     return $this->plugins;
