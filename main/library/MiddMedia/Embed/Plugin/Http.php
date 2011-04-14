@@ -21,7 +21,7 @@ class MiddMedia_Embed_Plugin_Http
    * @return string
    */
   function getTitle() {
-    return 'HTTP (Streaming) URL';
+    return 'HTTP (Download) URL';
   }
   
  /**
