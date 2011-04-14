@@ -6,7 +6,8 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/../Abstract.class.php');
+require_once(dirname(__FILE__).'/Abstract.php');
+require_once(dirname(__FILE__).'/InfoInterface.php');
 
 /**
  * Source video files are of arbitrary video type.
@@ -16,9 +17,9 @@ require_once(dirname(__FILE__).'/../Abstract.class.php');
  * @copyright Copyright &copy; 2010, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-class MiddMedia_File_Format_Audio_Mp3
-	extends MiddMedia_File_Format_Abstract
-	implements MiddMedia_File_FormatInterface
+class MiddMedia_File_Format_Video_Source
+	extends MiddMedia_File_Format_Video_Abstract
+	implements MiddMedia_File_FormatInterface, MiddMedia_File_Format_Video_InfoInterface
 {
 		
 	/*********************************************************
@@ -37,8 +38,8 @@ class MiddMedia_File_Format_Audio_Mp3
 	 * @return object MiddMedia_File_FormatInterface The new file
 	 */
 	public static function create (MiddMedia_File_MediaInterface $mediaFile) {
-		self::touch($mediaFile, 'mp3', 'mp3');
-		return new MiddMedia_File_Format_Audio_Mp3($mediaFile);
+		self::touch($mediaFile, 'source', 'source');
+		return new MiddMedia_File_Format_Video_Source($mediaFile);
 	}
 	
 	/*********************************************************
@@ -51,7 +52,7 @@ class MiddMedia_File_Format_Audio_Mp3
 	 * @return string
 	 */
 	protected function getTargetSubdir () {
-		return 'mp3';
+		return 'source';
 	}
 	
 	/**
@@ -60,7 +61,7 @@ class MiddMedia_File_Format_Audio_Mp3
 	 * @return string
 	 */
 	protected function getTargetExtension () {
-		return 'mp3';
+		return 'source';
 	}
 	
 	/**
@@ -69,9 +70,9 @@ class MiddMedia_File_Format_Audio_Mp3
 	 * @return boolean
 	 */
 	public function supportsHttp () {
-		return true;
+		return false;
 	}
-
+	
 	/**
 	 * Answer true if this file is accessible via RTMP.
 	 * 
@@ -93,7 +94,7 @@ class MiddMedia_File_Format_Audio_Mp3
 	 * @return void
 	 */
 	public function process (Harmoni_Filing_FileInterface $source) {
-		throw new UnimplementedException();
+		throw new OperationFailedException("Source files can't process other inputs");
 	}
 
 	/**
@@ -103,7 +104,7 @@ class MiddMedia_File_Format_Audio_Mp3
 	 */
 	public function cleanup () {
 		// Do nothing since we don't process anything.
-	}	
+	}
 }
 
 ?>

@@ -6,20 +6,21 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/File.interface.php');
+require_once(dirname(__FILE__).'/../Abstract.php');
 
 /**
- * An interface for all middmedia files.
+ * Source video files are of arbitrary video type.
  * 
  * @package middmedia
  * 
  * @copyright Copyright &copy; 2010, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-interface MiddMedia_File_FormatInterface
-	extends MiddMedia_File_FileInterface
+class MiddMedia_File_Format_Audio_Mp3
+	extends MiddMedia_File_Format_Abstract
+	implements MiddMedia_File_FormatInterface
 {
-	
+		
 	/*********************************************************
 	 * Instance creation methods.
 	 *********************************************************/
@@ -35,43 +36,50 @@ interface MiddMedia_File_FormatInterface
 	 * @param MiddMedia_File_MediaInterface $mediaFile
 	 * @return object MiddMedia_File_FormatInterface The new file
 	 */
-	public static function create (MiddMedia_File_MediaInterface $mediaFile);
+	public static function create (MiddMedia_File_MediaInterface $mediaFile) {
+		self::touch($mediaFile, 'mp3', 'mp3');
+		return new MiddMedia_File_Format_Audio_Mp3($mediaFile);
+	}
 	
 	/*********************************************************
 	 * Instance Methods
 	 *********************************************************/
 	
 	/**
+	 * Answer the name of the subdirectory this format uses.
+	 *
+	 * @return string
+	 */
+	protected function getTargetSubdir () {
+		return 'mp3';
+	}
+	
+	/**
+	 * Answer the extension to use for this format.
+	 *
+	 * @return string
+	 */
+	protected function getTargetExtension () {
+		return 'mp3';
+	}
+	
+	/**
 	 * Answer true if this file is accessible via HTTP.
 	 * 
 	 * @return boolean
 	 */
-	public function supportsHttp ();
-	
-	/**
-	 * Answer the full http path (URI) of this file.
-	 * 
-	 * @return string
-	 * @access public
-	 * @since 10/24/08
-	 */
-	public function getHttpUrl ();
+	public function supportsHttp () {
+		return true;
+	}
 
 	/**
 	 * Answer true if this file is accessible via RTMP.
 	 * 
 	 * @return boolean
 	 */
-	public function supportsRtmp ();
-	
-	/**
-	 * Answer the full RMTP path (URI) of this file
-	 * 
-	 * @return string
-	 * @access public
-	 * @since 10/24/08
-	 */
-	public function getRtmpUrl ();
+	public function supportsRtmp () {
+		return false;
+	}
 	
 	/**
 	 * Convert the source file into our format and make our content the result.
@@ -84,15 +92,18 @@ interface MiddMedia_File_FormatInterface
 	 * @param Harmoni_Filing_FileInterface $source
 	 * @return void
 	 */
-	public function process (Harmoni_Filing_FileInterface $source);
-	
+	public function process (Harmoni_Filing_FileInterface $source) {
+		throw new UnimplementedException();
+	}
+
 	/**
 	 * Clean up our temporary files.
 	 * 
 	 * @return void
 	 */
-	public function cleanup ();
-	
+	public function cleanup () {
+		// Do nothing since we don't process anything.
+	}	
 }
 
 ?>

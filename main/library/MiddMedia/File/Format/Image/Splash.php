@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/../Abstract.class.php');
+require_once(dirname(__FILE__).'/../Abstract.php');
 
 /**
  * Source video files are of arbitrary video type.
@@ -16,7 +16,7 @@ require_once(dirname(__FILE__).'/../Abstract.class.php');
  * @copyright Copyright &copy; 2010, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-class MiddMedia_File_Format_Image_Thumbnail
+class MiddMedia_File_Format_Image_Splash
 	extends MiddMedia_File_Format_Abstract
 	implements MiddMedia_File_FormatInterface
 {
@@ -37,8 +37,8 @@ class MiddMedia_File_Format_Image_Thumbnail
 	 * @return object MiddMedia_File_FormatInterface The new file
 	 */
 	public static function create (MiddMedia_File_MediaInterface $mediaFile) {
-		self::touch($mediaFile, 'thumb', 'jpg');
-		return new MiddMedia_File_Format_Image_Thumbnail($mediaFile);
+		self::touch($mediaFile, 'splash', 'jpg');
+		return new MiddMedia_File_Format_Image_Splash($mediaFile);
 	}
 	
 	/*********************************************************
@@ -51,7 +51,7 @@ class MiddMedia_File_Format_Image_Thumbnail
 	 * @return string
 	 */
 	protected function getTargetSubdir () {
-		return 'thumb';
+		return 'splash';
 	}
 	
 	/**
@@ -99,30 +99,35 @@ class MiddMedia_File_Format_Image_Thumbnail
 		if (!$fullFrame->isReadable())
 			throw new PermissionDeniedException('Full-frame file is not readable: '.$this->mediaFile->getDirectory()->getBaseName().'/'.basename(dirname($fullFrame->getPath())).'/'.$fullFrame->getBaseName());
 		
-		// Set up the Thumbnail Image directory
-		$thumbDir = $this->mediaFile->getDirectory()->getPath().'/thumb';
+		// Set up the Splash Image directory
+		$splashDir = $this->mediaFile->getDirectory()->getPath().'/splash';
 		
-		if (!file_exists($thumbDir)) {
-			if (!mkdir($thumbDir, 0775))
-				throw new PermissionDeniedException('Could not create thumb dir: '.$this->mediaFile->getDirectory()->getBaseName().'/thumb');
+		if (!file_exists($splashDir)) {
+			if (!mkdir($splashDir, 0775))
+				throw new PermissionDeniedException('Could not create splash dir: '.$this->mediaFile->getDirectory()->getBaseName().'/splash');
 		}
 		
-		if (!is_writable($thumbDir))
-			throw new PermissionDeniedException('Thumb dir is not writable: '.$this->mediaFile->getDirectory()->getBaseName().'/thumb');
+		if (!is_writable($splashDir))
+			throw new PermissionDeniedException('Splash dir is not writable: '.$this->mediaFile->getDirectory()->getBaseName().'/splash');
 		
-		if (!defined('IMAGE_MAGICK_CONVERT_PATH'))
-			throw new ConfigurationErrorException('IMAGE_MAGICK_CONVERT_PATH is not defined');
+		if (!defined('IMAGE_MAGICK_COMPOSITE_PATH'))
+			throw new ConfigurationErrorException('IMAGE_MAGICK_COMPOSITE_PATH is not defined');
 		
+		if (!defined('MIDDMEDIA_SPLASH_OVERLAY'))
+			throw new ConfigurationErrorException('MIDDMEDIA_SPLASH_OVERLAY is not defined');
+		
+		if (!is_readable(MIDDMEDIA_SPLASH_OVERLAY))
+			throw new PermissionDeniedException('MIDDMEDIA_SPLASH_OVERLAY is not readable');
 		
 		$destImage = $this->getPath().'-tmp';
-		$command = IMAGE_MAGICK_CONVERT_PATH.' '.escapeshellarg($fullFrame->getPath()).' -resize 200x200 '.escapeshellarg($destImage);
+		$command = IMAGE_MAGICK_COMPOSITE_PATH.' -gravity center '.escapeshellarg(MIDDMEDIA_SPLASH_OVERLAY).' '.escapeshellarg($fullFrame->getPath()).' '.escapeshellarg($destImage);
 		$lastLine = exec($command, $output, $return_var);
 		if ($return_var) {
-			throw new OperationFailedException("Thumbnail-Image generation failed with code $return_var: $lastLine");
+			throw new OperationFailedException("Splash-Image generation failed with code $return_var: $lastLine");
 		}
 		
 		if (!file_exists($destImage))
-			throw new OperaionFailedException('Thumbnail-Image was not generated: '.$this->mediaFile->getDirectory()->getBaseName().'/thumb/'.$parts['filename'].'.jpg');
+			throw new OperaionFailedException('Splash-Image was not generated: '.$this->mediaFile->getDirectory()->getBaseName().'/splash/'.$parts['filename'].'.jpg');
 		
 		$this->moveInFile($destImage);
 		$this->cleanup();

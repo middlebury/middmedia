@@ -9,7 +9,7 @@
  * @version $Id$
  */ 
 
-require_once(dirname(__FILE__).'/Directory.class.php');
+require_once(dirname(__FILE__).'/Directory.php');
 
 /**
  * This manager provides access to all of the functions needed by the upload and

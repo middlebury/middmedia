@@ -45,9 +45,9 @@ require_once (POLYPHONY_DIR."/polyphony.inc.php");
  ******************************************************************************/
 require_once(MYDIR."/main/library/MenuGenerator.class.php");
 
-require_once(MYDIR."/main/library/MiddMedia/Manager.class.php");
-require_once(MYDIR."/main/library/MiddMedia/Manager/Unauthenticated.class.php");
-require_once(MYDIR."/main/library/MiddMedia/Manager/Admin.class.php");
+require_once(MYDIR."/main/library/MiddMedia/Manager.php");
+require_once(MYDIR."/main/library/MiddMedia/Manager/Unauthenticated.php");
+require_once(MYDIR."/main/library/MiddMedia/Manager/Admin.php");
 require_once(HARMONI."/oki2/agent/AnonymousAgent.class.php");
 
-require_once(MYDIR."/main/library/MiddMedia/Action/Abstract.class.php");
+require_once(MYDIR."/main/library/MiddMedia/Action/Abstract.php");

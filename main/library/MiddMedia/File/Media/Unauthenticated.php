@@ -16,7 +16,7 @@
  * @copyright Copyright &copy; 2009, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-class MiddMedia_File_UnauthenticatedMedia
+class MiddMedia_File_Media_Unauthenticated
 	extends MiddMedia_File_Media
 {
 	/**

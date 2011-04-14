@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/File/Media.class.php');
-require_once(dirname(__FILE__).'/Directory.interface.php');
+require_once(dirname(__FILE__).'/File/Media.php');
+require_once(dirname(__FILE__).'/DirectoryInterface.php');
 
 /**
  * This class is a simple directory-access wrapper.

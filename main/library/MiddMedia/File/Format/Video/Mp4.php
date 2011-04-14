@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/Abstract.class.php');
-require_once(dirname(__FILE__).'/Info.interface.php');
+require_once(dirname(__FILE__).'/Abstract.php');
+require_once(dirname(__FILE__).'/InfoInterface.php');
 
 
 /**

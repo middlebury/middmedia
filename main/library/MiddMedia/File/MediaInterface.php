@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/File.interface.php');
+require_once(dirname(__FILE__).'/../FileInterface.php');
 
 /**
  * An interface for all middmedia files.

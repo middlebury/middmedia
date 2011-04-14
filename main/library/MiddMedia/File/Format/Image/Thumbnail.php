@@ -6,8 +6,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/Abstract.class.php');
-require_once(dirname(__FILE__).'/Info.interface.php');
+require_once(dirname(__FILE__).'/../Abstract.php');
 
 /**
  * Source video files are of arbitrary video type.
@@ -17,9 +16,9 @@ require_once(dirname(__FILE__).'/Info.interface.php');
  * @copyright Copyright &copy; 2010, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-class MiddMedia_File_Format_Video_Source
-	extends MiddMedia_File_Format_Video_Abstract
-	implements MiddMedia_File_FormatInterface, MiddMedia_File_Format_Video_InfoInterface
+class MiddMedia_File_Format_Image_Thumbnail
+	extends MiddMedia_File_Format_Abstract
+	implements MiddMedia_File_FormatInterface
 {
 		
 	/*********************************************************
@@ -38,8 +37,8 @@ class MiddMedia_File_Format_Video_Source
 	 * @return object MiddMedia_File_FormatInterface The new file
 	 */
 	public static function create (MiddMedia_File_MediaInterface $mediaFile) {
-		self::touch($mediaFile, 'source', 'source');
-		return new MiddMedia_File_Format_Video_Source($mediaFile);
+		self::touch($mediaFile, 'thumb', 'jpg');
+		return new MiddMedia_File_Format_Image_Thumbnail($mediaFile);
 	}
 	
 	/*********************************************************
@@ -52,7 +51,7 @@ class MiddMedia_File_Format_Video_Source
 	 * @return string
 	 */
 	protected function getTargetSubdir () {
-		return 'source';
+		return 'thumb';
 	}
 	
 	/**
@@ -61,7 +60,7 @@ class MiddMedia_File_Format_Video_Source
 	 * @return string
 	 */
 	protected function getTargetExtension () {
-		return 'source';
+		return 'jpg';
 	}
 	
 	/**
@@ -70,9 +69,9 @@ class MiddMedia_File_Format_Video_Source
 	 * @return boolean
 	 */
 	public function supportsHttp () {
-		return false;
+		return true;
 	}
-	
+
 	/**
 	 * Answer true if this file is accessible via RTMP.
 	 * 
@@ -93,8 +92,40 @@ class MiddMedia_File_Format_Video_Source
 	 * @param Harmoni_Filing_FileInterface $source
 	 * @return void
 	 */
-	public function process (Harmoni_Filing_FileInterface $source) {
-		throw new OperationFailedException("Source files can't process other inputs");
+	public function process (Harmoni_Filing_FileInterface $fullFrame) {
+		if (!preg_match('/^image\/.+$/', $fullFrame->getMimeType()))
+			throw new InvalidArgumentException("Unsupported image type, ".$fullFrame->getMimeType());
+		
+		if (!$fullFrame->isReadable())
+			throw new PermissionDeniedException('Full-frame file is not readable: '.$this->mediaFile->getDirectory()->getBaseName().'/'.basename(dirname($fullFrame->getPath())).'/'.$fullFrame->getBaseName());
+		
+		// Set up the Thumbnail Image directory
+		$thumbDir = $this->mediaFile->getDirectory()->getPath().'/thumb';
+		
+		if (!file_exists($thumbDir)) {
+			if (!mkdir($thumbDir, 0775))
+				throw new PermissionDeniedException('Could not create thumb dir: '.$this->mediaFile->getDirectory()->getBaseName().'/thumb');
+		}
+		
+		if (!is_writable($thumbDir))
+			throw new PermissionDeniedException('Thumb dir is not writable: '.$this->mediaFile->getDirectory()->getBaseName().'/thumb');
+		
+		if (!defined('IMAGE_MAGICK_CONVERT_PATH'))
+			throw new ConfigurationErrorException('IMAGE_MAGICK_CONVERT_PATH is not defined');
+		
+		
+		$destImage = $this->getPath().'-tmp';
+		$command = IMAGE_MAGICK_CONVERT_PATH.' '.escapeshellarg($fullFrame->getPath()).' -resize 200x200 '.escapeshellarg($destImage);
+		$lastLine = exec($command, $output, $return_var);
+		if ($return_var) {
+			throw new OperationFailedException("Thumbnail-Image generation failed with code $return_var: $lastLine");
+		}
+		
+		if (!file_exists($destImage))
+			throw new OperaionFailedException('Thumbnail-Image was not generated: '.$this->mediaFile->getDirectory()->getBaseName().'/thumb/'.$parts['filename'].'.jpg');
+		
+		$this->moveInFile($destImage);
+		$this->cleanup();
 	}
 
 	/**
@@ -103,8 +134,11 @@ class MiddMedia_File_Format_Video_Source
 	 * @return void
 	 */
 	public function cleanup () {
-		// Do nothing since we don't process anything.
+		$outFile = $this->getPath().'-tmp';
+		if (file_exists($outFile))
+			unlink($outFile);
+		
+		if (file_exists($outFile))
+			throw new OperationFailedException("Could not delete $outFile");
 	}
 }
-
-?>

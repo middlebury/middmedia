@@ -7,7 +7,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/../File/UnauthenticatedMedia.class.php');
+require_once(dirname(__FILE__).'/../File/Media/Unauthenticated.php');
 
 /**
  * The unauthenticated directory allows direct access to files if the name is known
@@ -83,7 +83,7 @@ class MiddMedia_Directory_Unauthenticated
 	public function getFile ($name) {
 		if (!$this->fileExists($name))
 			throw new UnknownIdException("File '$name' does not exist.");
-		return new MiddMedia_File_UnauthenticatedMedia($this, $name);
+		return new MiddMedia_File_Media_Unauthenticated($this, $name);
 	}
 	
 	/**

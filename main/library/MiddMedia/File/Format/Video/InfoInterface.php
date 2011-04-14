@@ -6,8 +6,8 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/../Image/Info.interface.php');
-require_once(dirname(__FILE__).'/../Audio/Info.interface.php');
+require_once(dirname(__FILE__).'/../Image/InfoInterface.php');
+require_once(dirname(__FILE__).'/../Audio/InfoInterface.php');
 
 /**
  * An interface for all middmedia files.
