@@ -52,6 +52,17 @@ define('MIDDMEDIA_CONVERT_MAX_HEIGHT', 480);
 define('MIDDMEDIA_CONVERT_MAX_WIDTH', 720);
 define('MIDDMEDIA_TMP_DIR', '/tmp');
 
+/**********************************************************************************
+ * Add or remove embed code plugins that will populate the embed code listing 
+ * available for each video or audio file.
+ **********************************************************************************/                                     
+$plugins = MiddMedia_Embed_Plugins::instance();                                                                                                                                                                                                      
+$plugins->addPlugin(new MiddMedia_Embed_Plugin_Flash());
+$plugins->addPlugin(new MiddMedia_Embed_Plugin_Rtmp());
+$plugins->addPlugin(new MiddMedia_Embed_Plugin_Http());
+// $plugins->addPlugin(new MiddMedia_Embed_Plugin_Drupal());
+
+
 MiddMedia_Manager::addPersonalDirectoryGroup('CN=All Faculty,OU=General,OU=Groups,DC=middlebury,DC=edu');
 MiddMedia_Manager::addPersonalDirectoryGroup('CN=All Staff,OU=General,OU=Groups,DC=middlebury,DC=edu');
 
