@@ -9,8 +9,6 @@
  * @version $Id$
  */ 
 
-require_once(dirname(__FILE__).'/Directory.php');
-
 /**
  * This manager provides access to all of the functions needed by the upload and
  * video management interfaces and webservices, hiding the details of Harmoni

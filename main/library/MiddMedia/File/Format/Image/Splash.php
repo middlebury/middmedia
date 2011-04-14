@@ -6,8 +6,6 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/../Abstract.php');
-
 /**
  * Source video files are of arbitrary video type.
  * 

@@ -14,7 +14,7 @@
  * @copyright Copyright &copy; 2010, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-interface MiddMedia_File_FileInterface
+interface MiddMedia_FileInterface
 	extends Harmoni_Filing_FileInterface
 {
 	

@@ -7,8 +7,6 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/../Directory/Unauthenticated.php');
-
 /**
  * This manager provides unauthenticated direct access to files. Because it is unauthenticated,
  * no browsing is permitted, only getDirectory() and the directory's getFile() methods are available.

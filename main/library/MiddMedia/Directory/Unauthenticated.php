@@ -7,8 +7,6 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/../File/Media/Unauthenticated.php');
-
 /**
  * The unauthenticated directory allows direct access to files if the name is known
  * but does not allow for browsing as no authentication has been checked.

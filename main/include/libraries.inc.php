@@ -43,11 +43,10 @@ require_once (POLYPHONY_DIR."/polyphony.inc.php");
 /******************************************************************************
  * Include our libraries
  ******************************************************************************/
-require_once(MYDIR."/main/library/MenuGenerator.class.php");
-
-require_once(MYDIR."/main/library/MiddMedia/Manager.php");
-require_once(MYDIR."/main/library/MiddMedia/Manager/Unauthenticated.php");
-require_once(MYDIR."/main/library/MiddMedia/Manager/Admin.php");
 require_once(HARMONI."/oki2/agent/AnonymousAgent.class.php");
 
-require_once(MYDIR."/main/library/MiddMedia/Action/Abstract.php");
+set_include_path(get_include_path() . PATH_SEPARATOR . MYDIR.'/main/library/');
+function middmediaAutoload ($class) {
+	include_once(str_replace('_', '/', $class).'.php');
+}
+spl_autoload_register('middmediaAutoload');

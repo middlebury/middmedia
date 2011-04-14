@@ -7,13 +7,6 @@
  */ 
 
 require_once(HARMONI.'/utilities/Filing/FileSystemFile.class.php');
-require_once(dirname(__FILE__).'/MediaInterface.php');
-require_once(dirname(__FILE__).'/Format/Video/Source.php');
-require_once(dirname(__FILE__).'/Format/Video/Mp4.php');
-require_once(dirname(__FILE__).'/Format/Audio/Mp3.php');
-require_once(dirname(__FILE__).'/Format/Image/FullFrame.php');
-require_once(dirname(__FILE__).'/Format/Image/Thumbnail.php');
-require_once(dirname(__FILE__).'/Format/Image/Splash.php');
 
 if (version_compare(PHP_VERSION, '5.2.0', '<'))
 	throw new Exception('MiddMedia Requires PHP >= 5.2.0');
