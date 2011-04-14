@@ -23,26 +23,26 @@ interface MiddMedia_Embed_Plugin {
  /**
    * Gets the description for the embed code
    * 
-   * @param MiddMedia_File $file
+   * @param MiddMedia_File_MediaInterface $file
    * @return string
    */
-  function getDesc(MiddMedia_File $file);
+  function getDesc(MiddMedia_File_MediaInterface $file);
   
  /**
    * Gets the embed code markup
    * 
-   * @param MiddMedia_File $file
+   * @param MiddMedia_File_MediaInterface $file
    * @return string
    */
-  function getMarkup(MiddMedia_File $file);
+  function getMarkup(MiddMedia_File_MediaInterface $file);
   
 /**
   * Checks to see if the file is supported
   * by the particular embed code
   * 
-  * @param MiddMedia_File $file
+  * @param MiddMedia_File_MediaInterface $file
   * @return boolean
   */
-  function isSupported(MiddMedia_File $file);
+  function isSupported(MiddMedia_File_MediaInterface $file);
   
 }

@@ -27,32 +27,32 @@ class MiddMedia_Embed_Plugin_Http
  /**
    * Gets the description for the embed code
    * 
-   * @param MiddMedia_File $file
+   * @param MiddMedia_File_MediaInterface $file
    * @return string
    */
-  function getDesc(MiddMedia_File $file) {
-    return "\n<p><a href='" . $file->getHttpUrl() . "'>Click here to download this file.</a></p>
+  function getDesc(MiddMedia_File_MediaInterface $file) {
+    return "\n<p><a href='" . $file->getPrimaryFormat()->getHttpUrl() . "'>Click here to download this file.</a></p>
     \n<p>Make a link to the following URL to allow downloads of this file.</p>";
   }
   
  /**
    * Gets the embed code markup
    * 
-   * @param MiddMedia_File $file
+   * @param MiddMedia_File_MediaInterface $file
    * @return string
    */
-  function getMarkup(MiddMedia_File $file) {
-    return "\n<input type='text' size='110' value='". $file->getHttpUrl() . "' />";
+  function getMarkup(MiddMedia_File_MediaInterface $file) {
+    return "\n<input type='text' size='110' value='". $file->getPrimaryFormat()->getHttpUrl() . "' />";
   }
   
   /**
    * Checks to see if the file is supported
    * by the particular embed code
    * 
-   * @param MiddMedia_File $file
+   * @param MiddMedia_File_MediaInterface $file
    * @return boolean
    */
-  function isSupported(MiddMedia_File $file) {
+  function isSupported(MiddMedia_File_MediaInterface $file) {
     return true;
   }
   

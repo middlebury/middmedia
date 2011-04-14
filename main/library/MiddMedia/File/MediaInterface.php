@@ -112,6 +112,14 @@ interface MiddMedia_File_MediaInterface
 	public function getFormat ($format);
 	
 	/**
+	 * Answer true if a file has the format passed
+	 * 
+	 * @param string $format
+	 * @return boolean
+	 */
+	public function hasFormat ($format);
+	
+	/**
 	 * Answer the primary format of this media file
 	 * 
 	 * @return MiddMedia_File_FormatInterface

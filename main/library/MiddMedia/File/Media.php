@@ -489,6 +489,21 @@ class MiddMedia_File_Media
 	}
 	
 	/**
+	 * Answer true if a file has the format passed
+	 * 
+	 * @param string $format
+	 * @return boolean
+	 */
+	public function hasFormat ($format) {
+		try {
+			$this->getFormat($format);
+			return true;
+		} catch (InvalidArgumentException $e) {
+			return false;
+		}
+	}
+	
+	/**
 	 * Answer all of our formats.
 	 * 
 	 * @return array of MiddMedia_File_FormatInterface
