@@ -88,22 +88,31 @@ class uploadAction
 	/**
 	 * Answer a success message and file info if needed
 	 * 
-	 * @param MiddMedia_Directory $dir
+	 * @param MiddMedia_DirectoryInterface $dir
 	 * @param MiddMedia_File $file
 	 * @return mixed
 	 * @access protected
 	 * @since 11/19/09
 	 */
-	protected function success (MiddMedia_Directory $dir, MiddMedia_File $file) {
+	protected function success (MiddMedia_DirectoryInterface $dir, MiddMedia_File_Media $file) {
 		// Return output to the browser (only supported by SWFUpload for Flash Player 9)
 		header("HTTP/1.1 200 OK");
 		header("Content-type: text/xml");
 		print '<'.'?xml version="1.0" encoding="utf-8"?'.'>';
+		$primaryFormat = $file->getPrimaryFormat();
+		if ($primaryFormat->supportsHttp())
+			$httpUrl = $primaryFormat->getHttpUrl();
+		else
+			$httpUrl = '';
+		if ($primaryFormat->supportsRtmp())
+			$rtmpUrl = $primaryFormat->getRtmpUrl();
+		else
+			$rtmpUrl = '';
 		print "\n\t\t<file
 				name=\"".str_replace('&', '&amp;', $file->getBaseName())."\"
 				directory=\"".$dir->getBaseName()."\"
-				http_url=\"".$file->getHttpUrl()."\"
-				rtmp_url=\"".$file->getRtmpUrl()."\"
+				http_url=\"".$httpUrl."\"
+				rtmp_url=\"".$rtmpUrl."\"
 				mime_type=\"".$file->getMimeType()."\"
 				size=\"".$file->getSize()."\"
 				modification_date=\"".$file->getModificationDate()->asLocal()->asString()."\"";
@@ -115,13 +124,15 @@ class uploadAction
 		}
 		
 		try {
-			print "\n\t\t\tthumb_url=\"".$file->getThumbnailImage()->getUrl()."\"";
+			$format = $file->getFormat('thumb');
+			print "\n\t\t\tthumb_url=\"".$format->getHttpUrl()."\"";
 		} catch (Exception $e) {
 			print "\n\t\t\tthumb_url=\"\"";
 		}
 		
 		try {
-			print "\n\t\t\tsplash_url=\"".$file->getSplashImage()->getUrl()."\"";
+			$format = $file->getFormat('splash');
+			print "\n\t\t\tsplash_url=\"".$format->getHttpUrl()."\"";
 		} catch (Exception $e) {
 			print "\n\t\t\tsplash_url=\"\"";
 		}
@@ -141,7 +152,7 @@ class uploadAction
 	/**
 	 * Answer the target directory object
 	 * 
-	 * @return object MiddMedia_Directory
+	 * @return object MiddMedia_DirectoryInterface
 	 * @access protected
 	 * @since 11/19/08
 	 */
@@ -157,16 +168,16 @@ class uploadAction
 	/**
 	 * Answer the manager to use
 	 * 
-	 * @return MiddMediaManager
+	 * @return MiddMedia_Manager
 	 * @access protected
 	 * @since 12/10/08
 	 */
 	protected function getManager () {
-		return MiddMediaManager::forCurrentUser();
+		return MiddMedia_Manager::forCurrentUser();
 	}
 	
 	/**
-	 * @var object MiddMedia_Directory $directory;  
+	 * @var object MiddMedia_DirectoryInterface $directory;  
 	 * @access private
 	 * @since 11/19/08
 	 */

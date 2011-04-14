@@ -8,7 +8,6 @@
  * @version $Id: welcome.act.php,v 1.7 2008/02/19 17:25:28 adamfranco Exp $
  */ 
 
-require_once(dirname(__FILE__).'/AbstractAction.class.php');
 /*********************************************************
  * Add to MiddTube
  *********************************************************/
@@ -26,7 +25,7 @@ require_once(dirname(__FILE__).'/includes/class-IXR.php');
  * @version $Id: welcome.act.php,v 1.7 2008/02/19 17:25:28 adamfranco Exp $
  */
 class browseAction 
-	extends MiddMedia_AbstractAction
+	extends MiddMedia_Action_Abstract
 {
 	/**
 	 * Check Authorizations
@@ -504,7 +503,7 @@ class browseAction
 	 * @since 12/10/08
 	 */
 	protected function getManager () {
-		return MiddMediaManager::forCurrentUser();
+		return MiddMedia_Manager::forCurrentUser();
 	}
 	
 	/**
@@ -529,7 +528,7 @@ class browseAction
 	 * @access public
 	 * @since 10/24/08
 	 */
-	public function getDirectoryMarkup (MiddMedia_Directory $dir) {
+	public function getDirectoryMarkup (MiddMedia_DirectoryInterface $dir) {
 		ob_start();
 		$harmoni = Harmoni::instance();
 		
@@ -543,9 +542,9 @@ class browseAction
 		/*********************************************************
 		 * Upload Form
 		 *********************************************************/
-		$mediaTypes = explode(',', MIDDMEDIA_ALLOWED_FILE_TYPES);
+		$mediaTypes = MiddMedia_File_Media::getAllowedVideoTypes();
 		foreach ($mediaTypes as $key => $type) {
-			$mediaTypes[$key] = '*.'.trim($type);
+			$mediaTypes[$key] = '*.'.$type;
 		}
 		$mediaTypes = implode(';', $mediaTypes);
 		
@@ -760,11 +759,6 @@ class browseAction
 			
 			// Get the type and Id for use by JS functions
 			$parts = pathinfo($file->getBasename());
-			// PHP < 5.2.0 doesn't have 'filename'
-			if (!isset($parts['filename'])) {
-				preg_match('/(.+)\.[a-z0-9]+/i', $file->getBasename(), $matches);
-				$parts['filename'] = $matches[1];
-			}
 			unset($type);
 			switch (strtolower($parts['extension'])) {
 				case 'flv':
@@ -780,9 +774,13 @@ class browseAction
 			}
 			
 			try {
-				$splashUrl = $file->getSplashImage()->getUrl();
-			} catch (OperationFailedException $e) {
-				$splashUrl = '';
+				$splashUrl = $file->getFormat('splash')->getHttpUrl();
+			} catch (InvalidArgumentException $e) {
+				// Only ignore if reporting that the file doesn't exist.
+				if ($e->getCode() != 78345)
+					throw $e;
+				else
+					$splashUrl = '';
 			}
 			
 			
@@ -794,15 +792,25 @@ class browseAction
 			print "</td>";
 			
 			print "\n\t\t\t<td class='name'>";
-			print "\n\t\t\t\t<a href='#' onclick=\"displayMedia(this, '".$type."', '".rawurlencode($myId)."', '".$file->getHttpUrl()."', '".$file->getRtmpUrl()."', '".$splashUrl."'); return false;\">";
+			$primaryFormat = $file->getPrimaryFormat();
+			if ($primaryFormat->supportsHttp())
+				$httpUrl = $primaryFormat->getHttpUrl();
+			else
+				$httpUrl = '';
+			if ($primaryFormat->supportsRtmp())
+				$rtmpUrl = $primaryFormat->getRtmpUrl();
+			else
+				$rtmpUrl = '';
+			
+			print "\n\t\t\t\t<a href='#' onclick=\"displayMedia(this, '".$type."', '".rawurlencode($myId)."', '".$httpUrl."', '".$rtmpUrl."', '".$splashUrl."'); return false;\">";
 			print $file->getBaseName();
 			try {
-				$thumbnail = $file->getThumbnailImage();
+				$thumbUrl = $file->getFormat('thumb')->getHttpUrl();
 				print "\n\t\t\t\t<br/>\n\t\t\t\t";
-				print "<img src=\"".$thumbnail->getUrl()."\" class='media_thumbnail'/>";
-			} catch (OperationFailedException $e) {
+				print "<img src=\"".$thumbUrl."\" class='media_thumbnail'/>";
+			} catch (InvalidArgumentException $e) {
 				// Only ignore if reporting that the file doesn't exist.
-				if ($e->getCode() != 897345)
+				if ($e->getCode() != 78345)
 					throw $e;
 			}
 			print "\n\t\t\t\t</a>";

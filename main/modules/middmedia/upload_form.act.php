@@ -9,9 +9,6 @@
  * @version $Id$
  */ 
 
-require_once(dirname(__FILE__).'/AbstractAction.class.php');
-
-
 /**
  * HTML form for file upload
  * 
@@ -24,7 +21,7 @@ require_once(dirname(__FILE__).'/AbstractAction.class.php');
  * @version $Id$
  */
 class upload_formAction
-	extends MiddMedia_AbstractAction
+	extends MiddMedia_Action_Abstract
 {
 		
 	/**
@@ -104,7 +101,7 @@ class upload_formAction
 	/**
 	 * Answer the target directory object
 	 * 
-	 * @return object MiddMedia_Directory
+	 * @return object MiddMedia_DirectoryInterface
 	 * @access protected
 	 * @since 11/19/08
 	 */
@@ -118,7 +115,7 @@ class upload_formAction
 	}
 	
 	/**
-	 * @var object MiddMedia_Directory $directory;  
+	 * @var object MiddMedia_DirectoryInterface $directory;  
 	 * @access private
 	 * @since 11/19/08
 	 */

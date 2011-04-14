@@ -7,8 +7,6 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/UnauthenticatedDirectory.class.php');
-
 /**
  * This manager provides unauthenticated direct access to files. Because it is unauthenticated,
  * no browsing is permitted, only getDirectory() and the directory's getFile() methods are available.
@@ -20,8 +18,8 @@ require_once(dirname(__FILE__).'/UnauthenticatedDirectory.class.php');
  * @copyright Copyright &copy; 2009, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-class UnauthenticatedMiddMediaManager
-	extends MiddMediaManager
+class MiddMedia_Manager_Unauthenticated
+	extends MiddMedia_Manager
 {
 		
 	/*********************************************************
@@ -39,7 +37,7 @@ class UnauthenticatedMiddMediaManager
 	 * 
 	 * @param string $username
 	 * @param string $password
-	 * @return object MiddMediaManager
+	 * @return object MiddMedia_Manager
 	 * @access public
 	 * @since 10/24/08
 	 * @static
@@ -63,7 +61,7 @@ class UnauthenticatedMiddMediaManager
 	 * @param string $username
 	 * @param string $serviceId
 	 * @param string $serviceKey
-	 * @return object MiddMediaManager
+	 * @return object MiddMedia_Manager
 	 * @access public
 	 * @since 12/10/08
 	 * @static
@@ -79,7 +77,7 @@ class UnauthenticatedMiddMediaManager
 	 *		OperationFailedException 	- If there is no user authenticated.
 	 *		PermissionDeniedException 	- If the user is unauthorized to manage media.
 	 * 
-	 * @return object MiddMediaManager
+	 * @return object MiddMedia_Manager
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -89,14 +87,14 @@ class UnauthenticatedMiddMediaManager
 	/**
 	 * Create a new Manager
 	 * 
-	 * @return object MiddMediaManager
+	 * @return object MiddMedia_Manager
 	 * @access public
 	 * @since 7/24/09
 	 * @static
 	 */
 	public static function instance () {
 		if (!isset(self::$instance))
-			self::$instance = new UnauthenticatedMiddMediaManager;
+			self::$instance = new MiddMedia_Manager_Unauthenticated;
 		
 		return self::$instance;
 	}
@@ -124,7 +122,7 @@ class UnauthenticatedMiddMediaManager
 	 * This method throws the following exceptions:
 	 *		PermissionDeniedException 	- If the user is unauthorized to have a personal directory.
 	 *
-	 * @return object MiddMedia_Directory
+	 * @return object MiddMedia_DirectoryInterface
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -135,7 +133,7 @@ class UnauthenticatedMiddMediaManager
 	/**
 	 * Answer an array of all shared directories the user can access.
 	 * 
-	 * @return array of MiddMedia_Directory objects
+	 * @return array of MiddMedia_DirectoryInterface objects
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -150,12 +148,12 @@ class UnauthenticatedMiddMediaManager
 	 *		PermissionDeniedException 	- If the user is unauthorized to access the directory.
 	 * 
 	 * @param string $name
-	 * @return object MiddMedia_Directory
+	 * @return object MiddMedia_DirectoryInterface
 	 * @access public
 	 * @since 11/13/08
 	 */
 	public function getDirectory ($name) {
-		return MiddMedia_UnauthenticatedDirectory::getIfExists($this, $name);
+		return MiddMedia_Directory_Unauthenticated::getIfExists($this, $name);
 	}
 }
 

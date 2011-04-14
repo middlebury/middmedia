@@ -44,7 +44,7 @@ function setup() {
 function getTypes($username, $password) {
 	setup();
 	try {
-		$manager = MiddMediaManager::forUsernamePassword($username, $password);
+		$manager = MiddMedia_Manager::forUsernamePassword($username, $password);
 		return doGetTypes($manager);
 	} catch(Exception $ex) {
 		return new SoapFault($ex->getMessage(), $ex->getCode());
@@ -64,7 +64,7 @@ function getTypes($username, $password) {
 function serviceGetTypes($username, $serviceId, $serviceKey) {
 	setup();
 	try {
-		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		$manager = MiddMedia_Manager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doGetTypes($manager);
 	} catch(Exception $ex) {
 		return new SoapFault($ex->getMessage(), $ex->getCode());
@@ -75,12 +75,12 @@ function serviceGetTypes($username, $serviceId, $serviceKey) {
  * Return a list of allowed file type extensions.
  *
  * @access	public
- * @param	MiddMediaManager	$manager	The manager to use in this request.
+ * @param	MiddMedia_Manager	$manager	The manager to use in this request.
  * @return	array				A list of allowed file type extensions.
  * @since	Jan 09
  */
 function doGetTypes($manager) {
-	return explode(", ", MIDDMEDIA_ALLOWED_FILE_TYPES);
+	return MiddMedia_File_Media::getAllowedVideoTypes();
 }
 
 /**
@@ -95,7 +95,7 @@ function doGetTypes($manager) {
 function getDirs($username, $password) {
 	setup();
 	try {
-		$manager = MiddMediaManager::forUsernamePassword($username, $password);
+		$manager = MiddMedia_Manager::forUsernamePassword($username, $password);
 		return doGetDirs($manager);
 	} catch(Exception $ex) {
 		return new SoapFault($ex->getMessage(), $ex->getCode());
@@ -115,7 +115,7 @@ function getDirs($username, $password) {
 function serviceGetDirs($username, $serviceId, $serviceKey) {
 	setup();
 	try {
-		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		$manager = MiddMedia_Manager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doGetDirs($manager);
 	} catch(Exception $ex) {
 		return new SoapFault($ex->getMessage(), $ex->getCode());
@@ -125,12 +125,12 @@ function serviceGetDirs($username, $serviceId, $serviceKey) {
 /**
  * Return a list of directories the user has access to through the manger.
  * 
- * @param 	MiddMediaManager	$manager		The manager to use in this request.
+ * @param 	MiddMedia_Manager	$manager		The manager to use in this request.
  * @return	array					List of directories
  * @access	public
  * @since	Dec 08
  */
-function doGetDirs (MiddMediaManager $manager) {
+function doGetDirs (MiddMedia_Manager $manager) {
 	$directories = array();
 	try {
 		$dir = $manager->getPersonalDirectory();
@@ -171,7 +171,7 @@ function doGetDirs (MiddMediaManager $manager) {
 function getVideos($username, $password, $directory) {
 	setup();
 	try {
-		$manager = MiddMediaManager::forUsernamePassword($username, $password);
+		$manager = MiddMedia_Manager::forUsernamePassword($username, $password);
 		return doGetVideos($manager, $directory);
 	} catch(Exception $ex) {
 		return new SoapFault($ex->getMessage(), $ex->getCode());
@@ -192,7 +192,7 @@ function getVideos($username, $password, $directory) {
 function serviceGetVideos($username, $serviceId, $serviceKey, $directory) {
 	setup();
 	try {
-		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		$manager = MiddMedia_Manager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doGetVideos($manager, $directory);
 	} catch(Exception $ex) {
 		return new SoapFault($ex->getMessage(), $ex->getCode());
@@ -203,22 +203,32 @@ function serviceGetVideos($username, $serviceId, $serviceKey, $directory) {
  * Return a list of video information in the user or group directory.
  *
  * @access	public
- * @param	MiddMediaManager	$manager	The manager to use in this request.
+ * @param	MiddMedia_Manager	$manager	The manager to use in this request.
  * @param	string		$directory	User or Group name.
  * @return	array				List of video information.
  * @since	Dec 08
  */
-function doGetVideos(MiddMediaManager $manager, $directory) {
+function doGetVideos(MiddMedia_Manager $manager, $directory) {
 	$videos = array();
 	
 	foreach($manager->getDirectory($directory)->getFiles() as $file) {
 		$video = array();
 		
+		$primaryFormat = $file->getPrimaryFormat();
+		if ($primaryFormat->supportsHttp())
+			$httpUrl = $primaryFormat->getHttpUrl();
+		else
+			$httpUrl = '';
+		if ($primaryFormat->supportsRtmp())
+			$rtmpUrl = $primaryFormat->getRtmpUrl();
+		else
+			$rtmpUrl = '';
+		
 		$video["name"] = $file->getBaseName();
-		$video["httpurl"] = $file->getHttpUrl();
-		$video["rtmpurl"] = $file->getRtmpUrl();
-		$video["mimetype"] = $file->getMimeType();
-		$video["size"] = $file->getSize();
+		$video["httpurl"] = $httpUrl;
+		$video["rtmpurl"] = $rtmpUrl;
+		$video["mimetype"] = $primaryFormat->getMimeType();
+		$video["size"] = $primaryFormat->getSize();
 		try {
 			$video["creator"] = $file->getCreatorUsername();
 		} catch (OperationFailedException $e) {
@@ -233,10 +243,10 @@ function doGetVideos(MiddMediaManager $manager, $directory) {
 		}
 		
 		try {
-			$video["fullframeurl"] = $file->getFullFrameImage()->getUrl();
-			$video["thumburl"] = $file->getThumbnailImage()->getUrl();
-			$video["splashurl"] = $file->getSplashImage()->getUrl();
-		} catch (OperationFailedException $e) {
+			$video["fullframeurl"] = $file->getFormat('full_frame')->getHttpUrl();
+			$video["thumburl"] = $file->getFormat('thumb')->getHttpUrl();
+			$video["splashurl"] = $file->getFormat('splash')->getHttpUrl();
+		} catch (Exception $e) {
 			$video["fullframeurl"] = null;
 			$video["thumburl"] = null;
 			$video["splashurl"] = null;
@@ -270,7 +280,7 @@ function getVideoAnon($directory, $file) {
 	
 	setup();
 	try {
-		$manager = UnauthenticatedMiddMediaManager::instance();
+		$manager = UnauthenticatedMiddMedia_Manager::instance();
 		$video = doGetVideo($manager, $directory, $file);
 		
 		// Try to save in the cache if possible
@@ -298,7 +308,7 @@ function getVideoAnon($directory, $file) {
 function getVideo($username, $password, $directory, $file) {
 	setup();
 	try {
-		$manager = MiddMediaManager::forUsernamePassword($username, $password);
+		$manager = MiddMedia_Manager::forUsernamePassword($username, $password);
 		return doGetVideo($manager, $directory, $file);
 	} catch(Exception $ex) {
 		return new SoapFault("server", $ex->getMessage());
@@ -320,7 +330,7 @@ function getVideo($username, $password, $directory, $file) {
 function serviceGetVideo($username, $serviceId, $serviceKey, $directory, $file) {
 	setup();
 	try {
-		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		$manager = MiddMedia_Manager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doGetVideo($manager, $directory, $file);
 	} catch(Exception $ex) {
 		return new SoapFault("server", $ex->getMessage());
@@ -331,22 +341,25 @@ function serviceGetVideo($username, $serviceId, $serviceKey, $directory, $file) 
  * Return information about a specific video in the user or group directory.
  *
  * @access	public
- * @param 	MiddMediaManager	$manager	The manager to use in this request.
+ * @param 	MiddMedia_Manager	$manager	The manager to use in this request.
  * @param	string		$directory	User or Group name.
  * @param	string		$file		Name of the video file.
  * @return	array				Video information.
  * @since	Dec 08
  */
-function doGetVideo(MiddMediaManager $manager, $directory, $file) {
+function doGetVideo(MiddMedia_Manager $manager, $directory, $file) {
 	$video = array();
 	
 	$file = $manager->getDirectory($directory)->getFile($file);
 	
 	$video["name"] = $file->getBaseName();
-	$video["httpurl"] = $file->getHttpUrl();
-	$video["rtmpurl"] = $file->getRtmpUrl();
-	$video["mimetype"] = $file->getMimeType();
-	$video["size"] = $file->getSize();
+	$video["httpurl"] = $file->getPrimaryFormat()->getHttpUrl();
+	if ($file->getPrimaryFormat()->supportsRtmp())
+		$video["rtmpurl"] = $file->getPrimaryFormat()->getRtmpUrl();
+	else
+		$video["rtmpurl"] = null;
+	$video["mimetype"] = $file->getPrimaryFormat()->getMimeType();
+	$video["size"] = $file->getPrimaryFormat()->getSize();
 	try {
 		$video["creator"] = $file->getCreatorUsername();
 	} catch (OperationFailedException $e) {
@@ -361,10 +374,10 @@ function doGetVideo(MiddMediaManager $manager, $directory, $file) {
 	}
 	
 	try {
-		$video["fullframeurl"] = $file->getFullFrameImage()->getUrl();
-		$video["thumburl"] = $file->getThumbnailImage()->getUrl();
-		$video["splashurl"] = $file->getSplashImage()->getUrl();
-	} catch (OperationFailedException $e) {
+		$video["fullframeurl"] = $file->getFormat('full_frame')->getHttpUrl();
+		$video["thumburl"] = $file->getFormat('thumb')->getHttpUrl();
+		$video["splashurl"] = $file->getFormat('splash')->getHttpUrl();
+	} catch (Exception $e) {
 		$video["fullframeurl"] = null;
 		$video["thumburl"] = null;
 		$video["splashurl"] = null;
@@ -392,7 +405,7 @@ function doGetVideo(MiddMediaManager $manager, $directory, $file) {
 function addVideo($username, $password, $directory, $file, $filename, $filetype, $filesize) {
 	setup();
 	try {
-		$manager = MiddMediaManager::forUsernamePassword($username, $password);
+		$manager = MiddMedia_Manager::forUsernamePassword($username, $password);
 		return doAddVideo($manager, $directory, $file, $filename, $filetype, $filesize);
 	} catch(Exception $ex) {
 		return new SoapFault("server", $ex->getMessage());
@@ -417,7 +430,7 @@ function addVideo($username, $password, $directory, $file, $filename, $filetype,
 function serviceAddVideo($username, $serviceId, $serviceKey, $directory, $file, $filename, $filetype, $filesize) {
 	setup();
 	try {
-		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		$manager = MiddMedia_Manager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doAddVideo($manager, $directory, $file, $filename, $filetype, $filesize);
 	} catch(Exception $ex) {
 		return new SoapFault("server", $ex->getMessage());
@@ -428,8 +441,8 @@ function serviceAddVideo($username, $serviceId, $serviceKey, $directory, $file, 
  * Add a new video to the user or group directory.
  *
  * @access	public
- * @param 	MiddMediaManager	$manager	The manager to use in this request.
- * @param	string		$directory	User or Group name.
+ * @param 	MiddMedia_Manager	$manager	The manager to use in this request.
+ * @param	string		$directoryName	User or Group name.
  * @param	string		$file		base64string of file data.
  * @param	string		$filename	Name of the video.
  * @param	string		$filetype	MIME type of the video.
@@ -437,38 +450,13 @@ function serviceAddVideo($username, $serviceId, $serviceKey, $directory, $file, 
  * @return	array				Video information.
  * @since	Dec 08
  */
-function doAddVideo(MiddMediaManager $manager, $directory, $file, $filename, $filetype, $filesize) {
+function doAddVideo(MiddMedia_Manager $manager, $directoryName, $file, $filename, $filetype, $filesize) {
 	$video = array();
 
-	$directory = MiddMedia_Directory::getIfExists($manager, $directory);
+	$directory = MiddMedia_Directory::getIfExists($manager, $directoryName);
 	$newfile = $directory->createFileFromData($filename, base64_decode($file));
 	
-	$video["name"] = $newfile->getBaseName();
-	$video["httpurl"] = $newfile->getHttpUrl();
-	$video["rtmpurl"] = $newfile->getRtmpUrl();
-	$video["mimetype"] = $newfile->getMimeType();
-	$video["size"] = $newfile->getSize();
-	$moddate = $newfile->getModificationDate();
-	$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
-	try {
-		$video["creator"] = $newfile->getCreatorUsername();
-	} catch (OperationFailedException $e) {
-		$video["creator"] = null;
-	}
-	
-	try {
-		$video["fullframeurl"] = $newfile->getFullFrameImage()->getUrl();
-		$video["thumburl"] = $newfile->getThumbnailImage()->getUrl();
-		$video["splashurl"] = $newfile->getSplashImage()->getUrl();
-	} catch (OperationFailedException $e) {
-		$video["fullframeurl"] = null;
-		$video["thumburl"] = null;
-		$video["splashurl"] = null;
-	}
-	
-	$video["embedcode"] = $newfile->getEmbedCode();
-
-	return $video;
+	return doGetVideo($manager, $directoryName, $filename);
 }
 
 /**
@@ -484,7 +472,7 @@ function doAddVideo(MiddMediaManager $manager, $directory, $file, $filename, $fi
 function delVideo($username, $password, $directory, $filename) {
 	setup();
 	try {
-		$manager = MiddMediaManager::forUsernamePassword($username, $password);
+		$manager = MiddMedia_Manager::forUsernamePassword($username, $password);
 		return doDelVideo($manager, $directory, $filename);
 	} catch(Exception $ex) {
 		return new SoapFault("Server", $ex->getMessage());
@@ -505,7 +493,7 @@ function delVideo($username, $password, $directory, $filename) {
 function serviceDelVideo($username, $serviceId, $serviceKey, $directory, $filename) {
 	setup();
 	try {
-		$manager = MiddMediaManager::forUsernameServiceKey($username, $serviceId, $serviceKey);
+		$manager = MiddMedia_Manager::forUsernameServiceKey($username, $serviceId, $serviceKey);
 		return doDelVideo($manager, $directory, $filename);
 	} catch(Exception $ex) {
 		return new SoapFault("Server", $ex->getMessage());
@@ -522,7 +510,7 @@ function serviceDelVideo($username, $serviceId, $serviceKey, $directory, $filena
  * @param	string	$filename	Name of the video.
  * @since	Dec 08
  */
-function doDelVideo(MiddMediaManager $manager, $directory, $filename) {
+function doDelVideo(MiddMedia_Manager $manager, $directory, $filename) {
 	$directory = MiddMedia_Directory::getIfExists($manager, $directory);
 	$file = $directory->getFile($filename);
 	$file->delete();

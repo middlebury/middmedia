@@ -7,8 +7,6 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */ 
 
-require_once(dirname(__FILE__).'/UnauthenticatedFile.class.php');
-
 /**
  * The unauthenticated directory allows direct access to files if the name is known
  * but does not allow for browsing as no authentication has been checked.
@@ -19,24 +17,24 @@ require_once(dirname(__FILE__).'/UnauthenticatedFile.class.php');
  * @copyright Copyright &copy; 2009, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-class MiddMedia_UnauthenticatedDirectory
+class MiddMedia_Directory_Unauthenticated
 	extends MiddMedia_Directory
 {
 		
 	/**
 	 * Answer the directory if it exists. Throw an UnknownIdException if it doesn't.
 	 * 
-	 * @param object MiddMediaManagerMiddMediaManager $manager
+	 * @param object MiddMedia_Manager $manager
 	 * @param string $name
-	 * @return object MiddMedia_Directory
+	 * @return object MiddMedia_DirectoryInterface
 	 * @access public
 	 * @since 11/13/08
 	 * @static
 	 */
-	public static function getIfExists (MiddMediaManager $manager, $name) {
-		$dir = new MiddMedia_UnauthenticatedDirectory($manager, $name);
+	public static function getIfExists (MiddMedia_Manager $manager, $name) {
+		$dir = new MiddMedia_Directory_Unauthenticated($manager, $name);
 		
-		if (!file_exists($dir->getFSPath())) {
+		if (!file_exists($dir->getPath())) {
 			throw new UnknownIdException("Directory does not exist");
 		}
 		
@@ -46,14 +44,14 @@ class MiddMedia_UnauthenticatedDirectory
 	/**
 	 * Answer the directory, creating if needed.
 	 * 
-	 * @param object MiddMediaManagerMiddMediaManager $manager
+	 * @param object MiddMedia_Manager $manager
 	 * @param string $name
-	 * @return ovject MiddMedia_Directory
+	 * @return object MiddMedia_DirectoryInterface
 	 * @access public
 	 * @since 11/13/08
 	 * @static
 	 */
-	public static function getAlways (MiddMediaManager $manager, $name) {
+	public static function getAlways (MiddMedia_Manager $manager, $name) {
 		try {
 			return self::getIfExists($manager, $name);
 		} catch (UnknownIdException $e) {
@@ -83,7 +81,7 @@ class MiddMedia_UnauthenticatedDirectory
 	public function getFile ($name) {
 		if (!$this->fileExists($name))
 			throw new UnknownIdException("File '$name' does not exist.");
-		return new MiddMedia_UnauthenticatedFile($this, $name);
+		return new MiddMedia_File_Media_Unauthenticated($this, $name);
 	}
 	
 	/**

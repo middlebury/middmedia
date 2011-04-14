@@ -9,8 +9,6 @@
  * @version $Id$
  */ 
 
-require_once(dirname(__FILE__).'/Directory.class.php');
-
 /**
  * This manager provides access to all of the functions needed by the upload and
  * video management interfaces and webservices, hiding the details of Harmoni
@@ -23,7 +21,7 @@ require_once(dirname(__FILE__).'/Directory.class.php');
  *
  * @version $Id$
  */
-class MiddMediaManager {
+class MiddMedia_Manager {
 	
 	/*********************************************************
 	 * Instance Creation Methods
@@ -41,7 +39,7 @@ class MiddMediaManager {
 	 * 
 	 * @param string $username
 	 * @param string $password
-	 * @return object MiddMediaManager
+	 * @return object MiddMedia_Manager
 	 * @access public
 	 * @since 10/24/08
 	 * @static
@@ -71,7 +69,7 @@ class MiddMediaManager {
 			// If they are authenticated, continue
 			if ($authN->isUserAuthenticated($authType)) {
 				$agentMgr = Services::getService('Agent');
-				return new MiddMediaManager($agentMgr->getAgent($authN->getUserId($authType)));
+				return new MiddMedia_Manager($agentMgr->getAgent($authN->getUserId($authType)));
 			}
 		}
 		
@@ -93,7 +91,7 @@ class MiddMediaManager {
 	 * @param string $username
 	 * @param string $serviceId
 	 * @param string $serviceKey
-	 * @return object MiddMediaManager
+	 * @return object MiddMedia_Manager
 	 * @access public
 	 * @since 12/10/08
 	 * @static
@@ -127,7 +125,7 @@ class MiddMediaManager {
 			// if the the username exists allow them in.
 			if ($method->tokensExist($tokensObj)) {				
 				$agentMgr = Services::getService('Agent');
-				return new MiddMediaManager($agentMgr->getAgent(
+				return new MiddMedia_Manager($agentMgr->getAgent(
 						$authN->_getAgentIdForAuthNTokens($tokensObj, $authType)));
 			}
 		}
@@ -143,7 +141,7 @@ class MiddMediaManager {
 	 *		OperationFailedException 	- If there is no user authenticated.
 	 *		PermissionDeniedException 	- If the user is unauthorized to manage media.
 	 * 
-	 * @return object MiddMediaManager
+	 * @return object MiddMedia_Manager
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -154,7 +152,7 @@ class MiddMediaManager {
 		if (!$authN->isUserAuthenticatedWithAnyType())
 			throw new OperationFailedException("No user authenticated");
 		
-		return new MiddMediaManager($agentMgr->getAgent($authN->getFirstUserId()));
+		return new MiddMedia_Manager($agentMgr->getAgent($authN->getFirstUserId()));
 	}
 	
 	/*********************************************************
@@ -163,7 +161,7 @@ class MiddMediaManager {
 	/**
 	 * Add a new group id string that is authorized to have personal directories.
 	 *
-	 * ex: MiddMediaManager::addPersonalDirectoryGroup('CN=All Faculty,OU=General,OU=Groups,DC=middlebury,DC=edu');
+	 * ex: MiddMedia_Manager::addPersonalDirectoryGroup('CN=All Faculty,OU=General,OU=Groups,DC=middlebury,DC=edu');
 	 * 
 	 * @param string $groupIdString
 	 * @return void
@@ -245,7 +243,7 @@ class MiddMediaManager {
 	 * This method throws the following exceptions:
 	 *		PermissionDeniedException 	- If the user is unauthorized to have a personal directory.
 	 *
-	 * @return object MiddMedia_Directory
+	 * @return object MiddMedia_DirectoryInterface
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -259,7 +257,7 @@ class MiddMediaManager {
 	/**
 	 * Answer an array of all shared directories the user can access.
 	 * 
-	 * @return array of MiddMedia_Directory objects
+	 * @return array of MiddMedia_DirectoryInterface objects
 	 * @access public
 	 * @since 10/24/08
 	 */
@@ -301,7 +299,7 @@ class MiddMediaManager {
 	 *		PermissionDeniedException 	- If the user is unauthorized to access the directory.
 	 * 
 	 * @param string $name
-	 * @return object MiddMedia_Directory
+	 * @return object MiddMedia_DirectoryInterface
 	 * @access public
 	 * @since 11/13/08
 	 */

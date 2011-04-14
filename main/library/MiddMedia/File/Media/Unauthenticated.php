@@ -16,9 +16,23 @@
  * @copyright Copyright &copy; 2009, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-class MiddMedia_UnauthenticatedFile 
-	extends MiddMedia_File
+class MiddMedia_File_Media_Unauthenticated
+	extends MiddMedia_File_Media
 {
+	/**
+	 * Create a new empty file in this directory. Similar to touch().
+	 * 
+	 * This method throws the following exceptions:
+	 *		InvalidArgumentException 	- If incorrect parameters are supplied
+	 *		OperationFailedException 	- If the file already exists.
+	 *		PermissionDeniedException 	- If the user is unauthorized to manage media here.
+	 * 
+	 * @param string $name
+	 * @return object MiddMedia_MediaFile The new file
+	 */
+	public static function create (MiddMedia_DirectoryInterface $directory, $name) {
+		throw new PermissionDeniedException("The UnauthenticatedFiles cannot be changed.");
+	}
 		
 	/**
 	 * Set the contents of the file

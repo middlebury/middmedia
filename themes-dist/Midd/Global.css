@@ -44,6 +44,11 @@ a:hover {
     text-decoration: underline;
 }
 
+.media_thumbnail {
+	max-width: 200px;
+    max-height: 200px;
+}
+
 /*********************************************************
  * Styles for Segue links, log in, and editing controls
  * [[BG_TEXT_COLOR]] should contrast with [[BG_COLOR]]

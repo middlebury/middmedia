@@ -55,7 +55,7 @@ print "<response>";
 
 try {
 	// Create a new manager for a username/password combo (username/shared key not yet implemented)
-	$manager = MiddMediaManager::forUsernamePassword($user, $pass);
+	$manager = MiddMedia_Manager::forUsernamePassword($user, $pass);
 	
 	// Get the personal directory
 	try {
@@ -68,12 +68,21 @@ try {
 					type=\"personal\">";
 		
 		foreach ($dir->getFiles() as $file) {
-			 print "\n\t\t<file
+			$primaryFormat = $file->getPrimaryFormat();
+			if ($primaryFormat->supportsHttp())
+				$httpUrl = $primaryFormat->getHttpUrl();
+			else
+				$httpUrl = '';
+			if ($primaryFormat->supportsRtmp())
+				$rtmpUrl = $primaryFormat->getRtmpUrl();
+			else
+				$rtmpUrl = '';
+			print "\n\t\t<file
 						name=\"".$file->getBaseName()."\"
-						http_url=\"".$file->getHttpUrl()."\"
-						rtmp_url=\"".$file->getRtmpUrl()."\"
-						mime_type=\"".$file->getMimeType()."\"
-						size=\"".$file->getSize()."\"
+						http_url=\"".$httpUrl."\"
+						rtmp_url=\"".$rtmpUrl."\"
+						mime_type=\"".$primaryFormat->getMimeType()."\"
+						size=\"".$primaryFormat->getSize()."\"
 						modification_date=\"".$file->getModificationDate()->asString()."\"";
 			try {
 				print "\n\t\t\tcreator_name=\"".$file->getCreator()->getDisplayName()."\"";
@@ -105,12 +114,21 @@ try {
 				type=\"shared\">";
 		
 		foreach ($dir->getFiles() as $file) {
-			 print "\n\t\t<file
+			$primaryFormat = $file->getPrimaryFormat();
+			if ($primaryFormat->supportsHttp())
+				$httpUrl = $primaryFormat->getHttpUrl();
+			else
+				$httpUrl = '';
+			if ($primaryFormat->supportsRtmp())
+				$rtmpUrl = $primaryFormat->getRtmpUrl();
+			else
+				$rtmpUrl = '';
+			print "\n\t\t<file
 					name=\"".$file->getBaseName()."\"
-					http_url=\"".$file->getHttpUrl()."\"
-					rtmp_url=\"".$file->getRtmpUrl()."\"
-					mime_type=\"".$file->getMimeType()."\"
-					size=\"".$file->getSize()."\"
+					http_url=\"".$httpUrl."\"
+					rtmp_url=\"".$rtmpUrl."\"
+					mime_type=\"".$primaryFormat->getMimeType()."\"
+					size=\"".$primaryFormat->getSize()."\"
 					modification_date=\"".$file->getModificationDate()->asString()."\"";
 			
 			try {

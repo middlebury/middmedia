@@ -18,19 +18,19 @@ require_once(POLYPHONY."/main/library/AbstractActions/MainWindowAction.class.php
  * @copyright Copyright &copy; 2009, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
-abstract class MiddMedia_AbstractAction
+abstract class MiddMedia_Action_Abstract
 	extends MainWindowAction
 {
 	
 	/**
 	 * Answer the manager to use
 	 * 
-	 * @return MiddMediaManager
+	 * @return MiddMedia_Manager
 	 * @access protected
 	 * @since 12/10/08
 	 */
 	protected function getManager () {
-		return MiddMediaManager::forCurrentUser();
+		return MiddMedia_Manager::forCurrentUser();
 	}
 	
 	/**
@@ -52,12 +52,12 @@ abstract class MiddMedia_AbstractAction
 	 * Answer the upload limit for a particular directory. This will take into account
 	 * directory quotas as well as system limits.
 	 * 
-	 * @param MiddMedia_Directory $directory
+	 * @param MiddMedia_DirectoryInterface $directory
 	 * @return int
 	 * @access protected
 	 * @since 11/19/09
 	 */
-	protected function getDirectoryUploadLimit (MiddMedia_Directory $directory) {
+	protected function getDirectoryUploadLimit (MiddMedia_DirectoryInterface $directory) {
 		return min($this->getSystemUploadLimit(), $directory->getBytesAvailable());
 					
 	}
@@ -65,12 +65,12 @@ abstract class MiddMedia_AbstractAction
 	/**
 	 * Answer quota-bar html for a directory
 	 * 
-	 * @param MiddMedia_Directory $dir
+	 * @param MiddMedia_DirectoryInterface $dir
 	 * @return string
 	 * @access protected
 	 * @since 11/19/09
 	 */
-	protected function getQuotaBar (MiddMedia_Directory $dir) {
+	protected function getQuotaBar (MiddMedia_DirectoryInterface $dir) {
 		ob_start();
 		$dirId = md5($dir->getBaseName());
 		
@@ -106,7 +106,7 @@ abstract class MiddMedia_AbstractAction
 		print "\n<div class='upload_help'>";
 		print "\n\tThe follow media types are allowed:";
 		$mimeMgr = Services::getService("MIME");
-		foreach(explode(',', MIDDMEDIA_ALLOWED_FILE_TYPES) as $type) {
+		foreach(MiddMedia_File_Media::getAllowedVideoTypes() as $type) {
 			print "<br/>&nbsp;&nbsp;&nbsp;&nbsp;.".trim($type)." (".$mimeMgr->getMIMETypeForExtension(trim($type)).")";
 		}
 		print "<p>See <a href='https://mediawiki.middlebury.edu/wiki/LIS/MiddMedia' target='_blank'>MiddMedia Help</a> for more information.</p>";
