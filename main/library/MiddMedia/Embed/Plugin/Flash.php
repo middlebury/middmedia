@@ -58,7 +58,7 @@ class MiddMedia_Embed_Plugin_Flash
    * @return boolean
    */
   function isSupported(MiddMedia_File_MediaInterface $file) {
-    return true;
+    return $file->hasFormat('mp4');
   }
   
 }
