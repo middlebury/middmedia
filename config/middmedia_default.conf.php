@@ -58,6 +58,7 @@ define('MIDDMEDIA_TMP_DIR', '/tmp');
  **********************************************************************************/                                     
 $plugins = MiddMedia_Embed_Plugins::instance();                                                                                                                                                                                                      
 $plugins->addPlugin(new MiddMedia_Embed_Plugin_Flash());
+$plugins->addPlugin(new MiddMedia_Embed_Plugin_AudioPlayer('http://middmedia.middlebury.edu/AudioPlayer'));
 $plugins->addPlugin(new MiddMedia_Embed_Plugin_Rtmp());
 $plugins->addPlugin(new MiddMedia_Embed_Plugin_Http());
 // $plugins->addPlugin(new MiddMedia_Embed_Plugin_Drupal());
