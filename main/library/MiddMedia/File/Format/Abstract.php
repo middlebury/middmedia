@@ -107,7 +107,7 @@ abstract class MiddMedia_File_Format_Abstract
 		if (!$this->supportsHttp())
 			throw new OperationFailedException('supportsHttp() is false');
 		
-		return $this->mediaFile->getDirectory()->getHttpUrl().'/'.$this->getTargetSubdir().'/'.$this->getBaseName();
+		return $this->mediaFile->getDirectory()->getHttpUrl().'/'.rawurlencode($this->getTargetSubdir()).'/'.rawurlencode($this->getBaseName());
 	}
 	
 	/**
@@ -121,7 +121,7 @@ abstract class MiddMedia_File_Format_Abstract
 		if (!$this->supportsRtmp())
 			throw new OperationFailedException('supportsRtmp() is false');
 		
-		return $this->mediaFile->getDirectory()->getRtmpUrl().'/'.$this->getTargetSubdir().'/'.$this->getBaseName();
+		return $this->mediaFile->getDirectory()->getRtmpUrl().'/'.rawurlencode($this->getTargetSubdir()).'/'.rawurlencode($this->getBaseName());
 	}
 	
 	/**

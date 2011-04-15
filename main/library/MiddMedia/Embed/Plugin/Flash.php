@@ -42,7 +42,7 @@ class MiddMedia_Embed_Plugin_Flash
 	 */
 	function getMarkup(MiddMedia_File_MediaInterface $file) {
 		
-		$splash = rawurlencode($file->getFormat('splash')->getHttpUrl());
+		$splash = $file->getFormat('splash')->getHttpUrl();
 		$httpUrl = $file->getFormat('mp4')->getHttpUrl();
 		$fileID = rawurlencode($file->getFormat('mp4')->getBaseName());
 		
