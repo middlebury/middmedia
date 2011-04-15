@@ -42,7 +42,7 @@ class MiddMedia_Embed_Plugin_Http
 	 * @return string
 	 */
 	function getMarkup(MiddMedia_File_MediaInterface $file) {
-		return "\n<input type='text' size='110' value='". $file->getPrimaryFormat()->getHttpUrl() . "' />";
+		return $file->getPrimaryFormat()->getHttpUrl();
 	}
 	
 	/**
