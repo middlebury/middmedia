@@ -351,6 +351,12 @@ class MiddMedia_File_Media
 		
 		// $this->getFormat('webm')->process($source);
 		
+		// If we are given an FLV, keep it around.
+		if ($source->getContainerFormat() == 'flv') {
+			$flv = MiddMedia_File_Format_Video_Flv::create($this);
+			$flv->process($source);
+		}
+		
 		
 		// Generate our image formats from the mp4
 		$fullFrame = $this->getFormat('full_frame');
@@ -475,6 +481,8 @@ class MiddMedia_File_Media
 				return new MiddMedia_File_Format_Video_Mp4($this);
 			case 'webm':
 				return new MiddMedia_File_Format_Video_WebM($this);
+			case 'flv':
+				return new MiddMedia_File_Format_Video_Flv($this);
 			case 'mp3':
 				return new MiddMedia_File_Format_Audio_Mp3($this);
 			case 'thumb':

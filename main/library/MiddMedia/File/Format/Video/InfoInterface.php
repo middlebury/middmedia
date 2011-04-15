@@ -32,4 +32,11 @@ interface MiddMedia_File_Format_Video_InfoInterface
 	 */
 	public function getVideoFrameRate ();
 	
+	/**
+	 * Answer the container format
+	 * 
+	 * @return string
+	 */
+	public function getContainerFormat ();
+	
 }
