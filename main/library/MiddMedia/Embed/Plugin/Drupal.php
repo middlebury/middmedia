@@ -40,7 +40,7 @@ class MiddMedia_Embed_Plugin_Drupal
 	 * @return string
 	 */
 	function getMarkup(MiddMedia_File_MediaInterface $file) {
-		return "\n<input type='text' size='110' value='[video:" . $file->getPrimaryFormat()->getHttpUrl() . "]' />";
+		return "[video:" . $file->getPrimaryFormat()->getHttpUrl() . "]";
 	}
 	
 	function isSupported(MiddMedia_File_MediaInterface $file) {

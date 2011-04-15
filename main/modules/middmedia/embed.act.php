@@ -65,9 +65,14 @@ class embedAction
     
     foreach ($plugins->getPlugins() as $embed) {
       if ($embed->isSupported($file)) {
-        print "\n<h3>".$embed->GetTitle()."</h3>";
-        print $embed->GetDesc($file);
-        print $embed->GetMarkup($file);  
+        print "\n<h3>".$embed->getTitle()."</h3>";
+        print $embed->getDesc($file);
+        $markup = $embed->getMarkup($file);
+        if (strlen($markup) > 150)
+        	print "<textarea rows='6' cols='83'>".htmlspecialchars($markup)."</textarea>";
+        else
+        	print "<input type='text' size='95' value=\"".htmlspecialchars($markup)."\"/>";
+        
       }
     }
     

@@ -126,14 +126,6 @@ interface MiddMedia_File_MediaInterface
 	 */
 	public function getPrimaryFormat ();
 	
-	/**
-	 * Answer embed code that can be used for this file. 
-	 * This is an example, other players will work as well.
-	 * 
-	 * @return string
-	 */
-	public function getEmbedCode ();
-	
 }
 
 ?>

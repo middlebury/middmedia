@@ -47,7 +47,7 @@ class MiddMedia_Embed_Plugin_Rtmp
 			$format = $file->getFormat('mp3');
 		else
 			throw new InvalidArgumentException("Unsuported format.");
-		return "\n<input type='text' size='110' value='" . $format->getRtmpUrl() . "' />";
+		return $format->getRtmpUrl();
 	}
 	
 	/**
