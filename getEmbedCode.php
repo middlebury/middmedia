@@ -55,8 +55,14 @@ try {
 	$manager = MiddMedia_Manager_Unauthenticated::instance();
 	$directory = $manager->getDirectory($_GET['directory']);
 	$file = $directory->getFile($_GET['file']);
-	$embedCode = $file->getEmbedCode();
-	print $embedCode;
+	
+	$plugins = MiddMedia_Embed_Plugins::instance();
+	foreach ($plugins->getPlugins() as $embed) {
+		if ($embed->isSupported($file)) {
+			print $embed->getMarkup($file);
+			break;
+		}
+	}
 	
 	
 	// Save to cache if possible

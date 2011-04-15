@@ -588,53 +588,6 @@ class MiddMedia_File_Media
 			$log->appendLogWithTypes($item,	$formatType, $priorityType);
 		}
 	}
-	
-	/**
-	 * Answer embed code that can be used for this file. 
-	 * This is an example, other players will work as well.
-	 * 
-	 * @return string
-	 */
-	public function getEmbedCode () {
-		$parts = pathinfo($this->getBasename());
-		// PHP < 5.2.0 doesn't have 'filename'
-		if (!isset($parts['filename'])) {
-			preg_match('/(.+)\.[a-z0-9]+/i', $this->getBasename(), $matches);
-			$parts['filename'] = $matches[1];
-		}
-		
-		switch (strtolower($parts['extension'])) {
-			case 'flv':
-				$code = MIDDMEDIA_VIDEO_EMBED_CODE;
-				$myId = $this->directory->getBaseName().'/'.$parts['filename'];
-				break;
-			case 'mp3':
-				$code = MIDDMEDIA_AUDIO_EMBED_CODE;
-			default:
-				if (!isset($code))
-					$code = MIDDMEDIA_VIDEO_EMBED_CODE;
-				$myId = strtolower($parts['extension']).':'.$this->directory->getBaseName().'/'.$parts['filename'].'.'.$parts['extension'];
-		}
-		
-		try {
-			$splashUrl = $this->getFormat('splash')->getHttpUrl();
-		} catch (Exception $e) {
-			$splashUrl = '';
-		}
-		
-		$primaryFormat = $this->getPrimaryFormat();
-		
-		$code = str_replace('###ID###', $myId, $code);
-		$code = str_replace('###HTML_ID###', 'media_'.preg_replace('/[^a-z0-9_-]/i', '', $myId), $code);-
-		$code = str_replace('###HTTP_URL###', $primaryFormat->getHttpUrl(), $code);
-		if ($primaryFormat->supportsRtmp())
-			$code = str_replace('###RTMP_URL###', $primaryFormat->getRtmpUrl(), $code);
-		else
-			$code = str_replace('###RTMP_URL###', '', $code);
-		$code = str_replace('###SPLASH_URL###', $splashUrl, $code);
-		
-		return $code;
-	}
 }
 
 ?>

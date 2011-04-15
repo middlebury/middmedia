@@ -372,45 +372,36 @@ class browseAction
 			
 		}
 		
-		var videoEmbedCode = '".str_replace("</script>", "<' + '/script>", MIDDMEDIA_VIDEO_EMBED_CODE)."';
-		var audioEmbedCode = '".str_replace("</script>", "<' + '/script>", MIDDMEDIA_AUDIO_EMBED_CODE)."';
-		
-		function getEmbedCode(type, fileId, httpUrl, rtmpUrl, splashUrl) {
-			if (type == 'video')
-				var code = videoEmbedCode;
-			else if (type == 'audio')
-				var code = audioEmbedCode;
-			else
-				throw 'Unknow media type: ' + type;
-				
-			code = code.replace('###ID###', fileId);
-			code = code.replace('###HTML_ID###', 'media_' + fileId.replaceAll(/[^a-z0-9_-]/, ''));
-			code = code.replace('###HTTP_URL###', httpUrl);
-			code = code.replace('###RTMP_URL###', rtmpUrl);
-			code = code.replace('###SPLASH_URL###', splashUrl);
-			
-			return code;
-		}
-		
-		function displayMedia(link, type, fileId, httpUrl, rtmpUrl, splashUrl) {
+		function displayPreview(link, fileId, dir, file) {
 			if (link.panel) {
 				link.panel.open();
 			} else {
 				var panel = new CenteredPanel('Viewing Media', 400, 500, link);
 				panel.contentElement.style.textAlign = 'center';
 				
-				var mediaContainer = panel.contentElement.appendChild(document.createElement('p'));
-				mediaContainer.innerHTML = getEmbedCode(type, fileId, httpUrl, rtmpUrl, splashUrl);
-				
-				
-				var linkContainer = panel.contentElement.appendChild(document.createElement('p'));
-				var embedLink = linkContainer.appendChild(document.createElement('a'));
-				embedLink.href = '#';
-				embedLink.innerHTML = 'Embed Code &amp; URLs';
-				embedLink.onclick = function () {
-					displayEmbedCode(this, type, fileId, httpUrl, rtmpUrl);
-					return false;
+				var req = Harmoni.createRequest();
+				if (!req) {
+					alert('Your browser does not support AJAX, please upgrade.');
+					return;
 				}
+				
+				req.onreadystatechange = function () {
+					// only if req shows 'loaded'
+					if (req.readyState == 4) {
+						// only if we get a good load should we continue.
+						if (req.status == 200 && req.responseText) {
+							
+							var desc = panel.contentElement.appendChild(document.createElement('p'));
+							desc.innerHTML = req.responseText;
+							
+						} else {
+							alert(req.responseText);
+						}
+					}
+				}
+				
+				req.open('GET', Harmoni.quickUrl('middmedia', 'preview', {'directory':dir,'file':file,'id':fileId}), true);
+				req.send(null);
 			}
 		}
 		
@@ -802,7 +793,7 @@ class browseAction
 			else
 				$rtmpUrl = '';
 			
-			print "\n\t\t\t\t<a href='#' onclick=\"displayMedia(this, '".$type."', '".rawurlencode($myId)."', '".$httpUrl."', '".$rtmpUrl."', '".$splashUrl."'); return false;\">";
+			print "\n\t\t\t\t<a href='#' onclick=\"displayPreview(this, '".rawurlencode($myId)."', '".$file->directory->getBaseName()."', '".$file->getBaseName()."'); return false;\">";
 			print $file->getBaseName();
 			try {
 				$thumbUrl = $file->getFormat('thumb')->getHttpUrl();

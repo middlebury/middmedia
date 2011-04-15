@@ -252,7 +252,13 @@ function doGetVideos(MiddMedia_Manager $manager, $directory) {
 			$video["splashurl"] = null;
 		}
 		
-		$video["embedcode"] = $file->getEmbedCode();
+		$plugins = MiddMedia_Embed_Plugins::instance();
+		foreach ($plugins->getPlugins() as $embed) {
+			if ($embed->isSupported($file)) {
+				$video["embedcode"] = $embed->getMarkup($file);
+				break;
+			}
+		}
 		
 		$videos[] = $video;
 	}
@@ -383,8 +389,14 @@ function doGetVideo(MiddMedia_Manager $manager, $directory, $file) {
 		$video["splashurl"] = null;
 	}
 	
-	$video["embedcode"] = $file->getEmbedCode();
-	
+	$plugins = MiddMedia_Embed_Plugins::instance();
+	foreach ($plugins->getPlugins() as $embed) {
+		if ($embed->isSupported($file)) {
+			$video["embedcode"] = $embed->getMarkup($file);
+			break;
+		}
+	}
+		
 	return $video;
 }
 
