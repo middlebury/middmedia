@@ -511,7 +511,7 @@ class MiddMedia_File_Media
 	 * @return array of MiddMedia_File_FormatInterface
 	 */
 	protected function getFormats () {
-		$formatIds = array('source', 'mp4', 'mp3', 'thumb', 'splash', 'full_frame');
+		$formatIds = array('source', 'mp4', 'mp3', 'thumb', 'splash', 'full_frame', 'flv');
 		$formats = array();
 		foreach ($formatIds as $id) {
 			try {

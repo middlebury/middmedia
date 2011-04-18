@@ -45,6 +45,20 @@ class MiddMedia_File_Format_Video_Flv
 	 *********************************************************/
 	
 	/**
+	 * Delete the file.
+	 * 
+	 * @return null
+	 */
+	public function delete () {
+		// Ensure that our symbolic link in the parent directory is deleted.
+		$symLink = $this->mediaFile->getDirectory()->getPath().'/'.$this->getBaseName();
+		if (file_exists($symLink))
+			unlink($symLink);
+		
+		parent::delete();
+	}
+	
+	/**
 	 * Answer the name of the subdirectory this format uses.
 	 *
 	 * @return string
