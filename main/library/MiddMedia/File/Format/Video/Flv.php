@@ -93,14 +93,7 @@ class MiddMedia_File_Format_Video_Flv
 	 * @return void
 	 */
 	public function process (Harmoni_Filing_FileInterface $source) {
-		if (!$source instanceof MiddMedia_File_Format_Video_InfoInterface)
-			throw new InvalidArgumentException('$source must implement MiddMedia_File_Format_Video_InfoInterface');
 		
-		if ($source->getContainerFormat() == 'flv') {
-			$this->copyInFile($source->getPath());
-		} else {
-			throw new InvalidArgumentException("The FLV format doesn't support processing of other file types.");
-		}
 	}
 
 	/**
