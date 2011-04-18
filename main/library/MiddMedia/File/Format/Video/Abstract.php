@@ -27,7 +27,9 @@ abstract class MiddMedia_File_Format_Video_Abstract
 	private $audioCodec;
 	private $audioSampleRate;
 	private $audioChannels;
+	private $containerFormat;
 	private $populated = false;
+	
 	
 	
 	/**
@@ -62,6 +64,12 @@ abstract class MiddMedia_File_Format_Video_Abstract
 			$this->audioCodec = null;
 			$this->audioSampleRate = null;
 			$this->audioChannels = null;
+		}
+		
+		if (preg_match('/Input #[^,]+, ([^ ]+), .+/', $output, $matches)) {
+			$this->containerFormat = $matches[1];
+		} else {
+			$this->containerFormat = null;
 		}
 		
 		$this->populated = true;
@@ -113,6 +121,16 @@ abstract class MiddMedia_File_Format_Video_Abstract
 	public function getVideoFrameRate () {
 		$this->populateInfo();
 		return $this->frameRate;
+	}
+	
+	/**
+	 * Answer the container format
+	 * 
+	 * @return string
+	 */
+	public function getContainerFormat () {
+		$this->populateInfo();
+		return $this->containerFormat;
 	}
 	
 	/*********************************************************

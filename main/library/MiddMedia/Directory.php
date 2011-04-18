@@ -180,8 +180,12 @@ class MiddMedia_Directory
 	public function getFiles () {
 		$files = array();
 		foreach (scandir($this->getPath()) as $fname) {
-			if (!is_dir($this->getPath().'/'.$fname))
-				$files[] = new MiddMedia_File_Media($this, $fname);
+			if (!is_dir($this->getPath().'/'.$fname)) {
+				// Skip FLV files, they are just in place to support legacy URLs.
+				$info = pathinfo($fname);
+				if ($info['extension'] != 'flv')
+					$files[] = new MiddMedia_File_Media($this, $fname);
+			}
 		}
 		return $files;
 	}

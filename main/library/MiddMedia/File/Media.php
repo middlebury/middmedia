@@ -475,6 +475,8 @@ class MiddMedia_File_Media
 				return new MiddMedia_File_Format_Video_Mp4($this);
 			case 'webm':
 				return new MiddMedia_File_Format_Video_WebM($this);
+			case 'flv':
+				return new MiddMedia_File_Format_Video_Flv($this);
 			case 'mp3':
 				return new MiddMedia_File_Format_Audio_Mp3($this);
 			case 'thumb':
@@ -509,7 +511,7 @@ class MiddMedia_File_Media
 	 * @return array of MiddMedia_File_FormatInterface
 	 */
 	protected function getFormats () {
-		$formatIds = array('source', 'mp4', 'mp3', 'thumb', 'splash', 'full_frame');
+		$formatIds = array('source', 'mp4', 'mp3', 'thumb', 'splash', 'full_frame', 'flv');
 		$formats = array();
 		foreach ($formatIds as $id) {
 			try {
