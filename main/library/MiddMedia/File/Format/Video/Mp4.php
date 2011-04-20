@@ -82,6 +82,20 @@ class MiddMedia_File_Format_Video_Mp4
 	}
 	
 	/**
+	 * Answer the full RMTP path (URI) of this file
+	 * 
+	 * @return string
+	 * @access public
+	 * @since 10/24/08
+	 */
+	public function getRtmpUrl () {
+		if (!$this->supportsRtmp())
+			throw new OperationFailedException('supportsRtmp() is false');
+		
+		return MIDDMEDIA_RTMP_BASE_URL.'/mp4:'.rawurlencode($this->mediaFile->getDirectory()->getBaseName()).'/'.rawurlencode($this->getTargetSubdir()).'/'.rawurlencode($this->getBaseName());
+	}
+	
+	/**
 	 * Convert the source file into our format and make our content the result.
 	 *
 	 * This method throws the following exceptions:
