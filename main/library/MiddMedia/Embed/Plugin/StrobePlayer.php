@@ -63,16 +63,21 @@ class MiddMedia_Embed_Plugin_StrobePlayer
 	 * @return string
 	 */
 	function getMarkup(MiddMedia_File_MediaInterface $file) {
-		$httpUrl = $file->getFormat('mp4')->getHttpUrl();
+		$mp4 = $file->getFormat('mp4');
+		if ($mp4->supportsRtmp()) {
+			$mediaUrl = $mp4->getRtmpUrl();
+		} else
+			$mediaUrl = $mp4->getHttpUrl();
+		
 		$fileId = rawurlencode($file->getFormat('mp4')->getBaseName());
 		$splash = rawurlencode($file->getFormat('splash')->getHttpUrl());
 		
 		return '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0" width="400" height="300">
 <param name="movie" value="'.$this->strobePlayerUrl. '/StrobeMediaPlayback.swf' .'"></param>
-<param name="FlashVars" value="src='.$httpUrl.'&poster='. $splash .'"></param>
+<param name="FlashVars" value="src='.$mediaUrl.'&poster='. $splash .'"></param>
 <param name="allowFullScreen" value="true"></param>
 <param name="allowscriptaccess" value="always"></param>
-<embed src="'.$this->strobePlayerUrl. '/StrobeMediaPlayback.swf' .'" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="400" height="300" FlashVars="src='.$httpUrl.'&poster='. $splash .'">
+<embed src="'.$this->strobePlayerUrl. '/StrobeMediaPlayback.swf' .'" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="400" height="300" FlashVars="src='.$mediaUrl.'&poster='. $splash .'">
 </embed>
 </object>';
 	}

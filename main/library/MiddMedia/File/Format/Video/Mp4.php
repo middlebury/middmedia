@@ -78,7 +78,7 @@ class MiddMedia_File_Format_Video_Mp4
 	 * @return boolean
 	 */
 	public function supportsRtmp () {
-		return true;
+		return defined('MIDDMEDIA_RTMP_BASE_URL');
 	}
 	
 	/**

@@ -76,7 +76,7 @@ class MiddMedia_File_Format_Audio_Mp3
 	 * @return boolean
 	 */
 	public function supportsRtmp () {
-		return true;
+		return defined('MIDDMEDIA_RTMP_BASE_URL');
 	}
 	
 	/**

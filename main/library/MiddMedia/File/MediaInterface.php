@@ -112,6 +112,13 @@ interface MiddMedia_File_MediaInterface
 	public function getFormat ($format);
 	
 	/**
+	 * Answer an array of formats for the media file.
+	 * 
+	 * @return array of MiddMedia_File_FormatInterface
+	 */
+	public function getFormats ();
+	
+	/**
 	 * Answer true if a file has the format passed
 	 * 
 	 * @param string $format

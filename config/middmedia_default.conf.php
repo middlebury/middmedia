@@ -8,7 +8,7 @@ define('MIDDMEDIA_SPLASH_OVERLAY', MYDIR.'/images/splash-overlay.png');
 
 define('MIDDMEDIA_FS_BASE_DIR', '/home/afranco/public_html/middmedia_data');
 define('MIDDMEDIA_HTTP_BASE_URL', 'http://chisel.middlebury.edu/~afranco/middmedia_data');
-define('MIDDMEDIA_RTMP_BASE_URL', 'rtmp://chisel.middlebury.edu/fms');
+#define('MIDDMEDIA_RTMP_BASE_URL', 'rtmp://chisel.middlebury.edu/fms');
 define('MIDDTUBE_URL', 'http://blogs.middlebury.edu/middtube/');
 define('WP_USER', 'enter_wordpress_username_here');
 define('WP_PASS', 'enter_wordpress_password_here');

@@ -41,13 +41,11 @@ class MiddMedia_Embed_Plugin_Rtmp
 	 * @return string
 	 */
 	function getMarkup(MiddMedia_File_MediaInterface $file) {
-		if ($file->hasFormat('mp4'))
-			$format = $file->getFormat('mp4');
-		else if ($file->hasFormat('mp3'))
-			$format = $file->getFormat('mp3');
-		else
-			throw new InvalidArgumentException("Unsuported format.");
-		return $format->getRtmpUrl();
+		foreach ($file->getFormats() as $format) {
+			if ($format->supportsRtmp())
+				return $format->getRtmpUrl();
+		}
+		throw new InvalidArgumentException("Unsuported format.");
 	}
 	
 	/**
@@ -58,7 +56,11 @@ class MiddMedia_Embed_Plugin_Rtmp
 	 * @return boolean
 	 */
 	function isSupported(MiddMedia_File_MediaInterface $file) {
-		return ($file->hasFormat('mp4') || $file->hasFormat('mp3'));
+		foreach ($file->getFormats() as $format) {
+			if ($format->supportsRtmp())
+				return true;
+		}
+		return false;
 	}
 	
 }
