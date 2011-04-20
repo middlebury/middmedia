@@ -95,7 +95,7 @@ class AdminMiddMediaManager
 	 */
 	public function createSharedDirectory ($name) {
 		// Check that the name has only the allowed chars
-		ArgumentValidator::validate($name, RegexValidatorRule::getRule('^[a-zA-Z0-9_\.&-]+$'));
+		ArgumentValidator::validate($name, RegexValidatorRule::getRule('/^[a-zA-Z0-9_\.&-]+$/'));
 		
 		// Verify that the name specified doesn't already exist
 		try {
