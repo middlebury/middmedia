@@ -127,32 +127,10 @@ class MiddMedia_File_Format_Video_Mp4
 			throw new ConfigurationErrorException('MIDDMEDIA_CONVERT_MAX_HEIGHT is not defined');
 			
 		// Determine the output size base on our maximums.
-		$width = $source->getWidth();
-		$height = $source->getHeight();
-		if ($width > MIDDMEDIA_CONVERT_MAX_WIDTH) {
-			$ratio = MIDDMEDIA_CONVERT_MAX_WIDTH / $width;
-			$width = MIDDMEDIA_CONVERT_MAX_WIDTH;
-			$height = round($ratio * $height);
-		}
-		if ($height > MIDDMEDIA_CONVERT_MAX_HEIGHT) {
-			$ratio = MIDDMEDIA_CONVERT_MAX_HEIGHT / $height;
-			$width = round($ratio * $width);
-			$height = MIDDMEDIA_CONVERT_MAX_HEIGHT;
-		}
-		// Round to the nearest multiple of 2 as this is required for frame sizes.
-		$width = round($width/2) * 2;
-		$height = round($height/2) * 2;
+		$dimensions = $this->getTargetDimensions($source->getWidth(), $source->getHeight());
 		
 		// Some audio sample rates die, so force to the closest of 44100, 22050, 11025
-		$sampleRate = $source->getAudioSampleRate();
-		if (!in_array($sampleRate, array(44100, 22050, 11025))) {
-			if ($sampleRate < 16538)
-				$sampleRate = 11025;
-			else if ($sampleRate < 33075)
-				$sampleRate = 22050;
-			else
-				$sampleRate = 44100;
-		}
+		$sampleRate = $this->getTargetSampleRate($source->getAudioSampleRate());
 		
 		// Convert the video
 		$command = FFMPEG_PATH
@@ -160,7 +138,7 @@ class MiddMedia_File_Format_Video_Mp4
 			.escapeshellarg($source->getPath())
 			.' -vcodec libx264 -vpre normal -b 500k -bt 500k '
 			.' -ar '.$sampleRate.' '
-			.' -s '.$width.'x'.$height.' '
+			.' -s '.$dimensions.' '
 			.escapeshellarg($outFile).' 2>&1';
 		$lastLine = exec($command, $output, $return_var);
 		$output = implode("\n", $output);

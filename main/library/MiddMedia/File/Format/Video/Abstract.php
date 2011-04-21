@@ -167,4 +167,50 @@ abstract class MiddMedia_File_Format_Video_Abstract
 		return $this->audioChannels;
 	}
 	
+	/*********************************************************
+	 * Shared helper methods
+	 *********************************************************/
+	/**
+	 * Answer the target size based on the input size and maximums.
+	 * 
+	 * @param int $width
+	 * @param int $height
+	 * @return string  Width 'x' height. E.g. 720x480
+	 */
+	protected function getTargetDimensions ($width, $height) {
+		// Determine the output size base on our maximums.
+		if ($width > MIDDMEDIA_CONVERT_MAX_WIDTH) {
+			$ratio = MIDDMEDIA_CONVERT_MAX_WIDTH / $width;
+			$width = MIDDMEDIA_CONVERT_MAX_WIDTH;
+			$height = round($ratio * $height);
+		}
+		if ($height > MIDDMEDIA_CONVERT_MAX_HEIGHT) {
+			$ratio = MIDDMEDIA_CONVERT_MAX_HEIGHT / $height;
+			$width = round($ratio * $width);
+			$height = MIDDMEDIA_CONVERT_MAX_HEIGHT;
+		}
+		// Round to the nearest multiple of 2 as this is required for frame sizes.
+		$width = round($width/2) * 2;
+		$height = round($height/2) * 2;
+		
+		return $width.'x'.$height;
+	}
+	
+	/**
+	 * Answer the target audio sample rate based on the input sample rate.
+	 * 
+	 * @param int $sampleRate
+	 * @return int
+	 */
+	protected function getTargetSampleRate ($sampleRate) {
+		// Some audio sample rates die, so force to the closest of 44100, 22050, 11025
+		if (in_array($sampleRate, array(44100, 22050, 11025)))
+			return $sampleRate;
+		else if ($sampleRate < 16538)
+			return 11025;
+		else if ($sampleRate < 33075)
+			return 22050;
+		else
+			return 44100;
+	}
 }
