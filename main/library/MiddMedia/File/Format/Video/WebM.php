@@ -120,13 +120,13 @@ class MiddMedia_File_Format_Video_WebM
 		
 		// Convert the video
 		$command = FFMPEG_PATH
-			.' -i '
-			.escapeshellarg($source->getPath())
+			.' -i '.escapeshellarg($source->getPath())
 			.' -s '.$dimensions.' -y -f webm -vcodec libvpx'
 			// Bitrate parameters - variable bitrate averaging 500k
 			.' -vb 500k -maxrate 1000k -minrate 100k'
 			// Other video encoder parameters
-			.' -g 120 -rc_lookahead 16 -level 216 -profile 0 -qmax 42 -qmin 10';
+			.' -g 120 -rc_lookahead 16 -level 216 -profile 0 -qmax 42 -qmin 10'
+			.' -passlogfile '.escapeshellarg($this->getPath());
 		
 		$pass1Command = $command.' -pass 1'
 			// no audio for first pass.
@@ -174,6 +174,12 @@ class MiddMedia_File_Format_Video_WebM
 		
 		if (file_exists($outFile))
 			throw new OperationFailedException("Could not delete $outFile");
+		
+		// Delete the log files.
+		foreach (scandir(dirname($this->getPath())) as $file) {
+			if (preg_match('/'.$this->getBasename().'-[0-9]+\.log/', $file))
+				unlink(dirname($this->getPath()).'/'.$file);
+		}
 	}
 }
 
