@@ -47,6 +47,7 @@ define('MIDDMEDIA_ALLOWED_FILE_TYPES', 'mp3, mp4, flv, avi, asf, dv, m4v, mj2, m
 define('MIDDMEDIA_CONVERT_MAX_HEIGHT', 480);
 define('MIDDMEDIA_CONVERT_MAX_WIDTH', 720);
 define('MIDDMEDIA_TMP_DIR', '/tmp');
+define('MIDDMEDIA_ENABLE_WEBM', FALSE);
 
 /**********************************************************************************
  * Add or remove embed code plugins that will populate the embed code listing 

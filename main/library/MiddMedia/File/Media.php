@@ -271,6 +271,11 @@ class MiddMedia_File_Media
 		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.mp4'));
 		$this->setPrimaryFormat($format);
 		
+		if (defined('MIDDMEDIA_ENABLE_WEBM') && MIDDMEDIA_ENABLE_WEBM) {
+			$format = MiddMedia_File_Format_Video_WebM::create($this);
+			$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.webm'));
+		}
+		
 		$format = MiddMedia_File_Format_Image_Thumbnail::create($this);
 		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
 		
@@ -349,7 +354,8 @@ class MiddMedia_File_Media
 		$mp4 = $this->getFormat('mp4');
 		$mp4->process($source);
 		
-		// $this->getFormat('webm')->process($source);
+		if (defined('MIDDMEDIA_ENABLE_WEBM') && MIDDMEDIA_ENABLE_WEBM)
+			$this->getFormat('webm')->process($source);
 		
 		
 		// Generate our image formats from the mp4
