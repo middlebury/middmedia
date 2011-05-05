@@ -115,6 +115,7 @@ class MiddMedia_File_Media
 				$query->addRawValue('processing_start', 'NOW()');
 				$query->addWhereEqual('directory', $file->directory->getBaseName());
 				$query->addWhereEqual('file', $file->getBaseName());
+				$query->addWhereEqual('quality', $file->video_quality);
 				$dbMgr->query($query, HARMONI_DB_INDEX);
 				
 				try {
@@ -290,6 +291,7 @@ class MiddMedia_File_Media
 		$query->setTable('middmedia_queue');
 		$query->addValue('directory', $this->directory->getBaseName());
 		$query->addValue('file', $this->getBaseName());
+		$query->addValue('quality', $this->video_quality);
 		
 		$dbMgr = Services::getService("DatabaseManager");
 		try {
@@ -301,6 +303,7 @@ class MiddMedia_File_Media
 			$query->addRawValue('upload_time', 'NOW()');
 			$query->addWhereEqual('directory', $this->directory->getBaseName());
 			$query->addWhereEqual('file', $this->getBaseName());
+			$query->addWhereEqual('quality', $this->video_quality);
 			$dbMgr->query($query, HARMONI_DB_INDEX);
 		}
 	}
@@ -348,14 +351,14 @@ class MiddMedia_File_Media
 	 */
 	protected function process () {
 		$source = $this->getFormat('source');
-		
+		$quality = $this->getQuality();
 		
 		// Convert our video formats from the source format
 		$mp4 = $this->getFormat('mp4');
-		$mp4->process($source);
+		$mp4->process($source, $quality);
 		
 		if (defined('MIDDMEDIA_ENABLE_WEBM') && MIDDMEDIA_ENABLE_WEBM)
-			$this->getFormat('webm')->process($source);
+			$this->getFormat('webm')->process($source, $quality);
 		
 		
 		// Generate our image formats from the mp4
