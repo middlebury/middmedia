@@ -167,6 +167,68 @@ abstract class MiddMedia_File_Format_Video_Abstract
 		return $this->audioChannels;
 	}
 	
+	/**
+	 * Return height based on quality.
+	 * 
+	 * @param int $height
+	 * @param int $quality
+	 * @return string height.
+	 */
+	protected function getNearestValidHeight ($height, $quality) {
+	  
+	  //find nearest supported height
+	  if ($quality != 'original') {
+	    if ($height >= 320) {
+	      $nearest_height = 320;
+	    }
+	    if ($height >= 480) {
+	      $nearest_height = 480;
+	    }
+	    if ($height >= 720) {
+	      $nearest_height = 720;
+	    }
+	    if ($height >= 1080) {
+	      $nearest_height = 1080;
+	    }
+	  }
+	  //if quality is 'original' then leave it alone
+	  else {
+	    $nearest_height = $height;
+	  }
+	
+	//set the target height based on the quality
+	  switch ($quality) {
+	    case 'original': 
+	      $target_height = $height;
+	      break;
+	    case '320p':
+	      $target_height = 320;
+	      break;
+	    case '480p': 
+	      $target_height = 480;
+	      break;
+	    case '720p': 
+	      $target_height = 720;
+	      break;
+	    case '1080p': 
+	      $target_height = 1080;
+	      break;
+	  }
+	  
+	  //scale down when height is
+	  //more than target height but
+	  //never scale up
+	  if ($nearest_height <= $target_height) {
+	    $height = $nearest_height;
+	  }
+	  else {
+	    $height = $target_height;
+	  }
+	  
+	  return $height;  
+	}
+	
+	
 	/*********************************************************
 	 * Shared helper methods
 	 *********************************************************/
@@ -177,12 +239,20 @@ abstract class MiddMedia_File_Format_Video_Abstract
 	 * @param int $height
 	 * @return string  Width 'x' height. E.g. 720x480
 	 */
-	protected function getTargetDimensions ($width, $height) {
+	protected function getTargetDimensions ($width, $height, $quality) {
+	  
+	  $target_height = getNearestValidHeight($height, $quality);
+	  
 		// Determine the output size base on our maximums.
 		if ($width > MIDDMEDIA_CONVERT_MAX_WIDTH) {
 			$ratio = MIDDMEDIA_CONVERT_MAX_WIDTH / $width;
 			$width = MIDDMEDIA_CONVERT_MAX_WIDTH;
 			$height = round($ratio * $height);
+		}
+		if ($height > $target_height) {
+			$ratio = $target_height / $height;
+			$width = round($ratio * $width);
+			$height = $target_height;
 		}
 		if ($height > MIDDMEDIA_CONVERT_MAX_HEIGHT) {
 			$ratio = MIDDMEDIA_CONVERT_MAX_HEIGHT / $height;
@@ -195,6 +265,36 @@ abstract class MiddMedia_File_Format_Video_Abstract
 		
 		return $width.'x'.$height;
 	}
+	
+	/**
+	 * Return height based on quality.
+	 * 
+	 * @param int $height
+	 * @param int $quality
+	 * @return string height.
+	 */
+	protected function getVideoBitrate ($quality) {
+    
+    //set the target height based on the quality
+	  switch ($quality) {
+	    case 'original': 
+	      $video_bitrate = '';
+	      break;
+	    case '320p':
+	      $video_bitrate = 400;
+	      break;
+	    case '480p': 
+	      $video_bitrate = 500;
+	      break;
+	    case '720p': 
+	      $video_bitrate = 1000;
+	      break;
+	    case '1080p': 
+	      $video_bitrate = 1500;
+	      break;
+	  }
+    return $video_bitrate;
+  }
 	
 	/**
 	 * Answer the target audio sample rate based on the input sample rate.
