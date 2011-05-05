@@ -596,6 +596,47 @@ class MiddMedia_File_Media
 			$log->appendLogWithTypes($item,	$formatType, $priorityType);
 		}
 	}
+	
+	/**
+	 * Return video encoding qualities
+	 * 
+	 * @return array
+	 */
+	public static function getQualities () {
+	  return array('original','320p','480p','720p','1080p');
+	}
+	
+	/**
+	 * Return default video encoding qualitie
+	 * 
+	 * @return string
+	 */
+	public static function getDefaultQuality () {
+	  return '480p';
+	}
+	
+	/**
+	 * Set video encoding quality
+	 * 
+	 * @param string $quality
+	 * @return void
+	 */
+	public function setQuality ($quality) {
+	  $valid_qualities = self::getQualities();
+	  if (in_array($quality, $valid_qualities)) {
+	    $this->video_quality = $quality;
+	  }
+	  else {
+	    $this->video_quality = self::getDefaultQuality();
+	  }
+	}
+	
+	/**
+	 * Video encoding quality
+	 * 
+	 */
+	private $video_quality;
+	 
 }
 
 ?>
