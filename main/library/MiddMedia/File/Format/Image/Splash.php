@@ -90,7 +90,7 @@ class MiddMedia_File_Format_Image_Splash
 	 * @param Harmoni_Filing_FileInterface $source
 	 * @return void
 	 */
-	public function process (Harmoni_Filing_FileInterface $fullFrame) {
+	public function process (Harmoni_Filing_FileInterface $fullFrame, $quality = NULL) {
 		if (!preg_match('/^image\/.+$/', $fullFrame->getMimeType()))
 			throw new InvalidArgumentException("Unsupported image type, ".$fullFrame->getMimeType());
 		

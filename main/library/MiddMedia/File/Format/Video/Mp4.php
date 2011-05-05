@@ -106,7 +106,7 @@ class MiddMedia_File_Format_Video_Mp4
 	 * @param Harmoni_Filing_FileInterface $source
 	 * @return void
 	 */
-	public function process (Harmoni_Filing_FileInterface $source) {
+	public function process (Harmoni_Filing_FileInterface $source, $quality = NULL) {
 		if (!$source instanceof MiddMedia_File_Format_Video_InfoInterface)
 			throw new InvalidArgumentException('$source must implement MiddMedia_File_Format_Video_InfoInterface');
 		

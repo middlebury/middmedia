@@ -90,7 +90,7 @@ class MiddMedia_File_Format_Video_Source
 	 * @param Harmoni_Filing_FileInterface $source
 	 * @return void
 	 */
-	public function process (Harmoni_Filing_FileInterface $source) {
+	public function process (Harmoni_Filing_FileInterface $source, $quality = NULL) {
 		throw new OperationFailedException("Source files can't process other inputs");
 	}
 
