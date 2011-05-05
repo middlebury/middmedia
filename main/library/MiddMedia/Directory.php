@@ -364,8 +364,10 @@ class MiddMedia_Directory
 	public function createFile ($name) {
 		if ($this->fileExists($name))
 			throw new OperationFailedException("File already exists.");
-		
-		return MiddMedia_File_Media::create($this, $name);
+		  
+		$media = MiddMedia_File_Media::create($this, $name);
+		$media->setQuality($this->getQuality());
+		return $media;
 	}
 	
 	/**
@@ -472,6 +474,44 @@ class MiddMedia_Directory
 	public function getManager () {
 		return $this->manager;
 	}
+	
+	/**
+	 * Set video quality for the directory in the session
+	 * 
+	 * @return void
+	 */
+	public function setQuality ($quality) {
+		$valid_qualities = MiddMedia_File_Media::getQualities();
+	  if (in_array($quality, $valid_qualities)) {
+	    $_SESSION['quality'] = $quality;
+	  }
+	  else {
+	    //throw new exception - to be added.
+	  }
+	}
+	
+	/**
+	 * Get video quality for the directory in the session
+	 * 
+	 * @return string
+	 */
+	public function getQuality () {
+		$valid_qualities = MiddMedia_File_Media::getQualities();
+	  if (isset($_SESSION['quality'])) {
+	      $quality = $_SESSION['quality']; 
+	  }
+	  else {
+	      $quality = MiddMedia_File_Media::getDefaultQuality();
+	  }
+	  
+	  if (in_array($quality, $valid_qualities)) {  
+	    return $quality;
+	  }
+	  else {
+	    //throw new exception - to be added.
+	  }
+	}
+	
 }
 
 ?>
