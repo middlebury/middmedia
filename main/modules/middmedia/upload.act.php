@@ -79,6 +79,9 @@ class uploadAction
 		
 		try {
 			$file = $dir->createFileFromUpload($_FILES[$upload_name]);
+			if (isset($_POST['quality']) && in_array($_POST['quality'],Middmedia_File_Media::getQualities())) {
+			  $_SESSION['quality'] = $_POST['quality'];
+			}
 			return $this->success($dir, $file);
 		} catch (Exception $e) {
 			return $this->error("File could not be saved to '".$dir->getBaseName().'/'.$_FILES[$upload_name]['name']."'. ".$e->getMessage());
