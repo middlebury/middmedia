@@ -176,55 +176,56 @@ abstract class MiddMedia_File_Format_Video_Abstract
 	 */
 	protected function getNearestValidHeight ($height, $quality) {
 	  
-	  //find nearest supported height
-	  if ($quality != 'original') {
-	    if ($height >= 320) {
-	      $nearest_height = 320;
+	  if ($quality != NULL) {
+	    //find nearest supported height
+	    if ($quality != 'original') {
+	      if ($height >= 360) {
+	        $nearest_height = 360;
+	      }
+	      if ($height >= 480) {
+	        $nearest_height = 480;
+	      }
+	      if ($height >= 720) {
+	        $nearest_height = 720;
+	      }
+	      if ($height >= 1080) {
+	        $nearest_height = 1080;
+	      }
 	    }
-	    if ($height >= 480) {
-	      $nearest_height = 480;
+	    //if quality is 'original' then leave it alone
+	    else {
+	      $nearest_height = $height;
 	    }
-	    if ($height >= 720) {
-	      $nearest_height = 720;
-	    }
-	    if ($height >= 1080) {
-	      $nearest_height = 1080;
-	    }
-	  }
-	  //if quality is 'original' then leave it alone
-	  else {
-	    $nearest_height = $height;
-	  }
 	
-	//set the target height based on the quality
-	  switch ($quality) {
-	    case 'original': 
-	      $target_height = $height;
-	      break;
-	    case '320p':
-	      $target_height = 320;
-	      break;
-	    case '480p': 
-	      $target_height = 480;
-	      break;
-	    case '720p': 
-	      $target_height = 720;
-	      break;
-	    case '1080p': 
-	      $target_height = 1080;
-	      break;
-	  }
+	    //set the target height based on the quality
+	    switch ($quality) {
+	      case 'original': 
+	        $target_height = $height;
+	        break;
+	      case '360p':
+	        $target_height = 360;
+	        break;
+	      case '480p': 
+	        $target_height = 480;
+	        break;
+	      case '720p': 
+	        $target_height = 720;
+	        break;
+	      case '1080p': 
+	        $target_height = 1080;
+	        break;
+	    }
 	  
-	  //scale down when height is
-	  //more than target height but
-	  //never scale up
-	  if ($nearest_height <= $target_height) {
-	    $height = $nearest_height;
+	    //scale down when height is
+	    //more than target height but
+	    //never scale up
+	    if ($nearest_height <= $target_height) {
+	      $height = $nearest_height;
+	    }
+	    else {
+	      $height = $target_height;
+	    }
 	  }
-	  else {
-	    $height = $target_height;
-	  }
-	  
 	  return $height;  
 	}
 	
@@ -241,7 +242,7 @@ abstract class MiddMedia_File_Format_Video_Abstract
 	 */
 	protected function getTargetDimensions ($width, $height, $quality) {
 	  
-	  $target_height = getNearestValidHeight($height, $quality);
+	  $target_height = $this->getNearestValidHeight($height, $quality);
 	  
 		// Determine the output size base on our maximums.
 		if ($width > MIDDMEDIA_CONVERT_MAX_WIDTH) {
@@ -280,7 +281,7 @@ abstract class MiddMedia_File_Format_Video_Abstract
 	    case 'original': 
 	      $video_bitrate = '';
 	      break;
-	    case '320p':
+	    case '360p':
 	      $video_bitrate = 400;
 	      break;
 	    case '480p': 
