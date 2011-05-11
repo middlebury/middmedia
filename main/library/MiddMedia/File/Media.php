@@ -643,6 +643,15 @@ class MiddMedia_File_Media
 	 * 
 	 */
 	private $video_quality;
+	
+	/**
+	 * Return video encoding quality
+	 * 
+	 * @return string
+	 */
+	protected function getQuality () {
+	  return $this->video_quality;
+	}
 	 
 }
 
