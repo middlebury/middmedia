@@ -608,11 +608,36 @@ class browseAction
 		print "\n\t<button class='btnUpload' id='upload-".$dirId."'></button>";
 		print "\n\t<input  class='btnCancel' type='button' id='cancel-".$dirId."' value='Cancel All Uploads' disabled='disabled' />";
 		print "\n\t<br />File quality:<select name='quality-".$dirId."' id='quality-".$dirId."'>";
-		print "\n\t<option value='original'>same as original</option>";
-		print "\n\t<option value='360p'>360p</option>";
-		print "\n\t<option selected value='480p'>480p (default)</option>";
-		print "\n\t<option value='720p'>720p</option>";
-		print "\n\t<option value='1080p'>1080p</option>";
+		if ($dir->getQuality() == 'original') {
+		  print "\n\t<option selected value='original'>same as original</option>";
+		}
+		else {
+		  print "\n\t<option value='original'>same as original</option>";
+		}
+		if ($dir->getQuality() == '360p') {
+		  print "\n\t<option selected value='360p'>360p</option>";
+		}
+		else {
+		  print "\n\t<option value='360p'>360p</option>";
+		}
+		if ($dir->getQuality() == '480p') {
+		  print "\n\t<option selected value='480p'>480p (default)</option>";
+		}
+		else {
+		  print "\n\t<option value='480p'>480p (default)</option>";
+		}
+		if ($dir->getQuality() == '720p') {
+		  print "\n\t<option selected value='720p'>720p</option>";
+		}
+		else {
+		  print "\n\t<option value='720p'>720p</option>";
+		}
+		if ($dir->getQuality() == '1080p') {
+		  print "\n\t<option selected value='1080p'>1080p</option>";
+		}
+		else {
+		  print "\n\t<option value='1080p'>1080p</option>";
+		}
 		print "\n\t</select>";
 		print "\n<fieldset class='progress' id='uploadProgress-".$dirId."'>";
 		print "\n\t<legend>"._("Upload Queue")."</legend>";
