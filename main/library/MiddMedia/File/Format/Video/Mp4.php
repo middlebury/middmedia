@@ -127,7 +127,10 @@ class MiddMedia_File_Format_Video_Mp4
 			throw new ConfigurationErrorException('MIDDMEDIA_CONVERT_MAX_HEIGHT is not defined');
 			
 		// Determine the output size base on our maximums.
-		$dimensions = $this->getTargetDimensions($source->getWidth(), $source->getHeight());
+		$dimensions = $this->getTargetDimensions($source->getWidth(), $source->getHeight(), $quality);
+		
+		// Determine the output video bitrate based on our quality 
+		$video_bitrate = $this->getVideoBitrate($quality);
 		
 		// Some audio sample rates die, so force to the closest of 44100, 22050, 11025
 		$sampleRate = $this->getTargetSampleRate($source->getAudioSampleRate());
@@ -136,7 +139,8 @@ class MiddMedia_File_Format_Video_Mp4
 		$command = FFMPEG_PATH
 			.' -i '
 			.escapeshellarg($source->getPath())
-			.' -vcodec libx264 -vpre normal -b 500k -bt 500k '
+			.' -vcodec libx264 -vpre normal'
+			.' -b '. $video_bitrate.' '
 			.' -ar '.$sampleRate.' '
 			.' -s '.$dimensions.' '
 			.escapeshellarg($outFile).' 2>&1';
