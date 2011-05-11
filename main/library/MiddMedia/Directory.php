@@ -366,7 +366,14 @@ class MiddMedia_Directory
 			throw new OperationFailedException("File already exists.");
 		  
 		$media = MiddMedia_File_Media::create($this, $name);
-		$media->setQuality($this->getQuality());
+		//set quality to the currently selected quality as set
+		//to $_SESSION in upload.act.php
+		if (isset($_SESSION['quality']) && in_array($_SESSION['quality'],Middmedia_File_Media::getQualities())) {
+			  $media->setQuality($_SESSION['quality']);
+		} //otherwise use the default
+		else {
+		  $media->setQuality($this->getQuality());
+		}
 		return $media;
 	}
 	
@@ -486,7 +493,7 @@ class MiddMedia_Directory
 	    $_SESSION['quality'] = $quality;
 	  }
 	  else {
-	    //throw new exception - to be added.
+	    throw new OperationFailedException("Quality is not on the list of valid qualities.");
 	  }
 	}
 	
@@ -508,7 +515,7 @@ class MiddMedia_Directory
 	    return $quality;
 	  }
 	  else {
-	    //throw new exception - to be added.
+	    throw new OperationFailedException("Quality is not on the list of valid qualities.");
 	  }
 	}
 	
