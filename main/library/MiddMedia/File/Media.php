@@ -119,6 +119,10 @@ class MiddMedia_File_Media
 				$dbMgr->query($query, HARMONI_DB_INDEX);
 				
 				try {
+				  
+				  //set the quality
+				  $file->setQuality($row['quality']);
+				  
 					$file->process();
 				} catch (Exception $e) {
 					$file->removeFromQueue();
