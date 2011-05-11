@@ -610,7 +610,7 @@ class MiddMedia_File_Media
 	 * @return array
 	 */
 	public static function getQualities () {
-	  return array('original','320p','480p','720p','1080p');
+	  return array('original','360p','480p','720p','1080p');
 	}
 	
 	/**
