@@ -130,7 +130,7 @@ class MiddMedia_File_Format_Video_Mp4
 		$dimensions = $this->getTargetDimensions($source->getWidth(), $source->getHeight(), $quality);
 		
 		// Determine the output video bitrate based on our quality 
-		$video_bitrate = $this->getVideoBitrate($quality);
+		$video_bitrate = $this->getVideoBitrate($source->getHeight(), $quality);
 		
 		// Some audio sample rates die, so force to the closest of 44100, 22050, 11025
 		$sampleRate = $this->getTargetSampleRate($source->getAudioSampleRate());

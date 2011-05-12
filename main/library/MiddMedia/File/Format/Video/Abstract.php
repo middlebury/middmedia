@@ -277,25 +277,37 @@ abstract class MiddMedia_File_Format_Video_Abstract
 	 * @param int $quality
 	 * @return string height.
 	 */
-	protected function getVideoBitrate ($quality) {
+	protected function getVideoBitrate ($height, $quality) {
     
-    //set the target height based on the quality
-	  switch ($quality) {
-	    case 'original': 
-	      $video_bitrate = '';
-	      break;
-	    case '360p':
-	      $video_bitrate = 400;
-	      break;
-	    case '480p': 
-	      $video_bitrate = 500;
-	      break;
-	    case '720p': 
-	      $video_bitrate = 1000;
-	      break;
-	    case '1080p': 
-	      $video_bitrate = 1500;
-	      break;
+    if ($quality == 'original') {
+      $video_bitrate = '400k';
+      if ($height >= 480) {
+	      $video_bitrate = '500k';
+	    }
+	    if ($height >= 720) {
+	      $video_bitrate = '1000k';
+	    }
+	    if ($height >= 1080) {
+	      $video_bitrate = '1500k';
+	    }
+    }
+    else {
+    
+      //set the target height based on the quality
+	    switch ($quality) {
+	      case '360p':
+	        $video_bitrate = '400k';
+	        break;
+	      case '480p': 
+	        $video_bitrate = '500k';
+	        break;
+	      case '720p': 
+	        $video_bitrate = '1000k';
+	        break;
+	      case '1080p': 
+	        $video_bitrate = '1500k';
+	        break;
+	    }
 	  }
     return $video_bitrate;
   }
