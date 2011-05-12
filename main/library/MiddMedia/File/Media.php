@@ -552,6 +552,47 @@ class MiddMedia_File_Media
 	}
 	
 	/**
+	 * Answer the processing info for the media file
+	 * 
+	 * @return array or FALSE if not processing
+	 */
+	public function getQueueInfo () {
+		$dbMgr = Services::getService("DatabaseManager");
+		
+		// Check to see if there are any items currently processing. If so, don't process more.
+		$query = new SelectQuery;
+		$query->addTable('middmedia_queue');
+		$query->addColumn('*');
+		$query->addWhereEqual('directory', $this->directory->getBaseName());
+		$query->addWhereEqual('file', $this->getBaseName());
+		$results = $dbMgr->query($query, HARMONI_DB_INDEX);
+		if ($results->hasNext()) {
+			$row = $results->next();
+			$info = array(
+				'upload_time' => DateAndTime::fromString($row['upload_time']),
+				'processing' => $row['processing'],
+			);
+			if ($row['processing_start']) {
+				$info['processing_start'] = DateAndTime::fromString($row['processing_start']);
+				$info['time_processing'] = DateAndTime::now()->minus($info['processing_start']);
+			}
+			
+			// Look up the number of videos ahead of us.
+			$query = new SelectQuery;
+			$query->addTable('middmedia_queue');
+			$query->addColumn('COUNT(*)', 'num_ahead');
+			$query->addWhereLessThan('upload_time', $row['upload_time']);
+			$results = $dbMgr->query($query, HARMONI_DB_INDEX);
+			$row = $results->next();
+			$info['num_ahead'] = $row['num_ahead'];
+			
+			return $info;
+		} else {
+			return FALSE;
+		}
+	}
+	
+	/**
 	 * Log actions about this file
 	 * 
 	 * @param string $category

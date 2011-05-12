@@ -131,6 +131,11 @@ img.media_thumbnail {
 	float: right;
 }
 
+.queue_info {
+	text-align: center;
+	font-weight: bold;
+}
+
 
 /*********************************************************
  * Help

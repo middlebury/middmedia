@@ -805,6 +805,27 @@ class browseAction
 					throw $e;
 			}
 			print "\n\t\t\t\t</a>";
+			
+			// Processing feedback.
+			if ($info = $file->getQueueInfo()) {
+				print "\n\t\t\t\t<div class='queue_info'>";
+				if ($info['processing']) {
+					print "Converting for ".$info['time_processing']->asString();
+				} else {
+					if ($info['num_ahead']) {
+						print $info['num_ahead'];
+						if ($info['num_ahead'] == 1)
+							print " video ";
+						else
+							print " videos ";
+						print 'in line ahead';
+					} else {
+						print "Next up for conversion";
+					}
+				}
+				print "\n\t\t\t\t</div>";
+			}
+			
 			print "\n\t\t\t</td>";
 			
 			print "\n\t\t\t<td class='type'>".$file->getMimeType()."</td>";
