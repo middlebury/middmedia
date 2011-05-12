@@ -115,7 +115,6 @@ class MiddMedia_File_Media
 				$query->addRawValue('processing_start', 'NOW()');
 				$query->addWhereEqual('directory', $file->directory->getBaseName());
 				$query->addWhereEqual('file', $file->getBaseName());
-				$query->addWhereEqual('quality', $file->video_quality);
 				$dbMgr->query($query, HARMONI_DB_INDEX);
 				
 				try {
@@ -295,7 +294,7 @@ class MiddMedia_File_Media
 		$query->setTable('middmedia_queue');
 		$query->addValue('directory', $this->directory->getBaseName());
 		$query->addValue('file', $this->getBaseName());
-		$query->addValue('quality', $this->video_quality);
+		$query->addValue('quality', $this->getQuality());
 		
 		$dbMgr = Services::getService("DatabaseManager");
 		try {
@@ -305,9 +304,9 @@ class MiddMedia_File_Media
 			$query = new UpdateQuery;
 			$query->setTable('middmedia_queue');
 			$query->addRawValue('upload_time', 'NOW()');
+			$query->addValue('quality', $this->getQuality());
 			$query->addWhereEqual('directory', $this->directory->getBaseName());
 			$query->addWhereEqual('file', $this->getBaseName());
-			$query->addWhereEqual('quality', $this->video_quality);
 			$dbMgr->query($query, HARMONI_DB_INDEX);
 		}
 	}
@@ -710,7 +709,10 @@ class MiddMedia_File_Media
 	 * @return string
 	 */
 	protected function getQuality () {
-	  return $this->video_quality;
+		if (empty($this->video_quality))
+			return $this->getDefaultQuality();
+		else
+			return $this->video_quality;
 	}
 	 
 }
