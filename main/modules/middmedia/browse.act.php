@@ -591,8 +591,6 @@ class browseAction
 					
 			};
 			$('select#quality-".$dirId."').change(function () {
-			  // todo: make this right.
-			  alert(this.value);
 				swfu.addPostParam('quality' , this.value);
 				
 			});
