@@ -92,11 +92,11 @@ class MiddMedia_File_Format_Video_WebM
 	 * @param Harmoni_Filing_FileInterface $source
 	 * @return void
 	 */
-	public function process (Harmoni_Filing_FileInterface $source) {
+	public function process (Harmoni_Filing_FileInterface $source, $quality = NULL) {
 		if (!$source instanceof MiddMedia_File_Format_Video_InfoInterface)
 			throw new InvalidArgumentException('$source must implement MiddMedia_File_Format_Video_InfoInterface');
 		
-		// If our source is an webm file, just copy it in without transcoding.
+		// If our source is a webm file, just copy it in without transcoding.
 		if ($source->getVideoCodec() == 'libvpx') {
 			$this->copyInFile($source->getPath());
 			return;
@@ -112,8 +112,11 @@ class MiddMedia_File_Format_Video_WebM
 		if (!defined('MIDDMEDIA_CONVERT_MAX_HEIGHT'))
 			throw new ConfigurationErrorException('MIDDMEDIA_CONVERT_MAX_HEIGHT is not defined');
 			
-		// Determine the output size base on our maximums.
-		$dimensions = $this->getTargetDimensions($source->getWidth(), $source->getHeight());
+		// Determine the output size base on our maximums/quality.
+		$dimensions = $this->getTargetDimensions($source->getWidth(), $source->getHeight(), $quality);
+
+		// Determine the output video bitrate based on our quality 
+		$video_bitrate = $this->getVideoBitrate($quality);
 		
 		// Some audio sample rates die, so force to the closest of 44100, 22050, 11025
 		$sampleRate = $this->getTargetSampleRate($source->getAudioSampleRate());
@@ -123,9 +126,7 @@ class MiddMedia_File_Format_Video_WebM
 			.' -i '.escapeshellarg($source->getPath())
 			.' -s '.$dimensions.' -y -f webm -vcodec libvpx'
 			// Bitrate parameters - variable bitrate averaging 500k
-			.' -vb 500k -maxrate 1000k -minrate 100k'
-			// Other video encoder parameters
-			.' -g 120 -rc_lookahead 16 -level 216 -profile 0 -qmax 42 -qmin 10'
+			.' -b '. $video_bitrate
 			.' -passlogfile '.escapeshellarg($this->getPath());
 		
 		$pass1Command = $command.' -pass 1'
@@ -134,7 +135,7 @@ class MiddMedia_File_Format_Video_WebM
 			.' '.escapeshellarg($outFile).' 2>&1';
 		$pass2Command = $command.' -pass 2 '
 			// Audio parameters
-			.' -acodec libvorbis -ar '.$sampleRate.' -ab 100k'
+			.' -acodec libvorbis -ar '.$sampleRate.' -ab 100k -ac 2'
 			.' '.escapeshellarg($outFile).' 2>&1';
 		
 		$lastLine = exec($pass1Command, $output, $return_var);

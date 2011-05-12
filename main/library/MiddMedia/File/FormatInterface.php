@@ -82,7 +82,7 @@ interface MiddMedia_File_FormatInterface
 	 * @param Harmoni_Filing_FileInterface $source
 	 * @return void
 	 */
-	public function process (Harmoni_Filing_FileInterface $source);
+	public function process (Harmoni_Filing_FileInterface $source, $quality = NULL);
 	
 	/**
 	 * Clean up our temporary files.

@@ -90,7 +90,7 @@ class MiddMedia_File_Format_Image_FullFrame
 	 * @param Harmoni_Filing_FileInterface $source
 	 * @return void
 	 */
-	public function process (Harmoni_Filing_FileInterface $source) {
+	public function process (Harmoni_Filing_FileInterface $source, $quality = NULL) {
 		$timecodes = array(5, 2);
 		
 		// Try several time-codes and see if we can get an image out.

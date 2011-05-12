@@ -544,11 +544,15 @@ class browseAction
 		<script type='text/javascript'>
 		// <![CDATA[
 		
+		
 		window.addOnLoad(function() {
+		
+		var selected_quality = $('select#quality-".$dirId." option:selected').val();
+
 			var swfu = new SWFUpload({
 					upload_url : '".str_replace('&amp;', '&', $harmoni->request->quickURL('middmedia', 'upload', array('directory' => $dir->getBaseName())))."', 
-					flash_url : '".MYPATH."/javascript/SWFUpload/swfupload.swf', 
-					post_params: {'".session_name()."' : '".session_id()."'},
+					flash_url : '".MYPATH."/javascript/SWFUpload/swfupload.swf',
+					post_params: {'".session_name()."' : '".session_id()."', 'quality' : selected_quality},
 					file_size_limit : '".ByteSize::withValue($this->getSystemUploadLimit())->asMBString()."',
 					file_types : '".$mediaTypes."',
 					file_types_description : 'Flash Video, H264 Video, and MP3 Audio',
@@ -584,7 +588,16 @@ class browseAction
 				}); 
 			document.get_element_by_id('cancel-".$dirId."').onclick = function () {
 				swfu.cancelQueue();
+					
 			};
+			$('select#quality-".$dirId."').change(function () {
+			  // todo: make this right.
+			  alert(this.value);
+				swfu.addPostParam('quality' , this.value);
+				
+			});
+			
+			
 		});
 		
 		// ]]>
@@ -594,7 +607,38 @@ class browseAction
 		print "\n<div class='middmedia_upload'>";
 		print "\n\t<button class='btnUpload' id='upload-".$dirId."'></button>";
 		print "\n\t<input  class='btnCancel' type='button' id='cancel-".$dirId."' value='Cancel All Uploads' disabled='disabled' />";
-		
+		print "\n\t<br />File quality:<select name='quality-".$dirId."' id='quality-".$dirId."'>";
+		if ($dir->getQuality() == 'original') {
+		  print "\n\t<option selected value='original'>same as original</option>";
+		}
+		else {
+		  print "\n\t<option value='original'>same as original</option>";
+		}
+		if ($dir->getQuality() == '360p') {
+		  print "\n\t<option selected value='360p'>360p</option>";
+		}
+		else {
+		  print "\n\t<option value='360p'>360p</option>";
+		}
+		if ($dir->getQuality() == '480p') {
+		  print "\n\t<option selected value='480p'>480p (default)</option>";
+		}
+		else {
+		  print "\n\t<option value='480p'>480p (default)</option>";
+		}
+		if ($dir->getQuality() == '720p') {
+		  print "\n\t<option selected value='720p'>720p</option>";
+		}
+		else {
+		  print "\n\t<option value='720p'>720p</option>";
+		}
+		if ($dir->getQuality() == '1080p') {
+		  print "\n\t<option selected value='1080p'>1080p</option>";
+		}
+		else {
+		  print "\n\t<option value='1080p'>1080p</option>";
+		}
+		print "\n\t</select>";
 		print "\n<fieldset class='progress' id='uploadProgress-".$dirId."'>";
 		print "\n\t<legend>"._("Upload Queue")."</legend>";
 		print "\n</fieldset>";
