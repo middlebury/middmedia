@@ -363,24 +363,34 @@ class MiddMedia_File_Media
 		$this->getFormat('splash')->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
 		
 		// Process the file
-		$source = $this->getFormat('source');
-		$quality = $this->getQuality();
-		
-		// Convert our video formats from the source format
-		$mp4 = $this->getFormat('mp4');
-		$mp4->process($source, $quality);
-		
-		if (defined('MIDDMEDIA_ENABLE_WEBM') && MIDDMEDIA_ENABLE_WEBM)
-			$this->getFormat('webm')->process($source, $quality);
-		
-		
-		// Generate our image formats from the mp4
-		$fullFrame = $this->getFormat('full_frame');
-		$fullFrame->process($mp4);
-		
-		$this->getFormat('thumb')->process($fullFrame);
-		$this->getFormat('splash')->process($fullFrame);
-		
+		try {
+			$source = $this->getFormat('source');
+			$quality = $this->getQuality();
+			
+			// Convert our video formats from the source format
+			$mp4 = $this->getFormat('mp4');
+			$mp4->process($source, $quality);
+			
+			if (defined('MIDDMEDIA_ENABLE_WEBM') && MIDDMEDIA_ENABLE_WEBM)
+				$this->getFormat('webm')->process($source, $quality);
+			
+			
+			// Generate our image formats from the mp4
+			$fullFrame = $this->getFormat('full_frame');
+			$fullFrame->process($mp4);
+			
+			$this->getFormat('thumb')->process($fullFrame);
+			$this->getFormat('splash')->process($fullFrame);
+		} catch (OperationFailedException $e) {
+			$this->getFormat('mp4')->putContents(file_get_contents(MYDIR.'/images/VideoConversionFailed.mp4'));
+			if (defined('MIDDMEDIA_ENABLE_WEBM') && MIDDMEDIA_ENABLE_WEBM)
+				$this->getFormat('webm')->putContents(file_get_contents(MYDIR.'/images/VideoConversionFailed.webm'));
+			$this->getFormat('full_frame')->putContents(file_get_contents(MYDIR.'/images/VideoConversionFailed.jpg'));
+			$this->getFormat('thumb')->putContents(file_get_contents(MYDIR.'/images/VideoConversionFailed.jpg'));
+			$this->getFormat('splash')->putContents(file_get_contents(MYDIR.'/images/VideoConversionFailed.jpg'));
+			
+			throw $e;
+		}
 		
 		// Clean up
 		$source->delete();
