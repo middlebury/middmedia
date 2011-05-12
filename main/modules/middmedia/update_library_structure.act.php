@@ -87,13 +87,26 @@ class update_library_structureAction
 							$flvDest->copyInFile($file->getPath());
 							
 							// Move in the current FLV file as the source of a new mp4 file and queue for conversion.
-							$newMediaFile = MiddMedia_File_Media::create($directory, $file->getBaseName());
-							$newMediaFile->moveInFile($origPath);
+							try {
+								$newMediaFile = MiddMedia_File_Media::create($directory, $file->getBaseName());
+								$newMediaFile->moveInFile($origPath);
+							}
+							// If we have a filename-colision with an existing mp4 file, just assume
+							// that they are equivalent
+							catch (OperationFailedException $e) {
+								print "\n\t\tmp4 file of the same name as the flv exists. Assuming they are equivalent.";
+								
+								// delete our original flv path so that we can make a symlink to it.
+								unlink($origPath);
+							}
 							
 							// Make a sym-link to the new FLV file so that old flowplayer embeds work.
 							symlink($flvDest->getPath(), $origPath);
 						}
 					}
+					while (ob_get_level())
+						ob_end_flush();
+					flush();
 				}
 			}
 			
