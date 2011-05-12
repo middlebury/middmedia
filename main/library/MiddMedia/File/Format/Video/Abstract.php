@@ -179,6 +179,9 @@ abstract class MiddMedia_File_Format_Video_Abstract
 	  if ($quality != NULL) {
 	    //find nearest supported height
 	    if ($quality != 'original') {
+	      if ($height < 360) {
+	        $nearest_height = $height;
+	      }
 	      if ($height >= 360) {
 	        $nearest_height = 360;
 	      }
