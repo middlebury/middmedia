@@ -268,22 +268,22 @@ class MiddMedia_File_Media
 	 */
 	protected function queueForProcessing () {	
 		$format = MiddMedia_File_Format_Video_Mp4::create($this);
-		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.mp4'));
+		$format->putContents(file_get_contents(MYDIR.'/images/Queued.mp4'));
 		$this->setPrimaryFormat($format);
 		
 		if (defined('MIDDMEDIA_ENABLE_WEBM') && MIDDMEDIA_ENABLE_WEBM) {
 			$format = MiddMedia_File_Format_Video_WebM::create($this);
-			$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.webm'));
+			$format->putContents(file_get_contents(MYDIR.'/images/Queued.webm'));
 		}
 		
 		$format = MiddMedia_File_Format_Image_Thumbnail::create($this);
-		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
+		$format->putContents(file_get_contents(MYDIR.'/images/Queued.jpg'));
 		
 		$format = MiddMedia_File_Format_Image_FullFrame::create($this);
-		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
+		$format->putContents(file_get_contents(MYDIR.'/images/Queued.jpg'));
 		
 		$format = MiddMedia_File_Format_Image_Splash::create($this);
-		$format->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
+		$format->putContents(file_get_contents(MYDIR.'/images/Queued.jpg'));
 		
 		// Add an entry to our encoding queue.
 		$query = new InsertQuery;
@@ -347,6 +347,15 @@ class MiddMedia_File_Media
 	 * @return void
 	 */
 	protected function process () {
+		// Indicate to the user that the file is processing
+		$this->getFormat('mp4')->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.mp4'));
+		if (defined('MIDDMEDIA_ENABLE_WEBM') && MIDDMEDIA_ENABLE_WEBM)
+			$this->getFormat('webm')->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.webm'));
+		$this->getFormat('full_frame')->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
+		$this->getFormat('thumb')->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
+		$this->getFormat('splash')->putContents(file_get_contents(MYDIR.'/images/ConvertingVideo.jpg'));
+		
+		// Process the file
 		$source = $this->getFormat('source');
 		
 		
