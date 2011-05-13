@@ -140,12 +140,14 @@ class MiddMedia_File_Format_Video_Mp4
 			.' -i '
 			.escapeshellarg($source->getPath())
 			.' -vcodec libx264 -vpre normal'
-			.' -b '. $video_bitrate.' '
-			.' -ar '.$sampleRate.' '
+			.' -b '. $video_bitrate.' -threads 0 '
+			.' -ar '.$sampleRate.' -ac 2 '
 			.' -s '.$dimensions.' '
 			.escapeshellarg($outFile).' 2>&1';
 		$lastLine = exec($command, $output, $return_var);
 		$output = implode("\n", $output);
+		
+		
 		
 		if ($return_var) {
 			$this->cleanup();

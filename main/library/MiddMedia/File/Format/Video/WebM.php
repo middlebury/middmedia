@@ -124,7 +124,7 @@ class MiddMedia_File_Format_Video_WebM
 		// Convert the video
 		$command = FFMPEG_PATH
 			.' -i '.escapeshellarg($source->getPath())
-			.' -s '.$dimensions.' -y -f webm -vcodec libvpx'
+			.' -s '.$dimensions.' -y -f webm -vcodec libvpx -threads 0'
 			// Bitrate parameters - variable bitrate averaging 500k
 			.' -b '. $video_bitrate
 			.' -passlogfile '.escapeshellarg($this->getPath());
