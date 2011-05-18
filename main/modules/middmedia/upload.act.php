@@ -69,7 +69,6 @@ class uploadAction
 		);
 		
 		$upload_name = "Filedata";
-				
 		
 		$dir = $this->getDirectory();
 		
@@ -78,10 +77,12 @@ class uploadAction
 			$this->error('No file uploaded');
 		
 		try {
-			$file = $dir->createFileFromUpload($_FILES[$upload_name]);
-			if (isset($_POST['quality']) && in_array($_POST['quality'],Middmedia_File_Media::getQualities())) {
+			if (isset($_POST['quality']) && in_array($_POST['quality'],MiddMedia_File_Media::getQualities())) {
 			  $_SESSION['quality'] = $_POST['quality'];
+			} else {
+			  trigger_error('quality not posted or not valid');  
 			}
+			$file = $dir->createFileFromUpload($_FILES[$upload_name]);
 			return $this->success($dir, $file);
 		} catch (Exception $e) {
 			return $this->error("File could not be saved to '".$dir->getBaseName().'/'.$_FILES[$upload_name]['name']."'. ".$e->getMessage());
