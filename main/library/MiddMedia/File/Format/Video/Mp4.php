@@ -111,7 +111,7 @@ class MiddMedia_File_Format_Video_Mp4
 			throw new InvalidArgumentException('$source must implement MiddMedia_File_Format_Video_InfoInterface');
 		
 		// If our source is an mp4 file, just copy it in without transcoding.
-		if ($source->getVideoCodec() == 'h264') {
+		if ($source->getVideoCodec() == 'h264' && $quality == 'original') {
 			$this->copyInFile($source->getPath());
 			return;
 		}
