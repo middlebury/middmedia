@@ -279,16 +279,18 @@ abstract class MiddMedia_File_Format_Video_Abstract
 	 */
 	protected function getVideoBitrate ($height, $quality) {
     
-    if ($quality == 'original') {
-      $video_bitrate = '400k';
-      if ($height >= 480) {
-	      $video_bitrate = '500k';
+    $nearest_height = $this->getNearestValidHeight($height, $quality);
+    
+    if ($quality == 'original' || substr($quality, 0, -1) > $height) {
+      $video_bitrate = '500K';
+      if ($nearest_height >= 480) {
+	      $video_bitrate = '700K';
 	    }
-	    if ($height >= 720) {
-	      $video_bitrate = '1000k';
+	    if ($nearest_height >= 720) {
+	      $video_bitrate = '1000K';
 	    }
-	    if ($height >= 1080) {
-	      $video_bitrate = '1500k';
+	    if ($nearest_height >= 1080) {
+	      $video_bitrate = '1500K';
 	    }
     }
     else {
@@ -296,16 +298,16 @@ abstract class MiddMedia_File_Format_Video_Abstract
       //set the target height based on the quality
 	    switch ($quality) {
 	      case '360p':
-	        $video_bitrate = '400k';
+	        $video_bitrate = '500K';
 	        break;
 	      case '480p': 
-	        $video_bitrate = '500k';
+	        $video_bitrate = '700K';
 	        break;
 	      case '720p': 
-	        $video_bitrate = '1000k';
+	        $video_bitrate = '1000K';
 	        break;
 	      case '1080p': 
-	        $video_bitrate = '1500k';
+	        $video_bitrate = '1500K';
 	        break;
 	    }
 	  }
