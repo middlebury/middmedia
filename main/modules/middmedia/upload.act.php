@@ -79,9 +79,10 @@ class uploadAction
 		try {
 			if (isset($_POST['quality']) && in_array($_POST['quality'],MiddMedia_File_Media::getQualities())) {
 			  $_SESSION['quality'] = $_POST['quality'];
+			  $dir->setQuality($_POST['quality']);
 			} else {
 			  trigger_error('quality not posted or not valid');  
-			}
+			} 
 			$file = $dir->createFileFromUpload($_FILES[$upload_name]);
 			return $this->success($dir, $file);
 		} catch (Exception $e) {
