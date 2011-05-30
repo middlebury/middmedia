@@ -67,7 +67,7 @@ class previewAction
 				print "\n".$embed->getMarkup($file);
 				
 				print "\n<p>";
-				print "\n\t<a href='#' onclick=\"displayEmbedCode(this, null, '".rawurlencode($file->getBaseName())."', '".$dir->getBaseName()."', '".$file->getBaseName()."', null); return false;\">Embed Code &amp; URLs</a>";
+				print "\n\t<a href='#' onclick=\"displayEmbedCode(this, null, '".$dir->getBaseName()."', '".$file->getBaseName()."', null); return false;\">Embed Code &amp; URLs</a>";
 				print "\n</p>";
 				
 				exit;
