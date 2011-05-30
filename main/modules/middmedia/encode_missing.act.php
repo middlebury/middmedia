@@ -72,7 +72,7 @@ class encode_missingAction
 								$format = MiddMedia_File_Format_Video_WebM::create($media);
 								print "\t\t=> ".$format->getBaseName()."\n";
 								$this->flush();
-								$format->process($baseFormat, '480p');
+								$format->process($baseFormat, 'original');
 							} catch (OperationFailedException $e) {
 								$format->delete();
 								print $e->getMessage();
