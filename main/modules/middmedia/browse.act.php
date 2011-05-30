@@ -248,7 +248,7 @@ class browseAction
 			link.innerHTML = 'Embed Code &amp; URLs';
 			link.href = '#';
 			link.onclick = function() {
-				displayEmbedCode(this, type, myId, file.getAttribute('http_url'), file.getAttribute('rtmp_url'), file.getAttribute('splash_url')); 
+				displayEmbedCode(this, type, file.getAttribute('http_url'), file.getAttribute('rtmp_url'), file.getAttribute('splash_url')); 
 				return false;
 			}
 		}
@@ -372,7 +372,7 @@ class browseAction
 			
 		}
 		
-		function displayPreview(link, fileId, dir, file) {
+		function displayPreview(link, dir, file) {
 			if (link.panel) {
 				link.panel.open();
 			} else {
@@ -400,12 +400,12 @@ class browseAction
 					}
 				}
 				
-				req.open('GET', Harmoni.quickUrl('middmedia', 'preview', {'directory':dir,'file':file,'id':fileId}), true);
+				req.open('GET', Harmoni.quickUrl('middmedia', 'preview', {'directory':dir,'file':file}), true);
 				req.send(null);
 			}
 		}
 		
-		function displayEmbedCode(link, type, fileId, dir, file, splashUrl) {
+		function displayEmbedCode(link, type, dir, file, splashUrl) {
 			if (link.panel) {
 				link.panel.open();
 			} else {
@@ -433,7 +433,7 @@ class browseAction
 				}
 			}
 			
-			req.open('GET', Harmoni.quickUrl('middmedia', 'embed', {'directory':dir,'file':file,'id':fileId}), true);
+			req.open('GET', Harmoni.quickUrl('middmedia', 'embed', {'directory':dir,'file':file}), true);
 			req.send(null);
 				
 			}
@@ -835,7 +835,7 @@ class browseAction
 			else
 				$rtmpUrl = '';
 			
-			print "\n\t\t\t\t<a href='#' onclick=\"displayPreview(this, '".rawurlencode($myId)."', '".$file->directory->getBaseName()."', '".$file->getBaseName()."'); return false;\">";
+			print "\n\t\t\t\t<a href='#' onclick=\"displayPreview(this, '".$file->directory->getBaseName()."', '".$file->getBaseName()."'); return false;\">";
 			print $file->getBaseName();
 			try {
 				$thumbUrl = $file->getFormat('thumb')->getHttpUrl();
@@ -896,7 +896,7 @@ class browseAction
 			
 			print "\n\t\t\t<td class='access'>";
 			
-			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".$type."', '".rawurlencode($myId)."', '".$file->directory->getBaseName()."', '".$file->getBaseName()."', '".$splashUrl."'); return false;\">Embed Code &amp; URLs</a>";
+			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".$type."', '".$file->directory->getBaseName()."', '".$file->getBaseName()."', '".$splashUrl."'); return false;\">Embed Code &amp; URLs</a>";
 			
 			print "</td>";			
 			print "\n\t\t</tr>";
