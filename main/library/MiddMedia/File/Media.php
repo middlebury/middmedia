@@ -162,6 +162,8 @@ class MiddMedia_File_Media
 		
 		if ($extension == 'mp3')
 			$basename = $noExtension.'.mp3';
+		elseif ($extension == 'm4a')
+			$basename = $noExtension.'.m4a';
 		else
 			$basename = $noExtension.'.mp4';
 		
@@ -208,6 +210,12 @@ class MiddMedia_File_Media
 			$mp3Format->moveInFile($tempName);
 			return;
 		}
+		// Ditto for M4a audio, just store it.
+		if ($this->getExtension() == 'm4a') {
+			$m4aFormat = $this->setPrimaryFormat(MiddMedia_File_Format_Audio_M4a::create($this));
+			$m4aFormat->moveInFile($tempName);
+			return;
+		}
 		
 		// Store the temporary file in a source format, then queue for processing.
 		$sourceFormat = MiddMedia_File_Format_Video_Source::create($this);
@@ -229,6 +237,12 @@ class MiddMedia_File_Media
 		if ($this->getExtension() == 'mp3') {
 			$mp3Format = $this->setPrimaryFormat(MiddMedia_File_Format_Audio_Mp3::create($this));
 			$mp3Format->moveInUploadedFile($tempName);
+			return;
+		}
+		// Ditto for M4a audio only has a single version, so just store it.
+		if ($this->getExtension() == 'm4a') {
+			$m4aFormat = $this->setPrimaryFormat(MiddMedia_File_Format_Audio_M4a::create($this));
+			$m4aFormat->moveInUploadedFile($tempName);
 			return;
 		}
 		
@@ -510,6 +524,8 @@ class MiddMedia_File_Media
 				return new MiddMedia_File_Format_Video_Flv($this);
 			case 'mp3':
 				return new MiddMedia_File_Format_Audio_Mp3($this);
+			case 'm4a':
+				return new MiddMedia_File_Format_Audio_M4a($this);
 			case 'thumb':
 				return new MiddMedia_File_Format_Image_Thumbnail($this);
 			case 'splash':
@@ -542,7 +558,7 @@ class MiddMedia_File_Media
 	 * @return array of MiddMedia_File_FormatInterface
 	 */
 	public function getFormats () {
-		$formatIds = array('source', 'mp4', 'webm', 'mp3', 'thumb', 'splash', 'full_frame', 'flv');
+		$formatIds = array('source', 'mp4', 'webm', 'mp3', 'thumb', 'splash', 'full_frame', 'flv', 'm4a');
 		$formats = array();
 		foreach ($formatIds as $id) {
 			try {
