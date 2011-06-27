@@ -277,7 +277,6 @@ class browseAction
 				xmlDoc.async=false;
 				xmlDoc.loadXML(xmlString);
 				return doc;
-				return xmlDoc;
 			} catch(e) {
 				alert(e.message);
 			}
@@ -439,7 +438,6 @@ class browseAction
 					if (req.status == 200 && req.responseText) {
 						
 						var desc = panel.contentElement.appendChild(document.createElement('p'));
-						desc.innerHTML = req.responseText;
 						if (navigator.appName == 'Microsoft Internet Explorer') {
 							desc.outerHTML = req.responseText;
 						} else {
