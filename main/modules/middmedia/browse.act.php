@@ -386,13 +386,26 @@ class browseAction
 				}
 				
 				req.onreadystatechange = function () {
+				
+				
+				
 					// only if req shows 'loaded'
 					if (req.readyState == 4) {
+					
+					
 						// only if we get a good load should we continue.
 						if (req.status == 200 && req.responseText) {
 							
+							
+							
 							var desc = panel.contentElement.appendChild(document.createElement('p'));
+							
+							if (navigator.appName == 'Microsoft Internet Explorer') {
+							desc.outerHTML = req.responseText;
+						} else {
 							desc.innerHTML = req.responseText;
+						}
+							
 							
 						} else {
 							alert(req.responseText);
@@ -425,7 +438,11 @@ class browseAction
 					if (req.status == 200 && req.responseText) {
 						
 						var desc = panel.contentElement.appendChild(document.createElement('p'));
-						desc.innerHTML = req.responseText;
+						if (navigator.appName == 'Microsoft Internet Explorer') {
+							desc.outerHTML = req.responseText;
+						} else {
+							desc.innerHTML = req.responseText;
+						}
 						
 					} else {
 						alert(req.responseText);
