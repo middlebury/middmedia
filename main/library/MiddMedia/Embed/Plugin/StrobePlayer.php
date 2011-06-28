@@ -69,17 +69,26 @@ class MiddMedia_Embed_Plugin_StrobePlayer
 		} else
 			$mediaUrl = $mp4->getHttpUrl();
 		
+		$mp4_httpUrl = $mp4->getHttpUrl();
+		
+		$webm = $file->getFormat('webm');
+		$webmUrl = $webm->getHttpUrl();
+		
 		$fileId = rawurlencode($file->getFormat('mp4')->getBaseName());
 		$splash = rawurlencode($file->getFormat('splash')->getHttpUrl());
-		
-		return '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0" width="400" height="300">
+		 
+		return '<video width="400" height="300" poster="'. $splash .'" controls>
+<source src="'.$mp4_httpUrl.'" type="video/mp4" />
+<source src="'.$webmUrl.'" type="video/webm" />
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0" width="400" height="300">
 <param name="movie" value="'.$this->strobePlayerUrl. '/StrobeMediaPlayback.swf' .'"></param>
 <param name="FlashVars" value="src='.$mediaUrl.'&poster='. $splash .'"></param>
 <param name="allowFullScreen" value="true"></param>
 <param name="allowscriptaccess" value="always"></param>
 <embed src="'.$this->strobePlayerUrl. '/StrobeMediaPlayback.swf' .'" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="400" height="300" FlashVars="src='.$mediaUrl.'&poster='. $splash .'">
 </embed>
-</object>';
+</object>
+</video>';
 	}
 
 	/**
