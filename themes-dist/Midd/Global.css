@@ -49,6 +49,18 @@ a:hover {
     max-height: 200px;
 }
 
+/* Keep the main file listing table within reasonable limits */
+table.file_listing_table td.name {
+max-width: 200px;
+width: 200px;
+word-wrap: break-word;
+}
+
+table.file_listing_table td {
+max-width: 69px;
+word-wrap: break-word;
+}
+
 /*********************************************************
  * Styles for Segue links, log in, and editing controls
  * [[BG_TEXT_COLOR]] should contrast with [[BG_COLOR]]
