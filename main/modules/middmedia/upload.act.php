@@ -72,6 +72,8 @@ class uploadAction
 		
 		$dir = $this->getDirectory();
 		
+		//strip quotes from input file name
+		$_FILES[$upload_name]['name'] = str_replace(array('"', "'"),'',$_FILES[$upload_name]['name']);
 		
 		if (!isset($_FILES[$upload_name]))
 			$this->error('No file uploaded');
