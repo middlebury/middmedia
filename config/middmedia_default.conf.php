@@ -55,13 +55,11 @@ define('MIDDMEDIA_ENABLE_WEBM', FALSE);
  *
  * The first plugin listed that supports a media file will be used to preview it.
  **********************************************************************************/                                        
-$plugins = MiddMedia_Embed_Plugins::instance();                                                                                                                                                                                                      
-$plugins->addPlugin(new MiddMedia_Embed_Plugin_Flash());
+$plugins = MiddMedia_Embed_Plugins::instance();                                                                                                                               $plugins->addPlugin(new MiddMedia_Embed_Plugin_StrobePlayer('http://middmedia.middlebury.edu/strobe_mp'));
 $plugins->addPlugin(new MiddMedia_Embed_Plugin_AudioPlayer('http://middmedia.middlebury.edu/AudioPlayer'));
+$plugins->addPlugin(new MiddMedia_Embed_Plugin_AudioPlayerM4a('http://middmedia.middlebury.edu/AudioPlayer'));
 $plugins->addPlugin(new MiddMedia_Embed_Plugin_Rtmp());
 $plugins->addPlugin(new MiddMedia_Embed_Plugin_Http());
-// $plugins->addPlugin(new MiddMedia_Embed_Plugin_Drupal());
-
 
 MiddMedia_Manager::addPersonalDirectoryGroup('CN=All Faculty,OU=General,OU=Groups,DC=middlebury,DC=edu');
 MiddMedia_Manager::addPersonalDirectoryGroup('CN=All Staff,OU=General,OU=Groups,DC=middlebury,DC=edu');
