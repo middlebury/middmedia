@@ -113,9 +113,17 @@ class browseAction
 		  
 		}); //end (document).ready(function() {
 		
-		
-		
 		// <![CDATA[
+		
+		function toggle (dirId) {
+				$('.collapsible.' + dirId).slideToggle();
+		}
+		
+		$(document).ready(function() {
+			$('.collapse_all').click( function() {
+				$('.collapsible').slideToggle();
+			});
+		});
 		
 		function deleteFile (directory, file, row) {
 // 			if (!confirm(\"Are you sure you want to delete this file?\\n\\n\" + file))
@@ -542,6 +550,12 @@ class browseAction
 		
 		$dirId = md5($dir->getBaseName());
 		
+		print "\n
+								<a href='#' class='collapse ".$dirId."' onclick='toggle(\"".$dirId."\")'>[Show/Hide Folder]</a>
+								<a href='#' class='collapse_all ".$dirId."'>[Show/Hide All]</a><br /><br />
+						";
+		print "\n<div class='collapsible ".$dirId."'>";
+		
 		/*********************************************************
 		 * Quota bar
 		 *********************************************************/
@@ -790,7 +804,7 @@ class browseAction
 		print "\n\t<thead>";
 		print "\n\t\t<tr>";
 		print "\n\t\t\t<th class='sorttable_nosort'>";
-		print "\n\t\t\t\t<input type='checkbox' onchange='setChecked(\"".$dir->getBaseName()."\", this);'/>";
+		print "\n\t\t\t\t<input type='checkbox' onchange='setChecked(\'".$dir->getBaseName()."\', this);'/>";
 		print "</th>";
 		print "\n\t\t\t<th>"._("Name")."</th>";
 		print "\n\t\t\t<th>"._("Type")."</th>";
@@ -921,6 +935,7 @@ class browseAction
 		
 		print "\n\t</tbody>";
 		print "\n\t</table>";
+		print "\n\t</div>";
 		return ob_get_clean();
 	}
 }
