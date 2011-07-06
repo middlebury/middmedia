@@ -474,7 +474,9 @@ class browseAction
 		try {
 			$dir = $manager->getPersonalDirectory();
 			$actionRows->add(
-				new Heading($dir->getBaseName()." ("._("Personal").")", 2), 
+				new Heading($dir->getBaseName()." ("._("Personal").") 
+				<a href='#' class='collapse ".md5($dir->getBaseName())."' onclick='toggle(\"".md5($dir->getBaseName())."\")'>[Show/Hide Folder]</a>
+				<a href='#' class='collapse_all ".md5($dir->getBaseName())."'>[Show/Hide All]</a>", 2), 
 				"100%", 
 				null, 
 				CENTER, 
@@ -497,7 +499,9 @@ class browseAction
 		// Get the shared directories
 		foreach ($manager->getSharedDirectories() as $dir) {
 			$actionRows->add(
-				new Heading($dir->getBaseName()." ("._("Shared").")", 2), 
+				new Heading($dir->getBaseName()." ("._("Shared").")
+				<a href='#' class='collapse ".md5($dir->getBaseName())."' onclick='toggle(\"".md5($dir->getBaseName())."\")'>[Show/Hide Folder]</a>
+				<a href='#' class='collapse_all ".md5($dir->getBaseName())."'>[Show/Hide All]</a>", 2), 
 				"100%", 
 				null, 
 				CENTER, 
@@ -550,10 +554,6 @@ class browseAction
 		
 		$dirId = md5($dir->getBaseName());
 		
-		print "\n
-								<a href='#' class='collapse ".$dirId."' onclick='toggle(\"".$dirId."\")'>[Show/Hide Folder]</a>
-								<a href='#' class='collapse_all ".$dirId."'>[Show/Hide All]</a><br /><br />
-						";
 		print "\n<div class='collapsible ".$dirId."'>";
 		
 		/*********************************************************
