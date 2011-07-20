@@ -322,13 +322,22 @@ abstract class MiddMedia_File_Format_Video_Abstract
 	 */
 	protected function getTargetSampleRate ($sampleRate) {
 		// Some audio sample rates die, so force to the closest of 44100, 22050, 11025
-		if (in_array($sampleRate, array(44100, 22050, 11025)))
-			return $sampleRate;
-		else if ($sampleRate < 16538)
-			return 11025;
-		else if ($sampleRate < 33075)
-			return 22050;
-		else
+		if ($sampleRate != '') {
+			if (in_array($sampleRate, array(44100, 22050, 11025))) {
+				return $sampleRate;
+			}
+			else if ($sampleRate < 16538) {
+				return 11025;
+			}
+			else if ($sampleRate < 33075) {
+				return 22050;
+			}
+			else {
+				return 44100;
+			}
+		}
+		else {
 			return 44100;
+		}
 	}
 }
