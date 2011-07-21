@@ -284,7 +284,7 @@ class browseAction
 			try {
 				xmlDoc.async=false;
 				xmlDoc.loadXML(xmlString);
-				return doc;
+				return xmlDoc;
 			} catch(e) {
 				alert(e.message);
 			}
