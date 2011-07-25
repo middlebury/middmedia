@@ -46,12 +46,13 @@ version of MiddMedia, please clone our Git repository:
 System Requirements
 -------------------
 * PHP 5.2 or later with the following options:
-    --enable-mbstring
-    --with-xml
-    --enable-soap
-    --with-mysql
-    --with-curl
-    --with-xsl
+
+        --enable-mbstring
+        --with-xml
+        --enable-soap
+        --with-mysql
+        --with-curl
+        --with-xsl
 
 * MySQL database (version 4 or later)
 
@@ -62,18 +63,17 @@ Installation
 ------------
 1. Download the MiddMedia source via Git.
 
-	git clone git://github.com/middlebury/middmedia.git
-	cd middmedia
-  	git submodule update --init --recursive
+        git clone git://github.com/middlebury/middmedia.git
+        cd middmedia
+        git submodule update --init --recursive
 
 2. Create custom configuration files for those you need to change by renaming 
 config/xxxxxx_default.conf.php to config/xxxxxx.conf.php. You will likely need 
 to make custom settings in the following configs:
 
-    database.conf.php
-    middmedia.conf.php
-    authentication_sources.conf.php
-
+    * database.conf.php
+    * middmedia.conf.php
+    * authentication_sources.conf.php
 
 3. Create a database for MiddMedia to store user and quota information.
 
@@ -88,4 +88,4 @@ required tables will be created the first time the application is accessed.
 
 Issue Tracker
 ---------------------
-https://github.com/middlebury/middmedia/issues
+[Issues](https://github.com/middlebury/middmedia/issues)
