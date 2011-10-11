@@ -31,8 +31,10 @@ class MiddMedia_Embed_Plugin_Http
 	 * @return string
 	 */
 	function getDesc(MiddMedia_File_MediaInterface $file) {
-		return "\n<p><a href='" . $file->getPrimaryFormat()->getHttpUrl() . "'>Click here to download this file.</a></p>
+		$harmoni = Harmoni::instance();
+		return "\n<p><a href='".$harmoni->request->quickURL('middmedia', 'view', array('dir' => $file->getDirectory()->getBaseName(), 'file' => $file->getPrimaryFormat()->getBaseName() ))."'>Click here to view and/or download this file.</a></p>
 		\n<p>Make a link to the following URL to allow downloads of this file.</p>";
+		
 	}
 	
 	/**
