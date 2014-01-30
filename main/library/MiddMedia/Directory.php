@@ -184,7 +184,46 @@ class MiddMedia_Directory
 				// Skip FLV files, they are just in place to support legacy URLs.
 				$info = pathinfo($fname);
 				if ($info['extension'] != 'flv')
+				try {
 					$files[] = new MiddMedia_File_Media($this, $fname);
+				} catch (MiddMedia_Exception_MissingFileException $e) {
+					// Log the missing file
+					if (Services::serviceRunning("Logging")) {
+						$loggingManager = Services::getService("Logging");
+						$log = $loggingManager->getLogForWriting("MiddMedia");
+						$formatType = new Type("logging", "edu.middlebury", "AgentsAndNodes",
+							"A format in which the acting Agent[s] and the target nodes affected are specified.");
+						$priorityType = new Type("logging", "edu.middlebury", "Error",
+							"Error events.");
+			
+						$item = new AgentNodeEntryItem("File Missing", $this->getPath().'/'.$fname." does not exist.");
+			
+						$idManager = Services::getService("Id");
+							
+						$item->addNodeId($idManager->getId('middmedia:'.$this->getPath().'/'));
+			
+						$log->appendLogWithTypes($item,	$formatType, $priorityType);
+					}
+					
+					//remove the broken link
+					if (unlink($this->getPath().'/'.$fname)) {
+						//log success
+						if (Services::serviceRunning("Logging")) {
+							$item = new AgentNodeEntryItem("File Deleted", $this->getPath().'/'.$fname." was deleted.");
+							$idManager = Services::getService("Id");
+							$item->addNodeId($idManager->getId('middmedia:'.$this->getPath().'/'));
+							$log->appendLogWithTypes($item,	$formatType, $priorityType);
+						}
+					//log failure
+					} else {
+						if (Services::serviceRunning("Logging")) {
+							$item = new AgentNodeEntryItem("Error deleting file", $this->getPath().'/'.$fname." was not deleted.");
+							$idManager = Services::getService("Id");
+							$item->addNodeId($idManager->getId('middmedia:'.$this->getPath().'/'));
+							$log->appendLogWithTypes($item,	$formatType, $priorityType);
+						}
+					}
+				}
 			}
 		}
 		return $files;
