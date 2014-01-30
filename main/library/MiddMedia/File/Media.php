@@ -193,8 +193,11 @@ class MiddMedia_File_Media
 		$this->directory = $directory;
 		if (!self::nameValid($basename))
 			throw new InvalidArgumentException('Invalid file name \''.$basename.'\'');
-		
-		parent::__construct($directory->getPath().'/'.$basename);
+		if (file_exists($directory->getPath().'/'.$basename)) {
+			parent::__construct($directory->getPath().'/'.$basename);
+		} else {
+			throw new MiddMedia_Exception_MissingFileException($directory->getPath().'/'.$basename . ' is not accessable.');
+		}
 	}
 	
 	/**
