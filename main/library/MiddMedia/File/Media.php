@@ -33,7 +33,7 @@ class MiddMedia_File_Media
 	 * @static
 	 */
 	public static function nameValid ($name) {
-		return (preg_match('/^[a-z0-9_+=,.?@%^!~\'&\[\]{}()<>\s-]+$/i', $name) && strlen($name) < 260);
+		return (preg_match('/^[a-z0-9_+=,.?@%^!~\'&\[\]{}()<>\s-]+$/i', $name) && strlen($name) < 150);
 	}
 	
 	/**
