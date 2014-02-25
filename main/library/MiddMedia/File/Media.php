@@ -71,7 +71,7 @@ class MiddMedia_File_Media
 			
 			// Clean out any really old jobs
 			$startTStamp = $dbMgr->fromDBDate($row['processing_start'], HARMONI_DB_INDEX);
-			if ($startTStamp->isLessThan(DateAndTime::now()->minus(Duration::withHours(3)))) {
+			if ($startTStamp->isLessThan(DateAndTime::now()->minus(Duration::withHours(4)))) {
 				$dir = $manager->getDirectory($row['directory']);
 				$file = $dir->getFile($row['file']);
 				
