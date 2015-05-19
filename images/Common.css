@@ -88,12 +88,12 @@ table.file_listing_table td.access {
 }
 
 .midd_logo {
-	width: 210px;
-	height: 40px;
+	width: 400px;
+	height: 105px;
 	background-image: url('//cdn.middlebury.edu/middlebury.edu/2010/images/logo.png');
 	background-repeat: no-repeat;
-	margin-bottom: 22px;
-	margin-top: 30px;
+	margin-bottom: 10px;
+	margin-top: 10px;
 	display: block;
 	margin-left: auto;
   margin-right: auto;
