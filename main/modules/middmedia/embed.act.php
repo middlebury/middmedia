@@ -107,6 +107,21 @@ class embedAction
     return MiddMedia_Manager::forCurrentUser();
   }
   
+  /**
+   * Send an error header and string.
+   *
+   * @param string $errorString
+   * @return void
+   * @access protected
+   * @since 11/12/15
+   */
+  protected function error ($errorString) {
+    $this->logError($errorString);
+
+    header("HTTP/1.1 403 Forbidden");
+    echo $errorString;
+    exit;
+  }
 }
 
 ?>
