@@ -47,6 +47,6 @@ require_once(HARMONI."/oki2/agent/AnonymousAgent.class.php");
 
 set_include_path(get_include_path() . PATH_SEPARATOR . MYDIR.'/main/library/');
 function middmediaAutoload ($class) {
-	include_once(str_replace('_', '/', $class).'.php');
+	@include_once(str_replace('_', '/', $class).'.php');
 }
 spl_autoload_register('middmediaAutoload');
