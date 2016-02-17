@@ -6,7 +6,7 @@
  * USAGE: Copy this file to debug.conf.php to set custom values.
  *
  * @package concerto.config
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
@@ -32,8 +32,8 @@ define ("ENABLE_DWARVES", false);
  * (Useful for debugging/testing).
  *********************************************************/
 define ("ENABLE_TIMERS", false);
- 
- 
+
+
 
 /*********************************************************
  * Set the HarmoniErrorHandler as the default exception Handler.
@@ -60,7 +60,7 @@ set_error_handler(array('HarmoniErrorHandler', 'handleError'));
 /*********************************************************
  * PHP error reporting setting. uncomment to enable override
  * of default environment.
- * 
+ *
  * If the HarmoniErrorHandler is used (above), it will respect
  * the error_reporting level and will ignore any errors that
  * are not within the reporting level.
@@ -75,26 +75,26 @@ error_reporting(E_ALL | E_STRICT);
  * in development.
  *
  * If display_errors if Off, then any errors matching the current
- * error_reporting level and all uncaught Exceptions will 
+ * error_reporting level and all uncaught Exceptions will
  * be logged, but not displayed on the screen.
  *********************************************************/
 // ini_set('display_errors', 'On');
 
 /*********************************************************
  * If log_errors is turned on, then reported errors and
- * Exceptions will be logged to the default system log 
+ * Exceptions will be logged to the default system log
  * as well as the Logging OSID (if used).
  *********************************************************/
 // ini_set('log_errors', '1');
 
 /*********************************************************
  * Un-comment the following lines to change the level of errors
- * at which execution is halted. By default, the level is 
+ * at which execution is halted. By default, the level is
  * 		E_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR | E_RECOVERABLE_ERROR
  * meaning that notices and warnings will not halt execution.
  *
- * The syntax for this method is the same as for the 
- * error_reporting() function. 
+ * The syntax for this method is the same as for the
+ * error_reporting() function.
  *
  * This should not be used in production environments, but
  * may be useful in development.

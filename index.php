@@ -3,7 +3,7 @@
  * This is the main control script for the application.
  *
  * @package concerto
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
@@ -25,9 +25,9 @@ if ($_SERVER['SCRIPT_NAME'])
 	$scriptPath = $_SERVER['SCRIPT_NAME'];
 else
 	$scriptPath = $_SERVER['PHP_SELF'];
-	
+
 define("MYPATH", $protocol."://".$_SERVER['HTTP_HOST'].str_replace(
-												"\\", "/", 
+												"\\", "/",
 												dirname($scriptPath)));
 
 // The following lines set the MYURL constant.
@@ -68,12 +68,11 @@ if (defined('ENABLE_TIMERS') && ENABLE_TIMERS) {
 	print "\n<table>\n<tr><th align='right'>Execution Time:</th>\n<td align='right'><pre>";
 	printf("%1.6f", $execTimer->printTime());
 	print "</pre></td></tr>\n</table>";
-	
+
 	$dbhandler = Services::getService("DBHandler");
 	printpre("NumQueries: ".$dbhandler->getTotalNumberOfQueries());
-	
+
 // 	printpreArrayExcept($_SESSION, array('__temporarySets'));
 	// debug::output(session_id());
 	// Debug::printAll();
 }
-?>

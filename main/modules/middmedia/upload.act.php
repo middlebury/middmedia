@@ -2,22 +2,22 @@
 /**
  * @since 11/13/08
  * @package middmedia
- * 
+ *
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id$
- */ 
+ */
 
 require_once(POLYPHONY."/main/library/AbstractActions/Action.class.php");
 
 
 /**
  * Handle a file-upload
- * 
+ *
  * @since 11/13/08
  * @package middmedia
- * 
+ *
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
@@ -26,10 +26,10 @@ require_once(POLYPHONY."/main/library/AbstractActions/Action.class.php");
 class uploadAction
 	extends Action
 {
-		
+
 	/**
 	 * Check Authorizations
-	 * 
+	 *
 	 * @return boolean
 	 * @access public
 	 * @since 11/13/08
@@ -47,10 +47,10 @@ class uploadAction
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Execute this action
-	 * 
+	 *
 	 * @return void
 	 * @access public
 	 * @since 11/13/08
@@ -58,7 +58,7 @@ class uploadAction
 	public function execute () {
 		if (!$this->isAuthorizedToExecute())
 			$this->error("Permission denied");
-		
+
 		$uploadErrors = array(
 			0=>"There is no error, the file uploaded with success",
 			1=>"The uploaded file exceeds the upload_max_filesize directive in php.ini",
@@ -67,34 +67,34 @@ class uploadAction
 			4=>"No file was uploaded",
 			6=>"Missing a temporary folder"
 		);
-		
+
 		$upload_name = "Filedata";
-		
+
 		$dir = $this->getDirectory();
-		
+
 		//strip quotes from input file name
 		$_FILES[$upload_name]['name'] = str_replace(array('"', "'"),'',$_FILES[$upload_name]['name']);
-		
+
 		if (!isset($_FILES[$upload_name]))
 			$this->error('No file uploaded');
-		
+
 		try {
 			if (isset($_POST['quality']) && in_array($_POST['quality'],MiddMedia_File_Media::getQualities())) {
 			  $_SESSION['quality'] = $_POST['quality'];
 			  $dir->setQuality($_POST['quality']);
 			} else {
-			  trigger_error('quality not posted or not valid');  
-			} 
+			  trigger_error('quality not posted or not valid');
+			}
 			$file = $dir->createFileFromUpload($_FILES[$upload_name]);
 			return $this->success($dir, $file);
 		} catch (Exception $e) {
 			return $this->error("File could not be saved to '".$dir->getBaseName().'/'.$_FILES[$upload_name]['name']."'. ".$e->getMessage());
 		}
 	}
-	
+
 	/**
 	 * Answer a success message and file info if needed
-	 * 
+	 *
 	 * @param MiddMedia_DirectoryInterface $dir
 	 * @param MiddMedia_File $file
 	 * @return mixed
@@ -123,27 +123,27 @@ class uploadAction
 				mime_type=\"".$file->getMimeType()."\"
 				size=\"".$file->getSize()."\"
 				modification_date=\"".$file->getModificationDate()->asLocal()->asString()."\"";
-		
+
 		try {
 			print "\n\t\t\tcreator_name=\"".$file->getCreator()->getDisplayName()."\"";
 		} catch (OperationFailedException $e) {
 		} catch (UnimplementedException $e) {
 		}
-		
+
 		try {
 			$format = $file->getFormat('thumb');
 			print "\n\t\t\tthumb_url=\"".$format->getHttpUrl()."\"";
 		} catch (Exception $e) {
 			print "\n\t\t\tthumb_url=\"\"";
 		}
-		
+
 		try {
 			$format = $file->getFormat('splash');
 			print "\n\t\t\tsplash_url=\"".$format->getHttpUrl()."\"";
 		} catch (Exception $e) {
 			print "\n\t\t\tsplash_url=\"\"";
 		}
-		
+
 		// As an example, lets include the content of text-files.
 // 		if ($file->getMimeType() == 'text/plain') {
 // 			print "><![CDATA[";
@@ -155,10 +155,10 @@ class uploadAction
 
 		exit;
 	}
-	
+
 	/**
 	 * Answer the target directory object
-	 * 
+	 *
 	 * @return object MiddMedia_DirectoryInterface
 	 * @access protected
 	 * @since 11/19/08
@@ -168,13 +168,13 @@ class uploadAction
 			$manager = $this->getManager();
 			$this->directory = $manager->getDirectory(RequestContext::value('directory'));
 		}
-		
+
 		return $this->directory;
 	}
-	
+
 	/**
 	 * Answer the manager to use
-	 * 
+	 *
 	 * @return MiddMedia_Manager
 	 * @access protected
 	 * @since 12/10/08
@@ -182,17 +182,17 @@ class uploadAction
 	protected function getManager () {
 		return MiddMedia_Manager::forCurrentUser();
 	}
-	
+
 	/**
-	 * @var object MiddMedia_DirectoryInterface $directory;  
+	 * @var object MiddMedia_DirectoryInterface $directory;
 	 * @access private
 	 * @since 11/19/08
 	 */
 	private $directory;
-	
+
 	/**
 	 * Send an error header and string.
-	 * 
+	 *
 	 * @param string $errorString
 	 * @return void
 	 * @access protected
@@ -200,15 +200,15 @@ class uploadAction
 	 */
 	protected function error ($errorString) {
 		$this->logError($errorString);
-		
+
 		header("HTTP/1.1 500 Internal Server Error");
 		echo $errorString;
 		exit;
 	}
-	
+
 	/**
 	 * Log an error
-	 * 
+	 *
 	 * @param string $errorString
 	 * @return void
 	 * @access public
@@ -223,20 +223,20 @@ class uploadAction
 							"A format in which the acting Agent[s] and the target nodes affected are specified.");
 			$priorityType = new Type("logging", "edu.middlebury", "Error",
 							"Error events.");
-			
+
 			$item = new AgentNodeEntryItem($this->getErrorName(), $this->getErrorPrefix().$errorString);
-			
+
 			$idManager = Services::getService("Id");
-							
+
 			$item->addNodeId($idManager->getId('middmedia:'.$this->getDirectory()->getBaseName().'/'));
-			
+
 			$log->appendLogWithTypes($item,	$formatType, $priorityType);
 		}
 	}
-	
+
 	/**
 	 * Answer and error name
-	 * 
+	 *
 	 * @return string
 	 * @access protected
 	 * @since 12/10/08
@@ -244,10 +244,10 @@ class uploadAction
 	protected function getErrorName () {
 		return "Upload Failed";
 	}
-	
+
 	/**
 	 * Answer and error prefix
-	 * 
+	 *
 	 * @return string
 	 * @access protected
 	 * @since 12/10/08
@@ -255,10 +255,10 @@ class uploadAction
 	protected function getErrorPrefix () {
 		return "File upload failed with message: ";
 	}
-	
+
 	/**
 	 * Answer the file size limit
-	 * 
+	 *
 	 * @return int
 	 * @access protected
 	 * @since 11/13/08
@@ -270,7 +270,5 @@ class uploadAction
 					ByteSize::fromString(ini_get('memory_limit'))->value()
 				);
 	}
-	
-}
 
-?>
+}

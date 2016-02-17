@@ -2,19 +2,19 @@
 /**
  * @since 11/13/08
  * @package middmedia
- * 
+ *
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id$
- */ 
+ */
 
 /**
  * HTML form for file upload
- * 
+ *
  * @since 11/13/08
  * @package middmedia
- * 
+ *
  * @copyright Copyright &copy; 2007, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
@@ -23,10 +23,10 @@
 class upload_formAction
 	extends MiddMedia_Action_Abstract
 {
-		
+
 	/**
 	 * Check Authorizations
-	 * 
+	 *
 	 * @return boolean
 	 * @access public
 	 * @since 11/13/08
@@ -44,33 +44,33 @@ class upload_formAction
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Execute this action
-	 * 
+	 *
 	 * @return void
 	 * @access public
 	 * @since 11/13/08
 	 */
 	function buildContent () {
 		$actionRows = $this->getActionRows();
-		
+
 		ob_start();
 		$harmoni = Harmoni::instance();
-		
+
 		$dir = $this->getDirectory();
-		
+
 		$dirId = md5($dir->getBaseName());
-		
+
 		$actionRows->add(
-				new Heading('Upload to: '.$dir->getBaseName(), 2), 
-				"100%", 
-				null, 
-				CENTER, 
+				new Heading('Upload to: '.$dir->getBaseName(), 2),
+				"100%",
+				null,
+				CENTER,
 				CENTER);
-		
+
 		print $this->getQuotaBar($dir);
-		
+
 		print "\n<div class='note'>";
 		print "Maximum upload size: ";
 		print ByteSize::withValue($this->getDirectoryUploadLimit($dir))->asString();
@@ -82,7 +82,7 @@ class upload_formAction
 		print "\n</div>";
 
 		print "\n<form action='".$harmoni->request->quickURL('middmedia', 'upload_form_result', array('directory' => $dir->getBaseName()))."' method='post' enctype='multipart/form-data'>";
-		
+
 		print "\n\t<input type='hidden' name='MAX_FILE_SIZE' value='".$this->getDirectoryUploadLimit($dir)."'/>";
 		print "\n\t<input type='file' name='Filedata' size='40'/>";
 		print "\n\t<br />File quality:<select name='quality-".$dirId."' id='quality-".$dirId."'>";
@@ -118,23 +118,23 @@ class upload_formAction
 		}
 		print "\n\t</select>";
 		print "\n\t<br/><input type='submit' value='upload'/>";
-		
+
 		print "\n</form>";
-		
-		
+
+
 		print "\n<p><a href='".$harmoni->request->quickURL('middmedia', 'browse')."'>&laquo; Return to browsing</a></p>";
-		
+
 		$actionRows->add(
-				new Block(ob_get_clean(), STANDARD_BLOCK), 
-				"100%", 
-				null, 
-				CENTER, 
+				new Block(ob_get_clean(), STANDARD_BLOCK),
+				"100%",
+				null,
+				CENTER,
 				CENTER);
 	}
-	
+
 	/**
 	 * Answer the target directory object
-	 * 
+	 *
 	 * @return object MiddMedia_DirectoryInterface
 	 * @access protected
 	 * @since 11/19/08
@@ -144,17 +144,15 @@ class upload_formAction
 			$manager = $this->getManager();
 			$this->directory = $manager->getDirectory(RequestContext::value('directory'));
 		}
-		
+
 		return $this->directory;
 	}
-	
+
 	/**
-	 * @var object MiddMedia_DirectoryInterface $directory;  
+	 * @var object MiddMedia_DirectoryInterface $directory;
 	 * @access private
 	 * @since 11/19/08
 	 */
 	private $directory;
-	
-}
 
-?>
+}

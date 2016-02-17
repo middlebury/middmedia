@@ -3,7 +3,7 @@
  * This is the main control script for the application.
  *
  * @package concerto
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
@@ -27,7 +27,7 @@ if (file_exists(MYDIR.'/config/action.conf.php'))
 	require_once (MYDIR.'/config/action.conf.php');
 else
 	require_once (MYDIR.'/config/action_default.conf.php');
- 
+
 $harmoni->startSession();
 
 
@@ -39,17 +39,17 @@ if (file_exists(MYDIR.'/config/debug.conf.php'))
 	require_once (MYDIR.'/config/debug.conf.php');
 else
 	require_once (MYDIR.'/config/debug_default.conf.php');
-		
-if (isset($_REQUEST["reset_concerto"]) 
-	&& defined('ENABLE_RESET') 
-	&& ENABLE_RESET) 
+
+if (isset($_REQUEST["reset_concerto"])
+	&& defined('ENABLE_RESET')
+	&& ENABLE_RESET)
 {
 	$_SESSION = array();
 	if (file_exists(MYDIR.'/config/database.conf.php'))
 		require_once (MYDIR.'/config/database.conf.php');
 	else
 		require_once (MYDIR.'/config/database_default.conf.php');
-	
+
 	$dbc = Services::getService("DatabaseManager");
 	$tableList = $dbc->getTableList($dbID);
 	if (count($tableList)) {
@@ -66,7 +66,7 @@ if (isset($_REQUEST["reset_concerto"])
 require_once(HARMONI."/oki2/shared/ConfigurationProperties.class.php");
 require_once(OKI2."/osid/OsidContext.php");
 
-$configs = array(	
+$configs = array(
 					'validation',
 					'debug',
 					'harmoni',
@@ -101,8 +101,8 @@ foreach ($configs as $config) {
 }
 
 /*********************************************************
- * Set a list of actions that require request tokens to prevent 
- * Cross-Site Request Forgery attacks. All actions that 
+ * Set a list of actions that require request tokens to prevent
+ * Cross-Site Request Forgery attacks. All actions that
  * could potentially change data should require this.
  *
  * Actions in this list will not be able to be loaded directly.

@@ -50,11 +50,11 @@ define('MIDDMEDIA_TMP_DIR', '/tmp');
 define('MIDDMEDIA_ENABLE_WEBM', FALSE);
 
 /**********************************************************************************
- * Add or remove embed code plugins that will populate the embed code listing 
+ * Add or remove embed code plugins that will populate the embed code listing
  * available for each video or audio file.
  *
  * The first plugin listed that supports a media file will be used to preview it.
- **********************************************************************************/                                        
+ **********************************************************************************/
 $plugins = MiddMedia_Embed_Plugins::instance();                                                                                                                               $plugins->addPlugin(new MiddMedia_Embed_Plugin_StrobePlayer('http://middmedia.middlebury.edu/strobe_mp'));
 $plugins->addPlugin(new MiddMedia_Embed_Plugin_AudioPlayer('http://middmedia.middlebury.edu/AudioPlayer'));
 $plugins->addPlugin(new MiddMedia_Embed_Plugin_AudioPlayerM4a('http://middmedia.middlebury.edu/AudioPlayer'));

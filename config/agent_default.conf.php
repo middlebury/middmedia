@@ -6,12 +6,12 @@
  * USAGE: Copy this file to agent.conf.php to set custom values.
  *
  * @package segue.config
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  */
- 
+
 // :: Set up the AgentManager ::
 	$configuration = new ConfigurationProperties;
 	// default agent Flavor is one that can be editted
@@ -21,15 +21,15 @@
 	$configuration->addProperty('defaultAgentFlavor', $agentFlavor);
 	$configuration->addProperty('database_index', HARMONI_DB_INDEX);
 	$configuration->addProperty('database_name', HARMONI_DB_NAME);
-	
+
 	// IP ranges can be specified as a dotted quarted with each unit being
 	// either an integer (e.g. 128), a wildcard (e.g. *), or an integer range
 	// (e.g. 62-134).
 	$configuration->addProperty('group_ip_ranges', array(
 // 		'edu.middlebury.institute'	=>	'140.233.*.*'
-	
+
 	));
-	
+
 	Services::startManagerAsService("AgentManager", $context, $configuration);
 
 // :: Set up PropertyManager ::
@@ -37,4 +37,3 @@
 	$configuration->addProperty('database_index', HARMONI_DB_INDEX);
 	$configuration->addProperty('database_name', HARMONI_DB_NAME);
 	Services::startManagerAsService("PropertyManager", $context, $configuration);
-	

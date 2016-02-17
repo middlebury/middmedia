@@ -1,20 +1,20 @@
 <?php
 /**
  * @package middmedia
- * 
+ *
  * @copyright Copyright &copy; 2011, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id$
- */ 
+ */
 
 require_once(dirname(__FILE__).'/browse.act.php');
 
 /**
  * Encode missing formats.
- * 
+ *
  * @package middmedia
- * 
+ *
  * @copyright Copyright &copy; 2011, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
@@ -23,10 +23,10 @@ require_once(dirname(__FILE__).'/browse.act.php');
 class encode_missingAction
 	extends MainWindowAction
 {
-	
+
 	/**
 	 * Check Authorizations
-	 * 
+	 *
 	 * @return boolean
 	 * @access public
 	 * @since 4/26/05
@@ -34,10 +34,10 @@ class encode_missingAction
 	function isAuthorizedToExecute () {
 		return true;
 	}
-	
+
 	/**
 	 * Exectute
-	 * 
+	 *
 	 * @return void
 	 * @access public
 	 * @since 12/11/08
@@ -50,7 +50,7 @@ class encode_missingAction
 				foreach ($dir->getFiles() as $media) {
 					$baseFormat = $media->getPrimaryFormat();
 					print "\t".$baseFormat->getBaseName()."\n";
-					
+
 					// Skip audio, just do video and Skip videos that are queued for processing.
 					if (strpos($media->getMimeType(), 'video/') === 0 && $media->getQueueInfo() === FALSE) {
 						// Ensure that we have an mp4 format (in case of a flash source);
@@ -65,7 +65,7 @@ class encode_missingAction
 								print $e->getMessage();
 							}
 						}
-						
+
 						// Ensure that we have a webm format.
 						if (!$media->hasFormat('webm')) {
 							try {
@@ -87,10 +87,10 @@ class encode_missingAction
 			throw $e;
 		}
 	}
-	
+
 	/**
 	 * Flush all buffers.
-	 * 
+	 *
 	 * @return void
 	 */
 	private function flush () {
@@ -98,7 +98,5 @@ class encode_missingAction
 			ob_end_flush();
 		flush();
 	}
-	
-}
 
-?>
+}

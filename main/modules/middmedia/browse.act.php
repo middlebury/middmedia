@@ -1,12 +1,12 @@
 <?php
 /**
  * @package segue.modules.home
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id: welcome.act.php,v 1.7 2008/02/19 17:25:28 adamfranco Exp $
- */ 
+ */
 
 /*********************************************************
  * Add to MiddTube
@@ -15,21 +15,21 @@
 require_once(dirname(__FILE__).'/includes/class-IXR.php');
 
 /**
- * 
- * 
+ *
+ *
  * @package segue.modules.home
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id: welcome.act.php,v 1.7 2008/02/19 17:25:28 adamfranco Exp $
  */
-class browseAction 
+class browseAction
 	extends MiddMedia_Action_Abstract
 {
 	/**
 	 * Check Authorizations
-	 * 
+	 *
 	 * @return boolean
 	 * @access public
 	 * @since 4/26/05
@@ -40,10 +40,10 @@ class browseAction
 		$authN = Services::getService("AuthN");
 		return $authN->isUserAuthenticatedWithAnyType();
 	}
-	
+
 	/**
 	 * Return the heading text for this action, or an empty string.
-	 * 
+	 *
 	 * @return string
 	 * @access public
 	 * @since 4/26/05
@@ -51,33 +51,33 @@ class browseAction
 	function getHeadingText () {
 		return _("Browse Your Videos");
 	}
-	
+
 	/**
 	 * Build the content for this action
-	 * 
+	 *
 	 * @return boolean
 	 * @access public
 	 * @since 4/26/05
 	 */
 	function buildContent () {
-		
+
 		$actionRows = $this->getActionRows();
-		
+
 		$this->addToHead("\n\t\t<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'></script>");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload/swfupload.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload_Samples/handlers.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload_Samples/fileprogress.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/SWFUpload_Samples/swfupload.queue.js'></script> ");
 		$this->addToHead("\n\t\t<link rel='stylesheet' type='text/css' href='".MYPATH."/javascript/SWFUpload_Samples/progress.css'/> ");
-		
+
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/sorttable.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".MYPATH."/javascript/md5.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".POLYPHONY_PATH."/javascript/Panel.js'></script> ");
 		$this->addToHead("\n\t\t<script type='text/javascript' src='".POLYPHONY_PATH."/javascript/CenteredPanel.js'></script> ");
-		
+
 		$this->addToHead("
 		<script type='text/javascript'>
-		
+
 		// Create embed code for MiddTube
 		$(document).ready(function() {
 			// Bind this function to all inputs
@@ -96,7 +96,7 @@ class browseAction
 				// Add this to the Add to MiddTube form
 				$('input.checked_files_middtube_embed').attr('value', embeds);
 		  });
-		  
+
 		  // Validation for first step of form
 		  $('#add_to_middtube').bind('click', function(){
 			  var inputs = $('input');
@@ -110,21 +110,21 @@ class browseAction
 					return false;
 				}
 		  });
-		  
+
 		}); //end (document).ready(function() {
-		
+
 		// <![CDATA[
-		
+
 		function toggle (dirId) {
 				$('.collapsible.' + dirId).slideToggle();
 		}
-		
+
 		$(document).ready(function() {
 			$('.collapse_all').click( function() {
 				$('.collapsible').slideToggle();
 			});
 		});
-		
+
 		function deleteFile (directory, file, row) {
 // 			if (!confirm(\"Are you sure you want to delete this file?\\n\\n\" + file))
 // 				return;
@@ -132,13 +132,13 @@ class browseAction
 				'directory': directory,
 				'file': file
 			});
-			
+
 			var req = Harmoni.createRequest();
 			if (!req) {
 				alert('Your browser does not support AJAX, please upgrade.');
 				return;
 			}
-			
+
 			var size = 0;
 			for (var i = 0; i < row.childNodes.length; i++) {
 				if (row.childNodes[i].className == 'size') {
@@ -147,7 +147,7 @@ class browseAction
 					break;
 				}
 			}
-						
+
 			req.onreadystatechange = function () {
 				// only if req shows 'loaded'
 				if (req.readyState == 4) {
@@ -160,42 +160,42 @@ class browseAction
 					}
 				}
 			}
-			
+
 			req.open('GET', url, true);
 			req.send(null);
 		}
-		
-		
+
+
 		function middmediaUploadSuccess (file, serverData) {
 			// run the default handler to close up the progress bar
 			uploadSuccess.apply(this, [file, serverData]);
-			
+
 			// Add a row to the listing.
 // 			console.log(file);
 // 			console.log(serverData);
-			
+
 			var fileDoc = createDocumentFromString(serverData);
 			if (!fileDoc) {
 				alert('Could not load new data. Please refresh the page after files have finished uploading.');
 				return;
 			}
-			
+
 			var file = fileDoc.getElementsByTagName('file').item(0);
 			if (!file) {
 				alert('Could not load file data. Please refresh the page after files have finished uploading.');
 				return;
 			}
-			
+
 			var tbody = document.get_element_by_id(this.customSettings.fileListingId);
 			var row = tbody.insertBefore(document.createElement('tr'), tbody.firstChild);
 			row.id = 'row-' + hex_md5(file.getAttribute('directory') + '/' + file.getAttribute('name'));
-			
+
 			var td = row.appendChild(document.createElement('td'));
 			var box = td.appendChild(document.createElement('input'));
 			box.type = 'checkbox';
 			box.name = 'media_files';
 			box.value = file.getAttribute('name');
-			
+
 			var pathInfo = file.getAttribute('name').match(/(.+)\.([a-zA-Z0-9]+)/);
 			var type = null;
 			var extension = pathInfo[2].toLowerCase();
@@ -211,14 +211,14 @@ class browseAction
 						type = 'video';
 					var myId = extension + ':' + file.getAttribute('directory') + '/' + file.getAttribute('name');
 			}
-			
+
 			var td = row.appendChild(document.createElement('td'));
 			td.className = 'name';
 			var link = td.appendChild(document.createElement('a'));
 			link.innerHTML = file.getAttribute('name');
 			link.href = '#';
 			link.onclick = function () {
-				displayMedia(this, type, myId, file.getAttribute('http_url'), file.getAttribute('rtmp_url'), file.getAttribute('splash_url')); 
+				displayMedia(this, type, myId, file.getAttribute('http_url'), file.getAttribute('rtmp_url'), file.getAttribute('splash_url'));
 				return false;
 			}
 			if (file.getAttribute('thumb_url')) {
@@ -227,43 +227,43 @@ class browseAction
 				thumb.className = 'media_thumbnail';
 				thumb.src = file.getAttribute('thumb_url');
 			}
-			
+
 			var td = row.appendChild(document.createElement('td'));
 			td.className = 'type';
 			td.innerHTML = file.getAttribute('mime_type');
-			
+
 			var td = row.appendChild(document.createElement('td'));
 			td.className = 'size';
 			var size = new Number(file.getAttribute('size'));
 			td.setAttribute('sorttable_customkey', size);
 			td.innerHTML = size.asByteSizeString();
-			
+
 			addToQuota(file.getAttribute('directory'), size);
-			
+
 			var td = row.appendChild(document.createElement('td'));
 			td.className = 'date';
 			var mod = Date.fromISO8601(file.getAttribute('modification_date'));
 			td.innerHTML = mod.toFormatedString('NNN d, yyyy') + '<br/>' + mod.toFormatedString('h:m a');
-			
+
 			var td = row.appendChild(document.createElement('td'));
 			td.className = 'creator';
 			td.innerHTML = file.getAttribute('creator_name');
 
 			var td = row.appendChild(document.createElement('td'));
 			td.className = 'access';
-			
+
 			var link = td.appendChild(document.createElement('a'));
 			link.innerHTML = 'Embed Code &amp; URLs';
 			link.href = '#';
 			link.onclick = function() {
-				displayEmbedCode(this, type, file.getAttribute('http_url'), file.getAttribute('rtmp_url'), file.getAttribute('splash_url')); 
+				displayEmbedCode(this, type, file.getAttribute('http_url'), file.getAttribute('rtmp_url'), file.getAttribute('splash_url'));
 				return false;
 			}
 		}
-		
+
 		/**
 		 * Create a new XML document in a cross-browser way.
-		 * 
+		 *
 		 * @param string xmlString
 		 * @return Document
 		 * @access public
@@ -289,10 +289,10 @@ class browseAction
 				alert(e.message);
 			}
 		}
-		
+
 		/**
 		 * Delete all check files in the directory specified
-		 * 
+		 *
 		 * @param string dirName		The directory which contains the files.
 		 * @return void
 		 * @access public
@@ -300,7 +300,7 @@ class browseAction
 		 */
 		function deleteChecked (dirName) {
 			var fileList = document.get_element_by_id('listing-' + hex_md5(dirName));
-			
+
 			var toDelete = [];
 			var inputs = fileList.getElementsByTagName('input');
 			for (var i = 0; i < inputs.length; i++) {
@@ -308,22 +308,22 @@ class browseAction
 					toDelete.push(inputs[i].value);
 				}
 			}
-			
+
 			if (!toDelete.length) {
 				alert('No files selected in this directory.');
 				return;
 			}
-			
+
 			if (confirm(\"Are you sure you wish to delete the following files?\\n\\n\\t\" + toDelete.join(\"\\n\\t\") + \"\\n\")) {
 				for (var i = 0; i < toDelete.length; i++) {
 					deleteFile(dirName, toDelete[i], document.get_element_by_id('row-' + hex_md5(dirName + '/' + toDelete[i])));
 				}
 			}
 		}
-		
+
 		/**
 		 * Set all files in a directory checked or unchecked
-		 * 
+		 *
 		 * @param string dirName
 		 * @param DOMElement checkAllBox
 		 * @return void
@@ -339,10 +339,10 @@ class browseAction
 				}
 			}
 		}
-		
+
 		/**
 		 * Add an amount (positive or negative) from the quota display
-		 * 
+		 *
 		 * @param string dirName
 		 * @param int bytes
 		 * @return void
@@ -354,170 +354,170 @@ class browseAction
 			var quotaBar = document.get_element_by_id('quota-' + dirId);
 			var quotaAmmountElem = document.get_element_by_id('quota_ammount-' + dirId);
 			var quotaUsedElem = document.get_element_by_id('quota_ammount_used-' + dirId);
-			
+
 			var quota = new Number(quotaAmmountElem.innerHTML);
 			var used = new Number(quotaUsedElem.innerHTML);
-			
+
 			used = Math.max(0, used + bytes);
-			
+
 			quotaUsedElem.innerHTML = used;
-			
-			
+
+
 			var pcUsed = Math.ceil(100 * (used / quota));
 			var pcFree = Math.floor(100 * ((quota - used) / quota));
-			
+
 			// used bar and label
 			var elem = document.get_element_by_id('quota_used-' + dirId);
 			elem.style.width = pcUsed + '%';
 			var elem = document.get_element_by_id('quota_used_label-' + dirId);
 			elem.innerHTML = used.asByteSizeString();
-			
+
 			// free bar and label
 			var elem = document.get_element_by_id('quota_free-' + dirId);
 			elem.style.width = pcFree + '%';
 			var elem = document.get_element_by_id('quota_free_label-' + dirId);
 			elem.innerHTML = (quota - used).asByteSizeString();
-			
+
 		}
-		
+
 		function displayPreview(link, dir, file) {
 			if (link.panel) {
 				link.panel.open();
 			} else {
 				var panel = new CenteredPanel('Viewing Media', 400, 500, link);
 				panel.contentElement.style.textAlign = 'center';
-				
+
 				var req = Harmoni.createRequest();
 				if (!req) {
 					alert('Your browser does not support AJAX, please upgrade.');
 					return;
 				}
-				
+
 				req.onreadystatechange = function () {
-				
-				
-				
+
+
+
 					// only if req shows 'loaded'
 					if (req.readyState == 4) {
-					
-					
+
+
 						// only if we get a good load should we continue.
 						if (req.status == 200 && req.responseText) {
-							
-							
-							
+
+
+
 							var desc = panel.contentElement.appendChild(document.createElement('p'));
-							
+
 							if (navigator.appName == 'Microsoft Internet Explorer') {
 							desc.outerHTML = req.responseText;
 						} else {
 							desc.innerHTML = req.responseText;
 						}
-							
-							
+
+
 						} else {
 							alert(req.responseText);
 						}
 					}
 				}
-				
+
 				req.open('GET', Harmoni.quickUrl('middmedia', 'preview', {'directory':dir,'file':file}), true);
 				req.send(null);
 			}
 		}
-		
+
 		function displayEmbedCode(link, type, dir, file, splashUrl) {
 			if (link.panel) {
 				link.panel.open();
 			} else {
-			
+
 			var panel = new CenteredPanel('Embed Code and URLs', 400, 700, link);
-				
+
 			var req = Harmoni.createRequest();
 			if (!req) {
 				alert('Your browser does not support AJAX, please upgrade.');
 				return;
 			}
-			
+
 			req.onreadystatechange = function () {
 				// only if req shows 'loaded'
 				if (req.readyState == 4) {
 					// only if we get a good load should we continue.
 					if (req.status == 200 && req.responseText) {
-						
+
 						var desc = panel.contentElement.appendChild(document.createElement('p'));
 						if (navigator.appName == 'Microsoft Internet Explorer') {
 							desc.outerHTML = req.responseText;
 						} else {
 							desc.innerHTML = req.responseText;
 						}
-						
+
 					} else {
 						alert(req.responseText);
 					}
 				}
 			}
-			
+
 			req.open('GET', Harmoni.quickUrl('middmedia', 'embed', {'directory':dir,'file':file}), true);
 			req.send(null);
-				
+
 			}
-			
+
 		}
-		
+
 		// ]]>
 		</script> ");
-		
+
 		$manager = $this->getManager();
-		
+
 		// Get the personal directory
 		try {
 			$dir = $manager->getPersonalDirectory();
 			$actionRows->add(
-				new Heading($dir->getBaseName()." ("._("Personal").") 
+				new Heading($dir->getBaseName()." ("._("Personal").")
 				<a href='#' class='collapse ".md5($dir->getBaseName())."' onclick='toggle(\"".md5($dir->getBaseName())."\")'>[Show/Hide Folder]</a>
-				<a href='#' class='collapse_all ".md5($dir->getBaseName())."'>[Show/Hide All]</a>", 2), 
-				"100%", 
-				null, 
-				CENTER, 
+				<a href='#' class='collapse_all ".md5($dir->getBaseName())."'>[Show/Hide All]</a>", 2),
+				"100%",
+				null,
+				CENTER,
 				CENTER);
 			$actionRows->add(
-				new Block($this->getDirectoryMarkup($dir), STANDARD_BLOCK), 
-				"100%", 
-				null, 
-				CENTER, 
+				new Block($this->getDirectoryMarkup($dir), STANDARD_BLOCK),
+				"100%",
+				null,
+				CENTER,
 				CENTER);
 		} catch (PermissionDeniedException $e) {
 			$actionRows->add(
-				new Block(_("You are not authorized to upload personal videos."), STANDARD_BLOCK), 
-				"100%", 
-				null, 
-				CENTER, 
+				new Block(_("You are not authorized to upload personal videos."), STANDARD_BLOCK),
+				"100%",
+				null,
+				CENTER,
 				CENTER);
 		}
-			
+
 		// Get the shared directories
 		foreach ($manager->getSharedDirectories() as $dir) {
 			$actionRows->add(
 				new Heading($dir->getBaseName()." ("._("Shared").")
 				<a href='#' class='collapse ".md5($dir->getBaseName())."' onclick='toggle(\"".md5($dir->getBaseName())."\")'>[Show/Hide Folder]</a>
-				<a href='#' class='collapse_all ".md5($dir->getBaseName())."'>[Show/Hide All]</a>", 2), 
-				"100%", 
-				null, 
-				CENTER, 
+				<a href='#' class='collapse_all ".md5($dir->getBaseName())."'>[Show/Hide All]</a>", 2),
+				"100%",
+				null,
+				CENTER,
 				CENTER);
 			$actionRows->add(
-				new Block($this->getDirectoryMarkup($dir), STANDARD_BLOCK), 
-				"100%", 
-				null, 
-				CENTER, 
+				new Block($this->getDirectoryMarkup($dir), STANDARD_BLOCK),
+				"100%",
+				null,
+				CENTER,
 				CENTER);
 		}
 	}
-	
+
 	/**
 	 * Answer the manager to use for this action.
-	 * 
+	 *
 	 * @return MiddMediaMangager
 	 * @access protected
 	 * @since 12/10/08
@@ -525,10 +525,10 @@ class browseAction
 	protected function getManager () {
 		return MiddMedia_Manager::forCurrentUser();
 	}
-	
+
 	/**
 	 * Add to the document head
-	 * 
+	 *
 	 * @param string $string
 	 * @return void
 	 * @access protected
@@ -539,10 +539,10 @@ class browseAction
 		$outputHandler = $harmoni->getOutputHandler();
 		$outputHandler->setHead($outputHandler->getHead().$string);
 	}
-	
+
 	/**
 	 * Answer a block of HTML to represent the directory
-	 * 
+	 *
 	 * @param object MiddMedia_Directory $dir
 	 * @return string
 	 * @access public
@@ -551,16 +551,16 @@ class browseAction
 	public function getDirectoryMarkup (MiddMedia_DirectoryInterface $dir) {
 		ob_start();
 		$harmoni = Harmoni::instance();
-		
+
 		$dirId = md5($dir->getBaseName());
-		
+
 		print "\n<div class='collapsible ".$dirId."'>";
-		
+
 		/*********************************************************
 		 * Quota bar
 		 *********************************************************/
 		print $this->getQuotaBar($dir);
-		
+
 		/*********************************************************
 		 * Upload Form
 		 *********************************************************/
@@ -569,19 +569,19 @@ class browseAction
 			$mediaTypes[$key] = '*.'.$type;
 		}
 		$mediaTypes = implode(';', $mediaTypes);
-		
+
 		$this->addToHead(
 			"
 		<script type='text/javascript'>
 		// <![CDATA[
-		
-		
+
+
 		window.addOnLoad(function() {
-		
+
 		var selected_quality = $('select#quality-".$dirId." option:selected').val();
 
 			var swfu = new SWFUpload({
-					upload_url : '".str_replace('&amp;', '&', $harmoni->request->quickURL('middmedia', 'upload', array('directory' => $dir->getBaseName())))."', 
+					upload_url : '".str_replace('&amp;', '&', $harmoni->request->quickURL('middmedia', 'upload', array('directory' => $dir->getBaseName())))."',
 					flash_url : '".MYPATH."/javascript/SWFUpload/swfupload.swf',
 					post_params: {'".session_name()."' : '".session_id()."', 'quality' : selected_quality},
 					file_size_limit : '".ByteSize::withValue($this->getSystemUploadLimit())->asMBString()."',
@@ -595,7 +595,7 @@ class browseAction
 						cancelButtonId : 'cancel-".$dirId."',
 						fileListingId : 'listing-".$dirId."'
 					},
-					
+
 					// Button settings
 					button_image_url: '".MYPATH."/javascript/SWFUpload_Samples/images/UploadBackground-100x22.png',	// Relative to the Flash file
 					button_width: '90',
@@ -605,7 +605,7 @@ class browseAction
 					button_text_style: '.theFont { font-family: Vedana,Arial,Helvetica,sans-serif; font-size: 13; }',
 					button_text_left_padding: 3,
 					button_text_top_padding: 2,
-					
+
 					// The event handler functions are defined in handlers.js
 					file_queued_handler : fileQueued,
 					file_queue_error_handler : fileQueueError,
@@ -615,24 +615,24 @@ class browseAction
 					upload_error_handler : uploadError,
 					upload_success_handler : middmediaUploadSuccess,
 					upload_complete_handler : uploadComplete
-					
-				}); 
+
+				});
 			document.get_element_by_id('cancel-".$dirId."').onclick = function () {
 				swfu.cancelQueue();
-					
+
 			};
 			$('select#quality-".$dirId."').change(function () {
 				swfu.addPostParam('quality' , this.value);
-				
+
 			});
-			
-			
+
+
 		});
-		
+
 		// ]]>
 		</script>"
 		);
-		
+
 		print "\n<div class='middmedia_upload'>";
 		print "\n\t<button class='btnUpload' id='upload-".$dirId."'></button>";
 		print "\n\t<input  class='btnCancel' type='button' id='cancel-".$dirId."' value='Cancel All Uploads' disabled='disabled' />";
@@ -675,7 +675,7 @@ class browseAction
 		print $this->getUploadHelp();
 		print "<p><a href='".$harmoni->request->quickUrl('middmedia', 'upload_form', array('directory' => $dir->getBaseName()))."'>Alternate (non-Flash) upload form</a></p>";
 		print "\n</div>";
-		
+
 		/*********************************************************
 		 * Add to MiddTube
 		 *********************************************************/
@@ -685,16 +685,16 @@ class browseAction
 		}
 		// Do the following on normal page load
 		if (!isset($_POST['middtubeclicked']) && defined('MIDDTUBE_URL') && MIDDTUBE_URL != ''){
-		
+
 		/*********************************************************
 		* Delete Controls (We only want this when we're not processing an addition to Middtube)
 		*********************************************************/
 		print "\n<div class='middmedia_delete'>";
 		print "\n\t<input type='button' onclick=\"deleteChecked('".$dir->getBaseName()."');\" value='Delete Checked Files'/>";
-		print "\n</div>";	
-		
+		print "\n</div>";
+
 		?>
-		<!-- Add a form for Add to MiddTube --> 
+		<!-- Add a form for Add to MiddTube -->
 		<form action='<?php $harmoni->request->quickURL('middmedia', 'browse'); ?>' method='post'>
 			<!-- Lets us know that Add to MiddTube has been clicked on submission -->
 			<input name='middtubeclicked' type='hidden' value='TRUE' />
@@ -737,7 +737,7 @@ class browseAction
 					}
 					print '</select>';
 					// Show the name of the file so we know what file we're choosing a
-					//category for and giving a name to. 
+					//category for and giving a name to.
 					print "<input class='post_title_input' name='title".$i."' type='text' /> ".$title[0]."<br />";
 					$i++;
 				} // end if ($middtube_embed != '') {
@@ -760,7 +760,7 @@ class browseAction
 				if ($middtube_embed != '') {
 					// Get the name of the file from the embed code
 					preg_match('/`!~.*~!`/',$middtube_embed, $filename);
-					$embed_filename = str_replace(' ','%20',$filename); 
+					$embed_filename = str_replace(' ','%20',$filename);
 					$middtube_embed = str_replace($filename,$embed_filename,$middtube_embed);
 					$filename = str_replace('`!~','',$filename);
 					$filename = str_replace('~!`','',$filename);
@@ -796,7 +796,7 @@ class browseAction
 			// Clear $_POST
 			unset($_POST);
 		}
-		
+
 		/*********************************************************
 		 * File Listing
 		 *********************************************************/
@@ -816,11 +816,11 @@ class browseAction
 		print "\n\t\t</tr>";
 		print "\n\t</thead>";
 		print "\n\t<tbody id='listing-".$dirId."'>";
-		
+
 		foreach ($dir->getFiles() as $file) {
 			$fileId = md5($dir->getBaseName().'/'.$file->getBaseName());
-			
-			
+
+
 			// Get the type and Id for use by JS functions
 			$parts = pathinfo($file->getBasename());
 			unset($type);
@@ -836,7 +836,7 @@ class browseAction
 						$type = 'video';
 					$myId = strtolower($parts['extension']).':'.$dir->getBaseName().'/'.$parts['filename'].'.'.$parts['extension'];
 			}
-			
+
 			try {
 				$splashUrl = $file->getFormat('splash')->getHttpUrl();
 			} catch (InvalidArgumentException $e) {
@@ -846,15 +846,15 @@ class browseAction
 				else
 					$splashUrl = '';
 			}
-			
-			
-			
+
+
+
 			print "\n\t\t<tr id=\"row-".$fileId."\">";
-			
+
 			print "\n\t\t\t<td>";
 			print "\n\t\t\t\t<input type='checkbox' name='media_files' value=\"".$file->getBaseName()."\"/>";
 			print "</td>";
-			
+
 			print "\n\t\t\t<td class='name'>";
 			$primaryFormat = $file->getPrimaryFormat();
 			if ($primaryFormat->supportsHttp())
@@ -878,7 +878,7 @@ class browseAction
 					throw $e;
 			}
 			print "\n\t\t\t\t</a>";
-			
+
 			// Processing feedback.
 			if ($info = $file->getQueueInfo()) {
 				print "\n\t\t\t\t<div class='queue_info'>";
@@ -898,24 +898,24 @@ class browseAction
 				}
 				print "\n\t\t\t\t</div>";
 			}
-			
+
 			print "\n\t\t\t</td>";
-			
+
 			print "\n\t\t\t<td class='type'>".$file->getMimeType()."</td>";
-			
+
 			print "\n\t\t\t<td class='size' sorttable_customkey='".$file->getSize()."'>";
 			$size = ByteSize::withValue($file->getSize());
 // 			print $file->getSize();
 			print $size->asString();
 			print "</td>";
-			
+
 			$mod = $file->getModificationDate()->asLocal();
 			print "\n\t\t\t<td class='date' sorttable_customkey='".$mod->asUTC()->asString()."'>";
 			print $mod->format('M d, Y');
 			print "<br/>";
 			print $mod->format('g:i a');
 			print "</td>";
-			
+
 			print "\n\t\t\t<td class='creator'>";
 			try {
 				print $file->getCreator()->getDisplayName();
@@ -924,20 +924,18 @@ class browseAction
 			} catch (UnimplementedException $e) {
 			}
 			print "</td>";
-			
+
 			print "\n\t\t\t<td class='access'>";
-			
+
 			print "<br/><a href='#' onclick=\"displayEmbedCode(this, '".$type."', '".$file->directory->getBaseName()."', '".$file->getBaseName()."', '".$splashUrl."'); return false;\">Embed Code &amp; URLs</a>";
-			
-			print "</td>";			
+
+			print "</td>";
 			print "\n\t\t</tr>";
 		}
-		
+
 		print "\n\t</tbody>";
 		print "\n\t</table>";
 		print "\n\t</div>";
 		return ob_get_clean();
 	}
 }
-
-?>

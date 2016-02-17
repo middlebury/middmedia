@@ -1,21 +1,21 @@
 <?php
 /**
  * @package middmedia
- * 
+ *
  * @copyright Copyright &copy; 2011, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id$
- */ 
+ */
 
 require_once(POLYPHONY."/main/library/AbstractActions/Action.class.php");
 
 
 /**
  * Provide embed code
- * 
+ *
  * @package middmedia
- * 
+ *
  * @copyright Copyright &copy; 2011, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
@@ -24,10 +24,10 @@ require_once(POLYPHONY."/main/library/AbstractActions/Action.class.php");
 class embedAction
   extends Action
 {
-    
+
   /**
    * Check Authorizations
-   * 
+   *
    * @return boolean
    * @access public
    * @since 11/13/08
@@ -45,10 +45,10 @@ class embedAction
     }
     return true;
   }
-  
+
   /**
    * Execute this action
-   * 
+   *
    * @return void
    * @access public
    * @since 11/13/08
@@ -56,13 +56,13 @@ class embedAction
   public function execute () {
     if (!$this->isAuthorizedToExecute())
       $this->error("Permission denied");
-    
+
     $dir = $this->getDirectory();
-    
+
     $file = $dir->getFile(RequestContext::value('file'));
-    
+
     $plugins = MiddMedia_Embed_Plugins::instance();
-    
+
     foreach ($plugins->getPlugins() as $embed) {
       if ($embed->isSupported($file)) {
         print "\n<h3>".$embed->getTitle()."</h3>";
@@ -72,17 +72,17 @@ class embedAction
         	print "<textarea rows='6' cols='83'>".htmlspecialchars($markup)."</textarea>";
         else
         	print "<input type='text' size='95' value=\"".htmlspecialchars($markup)."\"/>";
-        
+
       }
     }
-    
+
     exit;
 
   }
-  
+
   /**
    * Answer the target directory object
-   * 
+   *
    * @return object MiddMedia_Directory
    * @access protected
    * @since 11/19/08
@@ -92,13 +92,13 @@ class embedAction
       $manager = $this->getManager();
       $this->directory = $manager->getDirectory(RequestContext::value('directory'));
     }
-    
+
     return $this->directory;
   }
-  
+
   /**
    * Answer the manager to use
-   * 
+   *
    * @return MiddMediaManager
    * @access protected
    * @since 12/10/08
@@ -106,7 +106,7 @@ class embedAction
   protected function getManager () {
     return MiddMedia_Manager::forCurrentUser();
   }
-  
+
   /**
    * Send an error header and string.
    *
@@ -151,5 +151,3 @@ class embedAction
     }
   }
 }
-
-?>

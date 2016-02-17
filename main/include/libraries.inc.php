@@ -3,13 +3,13 @@
  * Include the libraries and define constants for our application
  *
  * @package concerto
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id$
  */
- 
+
 /*********************************************************
  * Load a config with our library locations
  *********************************************************/

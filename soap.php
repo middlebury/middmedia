@@ -3,7 +3,7 @@
  * This is a soap endpoint for MiddMedia
  *
  * @package middmedia
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
@@ -21,12 +21,12 @@ else
 	$protocol = 'http';
 
 define("MYPATH", $protocol."://".$_SERVER['HTTP_HOST'].str_replace(
-												"\\", "/", 
+												"\\", "/",
 												dirname($_SERVER['PHP_SELF'])));
 define("MYURL", MYPATH."/index.php");
 
 define("WSDL", MYPATH."/middmedia.wsdl.php");
-	
+
 function setup() {
 	require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
 	require_once(dirname(__FILE__)."/main/include/setup.inc.php");
@@ -124,7 +124,7 @@ function serviceGetDirs($username, $serviceId, $serviceKey) {
 
 /**
  * Return a list of directories the user has access to through the manger.
- * 
+ *
  * @param 	MiddMedia_Manager	$manager		The manager to use in this request.
  * @return	array					List of directories
  * @access	public
@@ -138,23 +138,23 @@ function doGetDirs (MiddMedia_Manager $manager) {
 		$directory['name'] = $dir->getBaseName();
 		$directory['bytesused'] = $dir->getBytesUsed();
 		$directory['bytesavailable'] = $dir->getBytesAvailable();
-	
+
 		$directories[] = $directory;
 	} catch(Exception $ex) {
 		// user does not have a personal directory
-		
+
 		// no need to handle this here, we simply return a blank array
 	}
-	
+
 	foreach($manager->getSharedDirectories() as $dir) {
 		$directory = array();
 		$directory['name'] = $dir->getBaseName();
 		$directory['bytesused'] = $dir->getBytesUsed();
 		$directory['bytesavailable'] = $dir->getBytesAvailable();
-	
+
 		$directories[] = $directory;
 	}
-	
+
 	return $directories;
 }
 
@@ -210,10 +210,10 @@ function serviceGetVideos($username, $serviceId, $serviceKey, $directory) {
  */
 function doGetVideos(MiddMedia_Manager $manager, $directory) {
 	$videos = array();
-	
+
 	foreach($manager->getDirectory($directory)->getFiles() as $file) {
 		$video = array();
-		
+
 		$primaryFormat = $file->getPrimaryFormat();
 		if ($primaryFormat->supportsHttp())
 			$httpUrl = $primaryFormat->getHttpUrl();
@@ -223,7 +223,7 @@ function doGetVideos(MiddMedia_Manager $manager, $directory) {
 			$rtmpUrl = $primaryFormat->getRtmpUrl();
 		else
 			$rtmpUrl = '';
-		
+
 		$video["name"] = $file->getBaseName();
 		$video["httpurl"] = $httpUrl;
 		$video["rtmpurl"] = $rtmpUrl;
@@ -234,14 +234,14 @@ function doGetVideos(MiddMedia_Manager $manager, $directory) {
 		} catch (OperationFailedException $e) {
 			$video["creator"] = null;
 		}
-		
+
 		try {
 			$moddate = $file->getModificationDate();
 			$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
 		} catch(Exception $ex) {
 			return new SoapFault("Server", $ex->getMessage());
 		}
-		
+
 		try {
 			$video["fullframeurl"] = $file->getFormat('full_frame')->getHttpUrl();
 			$video["thumburl"] = $file->getFormat('thumb')->getHttpUrl();
@@ -251,7 +251,7 @@ function doGetVideos(MiddMedia_Manager $manager, $directory) {
 			$video["thumburl"] = null;
 			$video["splashurl"] = null;
 		}
-		
+
 		$plugins = MiddMedia_Embed_Plugins::instance();
 		foreach ($plugins->getPlugins() as $embed) {
 			if ($embed->isSupported($file)) {
@@ -259,10 +259,10 @@ function doGetVideos(MiddMedia_Manager $manager, $directory) {
 				break;
 			}
 		}
-		
+
 		$videos[] = $video;
 	}
-	
+
 	return $videos;
 }
 
@@ -283,17 +283,17 @@ function getVideoAnon($directory, $file) {
 			return $video;
 		}
 	}
-	
+
 	setup();
 	try {
 		$manager = UnauthenticatedMiddMedia_Manager::instance();
 		$video = doGetVideo($manager, $directory, $file);
-		
+
 		// Try to save in the cache if possible
 		if (function_exists('apc_store')) {
 			apc_store('getVideoAnon-'.$directory.'/'.$file, $video, 21600);
 		}
-		
+
 		return $video;
 	} catch(Exception $ex) {
 		return new SoapFault("server", $ex->getMessage());
@@ -355,9 +355,9 @@ function serviceGetVideo($username, $serviceId, $serviceKey, $directory, $file) 
  */
 function doGetVideo(MiddMedia_Manager $manager, $directory, $file) {
 	$video = array();
-	
+
 	$file = $manager->getDirectory($directory)->getFile($file);
-	
+
 	$video["name"] = $file->getBaseName();
 	$video["httpurl"] = $file->getPrimaryFormat()->getHttpUrl();
 	if ($file->getPrimaryFormat()->supportsRtmp())
@@ -371,14 +371,14 @@ function doGetVideo(MiddMedia_Manager $manager, $directory, $file) {
 	} catch (OperationFailedException $e) {
 		$video["creator"] = null;
 	}
-	
+
 	try {
 		$moddate = $file->getModificationDate();
 		$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
 	} catch(Exception $ex) {
 		return new SoapFault("Server", $ex->getMessage());
 	}
-	
+
 	try {
 		$video["fullframeurl"] = $file->getFormat('full_frame')->getHttpUrl();
 		$video["thumburl"] = $file->getFormat('thumb')->getHttpUrl();
@@ -388,7 +388,7 @@ function doGetVideo(MiddMedia_Manager $manager, $directory, $file) {
 		$video["thumburl"] = null;
 		$video["splashurl"] = null;
 	}
-	
+
 	$plugins = MiddMedia_Embed_Plugins::instance();
 	foreach ($plugins->getPlugins() as $embed) {
 		if ($embed->isSupported($file)) {
@@ -396,7 +396,7 @@ function doGetVideo(MiddMedia_Manager $manager, $directory, $file) {
 			break;
 		}
 	}
-		
+
 	return $video;
 }
 
@@ -467,7 +467,7 @@ function doAddVideo(MiddMedia_Manager $manager, $directoryName, $file, $filename
 
 	$directory = MiddMedia_Directory::getIfExists($manager, $directoryName);
 	$newfile = $directory->createFileFromData($filename, base64_decode($file));
-	
+
 	return doGetVideo($manager, $directoryName, $filename);
 }
 
@@ -526,7 +526,7 @@ function doDelVideo(MiddMedia_Manager $manager, $directory, $filename) {
 	$directory = MiddMedia_Directory::getIfExists($manager, $directory);
 	$file = $directory->getFile($filename);
 	$file->delete();
-} 
+}
 
 /********************************************************
  * SOAP Server Initialization.
@@ -552,4 +552,3 @@ $server->addFunction(
 );
 
 $server->handle();
-

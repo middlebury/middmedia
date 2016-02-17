@@ -6,13 +6,13 @@
  * USAGE: Copy this file to repository.conf.php to set custom values.
  *
  * @package concerto.config
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id$
  */
- 
+
 // :: Set up the RepositoryManager ::
 	$repositoryHierarchyId = "edu.middlebury.authorization.hierarchy";
 	$defaultParentId = "edu.middlebury.concerto.collections_root";

@@ -8,7 +8,7 @@
  *		authentication-XXXXX_default.conf.php
  *		authentication-XXXXX.conf.php
  * where XXXXX is the name of the configuration source.
- * 
+ *
  * You may add additional sources (e.g. "ldap2") if you wish to have additional
  * authentication methods configured.
  *
@@ -16,7 +16,7 @@
  *
  *
  * @package segue.config
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */

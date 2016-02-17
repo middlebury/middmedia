@@ -1,33 +1,33 @@
 <?php
 /**
  * @package segue.modules.user
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id: main.act.php,v 1.6 2007/12/18 20:22:15 adamfranco Exp $
- */ 
+ */
 
 require_once(POLYPHONY."/main/library/AbstractActions/MainWindowAction.class.php");
 require_once(HARMONI."GUIManager/Container.class.php");
 require_once(HARMONI."GUIManager/Layouts/YLayout.class.php");
 
 /**
- * 
- * 
+ *
+ *
  * @package segue.modules.user
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id: main.act.php,v 1.6 2007/12/18 20:22:15 adamfranco Exp $
  */
-class mainAction 
+class mainAction
 	extends MainWindowAction
 {
 	/**
 	 * Check Authorizations
-	 * 
+	 *
 	 * @return boolean
 	 * @access public
 	 * @since 10/24/05
@@ -35,10 +35,10 @@ class mainAction
 	function isAuthorizedToExecute () {
 		return TRUE;
 	}
-	
+
 	/**
 	 * Return the heading text for this action, or an empty string.
-	 * 
+	 *
 	 * @return string
 	 * @access public
 	 * @since 10/24/05
@@ -46,10 +46,10 @@ class mainAction
 	function getHeadingText () {
 		return _("User Tools");
 	}
-	
+
 	/**
 	 * Build the content for this action
-	 * 
+	 *
 	 * @return void
 	 * @access public
 	 * @since 10/24/05
@@ -57,13 +57,13 @@ class mainAction
 	function buildContent () {
 		$actionRows = $this->getActionRows();
 		$harmoni = Harmoni::instance();
-		
+
 		if (RequestContext::value('login_failed')) {
 			$actionRows->add(new Heading("<span style='color: red;'>"._("Error: Login Failed. Either your username or password was invalid.")."</span>", 2));
 		}
 
 		$actionRows->add(new Heading(_("Authentication"), 2));
-		
+
 		// Current AuthN Table
 		ob_start();
 		$authNManager = Services::getService("AuthN");
@@ -73,7 +73,7 @@ class mainAction
 		print "\n\t<tr><th colspan='3'><center>";
 		print _("Current Authentications: ");
 		print "</center>\n\t</th></tr>";
-		
+
 		while($authTypes->hasNext()) {
 			$authType = $authTypes->next();
 			$typeString = HarmoniType::typeToString($authType);
@@ -91,11 +91,11 @@ class mainAction
 			print "</a>";
 			print "\n\t\t</small></td>";
 			print "\n\t\t<td><small>";
-			
+
 			$harmoni->request->startNamespace("polyphony");
-			// set where we are before login 
+			// set where we are before login
 			$harmoni->history->markReturnURL("polyphony/login");
-				
+
 			if ($authNManager->isUserAuthenticated($authType)) {
 				$url = $harmoni->request->quickURL(
 					"auth", "logout_type",
@@ -110,7 +110,7 @@ class mainAction
 				print "<a href='".$url."'>Log In</a>";
 			}
 			$harmoni->request->endNamespace();
-			
+
 			print "\n\t\t</small></td>";
 			print "\n\t</tr>";
 		}
@@ -139,10 +139,10 @@ class mainAction
 				_("Visitor Registration").
 				"</a></li>".
 				"\n</ul>";
-				
+
 			$actionRows->add(new Block(ob_get_clean(), STANDARD_BLOCK), "100%", null, CENTER, CENTER);
 		}
-		
+
 		// Change Password
 		ob_start();
 		$authTypes = $authNManager->getAuthenticationTypes();
@@ -153,12 +153,12 @@ class mainAction
 				try {
 					$method = $methodMgr->getAuthNMethodForType($authType);
 					if ($method->supportsTokenUpdates()) {
-						
+
 						print "\n\t<li><a href='".
 							$harmoni->request->quickURL("user", "change_password")."'>";
 						$keyword = $authType->getKeyword();
 						print str_replace('%1', $keyword, dgettext("polyphony", "Change '%1' Password"));
-						print "</a></li>";	
+						print "</a></li>";
 					}
 				} catch (Exception $e) {
 				}

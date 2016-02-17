@@ -1,7 +1,7 @@
 <?php
 /**
  * @package middmedia
- * 
+ *
  * @copyright Copyright &copy; 2013, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
@@ -11,4 +11,3 @@
  */
 class MiddMedia_Exception_MissingFileException extends Exception {
 }
-

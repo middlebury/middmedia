@@ -2,20 +2,20 @@
 /**
  * @since 3/5/07
  * @package segue.updates
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
  * @version $Id: list.act.php,v 1.2 2008/04/21 17:44:27 adamfranco Exp $
- */ 
+ */
 require_once(POLYPHONY."/main/library/AbstractActions/MainWindowAction.class.php");
 
 /**
  * This action builds a list of updates
- * 
+ *
  * @since 3/5/07
  * @package segue.updates
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  *
@@ -24,10 +24,10 @@ require_once(POLYPHONY."/main/library/AbstractActions/MainWindowAction.class.php
 class listAction
 	extends MainWindowAction
 {
-		
+
 	/**
 	 * Check Authorizations
-	 * 
+	 *
 	 * @return boolean
 	 * @access public
 	 * @since 6/08/05
@@ -40,10 +40,10 @@ class listAction
 				$idManager->getId("edu.middlebury.authorization.modify"),
 				$idManager->getId("edu.middlebury.authorization.root"));
 	}
-	
+
 	/**
 	 * Build the content of this action
-	 * 
+	 *
 	 * @return void
 	 * @access public
 	 * @since 3/5/07
@@ -53,11 +53,11 @@ class listAction
 		$centerPane =$this->getActionRows();
 		$updatesToRun = array();
 		$updatesInPlace = array();
-		
+
 		$this->loadUpdates();
-		
+
 		ob_start();
-		
+
 		print "\n<table border='1' width='100%'>";
 		print "\n\t<tr>";
 		print "\n\t\t<th>"._('Date')."</th>";
@@ -65,17 +65,17 @@ class listAction
 		print "\n\t\t<th>"._('Description')."</th>";
 		print "\n\t\t<th>"._('State')."</th>";
 		print "\n\t</tr>";
-		
+
 		$this->printUpdateRows();
-		
+
 		print "\n</table>";
-		
+
 		$centerPane->add(new Block(ob_get_clean(), STANDARD_BLOCK), null, null, CENTER, TOP);
 	}
-	
+
 	/**
 	 * Print out the update Rows.
-	 * 
+	 *
 	 * @return void
 	 * @access protected
 	 * @since 6/12/08
@@ -85,10 +85,10 @@ class listAction
 			$this->printRow($name);
 		}
 	}
-	
+
 	/**
 	 * Print out an update row
-	 * 
+	 *
 	 * @param string $name
 	 * @return void
 	 * @access protected
@@ -122,10 +122,10 @@ class listAction
 		print "</td>";
 		print "\n\t</tr>";
 	}
-	
+
 	/**
 	 * Answer true if we should print "check..." links
-	 * 
+	 *
 	 * @return boolean
 	 * @access protected
 	 * @since 6/12/08
@@ -133,10 +133,10 @@ class listAction
 	public function shouldCheckSeparate () {
 		return true;
 	}
-	
+
 	/**
 	 * Load the update classes
-	 * 
+	 *
 	 * @return void
 	 * @access public
 	 * @since 3/6/07
@@ -149,7 +149,7 @@ class listAction
 		while (($file = readdir($handle)) !== false) {
 			if ($file != __FILE__
 				&& $file != 'check.act.php'
-				&& filetype($dir .'/'. $file) == 'file' 
+				&& filetype($dir .'/'. $file) == 'file'
 				&& preg_match('/^([a-z0-9_]+)\.act\.php$/i', $file, $matches))
 			{
 				if ($matches[1] != 'list') {
@@ -158,11 +158,9 @@ class listAction
 				}
 			}
 		}
-		closedir($handle); 
-		
+		closedir($handle);
+
 		sort($this->updateClasses);
 	}
-	
-}
 
-?>
+}

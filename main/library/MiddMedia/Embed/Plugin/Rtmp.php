@@ -6,18 +6,18 @@
 
 /**
  * Class for the embed code used for
- * showing the RTMP link to the video. 
+ * showing the RTMP link to the video.
  *
  * @copyright Copyright &copy; 2011, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
 class MiddMedia_Embed_Plugin_Rtmp
-	implements MiddMedia_Embed_Plugin 
+	implements MiddMedia_Embed_Plugin
 {
 
 	/**
 	 * Gets the title of the embed code
-	 * 
+	 *
 	 * @return string
 	 */
 	function getTitle() {
@@ -26,7 +26,7 @@ class MiddMedia_Embed_Plugin_Rtmp
 
 	/**
 	 * Gets the description for the embed code
-	 * 
+	 *
 	 * @param MiddMedia_File_MediaInterface $file
 	 * @return string
 	 */
@@ -36,7 +36,7 @@ class MiddMedia_Embed_Plugin_Rtmp
 
 	/**
 	 * Gets the embed code markup
-	 * 
+	 *
 	 * @param MiddMedia_File_MediaInterface $file
 	 * @return string
 	 */
@@ -47,11 +47,11 @@ class MiddMedia_Embed_Plugin_Rtmp
 		}
 		throw new InvalidArgumentException("Unsuported format.");
 	}
-	
+
 	/**
 	 * Checks to see if the file is supported
 	 * by the particular embed code
-	 * 
+	 *
 	 * @param MiddMedia_File_MediaInterface $file
 	 * @return boolean
 	 */
@@ -62,5 +62,5 @@ class MiddMedia_Embed_Plugin_Rtmp
 		}
 		return false;
 	}
-	
+
 }

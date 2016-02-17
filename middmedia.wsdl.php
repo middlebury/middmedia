@@ -8,9 +8,9 @@ else
 	$protocol = 'http';
 
 define("MYPATH", $protocol."://".$_SERVER['HTTP_HOST'].str_replace(
-												"\\", "/", 
+												"\\", "/",
 												dirname($_SERVER['PHP_SELF'])));
-							
+
 print '<'.'?xml version="1.0" encoding="ISO-8859-1"?'.'>';
 
 ?>

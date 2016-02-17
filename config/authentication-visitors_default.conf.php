@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Set up the Visitors DB authentication method. 
+ * Set up the Visitors DB authentication method.
  *
- * You probably don't need to modify this configuration file, just 
+ * You probably don't need to modify this configuration file, just
  * add your reCAPTCHA API keys to segue/config/recaptcha.conf.php
- * 
- * Visitor Registration requires that you sign up for reCAPTCHA API key. 
+ *
+ * Visitor Registration requires that you sign up for reCAPTCHA API key.
  * These reCAPTCHA keys are defined in recaptcha.conf.php
  *
  *
@@ -14,7 +14,7 @@
  * USAGE: Copy this file to authentication_manager.conf.php to set custom values.
  *
  * @package segue.config
- * 
+ *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
@@ -30,29 +30,29 @@ require_once(HARMONI."/oki2/agentmanagement/AuthNMethods/SQLDatabaseMD5UsernameP
  * Create and configure the authentication method
  *********************************************************/
 	$authNMethod = new VisitorSQLDatabaseAuthNMethod;
-	
+
 	$configuration = new ConfigurationProperties;
 	$configuration->addProperty('tokens_class', 'SQLDatabaseMD5UsernamePasswordAuthNTokens');
 	$configuration->addProperty('database_id', HARMONI_DB_INDEX);
-	
+
 	// These values can be changed if needed.
 	$configuration->addProperty('email_from_name', 'Segue Administrator');
 	$configuration->addProperty('email_from_address', $_SERVER['SERVER_ADMIN']);
-	
+
 	// Visitors with emails from these domains will not be able  to register.
 	$configuration->addProperty('domain_blacklist', array(
-		'example.com', 
-		'example.org', 
-		'example.net', 
+		'example.com',
+		'example.org',
+		'example.net',
 		'example.edu'
 	));
-	
+
 	// If specified, only visitors with emails from these domains will be allowed
 	// to register. Blacklist and existance checks will still apply.
 // 	$configuration->addProperty('domain_whitelist', array(
 // 		'example.edu'
 // 	));
-	
+
 	$authNMethod->assignConfiguration($configuration);
 
 
@@ -62,10 +62,9 @@ require_once(HARMONI."/oki2/agentmanagement/AuthNMethods/SQLDatabaseMD5UsernameP
  *********************************************************/
 	// Define a unique Type for this method
 	$type = new Type ("Authentication", "edu.middlebury.harmoni", "Visitors");
-	
+
 	// Add the method to our AuthenticationMethodManagerConfiguration
 	$authenticationMethodManagerConfiguration->addProperty($type, $authNMethod);
 	// Assign a token-collector for this method
 	$tokenCollectors[serialize($type)] = new FormActionNamePassTokenCollector(
 		$harmoni->request->quickURL("auth","username_password_form"));
-	
