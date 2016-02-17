@@ -64,7 +64,11 @@ class previewAction
 		$plugins = MiddMedia_Embed_Plugins::instance();
 		foreach ($plugins->getPlugins() as $embed) {
 			if ($embed->isSupported($file)) {
-				print "\n".$embed->getMarkup($file);
+				try {
+					print "\n".$embed->getMarkup($file);
+				} catch (Exception $e) {
+					print "\n<p class='error'>Error: ".$e->getMessage()."</p>";
+				}
 
 				print "\n<p>";
 				print "\n\t<a href='#' onclick=\"displayEmbedCode(this, null, '".$dir->getBaseName()."', '".$file->getBaseName()."', null); return false;\">Embed Code &amp; URLs</a>";

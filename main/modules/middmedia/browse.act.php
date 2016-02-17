@@ -856,16 +856,21 @@ class browseAction
 			print "</td>";
 
 			print "\n\t\t\t<td class='name'>";
-			$primaryFormat = $file->getPrimaryFormat();
-			if ($primaryFormat->supportsHttp())
-				$httpUrl = $primaryFormat->getHttpUrl();
-			else
+			try {
+				$primaryFormat = $file->getPrimaryFormat();
+				if ($primaryFormat->supportsHttp())
+					$httpUrl = $primaryFormat->getHttpUrl();
+				else
+					$httpUrl = '';
+				if ($primaryFormat->supportsRtmp())
+					$rtmpUrl = $primaryFormat->getRtmpUrl();
+				else
+					$rtmpUrl = '';
+			} catch (Exception $e) {
 				$httpUrl = '';
-			if ($primaryFormat->supportsRtmp())
-				$rtmpUrl = $primaryFormat->getRtmpUrl();
-			else
 				$rtmpUrl = '';
-			
+			}
+
 			print "\n\t\t\t\t<a href='#' onclick=\"displayPreview(this, '".$file->directory->getBaseName()."', '".$file->getBaseName()."'); return false;\">";
 			print $file->getBaseName();
 			try {
