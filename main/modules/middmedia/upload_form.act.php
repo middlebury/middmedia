@@ -85,7 +85,7 @@ class upload_formAction
 
 		print "\n\t<input type='hidden' name='MAX_FILE_SIZE' value='".$this->getDirectoryUploadLimit($dir)."'/>";
 		print "\n\t<input type='file' name='Filedata' size='40'/>";
-		print "\n\t<br />File quality:<select name='quality-".$dirId."' id='quality-".$dirId."'>";
+		print "\n\t<br />File quality:<select name='quality' id='quality-".$dirId."'>";
 		if ($dir->getQuality() == 'original') {
 		  print "\n\t<option selected value='original'>same as original</option>";
 		}
