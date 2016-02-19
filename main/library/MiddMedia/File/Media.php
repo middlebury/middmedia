@@ -497,7 +497,16 @@ class MiddMedia_File_Media
 		$query->addValue('creator', $creator->getId()->getIdString());
 
 		$dbMgr = Services::getService("DatabaseManager");
-		$dbMgr->query($query, HARMONI_DB_INDEX);
+		try {
+			$dbMgr->query($query, HARMONI_DB_INDEX);
+		} catch (DuplicateKeyDatabaseException $e) {
+			$query = new UpdateQuery;
+			$query->setTable('middmedia_metadata');
+			$query->addValue('creator', $creator->getId()->getIdString());
+			$query->addWhereEqual('directory', $this->directory->getBaseName());
+			$query->addWhereEqual('file', $this->getBaseName());
+			$dbMgr->query($query, HARMONI_DB_INDEX);
+		}
 	}
 
 	/**
