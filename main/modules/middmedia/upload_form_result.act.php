@@ -26,12 +26,13 @@ class upload_form_resultAction
 	 * Send an error header and string.
 	 *
 	 * @param string $errorString
+	 * @param optional Exception $exception
 	 * @return void
 	 * @access protected
 	 * @since 11/13/08
 	 */
-	protected function error ($errorString) {
-		$this->logError($errorString);
+	protected function error ($errorString, Exception $exception = null) {
+		$this->logError($errorString, $exception);
 
 		header("HTTP/1.1 500 Internal Server Error");
 		return new Block($errorString.$this->getReturnLink(), STANDARD_BLOCK);

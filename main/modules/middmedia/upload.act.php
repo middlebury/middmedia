@@ -88,7 +88,7 @@ class uploadAction
 			$file = $dir->createFileFromUpload($_FILES[$upload_name]);
 			return $this->success($dir, $file);
 		} catch (Exception $e) {
-			return $this->error("File could not be saved to '".$dir->getBaseName().'/'.$_FILES[$upload_name]['name']."'. ".$e->getMessage());
+			return $this->error("File could not be saved to '".$dir->getBaseName().'/'.$_FILES[$upload_name]['name']."'. ".$e->getMessage(), $e);
 		}
 	}
 
@@ -194,12 +194,13 @@ class uploadAction
 	 * Send an error header and string.
 	 *
 	 * @param string $errorString
+	 * @param optional Exception $exception
 	 * @return void
 	 * @access protected
 	 * @since 11/13/08
 	 */
-	protected function error ($errorString) {
-		$this->logError($errorString);
+	protected function error ($errorString, Exception $exception = null) {
+		$this->logError($errorString, $exception);
 
 		header("HTTP/1.1 500 Internal Server Error");
 		echo $errorString;
@@ -210,11 +211,12 @@ class uploadAction
 	 * Log an error
 	 *
 	 * @param string $errorString
+	 * @param optional Exception $exception
 	 * @return void
 	 * @access public
 	 * @since 11/19/09
 	 */
-	public function logError ($errorString) {
+	public function logError ($errorString, Exception $exception = null) {
 		// Log the success or failure
 		if (Services::serviceRunning("Logging")) {
 			$loggingManager = Services::getService("Logging");
@@ -225,6 +227,9 @@ class uploadAction
 							"Error events.");
 
 			$item = new AgentNodeEntryItem($this->getErrorName(), $this->getErrorPrefix().$errorString);
+			if (!empty($exception)) {
+				$item->setBacktrace(nl2br($exception->getTraceAsString()));
+			}
 
 			$idManager = Services::getService("Id");
 
