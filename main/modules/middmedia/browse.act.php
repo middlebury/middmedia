@@ -423,6 +423,13 @@ class browseAction
 
 				req.open('GET', Harmoni.quickUrl('middmedia', 'preview', {'directory':dir,'file':file}), true);
 				req.send(null);
+
+				panel.onClose = function() {
+					$.each($('audio'), function() {
+						this.pause();
+					});
+					this.screen.style.display = 'none';
+				}
 			}
 		}
 
