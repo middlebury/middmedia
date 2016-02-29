@@ -66,7 +66,7 @@ class MiddMedia_Embed_Plugin_AudioPlayer
 		$httpUrl = $file->getFormat('mp3')->getHttpUrl();
 		$fileId = rawurlencode($file->getFormat('mp3')->getBaseName());
 
-		return '<script type="text/javascript" src="'.$this->audioPlayerUrl.'/audio-player.js"></script><object width="290" height="24" id="'.$fileId.'" data="'.$this->audioPlayerUrl.'/player.swf" type="application/x-shockwave-flash"><param value="'.$this->audioPlayerUrl.'/player.swf" name="movie" /><param value="high" name="quality" /><param value="false" name="menu" /><param value="transparent" name="wmode" /><param value="soundFile='.$httpUrl.'" name="FlashVars" /></object>';
+		return '<audio controls><source src="'.$httpUrl.'" type="audio/mp3"><script type="text/javascript" src="'.$this->audioPlayerUrl.'/audio-player.js"></script><object width="290" height="24" id="'.$fileId.'" data="'.$this->audioPlayerUrl.'/player2.swf" type="application/x-shockwave-flash"><param value="'.$this->audioPlayerUrl.'/player2.swf" name="movie" /><param value="high" name="quality" /><param value="false" name="menu" /><param value="transparent" name="wmode" /><param value="soundFile='.$httpUrl.'" name="FlashVars" /></object></audio>';
 	}
 
 	/**
