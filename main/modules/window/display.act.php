@@ -99,6 +99,17 @@ class displayAction
 		$rightHeadColumn->add($this->getLoginComponent(),
 				null, null, RIGHT, TOP);
 
+
+		$this->addToHead("<!-- Google Tag Manager -->
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-NB55WH');</script>
+		<!-- End Google Tag Manager -->");
+
+		$mainScreen->add(new UnstyledBlock(self::getTagManagerNoScript()));
+
 		// The middlebury logo
 		$middlogo = new Component("\n<a class='midd_logo' href=\"http://www.middlebury.edu\"></a>", BLANK, 1);
 		$mainScreen->add($middlogo, '100%', null, CENTER, TOP);
@@ -222,6 +233,15 @@ class displayAction
 // 		print _("about Segue");
 // 		print "</a>";
 		print "</div>";
+
+		return ob_get_clean();
+	}
+
+	public static function getTagManagerNoScript () {
+		ob_start();
+		print "<!-- Google Tag Manager (noscript) -->";
+		print "<noscript><iframe src='https://www.googletagmanager.com/ns.html?id=GTM-NB55WH' height='0' width='0' style='display:none;visibility:hidden'></iframe></noscript>";
+		print "<!-- End Google Tag Manager (noscript) -->";
 
 		return ob_get_clean();
 	}
@@ -439,5 +459,19 @@ class displayAction
 		print "\n\t\t</select>";
 		print "\n\t</form>";
 		return ob_get_clean();
+	}
+
+	/**
+	 * Add to the document head
+	 *
+	 * @param string $string
+	 * @return void
+	 * @access protected
+	 * @since 11/13/08
+	 */
+	protected function addToHead ($string) {
+		$harmoni = Harmoni::instance();
+		$outputHandler = $harmoni->getOutputHandler();
+		$outputHandler->setHead($outputHandler->getHead().$string);
 	}
 }
