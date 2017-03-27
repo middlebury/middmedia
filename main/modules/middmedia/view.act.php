@@ -115,7 +115,7 @@ class viewAction
 		$media = $this->getFile();
 
 		if($media->hasFormat('mp4')) {
-			$target_plugin = 'MiddMedia_Embed_Plugin_StrobePlayer';
+			$target_plugin = 'MiddMedia_Embed_Plugin_Html5Video';
 		} elseif($media->hasFormat('mp3')) {
 			$target_plugin = 'MiddMedia_Embed_Plugin_AudioPlayer';
 		} elseif($media->hasFormat('m4a')) {
