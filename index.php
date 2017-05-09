@@ -28,7 +28,7 @@ else
 
 define("MYPATH", $protocol."://".$_SERVER['HTTP_HOST'].str_replace(
 												"\\", "/",
-												dirname($scriptPath)));
+												rtrim(dirname($scriptPath), '/')));
 
 // The following lines set the MYURL constant.
 if (file_exists(MYDIR.'/config/url.conf.php'))
