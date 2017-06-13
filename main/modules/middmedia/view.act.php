@@ -129,12 +129,10 @@ class viewAction
 
 		foreach($plugins as $plugin) {
 			if (is_a($plugin, $target_plugin)) {
-				$obj = $plugin;
+				// Get the embed code for the file and print
+				print $plugin->getMarkup($media);
 			}
 		}
-		// Get the embed code for the file and print
-		$markup = $obj->getMarkup($media);
-		print $markup;
 
 		if($media->hasFormat('mp4')) {
 			$formats[] = 'mp4';

@@ -50,15 +50,21 @@ class MiddMedia_Embed_Plugin_Html5Video
 	function getMarkup(MiddMedia_File_MediaInterface $file) {
 		$mp4 = $file->getFormat('mp4');
 		$mp4_httpUrl = $mp4->getHttpUrl();
-		$webm = $file->getFormat('webm');
-		$webmUrl = $webm->getHttpUrl();
+		$webmSource = '';
+		try {
+			$webm = $file->getFormat('webm');
+			$webmUrl = $webm->getHttpUrl();
+			$webmSource = '
+<source src="'.$webmUrl.'" type="video/webm" />';
+		} catch (Exception $e) {
+			// Ignore.
+		}
 
 		$fileId = rawurlencode($file->getFormat('mp4')->getBaseName());
 		$splash = rawurlencode($file->getFormat('splash')->getHttpUrl());
 
 		return '<video width="400" height="300" poster="'. $splash .'" controls>
-<source src="'.$mp4_httpUrl.'" type="video/mp4" />
-<source src="'.$webmUrl.'" type="video/webm" />
+<source src="'.$mp4_httpUrl.'" type="video/mp4" />'.$webmSource.'
 </video>';
 	}
 
