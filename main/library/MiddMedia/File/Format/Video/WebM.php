@@ -146,7 +146,7 @@ class MiddMedia_File_Format_Video_WebM
 		if ($return_var) {
 			$this->cleanup();
 			$this->putContents(file_get_contents(MYDIR.'/images/VideoConversionFailed.webm'));
-			throw new OperationFailedException("Video encoding failed with error $return_var and output: \n<pre>\n$output\n</pre>\n");
+			throw new OperationFailedException("Video encoding failed with error $return_var. Command:\n<pre>$pass1Command</pre> \noutput: \n<pre>\n$output\n</pre>\n");
 		}
 
 		$lastLine = exec($pass2Command, $output, $return_var);
@@ -155,7 +155,7 @@ class MiddMedia_File_Format_Video_WebM
 		if ($return_var) {
 			$this->cleanup();
 			$this->putContents(file_get_contents(MYDIR.'/images/VideoConversionFailed.webm'));
-			throw new OperationFailedException("Video encoding failed with error $return_var and output: \n<pre>\n$output\n</pre>\n");
+			throw new OperationFailedException("Video encoding failed with error $return_var. Command:\n<pre>$pass2Command</pre> \noutput: \n<pre>\n$output\n</pre>\n");
 		}
 
 		// Move into position

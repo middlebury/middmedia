@@ -152,7 +152,7 @@ class MiddMedia_File_Format_Video_Mp4
 		if ($return_var) {
 			$this->cleanup();
 			$this->putContents(file_get_contents(MYDIR.'/images/VideoConversionFailed.mp4'));
-			throw new OperationFailedException("Video encoding failed with error $return_var and output: \n<pre>\n$output\n</pre>\n");
+			throw new OperationFailedException("Video encoding failed with error $return_var. Command:\n<pre>$command</pre> \noutput: \n<pre>\n$output\n</pre>\n");
 		}
 
 		// Move into position
