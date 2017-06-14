@@ -355,46 +355,50 @@ function serviceGetVideo($username, $serviceId, $serviceKey, $directory, $file) 
  */
 function doGetVideo(MiddMedia_Manager $manager, $directory, $file) {
 	$video = array();
-
-	$file = $manager->getDirectory($directory)->getFile($file);
-
-	$video["name"] = $file->getBaseName();
-	$video["httpurl"] = $file->getPrimaryFormat()->getHttpUrl();
-	if ($file->getPrimaryFormat()->supportsRtmp())
-		$video["rtmpurl"] = $file->getPrimaryFormat()->getRtmpUrl();
-	else
-		$video["rtmpurl"] = null;
-	$video["mimetype"] = $file->getPrimaryFormat()->getMimeType();
-	$video["size"] = $file->getPrimaryFormat()->getSize();
 	try {
-		$video["creator"] = $file->getCreatorUsername();
-	} catch (OperationFailedException $e) {
-		$video["creator"] = null;
-	}
+		$file = $manager->getDirectory($directory)->getFile($file);
 
-	try {
-		$moddate = $file->getModificationDate();
-		$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
-	} catch(Exception $ex) {
-		return new SoapFault("Server", $ex->getMessage());
-	}
-
-	try {
-		$video["fullframeurl"] = $file->getFormat('full_frame')->getHttpUrl();
-		$video["thumburl"] = $file->getFormat('thumb')->getHttpUrl();
-		$video["splashurl"] = $file->getFormat('splash')->getHttpUrl();
-	} catch (Exception $e) {
-		$video["fullframeurl"] = null;
-		$video["thumburl"] = null;
-		$video["splashurl"] = null;
-	}
-
-	$plugins = MiddMedia_Embed_Plugins::instance();
-	foreach ($plugins->getPlugins() as $embed) {
-		if ($embed->isSupported($file)) {
-			$video["embedcode"] = $embed->getMarkup($file);
-			break;
+		$video["name"] = $file->getBaseName();
+		$video["httpurl"] = $file->getPrimaryFormat()->getHttpUrl();
+		if ($file->getPrimaryFormat()->supportsRtmp())
+			$video["rtmpurl"] = $file->getPrimaryFormat()->getRtmpUrl();
+		else
+			$video["rtmpurl"] = null;
+		$video["mimetype"] = $file->getPrimaryFormat()->getMimeType();
+		$video["size"] = $file->getPrimaryFormat()->getSize();
+		try {
+			$video["creator"] = $file->getCreatorUsername();
+		} catch (OperationFailedException $e) {
+			$video["creator"] = null;
 		}
+
+		try {
+			$moddate = $file->getModificationDate();
+			$video["date"] = $moddate->ymdString() . " " . $moddate->hmsString();
+		} catch(Exception $ex) {
+			return new SoapFault("Server", $ex->getMessage());
+		}
+
+		try {
+			$video["fullframeurl"] = $file->getFormat('full_frame')->getHttpUrl();
+			$video["thumburl"] = $file->getFormat('thumb')->getHttpUrl();
+			$video["splashurl"] = $file->getFormat('splash')->getHttpUrl();
+		} catch (Exception $e) {
+			$video["fullframeurl"] = null;
+			$video["thumburl"] = null;
+			$video["splashurl"] = null;
+		}
+
+		$plugins = MiddMedia_Embed_Plugins::instance();
+		foreach ($plugins->getPlugins() as $embed) {
+			if ($embed->isSupported($file)) {
+				$video["embedcode"] = $embed->getMarkup($file);
+				break;
+			}
+		}
+	} catch (Exception $e) {
+		HarmoniErrorHandler::handleException($e);
+		throw $e;
 	}
 
 	return $video;
