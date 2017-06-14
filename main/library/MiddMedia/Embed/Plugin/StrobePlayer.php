@@ -71,15 +71,21 @@ class MiddMedia_Embed_Plugin_StrobePlayer
 
 		$mp4_httpUrl = $mp4->getHttpUrl();
 
-		$webm = $file->getFormat('webm');
-		$webmUrl = $webm->getHttpUrl();
+		$webmSource = '';
+		try {
+			$webm = $file->getFormat('webm');
+			$webmUrl = $webm->getHttpUrl();
+			$webmSource = '<source src="'.$webmUrl.'" type="video/webm" />';
+		} catch (InvalidArgumentException $e) {
+			// Ignore if non-existant.
+		}
 
 		$fileId = rawurlencode($file->getFormat('mp4')->getBaseName());
 		$splash = rawurlencode($file->getFormat('splash')->getHttpUrl());
 
 		return '<video width="400" height="300" poster="'. $splash .'" controls>
 <source src="'.$mp4_httpUrl.'" type="video/mp4" />
-<source src="'.$webmUrl.'" type="video/webm" />
+'.$webmSource.'
 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0" width="400" height="300">
 <param name="movie" value="'.$this->strobePlayerUrl. '/StrobeMediaPlayback.swf' .'"></param>
 <param name="FlashVars" value="src='.$mediaUrl.'&poster='. $splash .'"></param>
