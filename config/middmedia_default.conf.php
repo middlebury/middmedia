@@ -13,6 +13,9 @@ define('MIDDTUBE_URL', 'http://blogs.middlebury.edu/middtube/');
 define('WP_USER', 'enter_wordpress_username_here');
 define('WP_PASS', 'enter_wordpress_password_here');
 
+
+define('UPLOAD_DISABLED_MESSAGE', "Uploads to MiddMedia have been disabled. Please migrate your videos to other services such as <a href='http://go.middlebury.edu/panoptohelp'>Panopto</a>.");
+
 /*********************************************************
  * If a single valued property can be used for the directory name, specify it here.
  *********************************************************/

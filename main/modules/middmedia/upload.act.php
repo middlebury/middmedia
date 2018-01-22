@@ -35,6 +35,10 @@ class uploadAction
 	 * @since 11/13/08
 	 */
 	public function isAuthorizedToExecute () {
+		// Disable uploads.
+		return false;
+
+
 		// Ensure that the user is logged in.
 		// Authorization checks will be done on a per-directory basis when printing.
 		$authN = Services::getService("AuthN");

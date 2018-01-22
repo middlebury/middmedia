@@ -467,6 +467,7 @@ function serviceAddVideo($username, $serviceId, $serviceKey, $directory, $file, 
  * @since	Dec 08
  */
 function doAddVideo(MiddMedia_Manager $manager, $directoryName, $file, $filename, $filetype, $filesize) {
+	throw new Exception(UPLOAD_DISABLED_MESSAGE);
 	$video = array();
 
 	$directory = MiddMedia_Directory::getIfExists($manager, $directoryName);
