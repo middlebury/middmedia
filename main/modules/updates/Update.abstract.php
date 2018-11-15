@@ -101,7 +101,7 @@ class Update
 	 * @since 3/5/07
 	 */
 	function getDateIntroduced () {
-		throwError(new Error(__CLASS__."::".__FUNCTION__."() must be overridden in child classes."));
+		throwError(new HarmoniError(__CLASS__."::".__FUNCTION__."() must be overridden in child classes."));
 	}
 
 	/**
@@ -112,7 +112,7 @@ class Update
 	 * @since 3/5/07
 	 */
 	function getTitle () {
-		throwError(new Error(__CLASS__."::".__FUNCTION__."() must be overridden in child classes."));
+		throwError(new HarmoniError(__CLASS__."::".__FUNCTION__."() must be overridden in child classes."));
 	}
 
 	/**
@@ -123,7 +123,7 @@ class Update
 	 * @since 3/5/07
 	 */
 	function getDescription () {
-		throwError(new Error(__CLASS__."::".__FUNCTION__."() must be overridden in child classes."));
+		throwError(new HarmoniError(__CLASS__."::".__FUNCTION__."() must be overridden in child classes."));
 	}
 
 	/**
@@ -134,7 +134,7 @@ class Update
 	 * @since 3/5/07
 	 */
 	function isInPlace () {
-		throwError(new Error(__CLASS__."::".__FUNCTION__."() must be overridden in child classes."));
+		throwError(new HarmoniError(__CLASS__."::".__FUNCTION__."() must be overridden in child classes."));
 	}
 
 	/**
@@ -145,7 +145,7 @@ class Update
 	 * @since 3/5/07
 	 */
 	function runUpdate () {
-		throwError(new Error(__CLASS__."::".__FUNCTION__."() must be overridden in child classes."));
+		throwError(new HarmoniError(__CLASS__."::".__FUNCTION__."() must be overridden in child classes."));
 	}
 
 }
