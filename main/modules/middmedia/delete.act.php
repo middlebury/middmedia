@@ -27,6 +27,27 @@ class deleteAction
 {
 
 	/**
+	 * Check Authorizations
+	 *
+	 * @return boolean
+	 * @access public
+	 * @since 11/13/08
+	 */
+	public function isAuthorizedToExecute () {
+		// Ensure that the user is logged in.
+		// Authorization checks will be done on a per-directory basis when printing.
+		$authN = Services::getService("AuthN");
+		if (!$authN->isUserAuthenticatedWithAnyType())
+			return false;
+		try {
+			$dir = $this->getDirectory();
+		} catch (PermissionDeniedException $e) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Execute this action
 	 *
 	 * @return void
