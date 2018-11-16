@@ -645,7 +645,14 @@ class browseAction
 			<input id='submit_to_middtube' type='submit' value='Submit to Middtube!'/>
 		</form>
 		<?php
-		} //end else {
+		} else {
+			/*********************************************************
+			* Delete Controls (We only want this when we're not processing an addition to Middtube)
+			*********************************************************/
+			print "\n<div class='middmedia_delete'>";
+			print "\n\t<input type='button' onclick=\"deleteChecked('".$dir->getBaseName()."');\" value='Delete Checked Files'/>";
+			print "\n</div>";
+		}
 		// Now we do this when the second part of the form has been completed
 		// (The categories have been selected and the names entered). Here we
 		// want to actually add the posts to MiddTube
