@@ -2,7 +2,7 @@
 /**
  * This is the main control script for the application.
  *
- * @package concerto
+ * @package middmedia
  *
  * @copyright Copyright &copy; 2005, Middlebury College
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
@@ -47,21 +47,40 @@ define("LOAD_GUI", true);
  *********************************************************/
 require_once(dirname(__FILE__)."/main/include/libraries.inc.php");
 
-/*********************************************************
- * Include our configuration and setup scripts
- *********************************************************/
-require_once(dirname(__FILE__)."/main/include/setup.inc.php");
+try {
 
-/*********************************************************
- * Execute our actions
- *********************************************************/
-if (defined('ENABLE_TIMERS') && ENABLE_TIMERS) {
-	require_once(HARMONI."/utilities/Timer.class.php");
-	$execTimer = new Timer;
-	$execTimer->start();
+	/*********************************************************
+	 * Include our configuration and setup scripts
+	 *********************************************************/
+	require_once(dirname(__FILE__)."/main/include/setup.inc.php");
+
+	/*********************************************************
+	 * Execute our actions
+	 *********************************************************/
+	if (defined('ENABLE_TIMERS') && ENABLE_TIMERS) {
+		require_once(HARMONI."/utilities/Timer.class.php");
+		$execTimer = new Timer;
+		$execTimer->start();
+	}
+
+	$harmoni->execute();
+
+// Handle certain types of uncaught exceptions specially. In particular,
+// Send back HTTP Headers indicating that an error has ocurred to help prevent
+// crawlers from continuing to pound invalid urls.
+} catch (UnknownActionException $e) {
+	MiddMediaErrorPrinter::handleException($e, 404);
+} catch (NullArgumentException $e) {
+	MiddMediaErrorPrinter::handleException($e, 400);
+} catch (PermissionDeniedException $e) {
+	MiddMediaErrorPrinter::handleException($e, 403);
+} catch (UnknownIdException $e) {
+	MiddMediaErrorPrinter::handleException($e, 404);
 }
-
-$harmoni->execute();
+// Default
+catch (Exception $e) {
+	MiddMediaErrorPrinter::handleException($e, 500);
+}
 
 if (defined('ENABLE_TIMERS') && ENABLE_TIMERS) {
 	$execTimer->end();

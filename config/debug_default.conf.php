@@ -33,6 +33,12 @@ define ("ENABLE_DWARVES", false);
  *********************************************************/
 define ("ENABLE_TIMERS", false);
 
+/*********************************************************
+ * Enable the display of raw Error backtraces to the screen.
+ * If this is false, a pretty error page will be displayed
+ * instead.
+ *********************************************************/
+define("DISPLAY_ERROR_BACKTRACE", false);
 
 
 /*********************************************************
