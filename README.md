@@ -67,7 +67,11 @@ Installation
         cd middmedia
         git submodule update --init --recursive
 
-2. Create custom configuration files for those you need to change by renaming
+2. Install additional dependencies with composer.
+
+        composer install
+
+3. Create custom configuration files for those you need to change by renaming
 config/xxxxxx_default.conf.php to config/xxxxxx.conf.php. You will likely need
 to make custom settings in the following configs:
 
@@ -75,15 +79,15 @@ to make custom settings in the following configs:
     * middmedia.conf.php
     * authentication_sources.conf.php
 
-3. Create a database for MiddMedia to store user and quota information.
+4. Create a database for MiddMedia to store user and quota information.
 
-4. Add the database connection parameters to the config/database.conf.php you
+5. Add the database connection parameters to the config/database.conf.php you
 created in Step 2.
 
-5. Point your browser at the directory in which you installed MiddMedia. The
+6. Point your browser at the directory in which you installed MiddMedia. The
 required tables will be created the first time the application is accessed.
 
-6. Log in with username/password: jadministrator/password
+7. Log in with username/password: jadministrator/password
 
 
 Issue Tracker

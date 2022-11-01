@@ -1,6 +1,6 @@
 [submodule "main/PHP_JPEG_Metadata_Toolkit"]
 	path = main/PHP_JPEG_Metadata_Toolkit
-	url = https://github.com/evanhunter/PJMT.git
+	url = https://github.com/adamfranco/PJMT.git
 [submodule "main/harmoni"]
 	path = main/harmoni
 	url = https://github.com/adamfranco/harmoni.git
