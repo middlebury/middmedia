@@ -23,6 +23,8 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License (GPL)
  */
 
+require_once(dirname(__FILE__).'/../vendor/autoload.php');
+
 require_once(HARMONI."/oki2/agentmanagement/AuthNMethods/CASAuthNMethod.class.php");
 require_once(HARMONI."/oki2/agentmanagement/AuthNMethods/CASAuthNTokens.class.php");
 require_once(HARMONI."/oki2/authentication/CasTokenCollector.class.php");
@@ -33,13 +35,20 @@ require_once(HARMONI."/oki2/authentication/CasTokenCollector.class.php");
 	$authNMethod = new CASAuthNMethod;
 
 	$configuration = new ConfigurationProperties;
-	$configuration->addProperty('CAS_DEBUG_PATH', '/tmp/harmoni_cas.out');
+	// use Monolog\Handler\StreamHandler;
+	// use Monolog\Handler\ErrorLogHandler;
+	// use Monolog\Logger;
+	// $logger = new Logger('phpcas');
+	//$logger->pushHandler(new ErrorLogHandler());
+	//$logger->pushHandler(new StreamHandler('/tmp/harmoni_cas.out'));
+	// $configuration->addProperty('CAS_LOGGER', $logger);
 	$configuration->addProperty("CAS_HOST", "login.middlebury.edu");
 	$configuration->addProperty("CAS_PORT", "443");
 	$configuration->addProperty("CAS_PATH", "/cas/");
 	$configuration->addProperty("CAS_CERT", "/etc/pki/tls/certs/ca-bundle.crt");
-	$configuration->addProperty("CALLBACK_URL", "https://chisel.middlebury.edu/~afranco/directory_client_test/storePGT.php");
-	$configuration->addProperty("CASDIRECTORY_BASE_URL", "http://chisel.middlebury.edu/~afranco/directory/");
+	$configuration->addProperty("CAS_SERVICE_BASE_URL", "https://chisel.middlebury.edu");
+	// $configuration->addProperty("CALLBACK_URL", "https://chisel.middlebury.edu/~afranco/directory_client_test/storePGT.php");
+	// $configuration->addProperty("CASDIRECTORY_BASE_URL", "http://chisel.middlebury.edu/~afranco/directory/");
 	$configuration->addProperty("CASDIRECTORY_ADMIN_ACCESS", "sdfj239ug2jasdgae01jLKJ");
 	$configuration->addProperty("DISPLAY_NAME_FORMAT", "[[FirstName]] [[LastName]]");
 
